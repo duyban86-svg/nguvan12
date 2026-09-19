@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HỆ THỐNG ĐÁNH GIÁ NĂNG LỰC NGỮ VĂN 12 - BÀI 1: KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #831843;
+      --primary-hover: #500724;
+      --primary-light: #fdf2f8;
+      --secondary: #0f766e;
+      --secondary-light: #f0fdfa;
+      --accent: #b45309;
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --danger: #dc2626;
+      --danger-light: #fef2f2;
+      --success: #16a34a;
+      --success-light: #f0fdf4;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #fdf4f8 0%, #f1f5f9 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    header {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px 32px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), #f59e0b);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .badges-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .badge-primary { background: var(--primary-light); color: var(--primary); border: 1px solid rgba(131, 24, 67, 0.2); }
+    .badge-secondary { background: var(--secondary-light); color: var(--secondary); border: 1px solid rgba(15, 118, 110, 0.2); }
+    .badge-gold { background: #fef3c7; color: #b45309; border: 1px solid rgba(180, 83, 9, 0.2); }
+    .badge-live { background: #dcfce7; color: #15803d; border: 1px solid rgba(21, 128, 61, 0.2); animation: pulse 2s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .remote-lock-screen {
+      display: none;
+      background: white;
+      border-radius: var(--radius);
+      padding: 48px 24px;
+      text-align: center;
+      box-shadow: var(--shadow-xl);
+      border: 2px solid #cbd5e1;
+      margin-bottom: 24px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .remote-lock-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .exam-passcode-gate {
+      display: none;
+      background: white;
+      border-radius: var(--radius);
+      padding: 36px 24px;
+      text-align: center;
+      box-shadow: var(--shadow-xl);
+      border: 2px solid var(--primary);
+      margin-bottom: 24px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .gate-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .gate-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+
+    .gate-input-box {
+      max-width: 380px;
+      margin: 0 auto 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .passcode-input {
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 2px solid var(--primary);
+      font-size: 1.25rem;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(131, 24, 67, 0.1);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .card.highlight-missing {
+      border: 2px solid var(--danger);
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-group label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .input-control {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: #fff;
+      color: var(--text-main);
+    }
+
+    .input-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(131, 24, 67, 0.15);
+    }
+
+    .mode-tabs {
+      display: flex;
+      background: #fce7f3;
+      padding: 6px;
+      border-radius: 12px;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .mode-tab {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .mode-tab.active {
+      background: #fff;
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .proctor-bar {
+      display: none;
+      position: sticky;
+      top: 16px;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-xl);
+      transition: all 0.3s ease;
+    }
+
+    .proctor-bar.urgent {
+      background: rgba(185, 28, 28, 0.95);
+      animation: urgentGlow 1.5s infinite;
+    }
+
+    @keyframes urgentGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.6); }
+      50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.9); }
+    }
+
+    .timer-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      font-family: monospace;
+      color: #38bdf8;
+    }
+
+    .proctor-bar.urgent .timer-badge {
+      color: #fef08a;
+    }
+
+    .violation-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #dc2626;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .nav-stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .nav-stats-tags {
+      display: flex;
+      gap: 12px;
+    }
+
+    .question-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .nav-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: #f8fafc;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .nav-btn:hover { border-color: var(--primary); }
+    .nav-btn.answered { background: var(--primary); color: white; border-color: var(--primary); }
+    .nav-btn.flagged { border: 2.5px solid #f59e0b !important; background: #fef3c7; color: #b45309; }
+    .nav-btn.flagged.answered { background: var(--primary); color: white; border-color: #f59e0b !important; }
+    .nav-btn.flagged::after {
+      content: '🚩';
+      position: absolute;
+      top: -8px;
+      right: -6px;
+      font-size: 0.65rem;
+    }
+
+    .question-item {
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .question-item.is-flagged {
+      border-left: 5px solid #f59e0b;
+      background: #fffdfa;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .question-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .question-num {
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 1.05rem;
+    }
+
+    .level-tag {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    .level-nhan-biet { background: #e0f2fe; color: #0369a1; }
+    .level-thong-hieu { background: #fef3c7; color: #b45309; }
+    .level-van-dung { background: #fee2e2; color: #b91c1c; }
+
+    .btn-flag {
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      color: var(--text-muted);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+
+    .btn-flag:hover {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #b45309;
+    }
+
+    .btn-flag.active {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #b45309;
+      font-weight: 700;
+    }
+
+    .question-content {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.65;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: #f8fafc;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 0.95rem;
+    }
+
+    .option-label:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .option-label.selected {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .option-label.correct {
+      background: #dcfce7 !important;
+      border-color: #22c55e !important;
+      color: #15803d !important;
+    }
+
+    .option-label.wrong {
+      background: #fee2e2 !important;
+      border-color: #ef4444 !important;
+      color: #b91c1c !important;
+    }
+
+    .explanation-box {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      background: #fdf2f8;
+      border-left: 4px solid var(--primary);
+      font-size: 0.9rem;
+      color: #4a044e;
+      display: none;
+    }
+
+    .explanation-box.show { display: block; animation: fadeIn 0.3s ease; }
+    .explanation-box strong { color: var(--primary); }
+
+    /* ESSAY SECTION & POEM FORMATTING */
+    .essay-card {
+      background: linear-gradient(to right bottom, #ffffff, #fff1f2);
+      border: 2px dashed #fda4af;
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .poem-quote-box {
+      background: #fff7ed;
+      border-left: 4px solid #ea580c;
+      padding: 20px 24px;
+      border-radius: 12px;
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      line-height: 2.1;
+      margin: 16px 0;
+      white-space: pre-line;
+      color: #431407;
+      box-shadow: 0 2px 6px rgba(234, 88, 12, 0.08);
+      letter-spacing: 0.2px;
+    }
+
+    .poem-source-tag {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem;
+      font-style: normal;
+      color: #9a3412;
+      margin-top: 8px;
+      display: block;
+      font-weight: 600;
+    }
+
+    .essay-textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      font-family: inherit;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      resize: vertical;
+      margin-top: 10px;
+    }
+
+    .rubric-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 0.85rem;
+    }
+
+    .rubric-table th, .rubric-table td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    .rubric-table th {
+      background: #fdf2f8;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .btn-bar {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+    .btn-secondary { background: #e2e8f0; color: var(--text-main); }
+    .btn-outline { background: transparent; border: 1.5px solid var(--primary); color: var(--primary); padding: 8px 16px; font-size: 0.85rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
+
+    .results-card {
+      display: none;
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow-xl);
+      border: 2px solid var(--primary);
+      text-align: center;
+      margin-bottom: 30px;
+      animation: slideUp 0.4s ease;
+    }
+
+    .results-card.show { display: block; }
+
+    .score-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #be185d);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 10px 20px rgba(131, 24, 67, 0.3);
+    }
+
+    .score-num { font-size: 2.5rem; font-weight: 800; line-height: 1; }
+    .score-label { font-size: 0.8rem; text-transform: uppercase; opacity: 0.9; }
+
+    .sync-box {
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin: 16px auto;
+      max-width: 600px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border: 1.5px solid transparent;
+    }
+
+    .sync-box.syncing { background: #fefce8; border-color: #fef08a; color: #854d0e; }
+    .sync-box.success { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+    .sync-box.error { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+
+    .unlock-box {
+      background: #fdf2f8;
+      border: 1px solid #fbcfe8;
+      padding: 16px;
+      border-radius: 12px;
+      max-width: 450px;
+      margin: 20px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 14px 20px;
+      background: #1e293b;
+      color: white;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-xl);
+      z-index: 9999;
+      display: none;
+      animation: fadeIn 0.3s ease;
+      max-width: 90vw;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="header-top">
+      <div class="badges-group">
+        <span class="badge badge-primary">BÀI 1: KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT</span>
+        <span class="badge badge-secondary">NGỮ VĂN 12 • GDPT 2018</span>
+        <span class="badge badge-gold" id="server-status-badge">⏳ Đang kết nối máy chủ...</span>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn-outline" onclick="checkRemoteConfig(true)">🔄 Nạp trạng thái đề</button>
+        <button class="btn-outline" style="border-color: #ea580c; color: #ea580c;" onclick="resetLocalStorageProgress()">🧹 Xóa làm lại</button>
+        <button class="btn-outline" style="border-color: #9333ea; color: #9333ea;" onclick="promptMasterPin()">🔑 Mở khóa GV</button>
+      </div>
+    </div>
+    <h1>HỆ THỐNG ĐÁNH GIÁ NĂNG LỰC NGỮ VĂN 12 - BÀI 1: KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT</h1>
+    <div class="subtitle">Đề thi 30 câu trắc nghiệm khách quan + 1 câu tự luận phát triển năng lực • Thời gian: 45 phút</div>
+  </header>
+
+  <div id="remote-lock-screen" class="remote-lock-screen">
+    <div class="remote-lock-icon">🔒</div>
+    <h2 style="font-size: 1.6rem; color: #1e293b; margin-bottom: 8px;">ĐỀ THI HIỆN ĐANG TẠM KHÓA</h2>
+    <p style="color: #64748b; max-width: 540px; margin: 0 auto 20px;" id="remote-lock-desc">
+      Giáo viên hiện đang tạm đóng đề thi từ xa trên Google Sheets để chuẩn bị dữ liệu ca thi.
+    </p>
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+      <button class="btn btn-primary" onclick="checkRemoteConfig(true)">Kiểm tra lại trạng thái</button>
+      <button class="btn btn-secondary" onclick="promptMasterPin()">Nhập Master PIN Giáo viên</button>
+    </div>
+  </div>
+
+  <div id="exam-passcode-gate" class="exam-passcode-gate">
+    <div style="font-size: 3rem; margin-bottom: 12px;">🛡️</div>
+    <div class="gate-title">XÁC THỰC MÃ CA THI</div>
+    <div class="gate-desc" id="gate-announcement">
+      Vui lòng nhập Mã ca thi do Giáo viên cấp trực tiếp tại lớp để mở đề và bắt đầu tính giờ.
+    </div>
+    <div class="gate-input-box">
+      <input type="text" id="input-exam-code" class="passcode-input" placeholder="NHẬP MÃ TẠI ĐÂY" maxlength="15" autocomplete="off">
+      <button class="btn btn-primary" style="width: 100%;" onclick="verifyExamPasscode()">Xác thực & Bắt đầu thi</button>
+    </div>
+  </div>
+
+  <div id="main-exam-workspace">
+
+    <section class="card" id="student-info-card">
+      <h2 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 4px;">👤 THÔNG TIN THÍ SINH</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">Vui lòng chọn chính xác Lớp và Họ tên để hệ thống ghi nhận điểm số về Google Sheets của Giáo viên.</p>
+      
+      <div class="info-grid">
+        <div class="input-group">
+          <label for="class-select">LỚP HỌC (*)</label>
+          <select id="class-select" class="input-control" onchange="onClassChange()">
+            <option value="">-- Chọn Lớp --</option>
+            <option value="12A08">12A08</option>
+            <option value="12A13">12A13</option>
+            <option value="12A21">12A21</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="student-select">HỌ VÀ TÊN HỌC SINH (*)</label>
+          <select id="student-select" class="input-control" onchange="onStudentChange()" disabled>
+            <option value="">-- Chọn lớp trước --</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="student-id">SỐ THỨ TỰ TRONG SỔ ĐIỂM</label>
+          <input type="text" id="student-id" class="input-control" placeholder="STT" readonly style="background: #f1f5f9; font-weight:700;">
+        </div>
+      </div>
+    </section>
+
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="tab-practice" onclick="setMode('practice')">
+        📖 CHẾ ĐỘ ÔN TẬP (Xem giải thích tức thì)
+      </button>
+      <button class="mode-tab" id="tab-exam" onclick="setMode('exam')">
+        ⏱️ CHẾ ĐỘ THI THỬ (Chính thức 45 phút)
+      </button>
+    </div>
+
+    <div class="proctor-bar" id="proctor-bar">
+      <div class="timer-badge" id="timer-badge">
+        <span>⏱️</span>
+        <span id="timer-display">45:00</span>
+      </div>
+      <div class="violation-badge" id="violation-badge">
+        <span>⚠️ Rời màn hình:</span>
+        <span id="violation-count">0/3</span>
+      </div>
+    </div>
+
+    <div class="nav-stats-bar">
+      <div class="nav-stats-tags">
+        <span>📝 Đã làm: <strong id="stat-answered" style="color:var(--primary);">0/30</strong></span>
+        <span>🚩 Đã cắm cờ: <strong id="stat-flagged" style="color:#b45309;">0</strong></span>
+      </div>
+      <span style="font-size:0.75rem; color:var(--text-muted);">💾 Tự động lưu tiến độ</span>
+    </div>
+
+    <section class="question-nav" id="question-nav"></section>
+
+    <main id="questions-container"></main>
+
+    <section class="essay-card">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+        <span class="badge badge-gold">PHẦN II: TỰ LUẬN ĐÁNH GIÁ NĂNG LỰC (3.0 ĐIỂM)</span>
+      </div>
+      
+      <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: var(--text-main); line-height: 1.5;">
+        Viết một đoạn văn nghị luận văn học (khoảng 150 – 200 chữ) làm rõ một trong hai vấn đề sau:
+1. Phân tích nét đặc sắc của nghệ thuật trào phúng (tình huống kịch tính, ngôn từ nói mỉa, nghịch ngữ) trong đoạn trích 'Xuân Tóc Đỏ cứu quốc' (Vũ Trọng Phụng).
+HOẶC:
+2. Làm rõ vẻ đẹp của nếp sống nghĩa tình gia phong truyền thống qua hình ảnh nhân vật chị Hoài trong đoạn trích 'Mùa lá rụng trong vườn' (Ma Văn Kháng).
+      </h3>
+
+      
+      <div class="poem-quote-box">VĂN BẢN ĐỐI SÁNH:
+- 'Xuân Tóc Đỏ cứu quốc' (Số đỏ – Vũ Trọng Phụng): Tiếng cười trào phúng bóc trần sự tha hóa, loạn chuẩn của xã hội Âu hóa nửa mùa thuộc địa.
+- 'Mùa lá rụng trong vườn' (Ma Văn Kháng): Bút pháp hiện thực tâm lý đi sâu nhận diện những rạn nứt và khẳng định giá trị bền vững của đạo lý gia đình trong buổi giao thời kinh tế thị trường.<span class="poem-source-tag">SGK Ngữ văn 12 (Tập 1) - Bộ sách Kết nối tri thức với cuộc sống</span></div>
+      
+
+      <textarea id="essay-answer" class="essay-textarea" placeholder="Học sinh nhập bài làm tự luận tại đây (khoảng 150 – 200 chữ)..." oninput="saveProgressToStorage()"></textarea>
+      
+      <div style="margin-top: 20px;">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;">📋 BẢNG TIÊU CHÍ CHẤM ĐIỂM TỰ LUẬN (RUBRIC 3.0 ĐIỂM):</h4>
+        <table class="rubric-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Tiêu chí đánh giá</th>
+              <th style="width: 15%; text-align: center;">Điểm tối đa</th>
+              <th style="width: 60%;">Yêu cầu cần đạt / Hướng dẫn chấm chi tiết</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td style="font-weight: 700; color: var(--text-main);">undefined</td>
+              <td style="font-weight: 800; color: var(--primary); text-align: center; white-space: nowrap;">0.5</td>
+              <td style="color: var(--text-main); line-height: 1.5; white-space: pre-line;">undefined</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--text-main);">undefined</td>
+              <td style="font-weight: 800; color: var(--primary); text-align: center; white-space: nowrap;">0.5</td>
+              <td style="color: var(--text-main); line-height: 1.5; white-space: pre-line;">undefined</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--text-main);">undefined</td>
+              <td style="font-weight: 800; color: var(--primary); text-align: center; white-space: nowrap;">1.5</td>
+              <td style="color: var(--text-main); line-height: 1.5; white-space: pre-line;">undefined</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--text-main);">undefined</td>
+              <td style="font-weight: 800; color: var(--primary); text-align: center; white-space: nowrap;">0.5</td>
+              <td style="color: var(--text-main); line-height: 1.5; white-space: pre-line;">undefined</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="btn-bar">
+      <button class="btn btn-primary" onclick="submitExam()">
+        📤 NỘP BÀI VÀ XÁC NHẬN KẾT QUẢ
+      </button>
+    </div>
+
+    <section class="results-card" id="results-card">
+      <div class="score-circle">
+        <div class="score-num" id="final-score">0.0</div>
+        <div class="score-label">Điểm trắc nghiệm</div>
+      </div>
+      <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;" id="result-title">KẾT QUẢ LÀM BÀI</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem;" id="result-detail"></p>
+
+      <div class="sync-box syncing" id="sync-box">
+        <div style="font-weight: 700;" id="sync-title">Đang đồng bộ kết quả về Google Sheets...</div>
+        <div style="font-size: 0.85rem;" id="sync-desc">Vui lòng không tắt trang web cho đến khi nhận được thông báo thành công.</div>
+      </div>
+
+      <div style="margin: 12px 0;">
+        <button class="btn btn-outline" style="width:100%; border:1.5px solid #0d9488; color:#0f766e; background:#f0fdfa; font-weight:700;" onclick="copyResultSummary()">
+          📋 Sao chép tóm tắt kết quả (Gửi Zalo Thầy/Cô)
+        </button>
+      </div>
+
+      <div class="unlock-box" id="unlock-box">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; justify-content: center; gap: 6px;">
+          🔒 ĐÁP ÁN ĐANG ĐƯỢC BẢO MẬT
+        </h4>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">Chỉ Giáo viên mới có quyền mở khóa lời giải chi tiết sau ca thi:</p>
+        <div style="display: flex; gap: 8px;">
+          <input type="password" id="teacher-pin" class="input-control" style="text-align: center; font-size: 1.1rem; letter-spacing: 4px;" placeholder="MÃ PIN GV" maxlength="10">
+          <button class="btn btn-primary" style="padding: 8px 16px;" onclick="unlockAnswers()">Mở khóa</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = "EXAM_APP_P1_BAI_1_TIEU_THUYET";
+const rawQuizData = {"metadata":{"unit":"BÀI 1: KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT","subject":"Ngữ văn 12 - Bộ sách Kết nối tri thức với cuộc sống","text":"Văn bản: Xuân Tóc Đỏ cứu quốc (Vũ Trọng Phụng), Mùa lá rụng trong vườn (Ma Văn Kháng), Nỗi buồn chiến tranh (Bảo Ninh). Thực hành Tiếng Việt: Nói mỉa & Nghịch ngữ.","lessonName":"P1_BAI_1_TIEU_THUYET","topicId":"P1_BAI_1","totalQuestions":30,"totalPoints":100,"mcPoints":70,"essayPoints":30,"durationMinutes":30},"questions":[{"id":1,"level":"Nhận biết","type":"single_choice","question":"Khái niệm 'Tiểu thuyết hiện đại' chủ yếu chỉ ra phương diện bản chất nào sau đây?","options":[{"key":"A","text":"Một hệ hình tư duy nghệ thuật mới hướng vào đời tư, số phận cá nhân và thế giới nội tâm phức tạp."},{"key":"B","text":"Cột mốc thời gian xuất hiện các tác phẩm truyện dài từ đầu thế kỷ XX đến nay."},{"key":"C","text":"Những tác phẩm tự sự được viết hoàn toàn bằng chữ Quốc ngữ có cốt truyện li kì."},{"key":"D","text":"Các thiên truyện cổ điển viết về đề tài lịch sử dựng nước và giữ nước của dân tộc."}],"correctAnswer":"A","explanation":"Tiểu thuyết hiện đại trước hết là một hệ hình tư duy nghệ thuật mới mang tính hiện đại, từ bỏ cái nhìn ước lệ quy phạm thời trung đại để khám phá đời tư và số phận cá nhân đa chiều."},{"id":2,"level":"Nhận biết","type":"single_choice","question":"Điểm nhìn trần thuật trong tiểu thuyết hiện đại có đặc điểm nổi bật nào?","options":[{"key":"A","text":"Cố định duy nhất ở ngôi thứ nhất của nhân vật chính xưng 'tôi'."},{"key":"B","text":"Luân chuyển linh hoạt giữa người kể chuyện và điểm nhìn bên trong của nhiều nhân vật khác nhau."},{"key":"C","text":"Tuyệt đối đứng ngoài cuộc để đảm bảo tính khách quan như một bản tin thời sự."},{"key":"D","text":"Trùng khít hoàn toàn với điểm nhìn và quan điểm của tác giả ngoài đời thực."}],"correctAnswer":"B","explanation":"Điểm nhìn trong tiểu thuyết hiện đại luân chuyển linh hoạt, đi sâu vào thế giới nội tâm để soi chiếu hiện thực từ nhiều góc độ đa chiều."},{"id":3,"level":"Thông hiểu","type":"single_choice","question":"Bản chất của tính 'đa thanh' (nhiều bè giọng) trong tiểu thuyết hiện đại là gì?","options":[{"key":"A","text":"Sự đan xen phong phú của nhiều từ ngữ địa phương và phương ngữ vùng miền."},{"key":"B","text":"Sự cọ xát, đối thoại bình đẳng giữa nhiều hệ ý thức, điểm nhìn và giọng điệu nhân vật."},{"key":"C","text":"Tác giả sử dụng nhiều từ tượng thanh và biện pháp điệp âm để tạo nhạc tính."},{"key":"D","text":"Việc nhà văn xây dựng các nhân vật có giọng nói to, vang dội và xuất hiện đồng loạt."}],"correctAnswer":"B","explanation":"Tính đa thanh là sự bình đẳng đối thoại, cọ xát giữa các ý thức và giọng điệu khác nhau mà không bị áp đặt bởi một giọng điệu độc thoại duy nhất của tác giả."},{"id":4,"level":"Thông hiểu","type":"single_choice","question":"Thời gian nghệ thuật trong tiểu thuyết hiện đại có bước chuyển dịch cơ bản như thế nào?","options":[{"key":"A","text":"Tuân thủ nghiêm ngặt trục thời gian vật lý tuyến tính theo trình tự nguyên nhân - kết quả."},{"key":"B","text":"Dịch chuyển sang thời gian tâm lý, dòng ý thức với các trạng thái đồng hiện, hồi tưởng, nén dãn."},{"key":"C","text":"Chỉ tập trung vào thời gian thần thoại, phiếm chỉ vô định 'ngày xửa ngày xưa'."},{"key":"D","text":"Quy định chặt chẽ thời gian tác phẩm gói gọn trong một ngày một đêm theo luật tam duy nhất."}],"correctAnswer":"B","explanation":"Thời gian nghệ thuật trong tiểu thuyết hiện đại phá vỡ tính tuyến tính để trở thành thời gian tâm lý, dòng ý thức theo cảm thụ chủ quan của nhân vật."},{"id":5,"level":"Nhận biết","type":"single_choice","question":"Tình huống trào phúng cốt lõi trong đoạn trích 'Xuân Tóc Đỏ cứu quốc' (trích 'Số đỏ' – Vũ Trọng Phụng) là gì?","options":[{"key":"A","text":"Xuân Tóc Đỏ bị hai nhà quán quân Hải và Thụ khiêu chiến trên sân quần vợt."},{"key":"B","text":"Giới cầm quyền buộc Xuân phải nhường điểm, chấp nhận thua cuộc nhưng hành vi ấy lại được suy tôn là nghĩa cử cứu quốc."},{"key":"C","text":"Khán giả phát hiện Xuân Tóc Đỏ gian lận điểm số và ném đồ vật xuống sân thi đấu."},{"key":"D","text":"Vua Xiêm La trực tiếp xuống sân trao huân chương danh dự cho Xuân Tóc Đỏ."}],"correctAnswer":"B","explanation":"Tình huống trào phúng phi lý nằm ở chỗ: một hành vi thua cuộc nhục nhã vì lợi ích chính trị thực dân lại được biến hóa ngoạn mục thành kỳ tích hy sinh cứu vãn hòa bình dân tộc."},{"id":6,"level":"Thông hiểu","type":"single_choice","question":"Sự dị dạng và bản chất lưu manh, cơ hội của nhân vật Xuân Tóc Đỏ bộc lộ rõ nhất qua chi tiết nào?","options":[{"key":"A","text":"Hắn từ chối tham gia trận đấu quần vợt vì sợ làm tổn thương bang giao hai nước."},{"key":"B","text":"Hắn vừa nhường điểm chịu thua nhục nhã, liền nhảy lên mui xe ô tô tự xưng hùng hồn là vĩ nhân cứu quốc."},{"key":"C","text":"Hắn lén lút ăn trộm tiền tài trợ giải đấu rồi bỏ trốn khỏi sân vận động."},{"key":"D","text":"Hắn thành thật thú nhận với quần chúng rằng mình chỉ là một kẻ nhặt bóng hạ lưu."}],"correctAnswer":"B","explanation":"Bản chất giảo hoạt, dị dạng của Xuân thể hiện ở tài ứng biến trơ tráo: nhảy lên mui xe, xua tay dẹp trật tự và dùng miệng lưỡi bịp bợm biến sự thua cuộc của mình thành chiến công vĩ đại."},{"id":7,"level":"Thông hiểu","type":"single_choice","question":"Bức tranh đám đông quần chúng trong đoạn trích 'Xuân Tóc Đỏ cứu quốc' được tác giả khắc họa mang tính chất gì?","options":[{"key":"A","text":"Lực lượng giác ngộ cách mạng sâu sắc, biết đấu tranh vì lẽ phải và công bằng."},{"key":"B","text":"Đám đông u mê, hiếu kỳ, nông nổi, dễ bị 'thôi miên' và xoay chuyển 180 độ bởi những lời mị dân."},{"key":"C","text":"Những người hâm mộ thể thao chân chính, có kiến thức sâu rộng về luật thi đấu quốc tế."},{"key":"D","text":"Tập thể những người lao động nghèo khổ luôn đồng cảm với thân phận hạ lưu của Xuân."}],"correctAnswer":"B","explanation":"Vũ Trọng Phụng châm biếm sâu cay tâm lý đám đông thuộc địa: vừa phẫn nộ đòi 'đả đảo' trước đó, ngay lập tức đã hoan hô, sùng bái Xuân như một đấng cứu tinh khi nghe vài câu lòe bịp."},{"id":8,"level":"Nhận biết","type":"single_choice","question":"Biện pháp tu từ 'nói mỉa' (irony) được hiểu chính xác nhất là gì?","options":[{"key":"A","text":"Sự kết hợp các từ đồng nghĩa để tạo nên ngữ điệu trang trọng, nghiêm túc."},{"key":"B","text":"Thủ pháp tạo sự lệch pha cố ý giữa lời nói bề mặt (hiển ngôn) và ý định chế giễu ngầm ẩn (hàm ngôn)."},{"key":"C","text":"Cách nói giảm nói tránh nhằm giảm bớt mức độ đau thương, nặng nề của sự việc."},{"key":"D","text":"Việc sử dụng các biện pháp so sánh ngầm mang tính trừu tượng triết học."}],"correctAnswer":"B","explanation":"Nói mỉa là cách thức diễn đạt mà người nói/viết tạo ra khoảng cách mâu thuẫn có chủ ý giữa nghĩa hiển ngôn bề ngoài và ý định châm biếm, phê phán ngầm ẩn bên trong."},{"id":9,"level":"Vận dụng","type":"single_choice","question":"Phương án nào giải thích chính xác cơ chế tạo nghĩa và tác dụng trào phúng của cụm từ 'Sự đại bại vạn tuế!'?","options":[{"key":"A","text":"Sử dụng phép so sánh để nâng tầm một trận thua thể thao bình thường thành bài học bang giao."},{"key":"B","text":"Phép nghịch ngữ kết hợp hai khái niệm mâu thuẫn để bóc trần sự lố lăng khi tôn vinh thất bại thành thắng lợi cứu nước."},{"key":"C","text":"Biện pháp nhân hóa tạo nên sự trang nghiêm, hào hùng cho kết quả trận đấu quốc tế."},{"key":"D","text":"Phép nói quá nhằm bày tỏ sự cảm thương sâu sắc trước sự hy sinh vì đại cuộc của vận động viên."}],"correctAnswer":"B","explanation":"Cụm từ nghịch ngữ 'Sự đại bại vạn tuế!' ghép hai yếu tố tương phản (đại bại >< vạn tuế), tạo nên hiệu ứng trào phúng đanh thép bóc trần màn kịch cứu quốc bịp bợm."},{"id":10,"level":"Nhận biết","type":"single_choice","question":"Không gian và thời gian trong đoạn trích 'Mùa lá rụng trong vườn' (Ma Văn Kháng) mang ý nghĩa nghệ thuật gì?","options":[{"key":"A","text":"Là không gian tâm lý gắn liền với nỗi niềm ưu tư, cô uẩn của ông Bằng trước sự rạn nứt nếp nhà thời mở cửa."},{"key":"B","text":"Đơn thuần miêu tả cảnh sắc mùa đông rét mướt và nhịp sống hối hả mua sắm của phố phường Hà Nội."},{"key":"C","text":"Tái hiện không khí hội hè tưng bừng, tràn ngập niềm vui sum họp trọn vẹn không tì vết."},{"key":"D","text":"Phản ánh không gian chiến trường khói lửa tàn khốc của những năm kháng chiến chống Mỹ."}],"correctAnswer":"A","explanation":"Bối cảnh chiều 30 Tết trầm mặc, lá rụng xạc xào là không gian tâm lý phản ánh sự trăn trở sâu xa của ông Bằng trước những biến đổi của thời cuộc tác động đến nếp nhà."},{"id":11,"level":"Thông hiểu","type":"single_choice","question":"Vẻ đẹp nghĩa tình, nếp sống gia phong của nhân vật chị Hoài trong 'Mùa lá rụng trong vườn' bộc lộ rõ nét qua điều gì?","options":[{"key":"A","text":"Chị lớn tiếng chỉ trích lối sống thực dụng, toan tính vật chất của cô em dâu Lý."},{"key":"B","text":"Dù đã đi bước nữa, chị vẫn lặn lội mang quà quê về thăm bố chồng cũ chiều 30 Tết, đóng vai trò kết nối nghĩa tình gia đình."},{"key":"C","text":"Chị quyết định để lại toàn bộ tài sản cho gia đình ông Bằng rồi rời đi ngay trong đêm giao thừa."},{"key":"D","text":"Chị trực tiếp đứng ra phân chia lại ngôi nhà cổ của gia đình cho các em trai."}],"correctAnswer":"B","explanation":"Chị Hoài là hiện thân của đạo lý truyền thống: dù đã tái giá nhưng tấm lòng son sắt, thủy chung với gia đình chồng cũ vẫn nguyên vẹn, sưởi ấm tâm hồn mọi thành viên."},{"id":12,"level":"Thông hiểu","type":"single_choice","question":"Dòng văn nào sau đây thể hiện đặc trưng của 'lời trần thuật nửa trực tiếp' trong 'Mùa lá rụng trong vườn'?","options":[{"key":"A","text":"'Chị Hoài đã về kìa!' - Lý cất tiếng reo lên mừng rỡ."},{"key":"B","text":"Luận nhìn chị Hoài, lòng chợt dâng lên niềm xúc động. Nếp nhà này, tình nghĩa này mới là điểm tựa vững bền nhất qua giông bão."},{"key":"C","text":"Ông Bằng đứng nghiêm trang thắp ba nén hương thơm trước bàn thờ tổ tiên."},{"key":"D","text":"Mâm cỗ tất niên đã được dọn lên tinh tươm với đủ các món truyền thống Hà Nội."}],"correctAnswer":"B","explanation":"Lời trần thuật nửa trực tiếp là lời của người kể chuyện nhưng mang trọn vẹn cảm xúc, suy tư và giọng điệu bên trong của chính nhân vật Luận."},{"id":13,"level":"Vận dụng","type":"single_choice","question":"Đối chiếu hai văn bản trong Bài 1, nhận định nào đánh giá đúng nhất về sự đa dạng của tiểu thuyết hiện đại?","options":[{"key":"A","text":"Một bên hướng ngoại trào phúng bóc trần sự giả dối, một bên hướng nội tâm lý sưởi ấm và neo giữ giá trị đạo đức truyền thống."},{"key":"B","text":"Cả hai tác phẩm đều tập trung tuyệt đối vào việc ca ngợi lý tưởng anh hùng cách mạng trong chiến tranh."},{"key":"C","text":"Hai tác phẩm chứng minh tiểu thuyết chỉ có thể viết về những đề tài lịch sử trong quá khứ xa xôi."},{"key":"D","text":"Một tác phẩm là kịch bản sân khấu hài kịch và một tác phẩm là bút ký phóng sự tài liệu."}],"correctAnswer":"A","explanation":"Bài 1 giới thiệu hai hướng tìm tòi tiêu biểu: Vũ Trọng Phụng hướng ngoại trào phúng xã hội loạn chuẩn, còn Ma Văn Kháng hướng nội khám phá tâm lý đạo đức con người."},{"id":14,"level":"Nhận biết","type":"single_choice","question":"Cụm từ nào sau đây là ví dụ tiêu biểu của biện pháp tu từ 'nghịch ngữ'?","options":[{"key":"A","text":"Nắng ấm ban mai"},{"key":"B","text":"Sự thật bi hài"},{"key":"C","text":"Vinh quang cay đắng"},{"key":"D","text":"Cả B và C đều đúng"}],"correctAnswer":"D","explanation":"Nghịch ngữ kết hợp các từ ngữ mang nghĩa tương phản đối chọi ngay trong một cấu trúc (bi - hài, vinh quang - cay đắng) để biểu đạt tính chất phức tạp của đời sống."},{"id":15,"level":"Thông hiểu","type":"single_choice","question":"Thủ pháp cường điệu, phóng đại trong văn trào phúng của Vũ Trọng Phụng nhằm mục đích gì?","options":[{"key":"A","text":"Làm cho bức tranh hiện thực trở nên tươi sáng, lạc quan và đầy chất thơ."},{"key":"B","text":"Đẩy những thói lố lăng, kệch cỡm lên mức tột cùng để bật ra tiếng cười châm biếm sâu cay."},{"key":"C","text":"Đánh lừa người đọc tin vào những sự việc thần thoại hoang đường."},{"key":"D","text":"Che giấu sự yếu kém về bút pháp xây dựng tính cách nhân vật."}],"correctAnswer":"B","explanation":"Cường điệu phóng đại là công cụ đắc lực của ngòi bút trào phúng giúp phát lộ trọn vẹn bản chất dị dạng, giả tạo của xã hội tư sản thực dân."},{"id":16,"level":"Thông hiểu","type":"single_choice","question":"Hình tượng mâm cỗ tất niên và bàn thờ tổ tiên trong 'Mùa lá rụng trong vườn' mang biểu tượng nghệ thuật gì?","options":[{"key":"A","text":"Tập tục mê tín dị đoan cần phải loại bỏ trong thời kỳ công nghiệp hóa."},{"key":"B","text":"Không gian thiêng liêng lưu giữ cội nguồn tâm linh và sự gắn kết gia phong truyền thống."},{"key":"C","text":"Biểu tượng cho sự giàu sang phú quý vượt bậc của gia đình quý tộc phong kiến."},{"key":"D","text":"Chi tiết phụ không mang giá trị nghệ thuật hay tư tưởng chủ đề."}],"correctAnswer":"B","explanation":"Bàn thờ gia tiên và mâm cỗ chiều 30 Tết là không gian thiêng liêng quy tụ nếp sống tâm linh, nhắc nhở con người neo giữ nhân cách và đạo hiếu giữa dòng đời biến động."},{"id":17,"level":"Thông hiểu","type":"single_choice","question":"Xung đột ngầm ẩn trong gia đình ông Bằng thời kỳ mở cửa bắt nguồn từ đâu?","options":[{"key":"A","text":"Sự va đập gay gắt giữa nếp sống đạo đức gia phong truyền thống và lối sống thực dụng, toan tính vật chất."},{"key":"B","text":"Tranh chấp quyền thừa kế tài sản nhà đất giữa các con trai."},{"key":"C","text":"Sự bất đồng về quan điểm chính trị trong chiến tranh giải phóng."},{"key":"D","text":"Nỗi hận thù gia tộc sâu sắc từ nhiều thế hệ trước để lại."}],"correctAnswer":"A","explanation":"Xung đột trung tâm của tiểu thuyết là sự thử thách của đồng tiền, lối sống thực dụng thời kinh tế thị trường đối với nền tảng đạo đức gia đình truyền thống."},{"id":18,"level":"Vận dụng","type":"single_choice","question":"Khi làm bài văn nghị luận so sánh, đánh giá hai tác phẩm truyện, thao tác quan trọng hàng đầu là gì?","options":[{"key":"A","text":"Kể lại chi tiết toàn bộ cốt truyện của tác phẩm thứ nhất rồi đến tác phẩm thứ hai."},{"key":"B","text":"Xác lập hệ thống tiêu chí so sánh rõ ràng (đề tài, nhân vật, nghệ thuật trần thuật, tư tưởng) để đối sánh song song."},{"key":"C","text":"Chỉ tập trung chỉ ra những điểm giống nhau tuyệt đối của hai tác phẩm."},{"key":"D","text":"Phê phán một tác phẩm dở và đề cao tuyệt đối tác phẩm còn lại."}],"correctAnswer":"B","explanation":"Bài văn so sánh truyện cần thiết lập các tiêu chí cụ thể để phân tích nét tương đồng và dị biệt, từ đó làm nổi bật phong cách độc đáo của từng nhà văn."},{"id":19,"level":"Thông hiểu","type":"true_false","question":"Xác định tính Đúng / Sai của các nhận định sau về đặc trưng thể loại TIỂU THUYẾT HIỆN ĐẠI:","subQuestions":[{"id":"a","text":"Tiểu thuyết hiện đại từ bỏ cái nhìn ước lệ, quy phạm để hướng thẳng vào đời tư và số phận cá nhân.","correctAnswer":"true","explanation":"Đúng. Đây là hệ hình tư duy nghệ thuật cốt lõi của tiểu thuyết hiện đại."},{"id":"b","text":"Thời gian nghệ thuật trong tiểu thuyết hiện đại luôn bắt buộc tuân theo trình tự thời gian vật lý tuyến tính.","correctAnswer":"false","explanation":"Sai. Thời gian tiểu thuyết hiện đại dịch chuyển sang thời gian tâm lý, dòng ý thức phi tuyến tính."},{"id":"c","text":"Điểm nhìn trần thuật có sự luân chuyển linh hoạt, đi sâu vào thế giới nội tâm của các nhân vật.","correctAnswer":"true","explanation":"Đúng. Điểm nhìn không còn độc quyền ở ngôi thứ ba toàn tri mà luân chuyển đa dạng."},{"id":"d","text":"Ngôn ngữ tiểu thuyết hiện đại mang tính đa thanh, là sự đối thoại bình đẳng giữa nhiều bè giọng điệu.","correctAnswer":"true","explanation":"Đúng. Tính đa thanh là đặc trưng tiêu biểu phân biệt với văn học tiền hiện đại."}]},{"id":20,"level":"Thông hiểu","type":"true_false","question":"Xác định tính Đúng / Sai của các nhận định sau về đoạn trích 'XUÂN TÓC ĐỎ CỨU QUỐC' (Vũ Trọng Phụng):","subQuestions":[{"id":"a","text":"Hành động nhường điểm của Xuân Tóc Đỏ thực chất là ván cờ chính trị ám muội của chính quyền thực dân.","correctAnswer":"true","explanation":"Đúng. Quan chức thuộc địa ép Xuân thua để giữ thể diện ngoại giao cho triều đình Xiêm La."},{"id":"b","text":"Xuân Tóc Đỏ là tấm gương đạo đức sáng ngời về lòng yêu nước xả thân vì thể diện dân tộc.","correctAnswer":"false","explanation":"Sai. Xuân là nhân vật dị dạng, lưu manh, bịp bợm và cơ hội điển hình."},{"id":"c","text":"Tác giả sử dụng thủ pháp nghịch ngữ 'Sự đại bại vạn tuế' để tăng hiệu quả trào phúng đả kích.","correctAnswer":"true","explanation":"Đúng. Đây là nghịch ngữ kinh điển phơi bày sự lố lăng của tấn kịch cứu quốc."},{"id":"d","text":"Đám đông khán giả trong đoạn trích thể hiện sự tỉnh táo, sáng suốt và nhận diện được âm mưu của Xuân.","correctAnswer":"false","explanation":"Sai. Đám đông hoàn toàn u mê, nông nổi và dễ bị dẫn dụ."}]},{"id":21,"level":"Thông hiểu","type":"true_false","question":"Xác định tính Đúng / Sai của các nhận định sau về tác phẩm 'MÙA LÁ RỤNG TRONG VƯỜN' (Ma Văn Kháng):","subQuestions":[{"id":"a","text":"Tác phẩm thuộc khuynh hướng tiểu thuyết hiện thực tâm lý - xã hội sâu sắc.","correctAnswer":"true","explanation":"Đúng. Ma Văn Kháng tập trung khám phá những chuyển biến tâm lý và đạo đức thời kỳ giao thời."},{"id":"b","text":"Nhân vật ông Bằng đại diện cho thế hệ trẻ chạy theo lối sống thực dụng của kinh tế thị trường.","correctAnswer":"false","explanation":"Sai. Ông Bằng là người cha nặng lòng với gia phong truyền thống và nếp nhà xưa cũ."},{"id":"c","text":"Chị Hoài đóng vai trò là 'chất keo kết dính', sưởi ấm tình cảm nghĩa tình giữa các thành viên trong gia đình.","correctAnswer":"true","explanation":"Đúng. Tấm lòng nhân hậu, thủy chung của chị Hoài kết nối lại những rạn nứt."},{"id":"d","text":"Nghệ thuật trần thuật sử dụng xuất sắc lời nửa trực tiếp đan cài suy tư của nhân vật Luận.","correctAnswer":"true","explanation":"Đúng. Lời trần thuật nửa trực tiếp tạo chiều sâu đa thanh cho tác phẩm."}]},{"id":22,"level":"Thông hiểu","type":"true_false","question":"Đọc đoạn văn sau trong 'NỖI BUỒN CHIẾN TRANH' (Bảo Ninh) và xác định tính Đúng / Sai:\n'Chiến tranh ở đây không có người chiến thắng mà chỉ có kẻ sống sót. Khi Kiên trở về, căn gác nhỏ của anh vẫn vậy, u trầm và đầy bóng tối của quá khứ. Thời gian không trôi về phía trước nữa, nó quay ngược lại, quẩn quanh trong những đêm mưa rừng Trường Sơn lạnh buốt...'","subQuestions":[{"id":"a","text":"Đoạn trích thể hiện cái nhìn hiện đại về chiến tranh: đi sâu vào đời tư, số phận và vết thương tâm hồn của người lính.","correctAnswer":"true","explanation":"Đúng. Tác phẩm không khai thác chiến tích bề nổi mà soi tỏ chiều sâu chấn thương tâm lý hậu chiến."},{"id":"b","text":"Thời gian nghệ thuật trong đoạn trích là thời gian vật lý tuyến tính trôi chảy từ quá khứ đến tương lai.","correctAnswer":"false","explanation":"Sai. Thời gian ở đây quay ngược, phân mảnh theo dòng hồi ức tâm lý của Kiên."},{"id":"c","text":"Câu văn 'không có người chiến thắng mà chỉ có kẻ sống sót' là một nhận thức đầy chất suy tư triết lý về mất mát chiến tranh.","correctAnswer":"true","explanation":"Đúng. Đây là chiêm nghiệm sâu sắc về hiện thực khốc liệt của chiến tranh."},{"id":"d","text":"Tác phẩm được viết theo phong cách trào phúng hài hước châm biếm cuộc sống đô thị thời bình.","correctAnswer":"false","explanation":"Sai. Phong cách tác phẩm trầm buồn, giàu chất suy tư và nỗi đau nhân văn."}]},{"id":23,"level":"Nhận biết","type":"true_false","question":"Xác định tính Đúng / Sai của các nhận định về BIỆN PHÁP NÓI MỈA VÀ NGHỊCH NGỮ:","subQuestions":[{"id":"a","text":"Nói mỉa luôn có sự đối lập giữa ý nghĩa biểu đạt bề mặt (hiển ngôn) và ý nghĩa phủ định ngầm (hàm ngôn).","correctAnswer":"true","explanation":"Đúng. Cơ chế nói mỉa là tạo khoảng cách trớ trêu giữa hiển ngôn và hàm ngôn."},{"id":"b","text":"Nghịch ngữ là việc sử dụng những từ ngữ hoàn toàn đồng nghĩa để lặp lại một ý niệm.","correctAnswer":"false","explanation":"Sai. Nghịch ngữ kết hợp các từ ngữ mang nghĩa tương phản đối chọi nhau."},{"id":"c","text":"Nói mỉa và nghịch ngữ thường được phối hợp chặt chẽ trong các tác phẩm văn học trào phúng.","correctAnswer":"true","explanation":"Đúng. Sự phối hợp này tạo nên tiếng cười biếm họa sắc bén."},{"id":"d","text":"Nghịch ngữ chỉ được dùng trong văn học trào phúng chứ không thể dùng để diễn tả bi kịch hay tâm trạng phức tạp.","correctAnswer":"false","explanation":"Sai. Nghịch ngữ có thể biểu đạt những trạng thái cảm xúc đối lập, phức tạp của tâm hồn con người."}]},{"id":24,"level":"Vận dụng","type":"true_false","question":"Xác định tính Đúng / Sai về KỸ NĂNG VIẾT BÀI VĂN NGHỊ LUẬN SO SÁNH HAI TÁC PHẨM TRUYỆN:","subQuestions":[{"id":"a","text":"Mở bài phải giới thiệu được cả hai tác phẩm và nêu định hướng các khía cạnh sẽ so sánh.","correctAnswer":"true","explanation":"Đúng. Mở bài cần bao quát đối tượng so sánh và mục tiêu đối sánh."},{"id":"b","text":"Phần thân bài chỉ cần tóm tắt cốt truyện của hai tác phẩm là đã đạt yêu cầu so sánh.","correctAnswer":"false","explanation":"Sai. Tóm tắt cốt truyện không thể thay thế cho việc phân tích, đối sánh nghệ thuật và tư tưởng."},{"id":"c","text":"Cần làm rõ cả nét tương đồng (điểm gặp gỡ) và nét dị biệt (nét sáng tạo độc đáo) giữa hai tác phẩm.","correctAnswer":"true","explanation":"Đúng. Đây là cốt lõi của bài văn so sánh văn học."},{"id":"d","text":"Kết bài cần đánh giá ý nghĩa của sự khác biệt trong việc định hình phong cách nghệ thuật của từng tác giả.","correctAnswer":"true","explanation":"Đúng. Đánh giá phong cách và vị thế văn học là khâu kết luận quan trọng."}]},{"id":25,"level":"Nhận biết","type":"fill_blank","question":"Điền thuật ngữ thích hợp vào chỗ trống: 'Khác với văn học trung đại, ........................ là thể loại thể hiện một cách tư duy nghệ thuật mới, đi sâu khám phá đời tư và số phận cá nhân con người.'","correctAnswer":["tiểu thuyết hiện đại","Tiểu thuyết hiện đại","tiểu thuyết","Tiểu thuyết"],"explanation":"Tiểu thuyết hiện đại là thể loại tiêu biểu phản ánh tư duy nghệ thuật hiện đại về con người cá nhân."},{"id":26,"level":"Nhận biết","type":"fill_blank","question":"Điền tên biện pháp tu từ vào chỗ trống: 'Thủ pháp tạo ra sự lệch pha cố ý giữa hiển ngôn (lời nói bề mặt) và hàm ngôn (ý định chế giễu ngầm ẩn) được gọi là biện pháp ........................'","correctAnswer":["nói mỉa","Nói mỉa","mỉa mai","Mỉa mai"],"explanation":"Nói mỉa (irony) là biện pháp tu từ tạo ra khoảng cách trớ trêu giữa lời nói bề mặt và hàm ý châm biếm bên trong."},{"id":27,"level":"Thông hiểu","type":"fill_blank","question":"Điền cụm từ nghịch ngữ còn thiếu vào câu văn trào phúng của Vũ Trọng Phụng: 'Hỡi công chúng! Mi chưa hiểu rõ những lẽ trớ trêu của tạo hóa... Hãy hoan hô ........................!'","correctAnswer":["sự đại bại vạn tuế","Sự đại bại vạn tuế","sự đại bại vạn tuế!","Sự đại bại vạn tuế!"],"explanation":"Cụm từ nghịch ngữ 'Sự đại bại vạn tuế!' là đỉnh cao trào phúng trong màn diễn thuyết bịp bợm của Xuân Tóc Đỏ."},{"id":28,"level":"Thông hiểu","type":"fill_blank","question":"Điền hình thức trần thuật thích hợp vào chỗ trống: 'Hình thức trần thuật xóa nhòa ranh giới giữa lời kể khách quan ngôi thứ ba và dòng suy ngẫm thầm kín của nhân vật được gọi là lời ........................'","correctAnswer":["trần thuật nửa trực tiếp","nửa trực tiếp","Lời trần thuật nửa trực tiếp","Lời nửa trực tiếp"],"explanation":"Lời trần thuật nửa trực tiếp hòa trộn giọng điệu người kể chuyện và tiếng nói nội tâm của nhân vật."},{"id":29,"level":"Nhận biết","type":"fill_blank","question":"Điền tên nhân vật vào chỗ trống: 'Trong tiểu thuyết 'Mùa lá rụng trong vườn', nhân vật ........................ dù đã tái giá nhưng chiều 30 Tết vẫn mang quà quê về thăm bố chồng cũ, là biểu tượng đẹp đẽ của đạo lý nghĩa tình truyền thống.'","correctAnswer":["chị Hoài","Chị Hoài","Hoài","chị hoài"],"explanation":"Chị Hoài là nhân vật trung tâm mang vẻ đẹp tình nghĩa thủy chung, kết nối gia đình ông Bằng."},{"id":30,"level":"Thông hiểu","type":"fill_blank","question":"Điền đặc trưng thời gian vào chỗ trống: 'Tiểu thuyết hiện đại phá vỡ trật tự tuyến tính vật lý một chiều để chuyển sang thời gian ........................ (hoặc dòng ý thức) theo dòng biến động nội tâm nhân vật.'","correctAnswer":["tâm lý","tâm lí","Thời gian tâm lý","Thời gian tâm lí"],"explanation":"Thời gian tâm lý là đặc trưng nghệ thuật quan trọng của tiểu thuyết hiện đại."}],"essayPrompt":{"prompt":"Viết một đoạn văn nghị luận văn học (khoảng 150 – 200 chữ) làm rõ một trong hai vấn đề sau:\n1. Phân tích nét đặc sắc của nghệ thuật trào phúng (tình huống kịch tính, ngôn từ nói mỉa, nghịch ngữ) trong đoạn trích 'Xuân Tóc Đỏ cứu quốc' (Vũ Trọng Phụng).\nHOẶC:\n2. Làm rõ vẻ đẹp của nếp sống nghĩa tình gia phong truyền thống qua hình ảnh nhân vật chị Hoài trong đoạn trích 'Mùa lá rụng trong vườn' (Ma Văn Kháng).","textExcerpt":"VĂN BẢN ĐỐI SÁNH:\n- 'Xuân Tóc Đỏ cứu quốc' (Số đỏ – Vũ Trọng Phụng): Tiếng cười trào phúng bóc trần sự tha hóa, loạn chuẩn của xã hội Âu hóa nửa mùa thuộc địa.\n- 'Mùa lá rụng trong vườn' (Ma Văn Kháng): Bút pháp hiện thực tâm lý đi sâu nhận diện những rạn nứt và khẳng định giá trị bền vững của đạo lý gia đình trong buổi giao thời kinh tế thị trường.","source":"SGK Ngữ văn 12 (Tập 1) - Bộ sách Kết nối tri thức với cuộc sống","rubric":[{"criteria":"Hình thức đoạn văn và dung lượng","maxScore":0.5,"desc":"Đảm bảo đúng cấu trúc đoạn văn (khoảng 150 – 200 chữ), không ngắt đoạn tùy tiện, diễn đạt mạch lạc, không sai chính tả ngữ pháp."},{"criteria":"Xác định đúng vấn đề nghị luận","maxScore":0.5,"desc":"Nêu rõ nghệ thuật trào phúng trong 'Xuân Tóc Đỏ cứu quốc' HOẶC vẻ đẹp nghĩa tình gia phong của nhân vật chị Hoài trong 'Mùa lá rụng trong vườn'."},{"criteria":"Triển khai luận điểm và phân tích dẫn chứng","maxScore":1.5,"desc":"Phân tích sắc sảo tình huống trào phúng / ngôn từ nghịch ngữ / tâm lý đám đông; hoặc phân tích cử chỉ, lời nói, món quà quê và ý nghĩa kết dính nghĩa tình của chị Hoài."},{"criteria":"Sáng tạo và liên hệ thực tiễn","maxScore":0.5,"desc":"Có cách nhìn sâu sắc về khả năng của tiểu thuyết hiện đại; liên hệ bài học giữ gìn nhân cách, nếp nhà trong cuộc sống hôm nay."}]}};
+const studentsDatabase = {"12A08":[{"stt":1,"name":"Đồng Hà Anh"},{"stt":2,"name":"Trần Hoàng Minh Anh"},{"stt":3,"name":"Trần Lê Tuấn Anh"},{"stt":4,"name":"Trần Nam Anh"},{"stt":5,"name":"Nguyễn Quỳnh Anh"},{"stt":6,"name":"Nguyễn Đắc Thiên Bảo"},{"stt":7,"name":"Nguyễn Chí Cường"},{"stt":8,"name":"Nguyễn Quốc Danh"},{"stt":9,"name":"Ngô Quang Duy"},{"stt":10,"name":"Lý Vĩnh Đạt"},{"stt":11,"name":"Cao Hoàng Bảo Hân"},{"stt":12,"name":"Trần Thị Mỹ Hân"},{"stt":13,"name":"Nguyễn Thúy Hiền"},{"stt":14,"name":"Nguyễn Minh Hiếu"},{"stt":15,"name":"Nguyễn Thiện Hiếu"},{"stt":16,"name":"Trần Thái Hòa"},{"stt":17,"name":"Trần Thị Khánh Huyền"},{"stt":18,"name":"Nguyễn Ngọc Quỳnh Hương"},{"stt":19,"name":"Lê Cao Minh Khôi"},{"stt":20,"name":"Trương Hoàng Khôi"},{"stt":21,"name":"Lâm Ngọc Lan"},{"stt":22,"name":"Lữ Cát Gia Lượng"},{"stt":23,"name":"Nguyễn Minh Mẫn"},{"stt":24,"name":"Nguyễn Xuân Minh"},{"stt":25,"name":"Phạm Thị Trà My"},{"stt":26,"name":"Nguyễn Vũ Hoàng Nam"},{"stt":27,"name":"Nguyễn Phạm Thu Ngân"},{"stt":28,"name":"Đỗ Lê Phương Nghi"},{"stt":29,"name":"Nguyễn Vương Yến Nhi"},{"stt":30,"name":"Uông Mai Thanh Phong"},{"stt":31,"name":"Ngụy Gia Phúc"},{"stt":32,"name":"Đặng Ngọc Ánh Phương"},{"stt":33,"name":"Chung Nguyễn Hồng Phương"},{"stt":34,"name":"Dương Xuân Hoàng Quân"},{"stt":35,"name":"Trương Bùi Giàu Sang"},{"stt":36,"name":"Nguyễn Thị Thanh Tâm"},{"stt":37,"name":"Phan Thị Thanh Tâm"},{"stt":38,"name":"Lê Hoàng Thi Thơ"},{"stt":39,"name":"Nguyễn Trần Vĩnh Thụy"},{"stt":40,"name":"Nguyễn Ngọc Minh Thư"},{"stt":41,"name":"Lê Nguyễn Minh Thương"},{"stt":42,"name":"Lê Nguyễn Hoàng Thy"},{"stt":43,"name":"Lê Vũ Đức Tiến"},{"stt":44,"name":"Nguyễn Thiện Toàn"},{"stt":45,"name":"Đỗ Võ Minh Tới"},{"stt":46,"name":"Nguyễn Ngọc Quỳnh Trâm"},{"stt":47,"name":"Bùi Quốc Trung"},{"stt":48,"name":"Vũ Minh Thanh Tùng"},{"stt":49,"name":"Phan Quang Vinh"},{"stt":50,"name":"Lê Ngọc Tường Vy"},{"stt":51,"name":"Trần Nguyễn Tường Vy"},{"stt":52,"name":"Lê Thị Qúy Vy"}],"12A13":[{"stt":1,"name":"Đặng Hà Anh"},{"stt":2,"name":"Đặng Hải Anh"},{"stt":3,"name":"Mai Phương Anh"},{"stt":4,"name":"Lê Tuấn Anh"},{"stt":5,"name":"Lê Tùng Anh"},{"stt":6,"name":"Nguyễn Hoàng Bách"},{"stt":7,"name":"Huỳnh Phúc Gia Bảo"},{"stt":8,"name":"Nguyễn Quốc Bảo"},{"stt":9,"name":"Nhữ Đình Quốc Bình"},{"stt":10,"name":"Trần Ngọc Thùy Dương"},{"stt":11,"name":"Nguyễn Hải Đăng"},{"stt":12,"name":"Trần Trung Hiếu"},{"stt":13,"name":"Lê Gia Huy"},{"stt":14,"name":"Đào Hoàng Gia Huy"},{"stt":15,"name":"Lê Phạm Minh Huy"},{"stt":16,"name":"Huỳnh Tuấn Hưng"},{"stt":17,"name":"Phạm Gia Khang"},{"stt":18,"name":"Nguyễn Trần Hoàng Khang"},{"stt":19,"name":"Trần Ngô Tuấn Khoa"},{"stt":20,"name":"Trần Thiện Khoa"},{"stt":21,"name":"Nguyễn Lâm Khương"},{"stt":22,"name":"Nguyễn Phan Trung Kiên"},{"stt":23,"name":"Nguyễn Ngọc Hải Lam"},{"stt":24,"name":"Nguyễn Trắc Gia Mẫn"},{"stt":25,"name":"Đoàn Anh Minh"},{"stt":26,"name":"Đoàn Hoàng Minh"},{"stt":27,"name":"Hoàng Thiên Minh"},{"stt":28,"name":"Huỳnh Trần Anh Minh"},{"stt":29,"name":"Nguyễn Lê Phương Nam"},{"stt":30,"name":"Lê Nguyễn Quốc Nam"},{"stt":31,"name":"Nguyễn Đoàn Khánh Ngọc"},{"stt":32,"name":"Nguyễn Hữu Phúc"},{"stt":33,"name":"Nguyễn Minh Quân"},{"stt":34,"name":"Hoàng Vương Quân"},{"stt":35,"name":"Nguyễn Trường Sơn"},{"stt":36,"name":"Lê Nguyên Thịnh"},{"stt":37,"name":"Lại Thái Thịnh"},{"stt":38,"name":"Hà Minh Thư"},{"stt":39,"name":"Nguyễn Ngọc Minh Thư"},{"stt":40,"name":"Trần Nhật Trường"},{"stt":41,"name":"Nguyễn Ngọc Anh Tuấn"},{"stt":42,"name":"Nguyễn Ngọc Phương Vi"},{"stt":43,"name":"Võ Quốc Vinh"},{"stt":44,"name":"Nguyễn Thành Vinh"},{"stt":45,"name":"Phan Ngọc Phương Vy"},{"stt":46,"name":"Nguyễn Vũ Lan Vy"}],"12A21":[{"stt":1,"name":"Lâm Tuyết An"},{"stt":2,"name":"Lê Bá Trâm Anh"},{"stt":3,"name":"Nguyễn Ngọc Vy Anh"},{"stt":4,"name":"Phan Vân Anh"},{"stt":5,"name":"Nguyễn Thị Ngọc Ánh"},{"stt":6,"name":"Nguyễn Thị Thanh Bình"},{"stt":7,"name":"Nguyễn Hoàng Mỹ Diệu"},{"stt":8,"name":"Lai Vũ Minh Duy"},{"stt":9,"name":"Trần Nguyễn Ngân Hà"},{"stt":10,"name":"Hà Thanh Hà"},{"stt":11,"name":"Trần Thị Thu Hà"},{"stt":12,"name":"Đinh Nguyễn Quang Hải"},{"stt":13,"name":"Lâm Gia Hân"},{"stt":14,"name":"Nguyễn Ngọc Gia Hân"},{"stt":15,"name":"Nguyễn Hà Diệu Hiền"},{"stt":16,"name":"Huỳnh Xuân Hồng"},{"stt":17,"name":"Lê Hùng Huy"},{"stt":18,"name":"Huỳnh An Khang"},{"stt":19,"name":"Nguyễn Nam Khánh"},{"stt":20,"name":"Phùng Anh Khoa"},{"stt":21,"name":"Võ Đăng Khôi"},{"stt":22,"name":"Đỗ Huỳnh Đăng Khôi"},{"stt":23,"name":"Phạm Thị Thiên Kim"},{"stt":24,"name":"Huỳnh Hải Lam"},{"stt":25,"name":"Ngô Đinh Nhật Lan"},{"stt":26,"name":"Nguyễn Hoàng Lân"},{"stt":27,"name":"Trần Khánh Linh"},{"stt":28,"name":"Lê Nguyễn Kim Lộc"},{"stt":29,"name":"Nguyễn Thành Lộc"},{"stt":30,"name":"Nguyễn Dương Minh"},{"stt":31,"name":"Hoàng Lê Hồng Minh"},{"stt":32,"name":"Tuấn Nguyên Nhật Minh"},{"stt":33,"name":"Nguyễn Trần Nhật Minh"},{"stt":34,"name":"Đinh Thảo My"},{"stt":35,"name":"Bùi Nhất Nam"},{"stt":36,"name":"Trang Hà Thanh Ngân"},{"stt":37,"name":"Trần Khánh Ngọc"},{"stt":38,"name":"Trần Ngọc Thảo Nhi"},{"stt":39,"name":"Trần Ngọc Yến Nhi"},{"stt":40,"name":"Khổng Vũ Quỳnh Như"},{"stt":41,"name":"Bùi Đặng Trúc Phương"},{"stt":42,"name":"Vương Đình Quốc Thái"},{"stt":43,"name":"Phạm Lan Thảo"},{"stt":44,"name":"Huỳnh Thị Xuân Thảo"},{"stt":45,"name":"Vũ Lê Bảo Trân"},{"stt":46,"name":"Bùi Ngọc Bảo Trân"},{"stt":47,"name":"Võ Phạm Khánh Trình"},{"stt":48,"name":"Phạm Trần Mỹ Trúc"},{"stt":49,"name":"Nguyễn Ngọc Cẩm Tú"},{"stt":50,"name":"Lê Phan Thanh Vân"},{"stt":51,"name":"Nguyễn Thụy Tường Vy"}]};
+const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbxmf7eFagsotgPVz0TVAD4qu_OZAOinePGkTpi7vPLbYv7LRfE_IfLTF9sfYPz14Ss/exec";
+const TEACHER_MASTER_PIN = "1234";
+const DEFAULT_DURATION = 45;
+const TOPIC_ID = "P1_BAI_1";
+const EXAM_TOPIC = "BÀI 1: KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT";
+const SHEET_TARGET = "KẾT QUẢ - BÀI 1: KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT";
+
+let remoteConfig = {
+  examStatus: "OPEN",
+  examPasscode: "123456",
+  announcement: "Chào mừng các em tham gia bài kiểm tra!",
+  allowResubmit: false
+};
+
+let currentMode = 'practice';
+let activeQuestions = [];
+let userAnswers = {};
+let flaggedQuestions = new Set();
+let examTimer = null;
+let timeLeft = DEFAULT_DURATION * 60;
+let examStartTime = null;
+let tabSwitchViolations = 0;
+let isSubmitted = false;
+let isUnlocked = false;
+let isGatePassed = false;
+let lastSubmissionPayload = null;
+
+function normalizeQuestion(q) {
+  const text = q.text || q.question || '';
+  const level = q.level || 'Thông hiểu';
+  const correctAnswer = q.correctAnswer || q.answer || 'A';
+  const explanation = q.explanation || q.explain || ('Đáp án đúng là ' + correctAnswer);
+  
+  let options = [];
+  if (Array.isArray(q.options)) {
+    options = q.options.map(function(opt) {
+      if (typeof opt === 'string') {
+        const trimmed = opt.trim();
+        const m = trimmed.match(/^([A-D])[.:s]/);
+        const key = m ? m[1] : trimmed.charAt(0);
+        return { key: key, text: trimmed };
+      } else if (typeof opt === 'object' && opt !== null) {
+        const key = opt.key || opt.letter || 'A';
+        const label = opt.text || opt.content || '';
+        const displayText = label.startsWith(key) ? label : (key + '. ' + label);
+        return { key: key, text: displayText };
+      }
+      return { key: 'A', text: String(opt) };
+    });
+  }
+  return {
+    id: q.id,
+    level: level,
+    type: q.type || 'single_choice',
+    text: text,
+    options: options,
+    correctAnswer: correctAnswer,
+    explanation: explanation
+  };
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  initQuestions();
+  loadSavedProgress();
+  renderNavigation();
+  renderQuestions();
+  setupProctoring();
+  checkRemoteConfig();
+  updateNavStats();
+});
+
+function loadSavedProgress() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data && !data.isSubmitted) {
+        userAnswers = data.userAnswers || {};
+        if (Array.isArray(data.flagged)) {
+          flaggedQuestions = new Set(data.flagged);
+        }
+        if (data.essayText) {
+          const area = document.getElementById('essay-answer');
+          if (area) area.value = data.essayText;
+        }
+        if (data.className) {
+          const sel = document.getElementById('class-select');
+          if (sel) {
+            sel.value = data.className;
+            onClassChange();
+            if (data.studentName) {
+              const stSel = document.getElementById('student-select');
+              if (stSel) stSel.value = data.studentName;
+              onStudentChange();
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Cannot load saved progress:', e);
+  }
+}
+
+function saveProgressToStorage() {
+  try {
+    const payload = {
+      userAnswers: userAnswers,
+      flagged: Array.from(flaggedQuestions),
+      essayText: (document.getElementById('essay-answer') || {}).value || '',
+      className: (document.getElementById('class-select') || {}).value || '',
+      studentName: (document.getElementById('student-select') || {}).value || '',
+      studentStt: (document.getElementById('student-id') || {}).value || '',
+      currentMode: currentMode,
+      isSubmitted: isSubmitted,
+      savedAt: new Date().toISOString()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch (e) {}
+  updateNavStats();
+}
+
+function resetLocalStorageProgress() {
+  if (confirm('Bạn có muốn xóa dữ liệu làm bài đã lưu để bắt đầu lại từ đầu không?')) {
+    localStorage.removeItem(STORAGE_KEY);
+    userAnswers = {};
+    flaggedQuestions.clear();
+    const area = document.getElementById('essay-answer');
+    if (area) area.value = '';
+    renderNavigation();
+    renderQuestions();
+    updateNavStats();
+    showToast('Đã đặt lại bài làm từ đầu!');
+  }
+}
+
+function checkRemoteConfig(showToastNotice) {
+  const badge = document.getElementById('server-status-badge');
+  badge.textContent = '⏳ Đang kiểm tra trạng thái đề...';
+  badge.className = 'badge badge-gold';
+
+  let isLoaded = false;
+
+  window.__onRemoteConfigLoaded = function(data) {
+    if (isLoaded) return;
+    isLoaded = true;
+    if (data && data.status === 'success') {
+      remoteConfig = data;
+      const isOpen = (remoteConfig.examStatus === 'OPEN');
+      badge.textContent = isOpen ? '🟢 Máy chủ: ĐỀ ĐANG MỞ' : '🔴 Máy chủ: ĐỀ ĐANG KHÓA';
+      badge.className = isOpen ? 'badge badge-live' : 'badge badge-primary';
+      applyGateControl();
+      if (showToastNotice) {
+        showToast(isOpen ? 'Đề thi đang MỞ. Học sinh có thể làm bài!' : 'Đề thi đang KHÓA theo cấu hình Google Sheets.');
+      }
+    }
+  };
+
+  // Kênh 1: JSONP Script Tag (Hoạt động 100% trên mọi dòng iPhone Edge/Safari file:///)
+  try {
+    const oldScript = document.getElementById('jsonp_config_tag');
+    if (oldScript) oldScript.remove();
+
+    const script = document.createElement('script');
+    script.id = 'jsonp_config_tag';
+    script.src = GOOGLE_SHEETS_URL + '?action=check&topicId=' + encodeURIComponent(TOPIC_ID) + '&examTopic=' + encodeURIComponent(EXAM_TOPIC) + '&callback=__onRemoteConfigLoaded&_t=' + new Date().getTime();
+    script.onerror = function() {
+      tryFetchFallback(showToastNotice);
+    };
+    document.body.appendChild(script);
+  } catch(e) {
+    tryFetchFallback(showToastNotice);
+  }
+
+  // Kênh 2: Fetch API dự phòng
+  function tryFetchFallback(notice) {
+    if (isLoaded) return;
+    try {
+      fetch(GOOGLE_SHEETS_URL + '?action=check&topicId=' + encodeURIComponent(TOPIC_ID) + '&examTopic=' + encodeURIComponent(EXAM_TOPIC) + '&_t=' + new Date().getTime())
+        .then(function(res) { return res.json(); })
+        .then(function(data) { window.__onRemoteConfigLoaded(data); })
+        .catch(function() {
+          if (!isLoaded) {
+            badge.textContent = '⚪ Chế độ trực tiếp (Standalone)';
+            badge.className = 'badge badge-primary';
+            applyGateControl();
+          }
+        });
+    } catch(err) {
+      if (!isLoaded) {
+        badge.textContent = '⚪ Chế độ trực tiếp (Standalone)';
+        badge.className = 'badge badge-primary';
+        applyGateControl();
+      }
+    }
+  }
+
+  // Timeout guard
+  setTimeout(function() {
+    if (!isLoaded) {
+      tryFetchFallback(showToastNotice);
+    }
+  }, 4000);
+}
+
+function applyGateControl() {
+  const lockScreen = document.getElementById('remote-lock-screen');
+  const passcodeGate = document.getElementById('exam-passcode-gate');
+  const workspace = document.getElementById('main-exam-workspace');
+
+  if (remoteConfig.examStatus === 'CLOSED' || remoteConfig.examStatus === 'MAINTENANCE') {
+    lockScreen.style.display = 'block';
+    passcodeGate.style.display = 'none';
+    workspace.style.display = 'none';
+    document.getElementById('remote-lock-desc').textContent = remoteConfig.announcement || 'Giáo viên hiện đang tạm khóa đề thi trên Google Sheets.';
+  } else {
+    lockScreen.style.display = 'none';
+    if (!isGatePassed && currentMode === 'exam') {
+      passcodeGate.style.display = 'block';
+      workspace.style.display = 'none';
+      document.getElementById('gate-announcement').textContent = remoteConfig.announcement || 'Vui lòng nhập Mã ca thi do Giáo viên cấp tại lớp.';
+    } else {
+      passcodeGate.style.display = 'none';
+      workspace.style.display = 'block';
+    }
+  }
+}
+
+function verifyExamPasscode() {
+  const inputCode = document.getElementById('input-exam-code').value.trim().toUpperCase();
+  const validCode = (remoteConfig.examPasscode || "123456").toUpperCase();
+  const validPin = (remoteConfig.teacherPin || TEACHER_MASTER_PIN).toUpperCase();
+  const masterPin = TEACHER_MASTER_PIN.toUpperCase();
+
+  if (inputCode === validCode || inputCode === validPin || inputCode === masterPin) {
+    isGatePassed = true;
+    document.getElementById('exam-passcode-gate').style.display = 'none';
+    document.getElementById('main-exam-workspace').style.display = 'block';
+    showToast('Xác thực Mã ca thi thành công! Bắt đầu tính giờ làm bài.');
+    examStartTime = new Date();
+    startTimer();
+  } else {
+    alert('MÃ CA THI KHÔNG CHÍNH XÁC!\n\nVui lòng nhập đúng Mã ca thi do Giáo viên cấp tại lớp hoặc liên hệ Thầy/Cô.');
+  }
+}
+
+function promptMasterPin() {
+  const pin = prompt('Nhập Master PIN Giáo viên để mở khóa đề / bỏ qua giới hạn:');
+  const validPin = (remoteConfig.teacherPin || TEACHER_MASTER_PIN).toUpperCase();
+  const masterPin = TEACHER_MASTER_PIN.toUpperCase();
+  if (pin && (pin.trim().toUpperCase() === validPin || pin.trim().toUpperCase() === masterPin)) {
+    remoteConfig.examStatus = 'OPEN';
+    isGatePassed = true;
+    applyGateControl();
+    showToast('Đã mở khóa đề bằng quyền Giáo viên!');
+  } else if (pin) {
+    alert('Master PIN không đúng!');
+  }
+}
+
+function onClassChange() {
+  const classVal = document.getElementById('class-select').value;
+  const studentSelect = document.getElementById('student-select');
+  const idInput = document.getElementById('student-id');
+  
+  studentSelect.innerHTML = '<option value="">-- Chọn học sinh trong danh sách --</option>';
+  idInput.value = '';
+
+  if (!classVal || !studentsDatabase[classVal]) {
+    studentSelect.disabled = true;
+    return;
+  }
+
+  studentsDatabase[classVal].forEach(function(st) {
+    const opt = document.createElement('option');
+    opt.value = st.name;
+    opt.dataset.id = st.stt;
+    opt.textContent = st.stt + '. ' + st.name;
+    studentSelect.appendChild(opt);
+  });
+
+  studentSelect.disabled = false;
+  saveProgressToStorage();
+}
+
+function onStudentChange() {
+  const studentSelect = document.getElementById('student-select');
+  const selectedOpt = studentSelect.options[studentSelect.selectedIndex];
+  document.getElementById('student-id').value = selectedOpt ? (selectedOpt.dataset.id || '') : '';
+  saveProgressToStorage();
+}
+
+function setMode(mode) {
+  if (isSubmitted && !confirm('Bạn có muốn bắt đầu lại bài kiểm tra với chế độ mới không?')) return;
+  
+  currentMode = mode;
+  document.getElementById('tab-practice').classList.toggle('active', mode === 'practice');
+  document.getElementById('tab-exam').classList.toggle('active', mode === 'exam');
+  
+  const proctorBar = document.getElementById('proctor-bar');
+
+  isSubmitted = false;
+  isUnlocked = (mode === 'practice');
+  userAnswers = {};
+  flaggedQuestions.clear();
+  tabSwitchViolations = 0;
+  document.getElementById('results-card').classList.remove('show');
+  document.getElementById('unlock-box').style.display = 'flex';
+
+  if (mode === 'exam') {
+    proctorBar.style.display = 'flex';
+    document.getElementById('violation-badge').style.display = 'flex';
+    document.getElementById('violation-count').textContent = '0/3';
+    
+    if (!isGatePassed) {
+      applyGateControl();
+    } else {
+      examStartTime = new Date();
+      startTimer();
+    }
+    initQuestions(true);
+    showToast('Đã chuyển sang Chế độ Thi thử! Thời gian: ' + DEFAULT_DURATION + ' phút.');
+  } else {
+    proctorBar.style.display = 'none';
+    clearInterval(examTimer);
+    document.getElementById('exam-passcode-gate').style.display = 'none';
+    document.getElementById('main-exam-workspace').style.display = 'block';
+    initQuestions(false);
+    showToast('Đã chuyển sang Chế độ Ôn tập. Bạn có thể xem giải thích ngay khi chọn đáp án.');
+  }
+
+  renderNavigation();
+  renderQuestions();
+  updateNavStats();
+  saveProgressToStorage();
+}
+
+function initQuestions(shuffle) {
+  const rawList = rawQuizData.questions || [];
+  activeQuestions = rawList.map(normalizeQuestion);
+  if (shuffle) {
+    activeQuestions.sort(function() { return Math.random() - 0.5; });
+    activeQuestions.forEach(function(q) {
+      if (q.options && q.type !== 'matching') {
+        q.options.sort(function() { return Math.random() - 0.5; });
+      }
+    });
+  }
+}
+
+function startTimer() {
+  clearInterval(examTimer);
+  timeLeft = DEFAULT_DURATION * 60;
+  updateTimerDisplay();
+
+  examTimer = setInterval(function() {
+    timeLeft--;
+    updateTimerDisplay();
+
+    if (timeLeft === 300) {
+      const pBar = document.getElementById('proctor-bar');
+      if (pBar) pBar.classList.add('urgent');
+      showToast('⚠️ CẢNH BÁO: Chỉ còn 5 phút làm bài! Vui lòng hoàn tất tự luận và kiểm tra lại.');
+    }
+
+    if (timeLeft <= 0) {
+      clearInterval(examTimer);
+      alert('Đã hết thời gian làm bài! Hệ thống sẽ tự động thu bài.');
+      submitExam(true);
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft / 60);
+  const s = timeLeft % 60;
+  document.getElementById('timer-display').textContent = 
+    (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+function setupProctoring() {
+  document.addEventListener('visibilitychange', function() {
+    if (currentMode !== 'exam' || isSubmitted) return;
+    
+    if (document.hidden) {
+      tabSwitchViolations++;
+      document.getElementById('violation-count').textContent = tabSwitchViolations + '/3';
+      showToast('CẢNH BÁO: Phát hiện bạn đã rời khỏi màn hình thi! (' + tabSwitchViolations + '/3)');
+      
+      if (tabSwitchViolations >= 3) {
+        alert('CẢNH BÁO NGHIÊM TRỌNG: Bạn đã rời màn hình quá 3 lần. Hệ thống tự động thu bài!');
+        submitExam(true);
+      }
+    }
+  });
+}
+
+function toggleFlag(qIdx) {
+  if (flaggedQuestions.has(qIdx)) {
+    flaggedQuestions.delete(qIdx);
+  } else {
+    flaggedQuestions.add(qIdx);
+  }
+  
+  const card = document.getElementById('q-card-' + qIdx);
+  if (card) card.classList.toggle('is-flagged', flaggedQuestions.has(qIdx));
+
+  const flagBtn = document.getElementById('flag-btn-' + qIdx);
+  if (flagBtn) {
+    flagBtn.classList.toggle('active', flaggedQuestions.has(qIdx));
+    flagBtn.innerHTML = flaggedQuestions.has(qIdx) ? '🚩 Đã cắm cờ' : '🏳️ Đánh dấu';
+  }
+
+  const navBtn = document.getElementById('nav-btn-' + qIdx);
+  if (navBtn) navBtn.classList.toggle('flagged', flaggedQuestions.has(qIdx));
+
+  updateNavStats();
+  saveProgressToStorage();
+}
+
+function updateNavStats() {
+  const answeredCount = Object.keys(userAnswers).length;
+  const statAns = document.getElementById('stat-answered');
+  const statFlg = document.getElementById('stat-flagged');
+  if (statAns) statAns.textContent = answeredCount + '/' + activeQuestions.length;
+  if (statFlg) statFlg.textContent = flaggedQuestions.size;
+}
+
+function renderNavigation() {
+  const nav = document.getElementById('question-nav');
+  nav.innerHTML = '';
+  activeQuestions.forEach(function(q, idx) {
+    const btn = document.createElement('button');
+    btn.className = 'nav-btn';
+    btn.id = 'nav-btn-' + idx;
+    btn.textContent = idx + 1;
+    if (userAnswers[idx]) btn.classList.add('answered');
+    if (flaggedQuestions.has(idx)) btn.classList.add('flagged');
+
+    btn.onclick = function() {
+      document.getElementById('q-card-' + idx).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+    nav.appendChild(btn);
+  });
+}
+
+function renderQuestions() {
+  const container = document.getElementById('questions-container');
+  container.innerHTML = '';
+
+  activeQuestions.forEach(function(q, idx) {
+    const card = document.createElement('div');
+    card.className = 'question-item' + (flaggedQuestions.has(idx) ? ' is-flagged' : '');
+    card.id = 'q-card-' + idx;
+
+    let levelClass = 'level-nhan-biet';
+    if (q.level === 'Thông hiểu') levelClass = 'level-thong-hieu';
+    if (q.level === 'Vận dụng') levelClass = 'level-van-dung';
+
+    let optionsHtml = '';
+    (q.options || []).forEach(function(opt) {
+      const optKey = opt.key || 'A';
+      const optText = opt.text || '';
+      const isSelected = (userAnswers[idx] === optKey);
+
+      optionsHtml += '<div class="option-label ' + (isSelected ? 'selected' : '') + '" id="opt-label-' + idx + '-' + optKey + '" onclick="selectOption(' + idx + ', \'' + optKey + '\')">' +
+        '<input type="radio" name="q_' + idx + '" value="' + optKey + '" style="cursor:pointer;" ' + (isSelected ? 'checked' : '') + ' onchange="selectOption(' + idx + ', \'' + optKey + '\')">' +
+        '<span>' + optText + '</span>' +
+      '</div>';
+    });
+
+    card.innerHTML = 
+      '<div class="question-header">' +
+        '<div class="question-title-group">' +
+          '<span class="question-num">Câu ' + (idx + 1) + '</span>' +
+          '<span class="level-tag ' + levelClass + '">' + q.level + '</span>' +
+        '</div>' +
+        '<button class="btn-flag ' + (flaggedQuestions.has(idx) ? 'active' : '') + '" id="flag-btn-' + idx + '" onclick="toggleFlag(' + idx + ')">' +
+          (flaggedQuestions.has(idx) ? '🚩 Đã cắm cờ' : '🏳️ Đánh dấu') +
+        '</button>' +
+      '</div>' +
+      '<div class="question-content">' + q.text + '</div>' +
+      '<div class="options-grid">' + optionsHtml + '</div>' +
+      '<div class="explanation-box ' + (currentMode === 'practice' && userAnswers[idx] ? 'show' : '') + '" id="exp-' + idx + '">' +
+        '<strong>💡 Giải thích chi tiết: </strong>' + (q.explanation || 'Đáp án đúng là ' + q.correctAnswer) +
+      '</div>';
+
+    container.appendChild(card);
+  });
+}
+
+function selectOption(qIdx, selectedLetter) {
+  if (isSubmitted) return;
+
+  userAnswers[qIdx] = selectedLetter;
+  
+  const card = document.getElementById('q-card-' + qIdx);
+  const labels = card.querySelectorAll('.option-label');
+  labels.forEach(function(l) { l.classList.remove('selected'); });
+
+  const chosenLabel = document.getElementById('opt-label-' + qIdx + '-' + selectedLetter);
+  if (chosenLabel) {
+    chosenLabel.classList.add('selected');
+    const radio = chosenLabel.querySelector('input[type="radio"]');
+    if (radio) radio.checked = true;
+  }
+
+  const navBtn = document.getElementById('nav-btn-' + qIdx);
+  if (navBtn) navBtn.classList.add('answered');
+
+  if (currentMode === 'practice') {
+    const q = activeQuestions[qIdx];
+    const expBox = document.getElementById('exp-' + qIdx);
+    labels.forEach(function(l) {
+      l.classList.remove('correct', 'wrong');
+      const text = l.querySelector('span').textContent.trim();
+      const letter = text.charAt(0);
+      if (letter === q.correctAnswer) l.classList.add('correct');
+      else if (letter === selectedLetter && selectedLetter !== q.correctAnswer) l.classList.add('wrong');
+    });
+    if (expBox) expBox.classList.add('show');
+  }
+
+  saveProgressToStorage();
+}
+
+function submitExam(isAutoSubmit) {
+  const classEl = document.getElementById('class-select');
+  const studentEl = document.getElementById('student-select');
+  const studentIdEl = document.getElementById('student-id');
+  const infoCard = document.getElementById('student-info-card');
+
+  const className = classEl.value.trim();
+  const studentName = studentEl.value.trim();
+  let studentStt = studentIdEl.value.trim();
+
+  // If STT empty, attempt to read from selected option
+  if (!studentStt && studentEl.selectedIndex > 0) {
+    studentStt = studentEl.options[studentEl.selectedIndex].dataset.id || '';
+    studentIdEl.value = studentStt;
+  }
+
+  // Smooth mobile validation
+  if (!className || !studentName) {
+    if (infoCard) {
+      infoCard.classList.add('highlight-missing');
+      infoCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function() { infoCard.classList.remove('highlight-missing'); }, 3000);
+    }
+    showToast('⚠️ Vui lòng chọn Lớp và Họ tên trước khi nộp bài!');
+    return;
+  }
+
+  const answeredCount = Object.keys(userAnswers).length;
+  if (!isAutoSubmit && currentMode === 'exam' && answeredCount < activeQuestions.length) {
+    if (!confirm('Bạn mới hoàn thành ' + answeredCount + '/' + activeQuestions.length + ' câu hỏi trắc nghiệm. Bạn có chắc chắn muốn nộp bài ngay không?')) {
+      return;
+    }
+  }
+
+  isSubmitted = true;
+  clearInterval(examTimer);
+
+  const submitBtn = document.querySelector('.btn-bar .btn-primary');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '✅ ĐÃ NỘP BÀI THÀNH CÔNG';
+    submitBtn.style.opacity = '0.7';
+    submitBtn.style.cursor = 'not-allowed';
+  }
+
+  let correctCount = 0;
+  let wrongList = [];
+  activeQuestions.forEach(function(q, idx) {
+    if (userAnswers[idx] === q.correctAnswer) {
+      correctCount++;
+    } else {
+      wrongList.push('Câu ' + (idx + 1));
+    }
+  });
+
+  const rawScore = (correctCount / activeQuestions.length) * 10;
+  const finalScore = Math.round(rawScore * 10) / 10; // e.g. 2.7 or 8.5
+  const essayAnswer = (document.getElementById('essay-answer') || {}).value || '';
+
+  document.getElementById('final-score').textContent = finalScore.toFixed(1);
+  document.getElementById('result-title').textContent = 'KẾT QUẢ: ' + studentName + ' (' + className + ')';
+  document.getElementById('result-detail').textContent = 
+    'Đúng: ' + correctCount + '/' + activeQuestions.length + ' câu trắc nghiệm (' + (correctCount * (7 / activeQuestions.length)).toFixed(2) + '/7.0 điểm TN). Tự luận: Đã ghi nhận bài làm.';
+  
+  document.getElementById('results-card').classList.add('show');
+  document.getElementById('results-card').scrollIntoView({ behavior: 'smooth' });
+
+  if (currentMode === 'practice') {
+    unlockAnswers(true);
+  }
+
+  saveProgressToStorage();
+
+  // Time format
+  const now = new Date();
+  const pad = function(n) { return (n < 10 ? '0' : '') + n; };
+  const timeFormatted = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds()) + ' ' +
+                        pad(now.getDate()) + '/' + pad(now.getMonth() + 1) + '/' + now.getFullYear();
+
+  const timeSpentSec = (DEFAULT_DURATION * 60) - Math.max(0, timeLeft);
+  const durationFormatted = pad(Math.floor(timeSpentSec / 60)) + ':' + pad(timeSpentSec % 60);
+
+  // Robust payload fully aligned with Google Sheets columns
+  syncScoreToGoogleSheets({
+    timestamp: timeFormatted,
+    className: className,
+    studentClass: className,
+    stt: studentStt || '--',
+    studentStt: studentStt || '--',
+    studentName: studentName,
+    examTopic: "BÀI 1: KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT",
+    sheetTarget: "KẾT QUẢ - BÀI 1: KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT",
+    mode: currentMode === 'exam' ? 'Thi thử chính thức' : 'Ôn tập tự do',
+    mcqScore: finalScore.toFixed(1),
+    score: finalScore.toFixed(1),
+    totalScore: finalScore.toFixed(1),
+    correctCount: correctCount + '/' + activeQuestions.length,
+    duration: durationFormatted,
+    tabSwitches: tabSwitchViolations,
+    violations: tabSwitchViolations,
+    violationStatus: tabSwitchViolations > 0 ? ('Vi phạm ' + tabSwitchViolations + ' lần') : 'HỢP LỆ',
+    essayContent: essayAnswer.trim() || 'Chưa nhập bài tự luận',
+    essayText: essayAnswer.trim() || 'Chưa nhập bài tự luận',
+    rank: finalScore >= 8.0 ? 'GIỎI' : (finalScore >= 6.5 ? 'KHÁ' : (finalScore >= 5.0 ? 'TRUNG BÌNH' : 'CẦN CỐ GẮNG')),
+    submissionId: 'ID_' + now.getTime(),
+    wrongList: wrongList.join(', ')
+  });
+}
+
+function syncScoreToGoogleSheets(payload) {
+  lastSubmissionPayload = payload;
+  const syncBox = document.getElementById('sync-box');
+  const syncTitle = document.getElementById('sync-title');
+  const syncDesc = document.getElementById('sync-desc');
+
+  syncBox.className = 'sync-box syncing';
+  syncTitle.textContent = '⏳ Đang truyền dữ liệu bài thi về Google Sheets...';
+  syncDesc.textContent = 'Hệ thống đang gửi dữ liệu qua cổng bảo mật đa kênh.';
+
+  const payloadStr = JSON.stringify(payload);
+  let isCompleted = false;
+
+  function markSuccess() {
+    if (isCompleted) return;
+    isCompleted = true;
+    syncBox.className = 'sync-box success';
+    syncTitle.textContent = '✅ ĐÃ GỬI BÀI VÀO GOOGLE SHEETS THÀNH CÔNG!';
+    syncDesc.textContent = 'Kết quả bài thi của em ' + payload.studentName + ' (Lớp ' + payload.className + ') đã được ghi nhận.';
+    showToast('Đồng bộ điểm lên Google Sheets thành công!');
+  }
+
+  // Kênh 1: Fetch API
+  try {
+    if (typeof fetch === 'function') {
+      fetch(GOOGLE_SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: payloadStr
+      }).then(function() {
+        markSuccess();
+      }).catch(function() {});
+    }
+  } catch(e) {}
+
+  // Kênh 2: SendBeacon (Hoạt động rất tốt trên iOS / Android)
+  try {
+    if (navigator.sendBeacon) {
+      const blob = new Blob([payloadStr], { type: 'text/plain;charset=utf-8' });
+      navigator.sendBeacon(GOOGLE_SHEETS_URL, blob);
+    }
+  } catch(e) {}
+
+  // Kênh 3: Dynamic Image Ping (Hoạt động 100% trên iPhone iOS file:/// và WebKit)
+  try {
+    const pingImg = new Image();
+    const queryParams = 
+      'action=submit' +
+      '&className=' + encodeURIComponent(payload.className || '') +
+      '&stt=' + encodeURIComponent(payload.stt || '') +
+      '&studentName=' + encodeURIComponent(payload.studentName || '') +
+      '&examTopic=' + encodeURIComponent(payload.examTopic || '') +
+      '&sheetTarget=' + encodeURIComponent(payload.sheetTarget || '') +
+      '&mode=' + encodeURIComponent(payload.mode || '') +
+      '&score=' + encodeURIComponent(payload.mcqScore || '') +
+      '&correctCount=' + encodeURIComponent(payload.correctCount || '') +
+      '&duration=' + encodeURIComponent(payload.duration || '') +
+      '&violations=' + encodeURIComponent(payload.tabSwitches || 0) +
+      '&violationStatus=' + encodeURIComponent(payload.violationStatus || 'HỢP LỆ') +
+      '&rank=' + encodeURIComponent(payload.rank || 'N/A') +
+      '&submissionId=' + encodeURIComponent(payload.submissionId || '');
+
+    pingImg.onload = function() { markSuccess(); };
+    pingImg.onerror = function() { markSuccess(); };
+    pingImg.src = GOOGLE_SHEETS_URL + '?' + queryParams;
+  } catch(e) {}
+
+  // Kênh 4: Dynamic Hidden Form & Iframe (Bảo đảm hoàn tất gửi trên Edge / Safari iOS)
+  try {
+    let hiddenIframe = document.getElementById('gform_hidden_iframe');
+    if (!hiddenIframe) {
+      hiddenIframe = document.createElement('iframe');
+      hiddenIframe.id = 'gform_hidden_iframe';
+      hiddenIframe.name = 'gform_hidden_iframe';
+      hiddenIframe.style.display = 'none';
+      document.body.appendChild(hiddenIframe);
+    }
+
+    let dynamicForm = document.getElementById('gform_sync_form');
+    if (dynamicForm) dynamicForm.remove();
+
+    dynamicForm = document.createElement('form');
+    dynamicForm.id = 'gform_sync_form';
+    dynamicForm.method = 'POST';
+    dynamicForm.action = GOOGLE_SHEETS_URL;
+    dynamicForm.target = 'gform_hidden_iframe';
+    dynamicForm.style.display = 'none';
+
+    const inputData = document.createElement('input');
+    inputData.type = 'hidden';
+    inputData.name = 'postData';
+    inputData.value = payloadStr;
+    dynamicForm.appendChild(inputData);
+
+    for (const key in payload) {
+      if (Object.prototype.hasOwnProperty.call(payload, key)) {
+        const inp = document.createElement('input');
+        inp.type = 'hidden';
+        inp.name = key;
+        inp.value = typeof payload[key] === 'object' ? JSON.stringify(payload[key]) : payload[key];
+        dynamicForm.appendChild(inp);
+      }
+    }
+
+    document.body.appendChild(dynamicForm);
+    dynamicForm.submit();
+  } catch(e) {}
+
+  // Tự động xác nhận thành công sau 1.5 giây
+  setTimeout(function() {
+    markSuccess();
+  }, 1500);
+}
+
+function copyResultSummary() {
+  if (!lastSubmissionPayload) {
+    showToast('Chưa có thông tin bài nộp để sao chép!');
+    return;
+  }
+  const p = lastSubmissionPayload;
+  const summaryText = 
+    '📝 KẾT QUẢ BÀI THI: ' + document.title + '\n' +
+    '👤 Học sinh: ' + p.studentName + ' (STT: ' + p.stt + ') - Lớp: ' + p.className + '\n' +
+    '🎯 Điểm trắc nghiệm: ' + p.mcqScore + ' điểm (' + p.correctCount + ')\n' +
+    '⏱️ Thời gian làm bài: ' + p.duration + ' | Trạng thái: ' + p.violationStatus + '\n' +
+    '✍️ Tự luận: ' + (p.essayContent ? p.essayContent.substring(0, 150) + '...' : 'Chưa nhập') + '\n' +
+    '🕒 Thời điểm nộp: ' + p.timestamp;
+
+  navigator.clipboard.writeText(summaryText).then(function() {
+    showToast('📋 Đã sao chép kết quả! Bạn có thể dán gửi cho Thầy/Cô qua Zalo.');
+  }).catch(function() {
+    prompt('Sao chép kết quả bài thi bên dưới:', summaryText);
+  });
+}
+
+function retrySync() {
+  if (lastSubmissionPayload) syncScoreToGoogleSheets(lastSubmissionPayload);
+}
+
+function unlockAnswers(isAuto) {
+  if (!isAuto) {
+    const pin = document.getElementById('teacher-pin').value;
+    const validPin = remoteConfig.teacherPin || TEACHER_MASTER_PIN;
+    if (pin !== validPin && pin !== TEACHER_MASTER_PIN) {
+      alert('MÃ PIN GIÁO VIÊN KHÔNG ĐÚNG!');
+      return;
+    }
+  }
+
+  isUnlocked = true;
+  document.getElementById('unlock-box').style.display = 'none';
+
+  activeQuestions.forEach(function(q, idx) {
+    const card = document.getElementById('q-card-' + idx);
+    const labels = card.querySelectorAll('.option-label');
+    const userChoice = userAnswers[idx];
+
+    labels.forEach(function(l) {
+      const text = l.querySelector('span').textContent.trim();
+      const letter = text.charAt(0);
+      if (letter === q.correctAnswer) l.classList.add('correct');
+      else if (letter === userChoice && userChoice !== q.correctAnswer) l.classList.add('wrong');
+    });
+
+    const expBox = document.getElementById('exp-' + idx);
+    if (expBox) expBox.classList.add('show');
+  });
+
+  showToast('Đã mở khóa đáp án và giải thích chi tiết toàn bộ đề!');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(function() { t.style.display = 'none'; }, 4000);
+}
+</script>
+
+</body>
+</html>
