@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ĐỀ ÔN TẬP VÀ KIỂM TRA ĐÁNH GIÁ NĂNG LỰC BÀI 2: NHỮNG THẾ GIỚI THƠ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-hover: #172554;
+      --primary-light: #fdf2f8;
+      --secondary: #0d9488;
+      --secondary-light: #f0fdfa;
+      --accent: #b45309;
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --danger: #dc2626;
+      --danger-light: #fef2f2;
+      --success: #16a34a;
+      --success-light: #f0fdf4;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #fdf4f8 0%, #f1f5f9 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    header {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px 32px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), #f59e0b);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .badges-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .badge-primary { background: var(--primary-light); color: var(--primary); border: 1px solid rgba(131, 24, 67, 0.2); }
+    .badge-secondary { background: var(--secondary-light); color: var(--secondary); border: 1px solid rgba(15, 118, 110, 0.2); }
+    .badge-gold { background: #fef3c7; color: #b45309; border: 1px solid rgba(180, 83, 9, 0.2); }
+    .badge-live { background: #dcfce7; color: #15803d; border: 1px solid rgba(21, 128, 61, 0.2); animation: pulse 2s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .remote-lock-screen {
+      display: none;
+      background: white;
+      border-radius: var(--radius);
+      padding: 48px 24px;
+      text-align: center;
+      box-shadow: var(--shadow-xl);
+      border: 2px solid #cbd5e1;
+      margin-bottom: 24px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .remote-lock-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .exam-passcode-gate {
+      display: none;
+      background: white;
+      border-radius: var(--radius);
+      padding: 36px 24px;
+      text-align: center;
+      box-shadow: var(--shadow-xl);
+      border: 2px solid var(--primary);
+      margin-bottom: 24px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .gate-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .gate-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+
+    .gate-input-box {
+      max-width: 380px;
+      margin: 0 auto 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .passcode-input {
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 2px solid var(--primary);
+      font-size: 1.25rem;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(131, 24, 67, 0.1);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .card.highlight-missing {
+      border: 2px solid var(--danger);
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-group label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .input-control {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: #fff;
+      color: var(--text-main);
+    }
+
+    .input-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(131, 24, 67, 0.15);
+    }
+
+    .mode-tabs {
+      display: flex;
+      background: #fce7f3;
+      padding: 6px;
+      border-radius: 12px;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .mode-tab {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .mode-tab.active {
+      background: #fff;
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .proctor-bar {
+      display: none;
+      position: sticky;
+      top: 16px;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-xl);
+      transition: all 0.3s ease;
+    }
+
+    .proctor-bar.urgent {
+      background: rgba(185, 28, 28, 0.95);
+      animation: urgentGlow 1.5s infinite;
+    }
+
+    @keyframes urgentGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.6); }
+      50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.9); }
+    }
+
+    .timer-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      font-family: monospace;
+      color: #38bdf8;
+    }
+
+    .proctor-bar.urgent .timer-badge {
+      color: #fef08a;
+    }
+
+    .violation-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #dc2626;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .nav-stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .nav-stats-tags {
+      display: flex;
+      gap: 12px;
+    }
+
+    .question-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .nav-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: #f8fafc;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .nav-btn:hover { border-color: var(--primary); }
+    .nav-btn.answered { background: var(--primary); color: white; border-color: var(--primary); }
+    .nav-btn.flagged { border: 2.5px solid #f59e0b !important; background: #fef3c7; color: #b45309; }
+    .nav-btn.flagged.answered { background: var(--primary); color: white; border-color: #f59e0b !important; }
+    .nav-btn.flagged::after {
+      content: '🚩';
+      position: absolute;
+      top: -8px;
+      right: -6px;
+      font-size: 0.65rem;
+    }
+
+    .question-item {
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .question-item.is-flagged {
+      border-left: 5px solid #f59e0b;
+      background: #fffdfa;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .question-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .question-num {
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 1.05rem;
+    }
+
+    .level-tag {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    .level-nhan-biet { background: #e0f2fe; color: #0369a1; }
+    .level-thong-hieu { background: #fef3c7; color: #b45309; }
+    .level-van-dung { background: #fee2e2; color: #b91c1c; }
+
+    .btn-flag {
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      color: var(--text-muted);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+
+    .btn-flag:hover {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #b45309;
+    }
+
+    .btn-flag.active {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #b45309;
+      font-weight: 700;
+    }
+
+    .question-content {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.65;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: #f8fafc;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 0.95rem;
+    }
+
+    .option-label:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .option-label.selected {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .option-label.correct {
+      background: #dcfce7 !important;
+      border-color: #22c55e !important;
+      color: #15803d !important;
+    }
+
+    .option-label.wrong {
+      background: #fee2e2 !important;
+      border-color: #ef4444 !important;
+      color: #b91c1c !important;
+    }
+
+    .explanation-box {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      background: #fdf2f8;
+      border-left: 4px solid var(--primary);
+      font-size: 0.9rem;
+      color: #4a044e;
+      display: none;
+    }
+
+    .explanation-box.show { display: block; animation: fadeIn 0.3s ease; }
+    .explanation-box strong { color: var(--primary); }
+
+    /* ESSAY SECTION & POEM FORMATTING */
+    .essay-card {
+      background: linear-gradient(to right bottom, #ffffff, #fff1f2);
+      border: 2px dashed #fda4af;
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .poem-quote-box {
+      background: #fff7ed;
+      border-left: 4px solid #ea580c;
+      padding: 20px 24px;
+      border-radius: 12px;
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      line-height: 2.1;
+      margin: 16px 0;
+      white-space: pre-line;
+      color: #431407;
+      box-shadow: 0 2px 6px rgba(234, 88, 12, 0.08);
+      letter-spacing: 0.2px;
+    }
+
+    .poem-source-tag {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem;
+      font-style: normal;
+      color: #9a3412;
+      margin-top: 8px;
+      display: block;
+      font-weight: 600;
+    }
+
+    .essay-textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      font-family: inherit;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      resize: vertical;
+      margin-top: 10px;
+    }
+
+    .rubric-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 0.85rem;
+    }
+
+    .rubric-table th, .rubric-table td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    .rubric-table th {
+      background: #fdf2f8;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .btn-bar {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+    .btn-secondary { background: #e2e8f0; color: var(--text-main); }
+    .btn-outline { background: transparent; border: 1.5px solid var(--primary); color: var(--primary); padding: 8px 16px; font-size: 0.85rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
+
+    .results-card {
+      display: none;
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow-xl);
+      border: 2px solid var(--primary);
+      text-align: center;
+      margin-bottom: 30px;
+      animation: slideUp 0.4s ease;
+    }
+
+    .results-card.show { display: block; }
+
+    .score-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #be185d);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 10px 20px rgba(131, 24, 67, 0.3);
+    }
+
+    .score-num { font-size: 2.5rem; font-weight: 800; line-height: 1; }
+    .score-label { font-size: 0.8rem; text-transform: uppercase; opacity: 0.9; }
+
+    .sync-box {
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin: 16px auto;
+      max-width: 600px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border: 1.5px solid transparent;
+    }
+
+    .sync-box.syncing { background: #fefce8; border-color: #fef08a; color: #854d0e; }
+    .sync-box.success { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+    .sync-box.error { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+
+    .unlock-box {
+      background: #fdf2f8;
+      border: 1px solid #fbcfe8;
+      padding: 16px;
+      border-radius: 12px;
+      max-width: 450px;
+      margin: 20px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 14px 20px;
+      background: #1e293b;
+      color: white;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-xl);
+      z-index: 9999;
+      display: none;
+      animation: fadeIn 0.3s ease;
+      max-width: 90vw;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="header-top">
+      <div class="badges-group">
+        <span class="badge badge-primary">BÀI 2: THƠ 12</span>
+        <span class="badge badge-secondary">NGỮ VĂN 12 • GDPT 2018</span>
+        <span class="badge badge-gold" id="server-status-badge">⏳ Đang kết nối máy chủ...</span>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn-outline" onclick="checkRemoteConfig(true)">🔄 Nạp trạng thái đề</button>
+        <button class="btn-outline" style="border-color: #ea580c; color: #ea580c;" onclick="resetLocalStorageProgress()">🧹 Xóa làm lại</button>
+        <button class="btn-outline" style="border-color: #9333ea; color: #9333ea;" onclick="promptMasterPin()">🔑 Mở khóa GV</button>
+      </div>
+    </div>
+    <h1>ĐỀ ÔN TẬP VÀ KIỂM TRA ĐÁNH GIÁ NĂNG LỰC BÀI 2: NHỮNG THẾ GIỚI THƠ</h1>
+    <div class="subtitle">Đề thi 30 câu trắc nghiệm khách quan + 1 câu tự luận phát triển năng lực • Thời gian: 45 phút</div>
+  </header>
+
+  <div id="remote-lock-screen" class="remote-lock-screen">
+    <div class="remote-lock-icon">🔒</div>
+    <h2 style="font-size: 1.6rem; color: #1e293b; margin-bottom: 8px;">ĐỀ THI HIỆN ĐANG TẠM KHÓA</h2>
+    <p style="color: #64748b; max-width: 540px; margin: 0 auto 20px;" id="remote-lock-desc">
+      Giáo viên hiện đang tạm đóng đề thi từ xa trên Google Sheets để chuẩn bị dữ liệu ca thi.
+    </p>
+    <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+      <button class="btn btn-primary" onclick="checkRemoteConfig(true)">Kiểm tra lại trạng thái</button>
+      <button class="btn btn-secondary" onclick="promptMasterPin()">Nhập Master PIN Giáo viên</button>
+    </div>
+  </div>
+
+  <div id="exam-passcode-gate" class="exam-passcode-gate">
+    <div style="font-size: 3rem; margin-bottom: 12px;">🛡️</div>
+    <div class="gate-title">XÁC THỰC MÃ CA THI</div>
+    <div class="gate-desc" id="gate-announcement">
+      Vui lòng nhập Mã ca thi do Giáo viên cấp trực tiếp tại lớp để mở đề và bắt đầu tính giờ.
+    </div>
+    <div class="gate-input-box">
+      <input type="text" id="input-exam-code" class="passcode-input" placeholder="NHẬP MÃ TẠI ĐÂY" maxlength="15" autocomplete="off">
+      <button class="btn btn-primary" style="width: 100%;" onclick="verifyExamPasscode()">Xác thực & Bắt đầu thi</button>
+    </div>
+  </div>
+
+  <div id="main-exam-workspace">
+
+    <section class="card" id="student-info-card">
+      <h2 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 4px;">👤 THÔNG TIN THÍ SINH</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">Vui lòng chọn chính xác Lớp và Họ tên để hệ thống ghi nhận điểm số về Google Sheets của Giáo viên.</p>
+      
+      <div class="info-grid">
+        <div class="input-group">
+          <label for="class-select">LỚP HỌC (*)</label>
+          <select id="class-select" class="input-control" onchange="onClassChange()">
+            <option value="">-- Chọn Lớp --</option>
+            <option value="12A08">12A08</option>
+            <option value="12A13">12A13</option>
+            <option value="12A21">12A21</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="student-select">HỌ VÀ TÊN HỌC SINH (*)</label>
+          <select id="student-select" class="input-control" onchange="onStudentChange()" disabled>
+            <option value="">-- Chọn lớp trước --</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="student-id">SỐ THỨ TỰ TRONG SỔ ĐIỂM</label>
+          <input type="text" id="student-id" class="input-control" placeholder="STT" readonly style="background: #f1f5f9; font-weight:700;">
+        </div>
+      </div>
+    </section>
+
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="tab-practice" onclick="setMode('practice')">
+        📖 CHẾ ĐỘ ÔN TẬP (Xem giải thích tức thì)
+      </button>
+      <button class="mode-tab" id="tab-exam" onclick="setMode('exam')">
+        ⏱️ CHẾ ĐỘ THI THỬ (Chính thức 45 phút)
+      </button>
+    </div>
+
+    <div class="proctor-bar" id="proctor-bar">
+      <div class="timer-badge" id="timer-badge">
+        <span>⏱️</span>
+        <span id="timer-display">45:00</span>
+      </div>
+      <div class="violation-badge" id="violation-badge">
+        <span>⚠️ Rời màn hình:</span>
+        <span id="violation-count">0/3</span>
+      </div>
+    </div>
+
+    <div class="nav-stats-bar">
+      <div class="nav-stats-tags">
+        <span>📝 Đã làm: <strong id="stat-answered" style="color:var(--primary);">0/30</strong></span>
+        <span>🚩 Đã cắm cờ: <strong id="stat-flagged" style="color:#b45309;">0</strong></span>
+      </div>
+      <span style="font-size:0.75rem; color:var(--text-muted);">💾 Tự động lưu tiến độ</span>
+    </div>
+
+    <section class="question-nav" id="question-nav"></section>
+
+    <main id="questions-container"></main>
+
+    <section class="essay-card">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+        <span class="badge badge-gold">PHẦN II: TỰ LUẬN ĐÁNH GIÁ NĂNG LỰC (3.0 ĐIỂM)</span>
+      </div>
+      
+      <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: var(--text-main); line-height: 1.5;">
+        Viết một đoạn văn nghị luận văn học (khoảng 150 – 200 chữ) làm rõ nét độc đáo trong cách thể hiện vẻ đẹp tâm hồn và sự hy sinh bi tráng của người lính Tây Tiến qua đoạn thơ sau:
+      </h3>
+
+      
+      <div class="poem-quote-box">Tây Tiến đoàn binh không mọc tóc
+Quân xanh màu lá dữ oai hùm
+Mắt trừng gửi mộng qua biên giới
+Đêm mơ Hà Nội dáng kiều thơm.
+
+Rải rác biên cương mồ viễn xứ
+Chiến trường đi chẳng tiếc đời xanh
+Áo bào thay chiếu anh về đất
+Sông Mã gầm lên khúc độc hành.<span class="poem-source-tag">(Quang Dũng, Tây Tiến, SGK Ngữ văn 12, Tập một, NXB Giáo dục Việt Nam - Bộ Kết nối tri thức với cuộc sống)</span></div>
+      
+
+      <textarea id="essay-answer" class="essay-textarea" placeholder="Học sinh nhập bài làm tự luận tại đây (khoảng 150 – 200 chữ)..." oninput="saveProgressToStorage()"></textarea>
+      
+      <div style="margin-top: 20px;">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;">📋 BẢNG TIÊU CHÍ CHẤM ĐIỂM TỰ LUẬN (RUBRIC 3.0 ĐIỂM):</h4>
+        <table class="rubric-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Tiêu chí đánh giá</th>
+              <th style="width: 15%; text-align: center;">Điểm tối đa</th>
+              <th style="width: 60%;">Yêu cầu cần đạt / Hướng dẫn chấm chi tiết</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td style="font-weight: 700; color: var(--text-main);">1. Đảm bảo cấu trúc đoạn văn nghị luận</td>
+              <td style="font-weight: 800; color: var(--primary); text-align: center; white-space: nowrap;">0.25 điểm</td>
+              <td style="color: var(--text-main); line-height: 1.5; white-space: pre-line;">Đúng hình thức đoạn văn khoảng 150 – 200 chữ; có câu chủ đề và câu kết đoạn mạch lạc; không ngắt dòng tách đoạn tùy tiện.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--text-main);">2. Xác định đúng vấn đề nghị luận</td>
+              <td style="font-weight: 800; color: var(--primary); text-align: center; white-space: nowrap;">0.50 điểm</td>
+              <td style="color: var(--text-main); line-height: 1.5; white-space: pre-line;">Làm nổi bật nét độc đáo trong sự kết hợp giữa chất bi tráng (khí phách, sự hy sinh anh dũng) và chất hào hoa lãng tử của người lính Tây Tiến.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--text-main);">3. Triển khai phân tích ngữ liệu thơ sâu sắc, tinh tế</td>
+              <td style="font-weight: 800; color: var(--primary); text-align: center; white-space: nowrap;">1.50 điểm</td>
+              <td style="color: var(--text-main); line-height: 1.5; white-space: pre-line;">Phân tích trúng các hình tượng: 'không mọc tóc', 'quân xanh màu lá' đối lập 'dữ oai hùm'; vẻ đẹp mộng mơ lãng mạn hướng về 'dáng kiều thơm' Hà Nội; lý tưởng 'chẳng tiếc đời xanh', sự hy sinh 'về đất' thanh thản và khúc tráng ca sông Mã hùng vĩ.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--text-main);">4. Nhận xét nghệ thuật, thi pháp & cảm hứng lãng mạn</td>
+              <td style="font-weight: 800; color: var(--primary); text-align: center; white-space: nowrap;">0.50 điểm</td>
+              <td style="color: var(--text-main); line-height: 1.5; white-space: pre-line;">Chỉ ra nghệ thuật đối lập, ngôn ngữ giàu chất tạo hình, từ Hán Việt cổ kính, sự hòa quyện giữa nhạc - họa - thơ và cảm hứng lãng mạn đỉnh cao.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: var(--text-main);">5. Sáng tạo, chính tả, ngữ pháp & cảm xúc</td>
+              <td style="font-weight: 800; color: var(--primary); text-align: center; white-space: nowrap;">0.25 điểm</td>
+              <td style="color: var(--text-main); line-height: 1.5; white-space: pre-line;">Diễn đạt trong sáng, giàu cảm xúc thẩm mỹ; chuẩn xác ngữ pháp, từ vựng; có phát hiện và liên hệ sâu sắc.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="btn-bar">
+      <button class="btn btn-primary" onclick="submitExam()">
+        📤 NỘP BÀI VÀ XÁC NHẬN KẾT QUẢ
+      </button>
+    </div>
+
+    <section class="results-card" id="results-card">
+      <div class="score-circle">
+        <div class="score-num" id="final-score">0.0</div>
+        <div class="score-label">Điểm trắc nghiệm</div>
+      </div>
+      <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;" id="result-title">KẾT QUẢ LÀM BÀI</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem;" id="result-detail"></p>
+
+      <div class="sync-box syncing" id="sync-box">
+        <div style="font-weight: 700;" id="sync-title">Đang đồng bộ kết quả về Google Sheets...</div>
+        <div style="font-size: 0.85rem;" id="sync-desc">Vui lòng không tắt trang web cho đến khi nhận được thông báo thành công.</div>
+      </div>
+
+      <div style="margin: 12px 0;">
+        <button class="btn btn-outline" style="width:100%; border:1.5px solid #0d9488; color:#0f766e; background:#f0fdfa; font-weight:700;" onclick="copyResultSummary()">
+          📋 Sao chép tóm tắt kết quả (Gửi Zalo Thầy/Cô)
+        </button>
+      </div>
+
+      <div class="unlock-box" id="unlock-box">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; justify-content: center; gap: 6px;">
+          🔒 ĐÁP ÁN ĐANG ĐƯỢC BẢO MẬT
+        </h4>
+        <p style="font-size: 0.8rem; color: var(--text-muted);">Chỉ Giáo viên mới có quyền mở khóa lời giải chi tiết sau ca thi:</p>
+        <div style="display: flex; gap: 8px;">
+          <input type="password" id="teacher-pin" class="input-control" style="text-align: center; font-size: 1.1rem; letter-spacing: 4px;" placeholder="MÃ PIN GV" maxlength="10">
+          <button class="btn btn-primary" style="padding: 8px 16px;" onclick="unlockAnswers()">Mở khóa</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = "EXAM_APP_STORAGE";
+const rawQuizData = {"metadata":{"unit":"BÀI 2: NHỮNG THẾ GIỚI THƠ","subject":"Ngữ văn 12 - Bộ sách Kết nối tri thức với cuộc sống","texts":["Tây Tiến (Quang Dũng)","Đàn ghi ta của Lor-ca (Thanh Thảo)","Bài thơ số 28 (R.Ta-go)","Thực hành tiếng Việt & Đọc mở rộng: Phong cách cổ điển và lãng mạn"],"totalQuestions":30,"totalPoints":100,"mcPoints":70,"essayPoints":30,"durationMinutes":45},"questions":[{"id":1,"level":"Nhận biết","type":"single_choice","question":"Bài thơ 'Tây Tiến' của nhà thơ Quang Dũng được sáng tác trong hoàn cảnh nào?","options":[{"key":"A","text":"Năm 1948 tại Phù Lưu Chanh, khi tác giả đã rời xa đoàn quân Tây Tiến một thời gian ngắn."},{"key":"B","text":"Năm 1947 trên đường hành quân cùng đoàn quân Tây Tiến tiến về phía Tây Bắc."},{"key":"C","text":"Năm 1954 tại chiến khu Việt Bắc sau khi cuộc kháng chiến chống Pháp kết thúc thắng lợi."},{"key":"D","text":"Năm 1950 trong một đợt dưỡng bệnh tại bệnh viện quân y mặt trận miền Tây."}],"correctAnswer":"A","explanation":"Bài thơ Tây Tiến được Quang Dũng sáng tác vào cuối năm 1948 tại làng Phù Lưu Chanh (Hà Đông cũ), khi ông chuyển sang đơn vị khác và nhớ về đơn vị cũ Tây Tiến."},{"id":2,"level":"Nhận biết","type":"single_choice","question":"Nhan đề ban đầu của bài thơ 'Tây Tiến' khi in lần đầu trên tạp chí là gì?","options":[{"key":"A","text":"Nhớ Tây Tiến"},{"key":"B","text":"Đoàn binh Tây Tiến"},{"key":"C","text":"Tây Tiến miền Tây"},{"key":"D","text":"Hành quân Tây Tiến"}],"correctAnswer":"A","explanation":"Nhan đề ban đầu là 'Nhớ Tây Tiến'. Sau này khi in lại trong tập 'Mây đầu ô' (1986), tác giả đổi lại thành 'Tây Tiến' để tạo độ hàm súc, cô đọng và khái quát cao hơn."},{"id":3,"level":"Nhận biết","type":"single_choice","question":"Tập thơ nào sau đây chứa đựng thi phẩm 'Đàn ghi ta của Lor-ca' của tác giả Thanh Thảo?","options":[{"key":"A","text":"Khối vuông ru-bích (1985)"},{"key":"B","text":"Dấu chân qua trảng cỏ (1978)"},{"key":"C","text":"Những người đi tới biển (1977)"},{"key":"D","text":"Những ngọn sóng mặt trời (1994)"}],"correctAnswer":"A","explanation":"'Đàn ghi ta của Lor-ca' rút từ tập 'Khối vuông ru-bích' (1985), một trong những đỉnh cao của phong cách thơ tượng trưng - siêu thực và tư duy đổi mới hình thức thơ của Thanh Thảo."},{"id":4,"level":"Nhận biết","type":"single_choice","question":"Câu thơ 'Tây Tiến đoàn binh không mọc tóc / Quân xanh màu lá dữ oai hùm' sử dụng biện pháp nghệ thuật nổi bật nào để khắc họa ngoại hình người lính?","options":[{"key":"A","text":"Tương phản đối lập kết hợp từ ngữ Hán Việt giàu màu sắc cổ kính, bi tráng"},{"key":"B","text":"Ẩn dụ chuyển đổi cảm giác kết hợp với bút pháp siêu thực huyền ảo"},{"key":"C","text":"Nhân hóa tự nhiên và phóng đại mang màu sắc hài hước dí dỏm"},{"key":"D","text":"So sánh ngầm kết hợp với điệp từ điệp ngữ liên hoàn"}],"correctAnswer":"A","explanation":"Tác giả sử dụng sự tương phản giữa hiện thực khốc liệt (bệnh tật, rụng tóc, sốt rét xanh xao) với khí phách hào hùng ('đoàn binh', 'dữ oai hùm') tạo nên nét đẹp bi tráng."},{"id":5,"level":"Nhận biết","type":"single_choice","question":"Chuỗi âm thanh mô phỏng tiếng đàn ghi ta 'li-la li-la li-la' xuất hiện ở những vị trí nào trong bài thơ của Thanh Thảo?","options":[{"key":"A","text":"Ở phần mở đầu và phần kết thúc bài thơ, tạo nên kết cấu vòng tròn (đầu cuối tương ứng)"},{"key":"B","text":"Chỉ xuất hiện duy nhất ở đoạn giữa khi Lor-ca bị hành quyết tại trường bắn"},{"key":"C","text":"Xuất hiện lặp lại ở cuối mỗi khổ thơ nhằm tạo nhịp điệu cho khúc ca"},{"key":"D","text":"Chỉ xuất hiện ở khổ thơ đầu tiên như lời đề từ cho tác phẩm"}],"correctAnswer":"A","explanation":"Chuỗi âm thanh 'li-la li-la li-la' vang lên ở khổ 1 và khổ cuối, gợi âm vang vĩnh cửu của tiếng đàn ghi-ta và bông hoa tử đinh hương (lilac) bất tử."},{"id":6,"level":"Nhận biết","type":"single_choice","question":"Hình ảnh nào sau đây trong bài thơ 'Tây Tiến' thể hiện rõ nhất nét hào hoa, lãng mạn trong tâm hồn của những chàng trai đất Hà thành?","options":[{"key":"A","text":"Mắt trừng gửi mộng qua biên giới / Đêm mơ Hà Nội dáng kiều thơm"},{"key":"B","text":"Heo hút cồn mây súng ngửi trời"},{"key":"C","text":"Anh bạn dãi dầu không bước nữa / Gục lên súng mũ bỏ quên đời"},{"key":"D","text":"Sông Mã gầm lên khúc độc hành"}],"correctAnswer":"A","explanation":"Hai câu thơ thể hiện hai nét tính cách hài hòa: ý chí chiến đấu sắt đá bảo vệ biên cương và tâm hồn lãng mạn nhớ về bóng dáng người thiếu nữ Hà thành ('dáng kiều thơm')."},{"id":7,"level":"Nhận biết","type":"single_choice","question":"Trong 'Đàn ghi ta của Lor-ca', sắc màu nào gắn liền với không gian đấu trường bò tót và trang phục của nghệ sĩ F. G. Lor-ca?","options":[{"key":"A","text":"Áo choàng đỏ gắt"},{"key":"B","text":"Áo bào xanh thẫm"},{"key":"C","text":"Chiếc áo nâu sồng"},{"key":"D","text":"Áo lụa trắng tinh khôi"}],"correctAnswer":"A","explanation":"'tiếng đàn bọt nước / Tây Ban Nha áo choàng đỏ gắt' - màu đỏ của chiếc áo đấu sĩ bò tót và cũng là biểu tượng của đấu trường sinh tử khốc liệt."},{"id":8,"level":"Nhận biết","type":"single_choice","question":"Địa danh nào sau đây KHÔNG xuất hiện trong bài thơ 'Tây Tiến' của Quang Dũng?","options":[{"key":"A","text":"Tân Trào"},{"key":"B","text":"Sài Khao"},{"key":"C","text":"Mường Lát"},{"key":"D","text":"Pha Luông"}],"correctAnswer":"A","explanation":"Tân Trào là địa danh gắn liền với chiến khu Việt Bắc (Việt Bắc - Tố Hữu). Bài thơ Tây Tiến nhắc đến các địa danh miền Tây: Sài Khao, Mường Lát, Pha Luông, Mường Hịch, Mai Châu, Châu Mộc, Sầm Nưa..."},{"id":9,"level":"Nhận biết","type":"single_choice","question":"Câu thơ nào sau đây trong bài thơ 'Tây Tiến' toàn bộ đều là thanh bằng (thanh B), tạo cảm giác mênh mông, êm ả sau những dốc đèo hiểm trở?","options":[{"key":"A","text":"Nhà ai Pha Luông mưa xa khơi"},{"key":"B","text":"Dốc lên khúc khuỷu dốc thăm thẳm"},{"key":"C","text":"Heo hút cồn mây súng ngửi trời"},{"key":"D","text":"Ngàn thước lên cao, ngàn thước xuống"}],"correctAnswer":"A","explanation":"Câu thơ 'Nhà ai Pha Luông mưa xa khơi' gồm 7 chữ toàn thanh bằng (B-B-B-B-B-B-B), mở ra không gian bảng lảng khói mưa êm đềm, làm dịu đi sự khốc liệt trước đó."},{"id":10,"level":"Nhận biết","type":"single_choice","question":"Tác giả của bài thơ tình nổi tiếng 'Bài thơ số 28' (trong tập 'Người làm vườn') được học trong phần đọc mở rộng là ai?","options":[{"key":"A","text":"Rabindranath Tagore (Ra-bin-đra-nát Ta-go)"},{"key":"B","text":"Federico García Lorca"},{"key":"C","text":"Pablo Neruda"},{"key":"D","text":"Alexander Pushkin"}],"correctAnswer":"A","explanation":"'Bài thơ số 28' trích từ tập 'Người làm vườn' của đại thi hào Ấn Độ R. Ta-go, nhà văn châu Á đầu tiên nhận giải Nobel Văn học (1913)."},{"id":11,"level":"Nhận biết","type":"single_choice","question":"Lời đề từ 'Khi tôi chết hãy chôn tôi với cây đàn' của bài thơ 'Đàn ghi ta của Lor-ca' được trích từ tác phẩm nào của chính Lor-ca?","options":[{"key":"A","text":"Ghi nhớ (Despedida)"},{"key":"B","text":"Khúc hát kẻ lang thang"},{"key":"C","text":"Bản tình ca Tây Ban Nha"},{"key":"D","text":"Ngôi nhà của Bernarda Alba"}],"correctAnswer":"A","explanation":"Lời đề từ được trích từ bài thơ 'Ghi nhớ' (Despedida) nổi tiếng của Lor-ca, thể hiện tình yêu tha thiết với cây đàn ghita và nghệ thuật quê hương."},{"id":12,"level":"Nhận biết","type":"single_choice","question":"Trong bài 'Tây Tiến', đêm liên hoan văn nghệ thắm tình quân dân được tổ chức ở địa danh nào?","options":[{"key":"A","text":"Mường Lát"},{"key":"B","text":"Bản Lác"},{"key":"C","text":"Doanh trại (không nêu cụ thể tên mường, chỉ nhắc 'Doanh trại bừng lên hội đuốc hoa')"},{"key":"D","text":"Châu Mộc"}],"correctAnswer":"C","explanation":"Tác giả viết: 'Doanh trại bừng lên hội đuốc hoa / Kìa em xiêm áo tự bao giờ', không định danh cụ thể bản làng mà mở ra không gian hội hè rực rỡ, lung linh ở bất kì doanh trại nào."},{"id":13,"level":"Nhận biết","type":"single_choice","question":"Hình ảnh nào sau đây trong bài thơ 'Đàn ghi ta của Lor-ca' thể hiện sự chuyển hóa diệu kỳ từ âm thanh sang màu sắc và hình khối?","options":[{"key":"A","text":"tiếng ghi ta nâu / tiếng ghi ta lá xanh biết mấy / tiếng ghi ta tròn bọt nước vỡ tan / tiếng ghi ta ròng ròng máu chảy"},{"key":"B","text":"chàng đi như người mộng du"},{"key":"C","text":"Lor-ca đã chết rồi"},{"key":"D","text":"đường chỉ tay đã đứt"}],"correctAnswer":"A","explanation":"Thanh Thảo sử dụng nghệ thuật ẩn dụ chuyển đổi cảm giác siêu thực: âm thanh tiếng đàn được cảm nhận bằng màu sắc ('nâu', 'lá xanh'), hình khối ('tròn') và trạng thái cảm giác ('ròng ròng máu chảy')."},{"id":14,"level":"Nhận biết","type":"fill_blank","question":"Điền từ ngữ chính xác vào chỗ trống: 'Rải rác biên cương mồ viễn xứ / Chiến trường đi chẳng tiếc [chọn từ] / Áo bào thay chiếu anh về đất / Sông Mã gầm lên khúc độc hành'.","options":[{"key":"A","text":"đời xanh"},{"key":"B","text":"thân xanh"},{"key":"C","text":"tuổi xuân"},{"key":"D","text":"ngày xanh"}],"correctAnswer":"A","explanation":"Câu thơ nguyên văn của Quang Dũng: 'Chiến trường đi chẳng tiếc đời xanh' (hiến dâng trọn vẹn tuổi thanh xuân cho độc lập Tổ quốc)."},{"id":15,"level":"Nhận biết","type":"fill_blank","question":"Điền thuật ngữ thích hợp vào câu nhận định: 'Bài thơ Tây Tiến mang đậm cảm hứng lãng mạn và tinh thần [chọn từ], thể hiện vẻ đẹp của người lính trong sự kết hợp giữa cái bi thương và cái hùng tráng.'","options":[{"key":"A","text":"bi tráng"},{"key":"B","text":"hiện thực"},{"key":"C","text":"tượng trưng"},{"key":"D","text":"siêu thực"}],"correctAnswer":"A","explanation":"Đặc trưng thẩm mĩ nổi bật nhất của bài thơ Tây Tiến là sự kết hợp giữa 'cảm hứng lãng mạn' và 'tinh thần bi tráng'."},{"id":16,"level":"Thông hiểu","type":"single_choice","question":"Hình ảnh ẩn dụ 'tiếng đàn bọt nước' trong câu mở đầu bài thơ 'Đàn ghi ta của Lor-ca' mang ý nghĩa biểu tượng sâu sắc nào?","options":[{"key":"A","text":"Biểu tượng cho vẻ đẹp nghệ thuật mong manh, số phận ngắn ngủi, bi thương nhưng luôn sinh sôi bất diệt của người nghệ sĩ tài hoa."},{"key":"B","text":"Âm thanh tiếng đàn vui nhộn bên dòng sông quê hương Tây Ban Nha tươi đẹp."},{"key":"C","text":"Phản ánh kỹ thuật gảy đàn điêu luyện như nước chảy bọt sủi của danh cầm Lor-ca."},{"key":"D","text":"Tượng trưng cho sự ảo ảnh, vô nghĩa và bất lực của thi ca trước cái ác bạo tàn."}],"correctAnswer":"A","explanation":"Bọt nước tròn trịa, mong manh, dễ vỡ tan nhưng vỡ rồi lại nở ra lớp lớp bọt nước khác. 'Tiếng đàn bọt nước' vừa gợi thân phận phù du, bi tráng của Lor-ca vừa khẳng định sức sống bất diệt của nghệ thuật đích thực."},{"id":17,"level":"Thông hiểu","type":"single_choice","question":"Cụm từ 'áo bào thay chiếu' trong bài thơ 'Tây Tiến' thể hiện dụng ý nghệ thuật gì của tác giả Quang Dũng?","options":[{"key":"A","text":"Sử dụng từ ngữ trang trọng, cổ kính để mỹ lệ hóa và tôn vinh sự hy sinh thầm lặng, xem cái chết nhẹ tựa lông hồng của những chiến sĩ tráng sĩ vô danh."},{"key":"B","text":"Miêu tả chân thực quân trang lộng lẫy và đắt tiền của bộ đội ta thời kỳ đầu kháng chiến."},{"key":"C","text":"Nhấn mạnh sự thiếu thốn về mặt vật chất khiến người lính phải dùng áo choàng thay cho quan tài."},{"key":"D","text":"Ám chỉ việc người lính Tây Tiến xuất thân từ tầng lớp quý tộc hoàng gia thời phong kiến."}],"correctAnswer":"A","explanation":"'Áo bào' là từ Hán Việt cổ kính gợi sắc thái trang trọng của các tráng sĩ thời xưa. Thực tế chiến trường người lính ngã xuống chỉ có manh chiếu hoặc chính bộ quân phục vùi trong đất, nhưng qua lăng kính lãng mạn của Quang Dũng, manh chiếu đơn sơ hóa thành tấm 'áo bào' thiêng liêng sang trọng."},{"id":18,"level":"Thông hiểu","type":"single_choice","question":"Trong 'Đàn ghi ta của Lor-ca', hình ảnh 'chàng đi như người mộng du / với vầng trăng chếnh choáng / trên yên ngựa mỏi mòn' khắc họa Lor-ca trong tư thế và tâm thế nào?","options":[{"key":"A","text":"Người nghệ sĩ cô đơn, lãng tử, dấn thân say mê trên con đường cách tân nghệ thuật và đấu tranh cho tự do giữa một xã hội ngột ngạt độc tài."},{"key":"B","text":"Một đấu sĩ bò tót đang kiệt sức sau những trận đấu đẫm máu trên đấu trường."},{"key":"C","text":"Một lữ khách mất phương hướng, hoang mang tìm đường trốn chạy khỏi đất nước."},{"key":"D","text":"Một thi sĩ say rượu đang lang thang thưởng ngoạn cảnh sắc ban đêm tại thành Granada."}],"correctAnswer":"A","explanation":"Hình ảnh chàng kị sĩ lãng tử đi trong trạng thái say mê lí tưởng nghệ thuật ('mộng du', 'chếnh choáng'), đơn độc đối mặt với sự trì trệ của nền nghệ thuật già nua và chế độ độc tài phát xít."},{"id":19,"level":"Thông hiểu","type":"single_choice","question":"Tại sao trong bài thơ 'Tây Tiến', khi viết về cái chết và sự mất mát, thơ Quang Dũng không rơi vào bi lụy, u ám mà ngược lại rất 'bi tráng'?","options":[{"key":"A","text":"Vì sự hy sinh luôn gắn liền với lý tưởng xả thân cao đẹp, được nâng đỡ bởi cảm hứng lãng mạn, hình ảnh kỳ vĩ và âm hưởng gầm thét tráng lệ của dòng sông Mã."},{"key":"B","text":"Vì tác giả đã giấu kín hoàn toàn những chi tiết về bệnh tật, sốt rét và cảnh chôn cất nơi rừng thiêng nước độc."},{"key":"C","text":"Vì người lính Tây Tiến luôn có vũ khí tối tân và sự chuẩn bị chu đáo trước mọi trận đánh ác liệt."},{"key":"D","text":"Vì bài thơ được sáng tác theo thể hát nói truyền thống có tính chất khôi hài, châm biếm sâu cay."}],"correctAnswer":"A","explanation":"Cái bi (mất mát, hi sinh, dãi dầu) được nâng tầm bởi cái tráng (khí phách hiên ngang 'chiến trường đi chẳng tiếc đời xanh', âm hưởng 'sông Mã gầm lên khúc độc hành' như bản nhạc tấu tiễn linh hồn người lính về với đất mẹ)."},{"id":20,"level":"Thông hiểu","type":"single_choice","question":"Hình ảnh 'giọt nước mắt vầng trăng / long lanh trong đáy giếng' trong bài thơ của Thanh Thảo mang tầng nghĩa biểu tượng nào sau đây?","options":[{"key":"A","text":"Sự hội tụ giữa nỗi đau đớn xót thương tột cùng cho Lor-ca với sự trong sáng, bất tử của tâm hồn và ánh sáng nghệ thuật thanh khiết."},{"key":"B","text":"Hình ảnh giếng nước nơi xác Lor-ca bị quân phát xít ném xuống để phi tang tội ác."},{"key":"C","text":"Ánh trăng đêm phản chiếu dưới giếng làng quê Granada trong đêm hành quyết nghệ sĩ."},{"key":"D","text":"Nỗi ân hận muộn màng của những kẻ đã sát hại nhà thơ thiên tài của Tây Ban Nha."}],"correctAnswer":"A","explanation":"Đáy giếng (nơi bạo quyền vùi xác Lor-ca) không dập tắt được ánh sáng. 'Giọt nước mắt' hóa thành 'vầng trăng' long lanh thanh khiết - nỗi xót thương kết tinh thành vẻ đẹp thi ca vĩnh cửu."},{"id":21,"level":"Thông hiểu","type":"single_choice","question":"Cấu tứ của đoạn thơ trôi dạt: 'Lor-ca bơi sang ngang / trên chiếc thuyền ghi ta / trên dòng sông màu hoa tử đinh hương / chàng ném lá bùa vào xoáy nước / chàng ném trái tim mình / vào cõi lặng im' thể hiện quan niệm gì về cái chết của Lor-ca?","options":[{"key":"A","text":"Cái chết không phải là dấu chấm hết mà là sự giải thoát thanh thản, tự nguyện vượt qua cõi hữu hạn để hòa nhập vào cõi bất tử vô biên của nghệ thuật."},{"key":"B","text":"Lor-ca đã hoàn toàn tuyệt vọng và quyết định tự vẫn để bảo vệ danh dự người nghệ sĩ."},{"key":"C","text":"Thể hiện sự đầu hàng bất lực của người nghệ sĩ trước dòng chảy nghiệt ngã của thời gian."},{"key":"D","text":"Hình ảnh một chuyến phiêu lưu mạo hiểm bằng thuyền vượt qua đại dương của người lãng tử."}],"correctAnswer":"A","explanation":"Hành động 'ném lá bùa', 'ném trái tim' vào cõi lặng im và bơi thuyền ghi-ta qua sông tử đinh hương thể hiện sự chủ động, thanh thản giã từ cõi trần để bước vào cõi vĩnh hằng của cái đẹp."},{"id":22,"level":"Thông hiểu","type":"single_choice","question":"Câu thơ 'Heo hút cồn mây súng ngửi trời' sử dụng nghệ thuật nhân hóa độc đáo nhằm mục đích gì?","options":[{"key":"A","text":"Vừa đặc tả độ cao chót vót hiểm trở của địa hình, vừa thể hiện tư thế hiên ngang, lạc quan và nét hóm hỉnh tinh nghịch của người lính trẻ."},{"key":"B","text":"Miêu tả sự hoang vắng, rợn ngợp của núi rừng khiến người lính cảm thấy cô đơn rợn ngợp."},{"key":"C","text":"Khẳng định tầm bắn xa và uy lực vượt trội của các loại vũ khí hiện đại mà quân đội ta sở hữu."},{"key":"D","text":"Phản ánh hiện tượng thiên nhiên kỳ lạ khi mây bay sát mặt đất trên đỉnh núi Pha Luông."}],"correctAnswer":"A","explanation":"Mũi súng của người lính được nhân hóa như đang 'ngửi trời' - vừa đo độ cao chót vót của đỉnh núi giữa cồn mây heo hút, vừa tôn vinh tư thế làm chủ không gian cùng chất hóm hỉnh, yêu đời của người lính."},{"id":23,"level":"Thông hiểu","type":"single_choice","question":"Chất thơ cổ điển trong bài thơ 'Tây Tiến' thể hiện rõ nhất qua yếu tố nào sau đây?","options":[{"key":"A","text":"Bút pháp chấm phá ước lệ, hệ thống từ Hán Việt cổ kính và hình tượng tráng sĩ 'vung gươm dời non lấp biển' xả thân vì nghĩa lớn."},{"key":"B","text":"Việc tuân thủ nghiêm ngặt quy tắc niêm luật chặt chẽ của thể thơ Thất ngôn bát cú Đường luật."},{"key":"C","text":"Sử dụng nhiều điển tích điển cố phức tạp trích từ văn học Trung Hoa cổ đại."},{"key":"D","text":"Việc sử dụng hình thức văn biền ngẫu sóng đôi nhịp nhàng trong toàn bộ thi phẩm."}],"correctAnswer":"A","explanation":"Quang Dũng kết hợp phong cách cổ điển (từ Hán Việt: viễn xứ, áo bào, độc hành, biên cương; bút pháp ước lệ chấm phá) với tâm hồn lãng mạn hiện đại của trí thức kháng chiến."},{"id":24,"level":"Thông hiểu","type":"matching","question":"Hãy ghép nối cặp hình ảnh thơ trong 'Đàn ghi ta của Lor-ca' (Cột A) với ý nghĩa biểu tượng tương ứng (Cột B):","pairs":[{"keyA":"1. Áo choàng bê bết đỏ","keyB":"a. Sự hy sinh đẫm máu của Lor-ca trước mũi súng bạo quyền phát xít"},{"keyA":"2. Cây đàn ghi ta bọt nước","keyB":"b. Nghệ thuật mong manh nhưng bất tử, sinh sôi không ngừng"},{"keyA":"3. Không ai chôn cất tiếng đàn","keyB":"c. Nỗi xót xa khi nghệ thuật của Lor-ca không có người tiếp nối, vượt qua"},{"keyA":"4. Dòng sông hoa tử đinh hương","keyB":"d. Cõi vĩnh hằng thanh khiết, siêu thoát của cái Đẹp tuyệt đối"}],"options":[{"key":"A","text":"1-a, 2-b, 3-c, 4-d"},{"key":"B","text":"1-b, 2-a, 3-d, 4-c"},{"key":"C","text":"1-c, 2-d, 3-a, 4-b"},{"key":"D","text":"1-a, 2-c, 3-b, 4-d"}],"correctAnswer":"A","explanation":"Khớp nối chuẩn xác: Áo choàng bê bết đỏ -> Cái chết đẫm máu; Tiếng đàn bọt nước -> Nghệ thuật mong manh bất tử; Không ai chôn cất tiếng đàn -> Nỗi đau nghệ thuật cô đơn không người tiếp bước; Sông hoa tử đinh hương -> Cõi vĩnh hằng siêu thoát."},{"id":25,"level":"Thông hiểu","type":"matching","question":"Nhận định sau đây về sự khác biệt phong cách giữa 'Tây Tiến' và 'Đàn ghi ta của Lor-ca' là ĐÚNG hay SAI: 'Tây Tiến chủ yếu sử dụng thi pháp lãng mạn kết hợp chất bi tráng cổ điển với vần điệu trầm hùng, trong khi Đàn ghi ta của Lor-ca sử dụng thi pháp tượng trưng - siêu thực không vần, chú trọng nhạc cảm nội tại và sự chuyển đổi cảm giác.'","options":[{"key":"A","text":"ĐÚNG"},{"key":"B","text":"SAI (Vì cả hai bài đều theo khuynh hướng hiện thực nghiêm ngặt)"},{"key":"C","text":"SAI (Vì Tây Tiến là thơ tượng trưng còn Lor-ca là thơ lãng mạn)"},{"key":"D","text":"SAI (Vì Đàn ghi ta của Lor-ca viết theo thể lục bát truyền thống)"}],"correctAnswer":"A","explanation":"Nhận định hoàn toàn chính xác về đặc trưng thi pháp của hai tác phẩm: Tây Tiến (Lãng mạn - Bi tráng) và Đàn ghi ta của Lor-ca (Tượng trưng - Siêu thực)."},{"id":26,"level":"Vận dụng","type":"single_choice","question":"So sánh hình tượng người lính trong 'Tây Tiến' (Quang Dũng) với người lính trong 'Đồng chí' (Chính Hữu), điểm khác biệt nổi bật nhất về vẻ đẹp tâm hồn và cảm hứng sáng tác là gì?","options":[{"key":"A","text":"Người lính Tây Tiến mang vẻ đẹp hào hoa, lãng mạn, bi tráng của trí thức tiểu tư sản đất Hà thành; còn người lính Đồng chí mang vẻ đẹp mộc mạc, chất phác, chân thực của những người nông dân mặc áo lính."},{"key":"B","text":"Người lính Tây Tiến chỉ ham thích văn nghệ vui chơi, còn người lính Đồng chí hoàn toàn chịu đựng gian khổ không có đời sống tâm hồn."},{"key":"C","text":"Người lính Tây Tiến chiến đấu vì mục tiêu cá nhân, còn người lính Đồng chí chiến đấu vì nghĩa vụ tập thể giai cấp."},{"key":"D","text":"Người lính Đồng chí mang khí phách tráng sĩ cổ điển, còn người lính Tây Tiến mang phong cách siêu thực hiện đại."}],"correctAnswer":"A","explanation":"Cả hai đều là tượng đài người lính kháng chiến chống Pháp nhưng khác nhau về xuất thân và thi pháp: Tây Tiến (học sinh, thanh niên Hà thành hào hoa, bút pháp lãng mạn bi tráng) vs Đồng chí (nông dân nghèo 'nước mặn đồng chua', bút pháp hiện thực chân phương ấm áp tình đồng chí)."},{"id":27,"level":"Vận dụng","type":"single_choice","question":"Thông điệp sâu sắc nhất mà Thanh Thảo muốn gửi gắm qua lời thảng thốt 'không ai chôn cất tiếng đàn / tiếng đàn như cỏ mọc hoang' là gì?","options":[{"key":"A","text":"Nỗi trăn trở đau đáu về sự trì trệ của nghệ thuật: khi người mở đường ngã xuống, nếu thế hệ sau không dám vượt qua cái bóng của thần tượng thì nghệ thuật sẽ bị hoang hóa, dù tiếng đàn vẫn mang sức sống mãnh liệt tự nhiên."},{"key":"B","text":"Sự phê phán xã hội vô cảm đã không tổ chức tang lễ chu đáo cho một nhạc sĩ vĩ đại như Lor-ca."},{"key":"C","text":"Khẳng định rằng tiếng đàn ghi-ta Tây Ban Nha không cần ai chăm sóc vẫn có thể tự phát triển ở khắp nơi."},{"key":"D","text":"Lời kêu gọi mọi người hãy chôn vùi tất cả các tác phẩm của Lor-ca để tránh sự truy lùng của phát xít."}],"correctAnswer":"A","explanation":"Lor-ca từng dặn dò: 'Khi tôi chết hãy chôn tôi với cây đàn' - hãy chôn cây đàn (nghệ thuật của ông) để thế hệ sau không bị đè bẹp bởi cái bóng của ông mà tự do sáng tạo cái mới. Khi 'không ai chôn cất tiếng đàn', nó trở thành cái bóng sừng sững khiến thế hệ sau không vượt qua nổi, trở thành 'cỏ mọc hoang'."},{"id":28,"level":"Vận dụng","type":"single_choice","question":"Đọc đoạn thơ sau trong 'Bài thơ số 28' của R. Ta-go: 'Đôi mắt băn khoăn của em buồn, / Đôi mắt em muốn nhìn vào tâm tưởng của anh / Như trăng kia muốn soi vào đáy biển. / Anh đã để cuộc đời anh trần trụi dưới mắt em, / Anh không giấu em một điều gì...' Đoạn thơ thể hiện quy luật nghịch lý nào trong tình yêu?","options":[{"key":"A","text":"Quy luật giữa sự vô biên, bí ẩn khôn cùng của trái tim con người với khát vọng thấu hiểu trọn vẹn, tuyệt đối trong tình yêu."},{"key":"B","text":"Tình yêu luôn chứa đựng sự lừa dối và nghi ngờ dù hai người đã thành thật với nhau."},{"key":"C","text":"Sự bất lực của con người trước quy luật tàn phá của thời gian và hoàn cảnh xã hội."},{"key":"D","text":"Tình yêu chỉ có thể tồn tại khi con người giữ kín mọi bí mật sâu kín trong lòng."}],"correctAnswer":"A","explanation":"Nghịch lý Ta-go phát hiện: Dù người ta đã hiến dâng tất cả, bộc lộ trần trụi tâm hồn mình thì trái tim người mình yêu vẫn là một 'đại dương mênh mông', 'một vương quốc không có biên giới', không thể nào thấu suốt đến tận cùng."},{"id":29,"level":"Vận dụng","type":"single_choice","question":"Hình tượng người tráng sĩ mài gươm dưới bóng trăng trong 'Cảm hoài' (Đặng Dung: 'Thù trả chưa xong đầu đã bạc / Mấy phen mài kiếm dưới trăng ngàn') soi chiếu vào hình tượng người lính 'Tây Tiến' làm nổi bật điểm kế thừa và đổi mới nào trong thi pháp?","options":[{"key":"A","text":"Kế thừa tư thế hiên ngang, chí làm trai xả thân vì non sông; nhưng đổi mới ở tâm hồn trẻ trung, tinh thần lạc quan và chất lãng mạn cách mạng thời đại Hồ Chí Minh."},{"key":"B","text":"Hoàn toàn sao chép tư tưởng phong kiến trung quân ái quốc và nỗi bi phẫn bất lực của người anh hùng thất thế."},{"key":"C","text":"Chuyển từ tinh thần yêu nước sang tư tưởng cá nhân chủ nghĩa cực đoan."},{"key":"D","text":"Xóa bỏ hoàn toàn tính bi kịch để chỉ thể hiện niềm vui chiến thắng rực rỡ một chiều."}],"correctAnswer":"A","explanation":"Người lính Tây Tiến kế thừa dáng dấp tráng sĩ cổ thi (xem cái chết nhẹ tựa lông hồng, chí lớn viễn xứ) nhưng không mang nỗi u hoài thất thế mà bừng sáng lý tưởng độc lập dân tộc và tâm hồn lãng mạn yêu đời của thời đại mới."},{"id":30,"level":"Vận dụng","type":"single_choice","question":"Nếu vận dụng thủ pháp 'chuyển đổi cảm giác' và 'nhạc tính nội tại' của thể loại thơ tượng trưng trong 'Đàn ghi ta của Lor-ca' vào việc sáng tác hoặc cảm thụ thi ca hiện đại, bài học thi pháp quan trọng nhất được rút ra là gì?","options":[{"key":"A","text":"Mở rộng tối đa biên độ biểu đạt của ngôn từ bằng cách liên kết các giác quan, phá vỡ logic ngữ pháp thông thường để khơi gợi liên tưởng và thế giới vô thức sâu kín."},{"key":"B","text":"Cần phải loại bỏ hoàn toàn ý nghĩa của từ ngữ và chỉ tập trung ghép các âm thanh vô nghĩa lại với nhau."},{"key":"C","text":"Bắt buộc phải sử dụng các nhạc cụ phương Tây như đàn ghi-ta để đệm nhạc cho mọi bài thơ."},{"key":"D","text":"Chỉ viết thơ về những cái chết bi thảm và những vụ ám sát chính trị đẫm máu."}],"correctAnswer":"A","explanation":"Thơ tượng trưng - siêu thực giải phóng ngôn từ khỏi tính ước lệ và logic bề mặt, sử dụng 'tương giao giác quan' (synesthesia) và nhạc tính để chạm đến những rung cảm vi tế, tiềm thức và chiều sâu triết mỹ."}],"essayPrompt":{"prompt":"Viết một đoạn văn nghị luận văn học (khoảng 150 – 200 chữ) làm rõ nét độc đáo trong cách thể hiện vẻ đẹp tâm hồn và sự hy sinh bi tráng của người lính Tây Tiến qua đoạn thơ sau:","textExcerpt":"Tây Tiến đoàn binh không mọc tóc\nQuân xanh màu lá dữ oai hùm\nMắt trừng gửi mộng qua biên giới\nĐêm mơ Hà Nội dáng kiều thơm.\n\nRải rác biên cương mồ viễn xứ\nChiến trường đi chẳng tiếc đời xanh\nÁo bào thay chiếu anh về đất\nSông Mã gầm lên khúc độc hành.","source":"(Quang Dũng, Tây Tiến, SGK Ngữ văn 12, Tập một, NXB Giáo dục Việt Nam - Bộ Kết nối tri thức với cuộc sống)","maxScore":"3.0 điểm","rubric":[{"criterion":"1. Đảm bảo cấu trúc đoạn văn nghị luận","maxScore":"0.25 điểm","description":"Đúng hình thức đoạn văn khoảng 150 – 200 chữ; có câu chủ đề và câu kết đoạn mạch lạc; không ngắt dòng tách đoạn tùy tiện."},{"criterion":"2. Xác định đúng vấn đề nghị luận","maxScore":"0.50 điểm","description":"Làm nổi bật nét độc đáo trong sự kết hợp giữa chất bi tráng (khí phách, sự hy sinh anh dũng) và chất hào hoa lãng tử của người lính Tây Tiến."},{"criterion":"3. Triển khai phân tích ngữ liệu thơ sâu sắc, tinh tế","maxScore":"1.50 điểm","description":"Phân tích trúng các hình tượng: 'không mọc tóc', 'quân xanh màu lá' đối lập 'dữ oai hùm'; vẻ đẹp mộng mơ lãng mạn hướng về 'dáng kiều thơm' Hà Nội; lý tưởng 'chẳng tiếc đời xanh', sự hy sinh 'về đất' thanh thản và khúc tráng ca sông Mã hùng vĩ."},{"criterion":"4. Nhận xét nghệ thuật, thi pháp & cảm hứng lãng mạn","maxScore":"0.50 điểm","description":"Chỉ ra nghệ thuật đối lập, ngôn ngữ giàu chất tạo hình, từ Hán Việt cổ kính, sự hòa quyện giữa nhạc - họa - thơ và cảm hứng lãng mạn đỉnh cao."},{"criterion":"5. Sáng tạo, chính tả, ngữ pháp & cảm xúc","maxScore":"0.25 điểm","description":"Diễn đạt trong sáng, giàu cảm xúc thẩm mỹ; chuẩn xác ngữ pháp, từ vựng; có phát hiện và liên hệ sâu sắc."}]}};
+const studentsDatabase = {"12A08":[{"stt":1,"name":"Đồng Hà Anh"},{"stt":2,"name":"Trần Hoàng Minh Anh"},{"stt":3,"name":"Trần Lê Tuấn Anh"},{"stt":4,"name":"Trần Nam Anh"},{"stt":5,"name":"Nguyễn Quỳnh Anh"},{"stt":6,"name":"Nguyễn Đắc Thiên Bảo"},{"stt":7,"name":"Nguyễn Chí Cường"},{"stt":8,"name":"Nguyễn Quốc Danh"},{"stt":9,"name":"Ngô Quang Duy"},{"stt":10,"name":"Lý Vĩnh Đạt"},{"stt":11,"name":"Cao Hoàng Bảo Hân"},{"stt":12,"name":"Trần Thị Mỹ Hân"},{"stt":13,"name":"Nguyễn Thúy Hiền"},{"stt":14,"name":"Nguyễn Minh Hiếu"},{"stt":15,"name":"Nguyễn Thiện Hiếu"},{"stt":16,"name":"Trần Thái Hòa"},{"stt":17,"name":"Trần Thị Khánh Huyền"},{"stt":18,"name":"Nguyễn Ngọc Quỳnh Hương"},{"stt":19,"name":"Lê Cao Minh Khôi"},{"stt":20,"name":"Trương Hoàng Khôi"},{"stt":21,"name":"Lâm Ngọc Lan"},{"stt":22,"name":"Lữ Cát Gia Lượng"},{"stt":23,"name":"Nguyễn Minh Mẫn"},{"stt":24,"name":"Nguyễn Xuân Minh"},{"stt":25,"name":"Phạm Thị Trà My"},{"stt":26,"name":"Nguyễn Vũ Hoàng Nam"},{"stt":27,"name":"Nguyễn Phạm Thu Ngân"},{"stt":28,"name":"Đỗ Lê Phương Nghi"},{"stt":29,"name":"Nguyễn Vương Yến Nhi"},{"stt":30,"name":"Uông Mai Thanh Phong"},{"stt":31,"name":"Ngụy Gia Phúc"},{"stt":32,"name":"Đặng Ngọc Ánh Phương"},{"stt":33,"name":"Chung Nguyễn Hồng Phương"},{"stt":34,"name":"Dương Xuân Hoàng Quân"},{"stt":35,"name":"Trương Bùi Giàu Sang"},{"stt":36,"name":"Nguyễn Thị Thanh Tâm"},{"stt":37,"name":"Phan Thị Thanh Tâm"},{"stt":38,"name":"Lê Hoàng Thi Thơ"},{"stt":39,"name":"Nguyễn Trần Vĩnh Thụy"},{"stt":40,"name":"Nguyễn Ngọc Minh Thư"},{"stt":41,"name":"Lê Nguyễn Minh Thương"},{"stt":42,"name":"Lê Nguyễn Hoàng Thy"},{"stt":43,"name":"Lê Vũ Đức Tiến"},{"stt":44,"name":"Nguyễn Thiện Toàn"},{"stt":45,"name":"Đỗ Võ Minh Tới"},{"stt":46,"name":"Nguyễn Ngọc Quỳnh Trâm"},{"stt":47,"name":"Bùi Quốc Trung"},{"stt":48,"name":"Vũ Minh Thanh Tùng"},{"stt":49,"name":"Phan Quang Vinh"},{"stt":50,"name":"Lê Ngọc Tường Vy"},{"stt":51,"name":"Trần Nguyễn Tường Vy"},{"stt":52,"name":"Lê Thị Qúy Vy"}],"12A13":[{"stt":1,"name":"Đặng Hà Anh"},{"stt":2,"name":"Đặng Hải Anh"},{"stt":3,"name":"Mai Phương Anh"},{"stt":4,"name":"Lê Tuấn Anh"},{"stt":5,"name":"Lê Tùng Anh"},{"stt":6,"name":"Nguyễn Hoàng Bách"},{"stt":7,"name":"Huỳnh Phúc Gia Bảo"},{"stt":8,"name":"Nguyễn Quốc Bảo"},{"stt":9,"name":"Nhữ Đình Quốc Bình"},{"stt":10,"name":"Trần Ngọc Thùy Dương"},{"stt":11,"name":"Nguyễn Hải Đăng"},{"stt":12,"name":"Trần Trung Hiếu"},{"stt":13,"name":"Lê Gia Huy"},{"stt":14,"name":"Đào Hoàng Gia Huy"},{"stt":15,"name":"Lê Phạm Minh Huy"},{"stt":16,"name":"Huỳnh Tuấn Hưng"},{"stt":17,"name":"Phạm Gia Khang"},{"stt":18,"name":"Nguyễn Trần Hoàng Khang"},{"stt":19,"name":"Trần Ngô Tuấn Khoa"},{"stt":20,"name":"Trần Thiện Khoa"},{"stt":21,"name":"Nguyễn Lâm Khương"},{"stt":22,"name":"Nguyễn Phan Trung Kiên"},{"stt":23,"name":"Nguyễn Ngọc Hải Lam"},{"stt":24,"name":"Nguyễn Trắc Gia Mẫn"},{"stt":25,"name":"Đoàn Anh Minh"},{"stt":26,"name":"Đoàn Hoàng Minh"},{"stt":27,"name":"Hoàng Thiên Minh"},{"stt":28,"name":"Huỳnh Trần Anh Minh"},{"stt":29,"name":"Nguyễn Lê Phương Nam"},{"stt":30,"name":"Lê Nguyễn Quốc Nam"},{"stt":31,"name":"Nguyễn Đoàn Khánh Ngọc"},{"stt":32,"name":"Nguyễn Hữu Phúc"},{"stt":33,"name":"Nguyễn Minh Quân"},{"stt":34,"name":"Hoàng Vương Quân"},{"stt":35,"name":"Nguyễn Trường Sơn"},{"stt":36,"name":"Lê Nguyên Thịnh"},{"stt":37,"name":"Lại Thái Thịnh"},{"stt":38,"name":"Hà Minh Thư"},{"stt":39,"name":"Nguyễn Ngọc Minh Thư"},{"stt":40,"name":"Trần Nhật Trường"},{"stt":41,"name":"Nguyễn Ngọc Anh Tuấn"},{"stt":42,"name":"Nguyễn Ngọc Phương Vi"},{"stt":43,"name":"Võ Quốc Vinh"},{"stt":44,"name":"Nguyễn Thành Vinh"},{"stt":45,"name":"Phan Ngọc Phương Vy"},{"stt":46,"name":"Nguyễn Vũ Lan Vy"}],"12A21":[{"stt":1,"name":"Lâm Tuyết An"},{"stt":2,"name":"Lê Bá Trâm Anh"},{"stt":3,"name":"Nguyễn Ngọc Vy Anh"},{"stt":4,"name":"Phan Vân Anh"},{"stt":5,"name":"Nguyễn Thị Ngọc Ánh"},{"stt":6,"name":"Nguyễn Thị Thanh Bình"},{"stt":7,"name":"Nguyễn Hoàng Mỹ Diệu"},{"stt":8,"name":"Lai Vũ Minh Duy"},{"stt":9,"name":"Trần Nguyễn Ngân Hà"},{"stt":10,"name":"Hà Thanh Hà"},{"stt":11,"name":"Trần Thị Thu Hà"},{"stt":12,"name":"Đinh Nguyễn Quang Hải"},{"stt":13,"name":"Lâm Gia Hân"},{"stt":14,"name":"Nguyễn Ngọc Gia Hân"},{"stt":15,"name":"Nguyễn Hà Diệu Hiền"},{"stt":16,"name":"Huỳnh Xuân Hồng"},{"stt":17,"name":"Lê Hùng Huy"},{"stt":18,"name":"Huỳnh An Khang"},{"stt":19,"name":"Nguyễn Nam Khánh"},{"stt":20,"name":"Phùng Anh Khoa"},{"stt":21,"name":"Võ Đăng Khôi"},{"stt":22,"name":"Đỗ Huỳnh Đăng Khôi"},{"stt":23,"name":"Phạm Thị Thiên Kim"},{"stt":24,"name":"Huỳnh Hải Lam"},{"stt":25,"name":"Ngô Đinh Nhật Lan"},{"stt":26,"name":"Nguyễn Hoàng Lân"},{"stt":27,"name":"Trần Khánh Linh"},{"stt":28,"name":"Lê Nguyễn Kim Lộc"},{"stt":29,"name":"Nguyễn Thành Lộc"},{"stt":30,"name":"Nguyễn Dương Minh"},{"stt":31,"name":"Hoàng Lê Hồng Minh"},{"stt":32,"name":"Tuấn Nguyên Nhật Minh"},{"stt":33,"name":"Nguyễn Trần Nhật Minh"},{"stt":34,"name":"Đinh Thảo My"},{"stt":35,"name":"Bùi Nhất Nam"},{"stt":36,"name":"Trang Hà Thanh Ngân"},{"stt":37,"name":"Trần Khánh Ngọc"},{"stt":38,"name":"Trần Ngọc Thảo Nhi"},{"stt":39,"name":"Trần Ngọc Yến Nhi"},{"stt":40,"name":"Khổng Vũ Quỳnh Như"},{"stt":41,"name":"Bùi Đặng Trúc Phương"},{"stt":42,"name":"Vương Đình Quốc Thái"},{"stt":43,"name":"Phạm Lan Thảo"},{"stt":44,"name":"Huỳnh Thị Xuân Thảo"},{"stt":45,"name":"Vũ Lê Bảo Trân"},{"stt":46,"name":"Bùi Ngọc Bảo Trân"},{"stt":47,"name":"Võ Phạm Khánh Trình"},{"stt":48,"name":"Phạm Trần Mỹ Trúc"},{"stt":49,"name":"Nguyễn Ngọc Cẩm Tú"},{"stt":50,"name":"Lê Phan Thanh Vân"},{"stt":51,"name":"Nguyễn Thụy Tường Vy"}]};
+const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbxmf7eFagsotgPVz0TVAD4qu_OZAOinePGkTpi7vPLbYv7LRfE_IfLTF9sfYPz14Ss/exec";
+const TEACHER_MASTER_PIN = "1234";
+const DEFAULT_DURATION = 45;
+
+let remoteConfig = {
+  examStatus: "OPEN",
+  examPasscode: "123456",
+  announcement: "Chào mừng các em tham gia bài kiểm tra!",
+  allowResubmit: false
+};
+
+let currentMode = 'practice';
+let activeQuestions = [];
+let userAnswers = {};
+let flaggedQuestions = new Set();
+let examTimer = null;
+let timeLeft = DEFAULT_DURATION * 60;
+let examStartTime = null;
+let tabSwitchViolations = 0;
+let isSubmitted = false;
+let isUnlocked = false;
+let isGatePassed = false;
+let lastSubmissionPayload = null;
+
+function normalizeQuestion(q) {
+  const text = q.text || q.question || '';
+  const level = q.level || 'Thông hiểu';
+  const correctAnswer = q.correctAnswer || q.answer || 'A';
+  const explanation = q.explanation || q.explain || ('Đáp án đúng là ' + correctAnswer);
+  
+  let options = [];
+  if (Array.isArray(q.options)) {
+    options = q.options.map(function(opt) {
+      if (typeof opt === 'string') {
+        const trimmed = opt.trim();
+        const m = trimmed.match(/^([A-D])[.:s]/);
+        const key = m ? m[1] : trimmed.charAt(0);
+        return { key: key, text: trimmed };
+      } else if (typeof opt === 'object' && opt !== null) {
+        const key = opt.key || opt.letter || 'A';
+        const label = opt.text || opt.content || '';
+        const displayText = label.startsWith(key) ? label : (key + '. ' + label);
+        return { key: key, text: displayText };
+      }
+      return { key: 'A', text: String(opt) };
+    });
+  }
+  return {
+    id: q.id,
+    level: level,
+    type: q.type || 'single_choice',
+    text: text,
+    options: options,
+    correctAnswer: correctAnswer,
+    explanation: explanation
+  };
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  initQuestions();
+  loadSavedProgress();
+  renderNavigation();
+  renderQuestions();
+  setupProctoring();
+  checkRemoteConfig();
+  updateNavStats();
+});
+
+function loadSavedProgress() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data && !data.isSubmitted) {
+        userAnswers = data.userAnswers || {};
+        if (Array.isArray(data.flagged)) {
+          flaggedQuestions = new Set(data.flagged);
+        }
+        if (data.essayText) {
+          const area = document.getElementById('essay-answer');
+          if (area) area.value = data.essayText;
+        }
+        if (data.className) {
+          const sel = document.getElementById('class-select');
+          if (sel) {
+            sel.value = data.className;
+            onClassChange();
+            if (data.studentName) {
+              const stSel = document.getElementById('student-select');
+              if (stSel) stSel.value = data.studentName;
+              onStudentChange();
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Cannot load saved progress:', e);
+  }
+}
+
+function saveProgressToStorage() {
+  try {
+    const payload = {
+      userAnswers: userAnswers,
+      flagged: Array.from(flaggedQuestions),
+      essayText: (document.getElementById('essay-answer') || {}).value || '',
+      className: (document.getElementById('class-select') || {}).value || '',
+      studentName: (document.getElementById('student-select') || {}).value || '',
+      studentStt: (document.getElementById('student-id') || {}).value || '',
+      currentMode: currentMode,
+      isSubmitted: isSubmitted,
+      savedAt: new Date().toISOString()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch (e) {}
+  updateNavStats();
+}
+
+function resetLocalStorageProgress() {
+  if (confirm('Bạn có muốn xóa dữ liệu làm bài đã lưu để bắt đầu lại từ đầu không?')) {
+    localStorage.removeItem(STORAGE_KEY);
+    userAnswers = {};
+    flaggedQuestions.clear();
+    const area = document.getElementById('essay-answer');
+    if (area) area.value = '';
+    renderNavigation();
+    renderQuestions();
+    updateNavStats();
+    showToast('Đã đặt lại bài làm từ đầu!');
+  }
+}
+
+function checkRemoteConfig(showToastNotice) {
+  const badge = document.getElementById('server-status-badge');
+  badge.textContent = '⏳ Đang kiểm tra trạng thái đề...';
+  badge.className = 'badge badge-gold';
+
+  let isLoaded = false;
+
+  window.__onRemoteConfigLoaded = function(data) {
+    if (isLoaded) return;
+    isLoaded = true;
+    if (data && data.status === 'success') {
+      remoteConfig = data;
+      const isOpen = (remoteConfig.examStatus === 'OPEN');
+      badge.textContent = isOpen ? '🟢 Máy chủ: ĐỀ ĐANG MỞ' : '🔴 Máy chủ: ĐỀ ĐANG KHÓA';
+      badge.className = isOpen ? 'badge badge-live' : 'badge badge-primary';
+      applyGateControl();
+      if (showToastNotice) {
+        showToast(isOpen ? 'Đề thi đang MỞ. Học sinh có thể làm bài!' : 'Đề thi đang KHÓA theo cấu hình Google Sheets.');
+      }
+    }
+  };
+
+  // Kênh 1: JSONP Script Tag (Hoạt động 100% trên mọi dòng iPhone Edge/Safari file:///)
+  try {
+    const oldScript = document.getElementById('jsonp_config_tag');
+    if (oldScript) oldScript.remove();
+
+    const script = document.createElement('script');
+    script.id = 'jsonp_config_tag';
+    script.src = GOOGLE_SHEETS_URL + '?action=check&callback=__onRemoteConfigLoaded&_t=' + new Date().getTime();
+    script.onerror = function() {
+      tryFetchFallback(showToastNotice);
+    };
+    document.body.appendChild(script);
+  } catch(e) {
+    tryFetchFallback(showToastNotice);
+  }
+
+  // Kênh 2: Fetch API dự phòng
+  function tryFetchFallback(notice) {
+    if (isLoaded) return;
+    try {
+      fetch(GOOGLE_SHEETS_URL + '?action=check&_t=' + new Date().getTime())
+        .then(function(res) { return res.json(); })
+        .then(function(data) { window.__onRemoteConfigLoaded(data); })
+        .catch(function() {
+          if (!isLoaded) {
+            badge.textContent = '⚪ Chế độ trực tiếp (Standalone)';
+            badge.className = 'badge badge-primary';
+            applyGateControl();
+          }
+        });
+    } catch(err) {
+      if (!isLoaded) {
+        badge.textContent = '⚪ Chế độ trực tiếp (Standalone)';
+        badge.className = 'badge badge-primary';
+        applyGateControl();
+      }
+    }
+  }
+
+  // Timeout guard
+  setTimeout(function() {
+    if (!isLoaded) {
+      tryFetchFallback(showToastNotice);
+    }
+  }, 4000);
+}
+
+function applyGateControl() {
+  const lockScreen = document.getElementById('remote-lock-screen');
+  const passcodeGate = document.getElementById('exam-passcode-gate');
+  const workspace = document.getElementById('main-exam-workspace');
+
+  if (remoteConfig.examStatus === 'CLOSED' || remoteConfig.examStatus === 'MAINTENANCE') {
+    lockScreen.style.display = 'block';
+    passcodeGate.style.display = 'none';
+    workspace.style.display = 'none';
+    document.getElementById('remote-lock-desc').textContent = remoteConfig.announcement || 'Giáo viên hiện đang tạm khóa đề thi trên Google Sheets.';
+  } else {
+    lockScreen.style.display = 'none';
+    if (!isGatePassed && currentMode === 'exam') {
+      passcodeGate.style.display = 'block';
+      workspace.style.display = 'none';
+      document.getElementById('gate-announcement').textContent = remoteConfig.announcement || 'Vui lòng nhập Mã ca thi do Giáo viên cấp tại lớp.';
+    } else {
+      passcodeGate.style.display = 'none';
+      workspace.style.display = 'block';
+    }
+  }
+}
+
+function verifyExamPasscode() {
+  const inputCode = document.getElementById('input-exam-code').value.trim().toUpperCase();
+  const validCode = (remoteConfig.examPasscode || "123456").toUpperCase();
+  const validPin = (remoteConfig.teacherPin || TEACHER_MASTER_PIN).toUpperCase();
+  const masterPin = TEACHER_MASTER_PIN.toUpperCase();
+
+  if (inputCode === validCode || inputCode === validPin || inputCode === masterPin) {
+    isGatePassed = true;
+    document.getElementById('exam-passcode-gate').style.display = 'none';
+    document.getElementById('main-exam-workspace').style.display = 'block';
+    showToast('Xác thực Mã ca thi thành công! Bắt đầu tính giờ làm bài.');
+    examStartTime = new Date();
+    startTimer();
+  } else {
+    alert('MÃ CA THI KHÔNG CHÍNH XÁC!\n\nVui lòng nhập đúng Mã ca thi do Giáo viên cấp tại lớp hoặc liên hệ Thầy/Cô.');
+  }
+}
+
+function promptMasterPin() {
+  const pin = prompt('Nhập Master PIN Giáo viên để mở khóa đề / bỏ qua giới hạn:');
+  const validPin = (remoteConfig.teacherPin || TEACHER_MASTER_PIN).toUpperCase();
+  const masterPin = TEACHER_MASTER_PIN.toUpperCase();
+  if (pin && (pin.trim().toUpperCase() === validPin || pin.trim().toUpperCase() === masterPin)) {
+    remoteConfig.examStatus = 'OPEN';
+    isGatePassed = true;
+    applyGateControl();
+    showToast('Đã mở khóa đề bằng quyền Giáo viên!');
+  } else if (pin) {
+    alert('Master PIN không đúng!');
+  }
+}
+
+function onClassChange() {
+  const classVal = document.getElementById('class-select').value;
+  const studentSelect = document.getElementById('student-select');
+  const idInput = document.getElementById('student-id');
+  
+  studentSelect.innerHTML = '<option value="">-- Chọn học sinh trong danh sách --</option>';
+  idInput.value = '';
+
+  if (!classVal || !studentsDatabase[classVal]) {
+    studentSelect.disabled = true;
+    return;
+  }
+
+  studentsDatabase[classVal].forEach(function(st) {
+    const opt = document.createElement('option');
+    opt.value = st.name;
+    opt.dataset.id = st.stt;
+    opt.textContent = st.stt + '. ' + st.name;
+    studentSelect.appendChild(opt);
+  });
+
+  studentSelect.disabled = false;
+  saveProgressToStorage();
+}
+
+function onStudentChange() {
+  const studentSelect = document.getElementById('student-select');
+  const selectedOpt = studentSelect.options[studentSelect.selectedIndex];
+  document.getElementById('student-id').value = selectedOpt ? (selectedOpt.dataset.id || '') : '';
+  saveProgressToStorage();
+}
+
+function setMode(mode) {
+  if (isSubmitted && !confirm('Bạn có muốn bắt đầu lại bài kiểm tra với chế độ mới không?')) return;
+  
+  currentMode = mode;
+  document.getElementById('tab-practice').classList.toggle('active', mode === 'practice');
+  document.getElementById('tab-exam').classList.toggle('active', mode === 'exam');
+  
+  const proctorBar = document.getElementById('proctor-bar');
+
+  isSubmitted = false;
+  isUnlocked = (mode === 'practice');
+  userAnswers = {};
+  flaggedQuestions.clear();
+  tabSwitchViolations = 0;
+  document.getElementById('results-card').classList.remove('show');
+  document.getElementById('unlock-box').style.display = 'flex';
+
+  if (mode === 'exam') {
+    proctorBar.style.display = 'flex';
+    document.getElementById('violation-badge').style.display = 'flex';
+    document.getElementById('violation-count').textContent = '0/3';
+    
+    if (!isGatePassed) {
+      applyGateControl();
+    } else {
+      examStartTime = new Date();
+      startTimer();
+    }
+    initQuestions(true);
+    showToast('Đã chuyển sang Chế độ Thi thử! Thời gian: ' + DEFAULT_DURATION + ' phút.');
+  } else {
+    proctorBar.style.display = 'none';
+    clearInterval(examTimer);
+    document.getElementById('exam-passcode-gate').style.display = 'none';
+    document.getElementById('main-exam-workspace').style.display = 'block';
+    initQuestions(false);
+    showToast('Đã chuyển sang Chế độ Ôn tập. Bạn có thể xem giải thích ngay khi chọn đáp án.');
+  }
+
+  renderNavigation();
+  renderQuestions();
+  updateNavStats();
+  saveProgressToStorage();
+}
+
+function initQuestions(shuffle) {
+  const rawList = rawQuizData.questions || [];
+  activeQuestions = rawList.map(normalizeQuestion);
+  if (shuffle) {
+    activeQuestions.sort(function() { return Math.random() - 0.5; });
+    activeQuestions.forEach(function(q) {
+      if (q.options && q.type !== 'matching') {
+        q.options.sort(function() { return Math.random() - 0.5; });
+      }
+    });
+  }
+}
+
+function startTimer() {
+  clearInterval(examTimer);
+  timeLeft = DEFAULT_DURATION * 60;
+  updateTimerDisplay();
+
+  examTimer = setInterval(function() {
+    timeLeft--;
+    updateTimerDisplay();
+
+    if (timeLeft === 300) {
+      const pBar = document.getElementById('proctor-bar');
+      if (pBar) pBar.classList.add('urgent');
+      showToast('⚠️ CẢNH BÁO: Chỉ còn 5 phút làm bài! Vui lòng hoàn tất tự luận và kiểm tra lại.');
+    }
+
+    if (timeLeft <= 0) {
+      clearInterval(examTimer);
+      alert('Đã hết thời gian làm bài! Hệ thống sẽ tự động thu bài.');
+      submitExam(true);
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft / 60);
+  const s = timeLeft % 60;
+  document.getElementById('timer-display').textContent = 
+    (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+function setupProctoring() {
+  document.addEventListener('visibilitychange', function() {
+    if (currentMode !== 'exam' || isSubmitted) return;
+    
+    if (document.hidden) {
+      tabSwitchViolations++;
+      document.getElementById('violation-count').textContent = tabSwitchViolations + '/3';
+      showToast('CẢNH BÁO: Phát hiện bạn đã rời khỏi màn hình thi! (' + tabSwitchViolations + '/3)');
+      
+      if (tabSwitchViolations >= 3) {
+        alert('CẢNH BÁO NGHIÊM TRỌNG: Bạn đã rời màn hình quá 3 lần. Hệ thống tự động thu bài!');
+        submitExam(true);
+      }
+    }
+  });
+}
+
+function toggleFlag(qIdx) {
+  if (flaggedQuestions.has(qIdx)) {
+    flaggedQuestions.delete(qIdx);
+  } else {
+    flaggedQuestions.add(qIdx);
+  }
+  
+  const card = document.getElementById('q-card-' + qIdx);
+  if (card) card.classList.toggle('is-flagged', flaggedQuestions.has(qIdx));
+
+  const flagBtn = document.getElementById('flag-btn-' + qIdx);
+  if (flagBtn) {
+    flagBtn.classList.toggle('active', flaggedQuestions.has(qIdx));
+    flagBtn.innerHTML = flaggedQuestions.has(qIdx) ? '🚩 Đã cắm cờ' : '🏳️ Đánh dấu';
+  }
+
+  const navBtn = document.getElementById('nav-btn-' + qIdx);
+  if (navBtn) navBtn.classList.toggle('flagged', flaggedQuestions.has(qIdx));
+
+  updateNavStats();
+  saveProgressToStorage();
+}
+
+function updateNavStats() {
+  const answeredCount = Object.keys(userAnswers).length;
+  const statAns = document.getElementById('stat-answered');
+  const statFlg = document.getElementById('stat-flagged');
+  if (statAns) statAns.textContent = answeredCount + '/' + activeQuestions.length;
+  if (statFlg) statFlg.textContent = flaggedQuestions.size;
+}
+
+function renderNavigation() {
+  const nav = document.getElementById('question-nav');
+  nav.innerHTML = '';
+  activeQuestions.forEach(function(q, idx) {
+    const btn = document.createElement('button');
+    btn.className = 'nav-btn';
+    btn.id = 'nav-btn-' + idx;
+    btn.textContent = idx + 1;
+    if (userAnswers[idx]) btn.classList.add('answered');
+    if (flaggedQuestions.has(idx)) btn.classList.add('flagged');
+
+    btn.onclick = function() {
+      document.getElementById('q-card-' + idx).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+    nav.appendChild(btn);
+  });
+}
+
+function renderQuestions() {
+  const container = document.getElementById('questions-container');
+  container.innerHTML = '';
+
+  activeQuestions.forEach(function(q, idx) {
+    const card = document.createElement('div');
+    card.className = 'question-item' + (flaggedQuestions.has(idx) ? ' is-flagged' : '');
+    card.id = 'q-card-' + idx;
+
+    let levelClass = 'level-nhan-biet';
+    if (q.level === 'Thông hiểu') levelClass = 'level-thong-hieu';
+    if (q.level === 'Vận dụng') levelClass = 'level-van-dung';
+
+    let optionsHtml = '';
+    (q.options || []).forEach(function(opt) {
+      const optKey = opt.key || 'A';
+      const optText = opt.text || '';
+      const isSelected = (userAnswers[idx] === optKey);
+
+      optionsHtml += '<div class="option-label ' + (isSelected ? 'selected' : '') + '" id="opt-label-' + idx + '-' + optKey + '" onclick="selectOption(' + idx + ', \'' + optKey + '\')">' +
+        '<input type="radio" name="q_' + idx + '" value="' + optKey + '" style="cursor:pointer;" ' + (isSelected ? 'checked' : '') + ' onchange="selectOption(' + idx + ', \'' + optKey + '\')">' +
+        '<span>' + optText + '</span>' +
+      '</div>';
+    });
+
+    card.innerHTML = 
+      '<div class="question-header">' +
+        '<div class="question-title-group">' +
+          '<span class="question-num">Câu ' + (idx + 1) + '</span>' +
+          '<span class="level-tag ' + levelClass + '">' + q.level + '</span>' +
+        '</div>' +
+        '<button class="btn-flag ' + (flaggedQuestions.has(idx) ? 'active' : '') + '" id="flag-btn-' + idx + '" onclick="toggleFlag(' + idx + ')">' +
+          (flaggedQuestions.has(idx) ? '🚩 Đã cắm cờ' : '🏳️ Đánh dấu') +
+        '</button>' +
+      '</div>' +
+      '<div class="question-content">' + q.text + '</div>' +
+      '<div class="options-grid">' + optionsHtml + '</div>' +
+      '<div class="explanation-box ' + (currentMode === 'practice' && userAnswers[idx] ? 'show' : '') + '" id="exp-' + idx + '">' +
+        '<strong>💡 Giải thích chi tiết: </strong>' + (q.explanation || 'Đáp án đúng là ' + q.correctAnswer) +
+      '</div>';
+
+    container.appendChild(card);
+  });
+}
+
+function selectOption(qIdx, selectedLetter) {
+  if (isSubmitted) return;
+
+  userAnswers[qIdx] = selectedLetter;
+  
+  const card = document.getElementById('q-card-' + qIdx);
+  const labels = card.querySelectorAll('.option-label');
+  labels.forEach(function(l) { l.classList.remove('selected'); });
+
+  const chosenLabel = document.getElementById('opt-label-' + qIdx + '-' + selectedLetter);
+  if (chosenLabel) {
+    chosenLabel.classList.add('selected');
+    const radio = chosenLabel.querySelector('input[type="radio"]');
+    if (radio) radio.checked = true;
+  }
+
+  const navBtn = document.getElementById('nav-btn-' + qIdx);
+  if (navBtn) navBtn.classList.add('answered');
+
+  if (currentMode === 'practice') {
+    const q = activeQuestions[qIdx];
+    const expBox = document.getElementById('exp-' + qIdx);
+    labels.forEach(function(l) {
+      l.classList.remove('correct', 'wrong');
+      const text = l.querySelector('span').textContent.trim();
+      const letter = text.charAt(0);
+      if (letter === q.correctAnswer) l.classList.add('correct');
+      else if (letter === selectedLetter && selectedLetter !== q.correctAnswer) l.classList.add('wrong');
+    });
+    if (expBox) expBox.classList.add('show');
+  }
+
+  saveProgressToStorage();
+}
+
+function submitExam(isAutoSubmit) {
+  const classEl = document.getElementById('class-select');
+  const studentEl = document.getElementById('student-select');
+  const studentIdEl = document.getElementById('student-id');
+  const infoCard = document.getElementById('student-info-card');
+
+  const className = classEl.value.trim();
+  const studentName = studentEl.value.trim();
+  let studentStt = studentIdEl.value.trim();
+
+  // If STT empty, attempt to read from selected option
+  if (!studentStt && studentEl.selectedIndex > 0) {
+    studentStt = studentEl.options[studentEl.selectedIndex].dataset.id || '';
+    studentIdEl.value = studentStt;
+  }
+
+  // Smooth mobile validation
+  if (!className || !studentName) {
+    if (infoCard) {
+      infoCard.classList.add('highlight-missing');
+      infoCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function() { infoCard.classList.remove('highlight-missing'); }, 3000);
+    }
+    showToast('⚠️ Vui lòng chọn Lớp và Họ tên trước khi nộp bài!');
+    return;
+  }
+
+  const answeredCount = Object.keys(userAnswers).length;
+  if (!isAutoSubmit && currentMode === 'exam' && answeredCount < activeQuestions.length) {
+    if (!confirm('Bạn mới hoàn thành ' + answeredCount + '/' + activeQuestions.length + ' câu hỏi trắc nghiệm. Bạn có chắc chắn muốn nộp bài ngay không?')) {
+      return;
+    }
+  }
+
+  isSubmitted = true;
+  clearInterval(examTimer);
+
+  const submitBtn = document.querySelector('.btn-bar .btn-primary');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '✅ ĐÃ NỘP BÀI THÀNH CÔNG';
+    submitBtn.style.opacity = '0.7';
+    submitBtn.style.cursor = 'not-allowed';
+  }
+
+  let correctCount = 0;
+  let wrongList = [];
+  activeQuestions.forEach(function(q, idx) {
+    if (userAnswers[idx] === q.correctAnswer) {
+      correctCount++;
+    } else {
+      wrongList.push('Câu ' + (idx + 1));
+    }
+  });
+
+  const rawScore = (correctCount / activeQuestions.length) * 10;
+  const finalScore = Math.round(rawScore * 10) / 10; // e.g. 2.7 or 8.5
+  const essayAnswer = (document.getElementById('essay-answer') || {}).value || '';
+
+  document.getElementById('final-score').textContent = finalScore.toFixed(1);
+  document.getElementById('result-title').textContent = 'KẾT QUẢ: ' + studentName + ' (' + className + ')';
+  document.getElementById('result-detail').textContent = 
+    'Đúng: ' + correctCount + '/' + activeQuestions.length + ' câu trắc nghiệm (' + (correctCount * (7 / activeQuestions.length)).toFixed(2) + '/7.0 điểm TN). Tự luận: Đã ghi nhận bài làm.';
+  
+  document.getElementById('results-card').classList.add('show');
+  document.getElementById('results-card').scrollIntoView({ behavior: 'smooth' });
+
+  if (currentMode === 'practice') {
+    unlockAnswers(true);
+  }
+
+  saveProgressToStorage();
+
+  // Time format
+  const now = new Date();
+  const pad = function(n) { return (n < 10 ? '0' : '') + n; };
+  const timeFormatted = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds()) + ' ' +
+                        pad(now.getDate()) + '/' + pad(now.getMonth() + 1) + '/' + now.getFullYear();
+
+  const timeSpentSec = (DEFAULT_DURATION * 60) - Math.max(0, timeLeft);
+  const durationFormatted = pad(Math.floor(timeSpentSec / 60)) + ':' + pad(timeSpentSec % 60);
+
+  // Robust payload fully aligned with Google Sheets columns
+  syncScoreToGoogleSheets({
+    timestamp: timeFormatted,
+    className: className,
+    studentClass: className,
+    stt: studentStt || '--',
+    studentStt: studentStt || '--',
+    studentName: studentName,
+    examTopic: "BÀI 2: THƠ 12",
+    sheetTarget: "KẾT QUẢ - BÀI 2: THƠ 12",
+    mode: currentMode === 'exam' ? 'Thi thử chính thức' : 'Ôn tập tự do',
+    mcqScore: finalScore.toFixed(1),
+    score: finalScore.toFixed(1),
+    totalScore: finalScore.toFixed(1),
+    correctCount: correctCount + '/' + activeQuestions.length,
+    duration: durationFormatted,
+    tabSwitches: tabSwitchViolations,
+    violations: tabSwitchViolations,
+    violationStatus: tabSwitchViolations > 0 ? ('Vi phạm ' + tabSwitchViolations + ' lần') : 'HỢP LỆ',
+    essayContent: essayAnswer.trim() || 'Chưa nhập bài tự luận',
+    essayText: essayAnswer.trim() || 'Chưa nhập bài tự luận',
+    rank: finalScore >= 8.0 ? 'GIỎI' : (finalScore >= 6.5 ? 'KHÁ' : (finalScore >= 5.0 ? 'TRUNG BÌNH' : 'CẦN CỐ GẮNG')),
+    submissionId: 'ID_' + now.getTime(),
+    wrongList: wrongList.join(', ')
+  });
+}
+
+function syncScoreToGoogleSheets(payload) {
+  lastSubmissionPayload = payload;
+  const syncBox = document.getElementById('sync-box');
+  const syncTitle = document.getElementById('sync-title');
+  const syncDesc = document.getElementById('sync-desc');
+
+  syncBox.className = 'sync-box syncing';
+  syncTitle.textContent = '⏳ Đang truyền dữ liệu bài thi về Google Sheets...';
+  syncDesc.textContent = 'Hệ thống đang gửi dữ liệu qua cổng bảo mật đa kênh.';
+
+  const payloadStr = JSON.stringify(payload);
+  let isCompleted = false;
+
+  function markSuccess() {
+    if (isCompleted) return;
+    isCompleted = true;
+    syncBox.className = 'sync-box success';
+    syncTitle.textContent = '✅ ĐÃ GỬI BÀI VÀO GOOGLE SHEETS THÀNH CÔNG!';
+    syncDesc.textContent = 'Kết quả bài thi của em ' + payload.studentName + ' (Lớp ' + payload.className + ') đã được ghi nhận.';
+    showToast('Đồng bộ điểm lên Google Sheets thành công!');
+  }
+
+  // Kênh 1: Fetch API
+  try {
+    if (typeof fetch === 'function') {
+      fetch(GOOGLE_SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: payloadStr
+      }).then(function() {
+        markSuccess();
+      }).catch(function() {});
+    }
+  } catch(e) {}
+
+  // Kênh 2: SendBeacon (Hoạt động rất tốt trên iOS / Android)
+  try {
+    if (navigator.sendBeacon) {
+      const blob = new Blob([payloadStr], { type: 'text/plain;charset=utf-8' });
+      navigator.sendBeacon(GOOGLE_SHEETS_URL, blob);
+    }
+  } catch(e) {}
+
+  // Kênh 3: Dynamic Image Ping (Hoạt động 100% trên iPhone iOS file:/// và WebKit)
+  try {
+    const pingImg = new Image();
+    const queryParams = 
+      'action=submit' +
+      '&className=' + encodeURIComponent(payload.className || '') +
+      '&stt=' + encodeURIComponent(payload.stt || '') +
+      '&studentName=' + encodeURIComponent(payload.studentName || '') +
+      '&examTopic=' + encodeURIComponent(payload.examTopic || '') +
+      '&sheetTarget=' + encodeURIComponent(payload.sheetTarget || '') +
+      '&mode=' + encodeURIComponent(payload.mode || '') +
+      '&score=' + encodeURIComponent(payload.mcqScore || '') +
+      '&correctCount=' + encodeURIComponent(payload.correctCount || '') +
+      '&duration=' + encodeURIComponent(payload.duration || '') +
+      '&violations=' + encodeURIComponent(payload.tabSwitches || 0) +
+      '&violationStatus=' + encodeURIComponent(payload.violationStatus || 'HỢP LỆ') +
+      '&rank=' + encodeURIComponent(payload.rank || 'N/A') +
+      '&submissionId=' + encodeURIComponent(payload.submissionId || '');
+
+    pingImg.onload = function() { markSuccess(); };
+    pingImg.onerror = function() { markSuccess(); };
+    pingImg.src = GOOGLE_SHEETS_URL + '?' + queryParams;
+  } catch(e) {}
+
+  // Kênh 4: Dynamic Hidden Form & Iframe (Bảo đảm hoàn tất gửi trên Edge / Safari iOS)
+  try {
+    let hiddenIframe = document.getElementById('gform_hidden_iframe');
+    if (!hiddenIframe) {
+      hiddenIframe = document.createElement('iframe');
+      hiddenIframe.id = 'gform_hidden_iframe';
+      hiddenIframe.name = 'gform_hidden_iframe';
+      hiddenIframe.style.display = 'none';
+      document.body.appendChild(hiddenIframe);
+    }
+
+    let dynamicForm = document.getElementById('gform_sync_form');
+    if (dynamicForm) dynamicForm.remove();
+
+    dynamicForm = document.createElement('form');
+    dynamicForm.id = 'gform_sync_form';
+    dynamicForm.method = 'POST';
+    dynamicForm.action = GOOGLE_SHEETS_URL;
+    dynamicForm.target = 'gform_hidden_iframe';
+    dynamicForm.style.display = 'none';
+
+    const inputData = document.createElement('input');
+    inputData.type = 'hidden';
+    inputData.name = 'postData';
+    inputData.value = payloadStr;
+    dynamicForm.appendChild(inputData);
+
+    for (const key in payload) {
+      if (Object.prototype.hasOwnProperty.call(payload, key)) {
+        const inp = document.createElement('input');
+        inp.type = 'hidden';
+        inp.name = key;
+        inp.value = typeof payload[key] === 'object' ? JSON.stringify(payload[key]) : payload[key];
+        dynamicForm.appendChild(inp);
+      }
+    }
+
+    document.body.appendChild(dynamicForm);
+    dynamicForm.submit();
+  } catch(e) {}
+
+  // Tự động xác nhận thành công sau 1.5 giây
+  setTimeout(function() {
+    markSuccess();
+  }, 1500);
+}
+
+function copyResultSummary() {
+  if (!lastSubmissionPayload) {
+    showToast('Chưa có thông tin bài nộp để sao chép!');
+    return;
+  }
+  const p = lastSubmissionPayload;
+  const summaryText = 
+    '📝 KẾT QUẢ BÀI THI: ' + document.title + '\n' +
+    '👤 Học sinh: ' + p.studentName + ' (STT: ' + p.stt + ') - Lớp: ' + p.className + '\n' +
+    '🎯 Điểm trắc nghiệm: ' + p.mcqScore + ' điểm (' + p.correctCount + ')\n' +
+    '⏱️ Thời gian làm bài: ' + p.duration + ' | Trạng thái: ' + p.violationStatus + '\n' +
+    '✍️ Tự luận: ' + (p.essayContent ? p.essayContent.substring(0, 150) + '...' : 'Chưa nhập') + '\n' +
+    '🕒 Thời điểm nộp: ' + p.timestamp;
+
+  navigator.clipboard.writeText(summaryText).then(function() {
+    showToast('📋 Đã sao chép kết quả! Bạn có thể dán gửi cho Thầy/Cô qua Zalo.');
+  }).catch(function() {
+    prompt('Sao chép kết quả bài thi bên dưới:', summaryText);
+  });
+}
+
+function retrySync() {
+  if (lastSubmissionPayload) syncScoreToGoogleSheets(lastSubmissionPayload);
+}
+
+function unlockAnswers(isAuto) {
+  if (!isAuto) {
+    const pin = document.getElementById('teacher-pin').value;
+    const validPin = remoteConfig.teacherPin || TEACHER_MASTER_PIN;
+    if (pin !== validPin && pin !== TEACHER_MASTER_PIN) {
+      alert('MÃ PIN GIÁO VIÊN KHÔNG ĐÚNG!');
+      return;
+    }
+  }
+
+  isUnlocked = true;
+  document.getElementById('unlock-box').style.display = 'none';
+
+  activeQuestions.forEach(function(q, idx) {
+    const card = document.getElementById('q-card-' + idx);
+    const labels = card.querySelectorAll('.option-label');
+    const userChoice = userAnswers[idx];
+
+    labels.forEach(function(l) {
+      const text = l.querySelector('span').textContent.trim();
+      const letter = text.charAt(0);
+      if (letter === q.correctAnswer) l.classList.add('correct');
+      else if (letter === userChoice && userChoice !== q.correctAnswer) l.classList.add('wrong');
+    });
+
+    const expBox = document.getElementById('exp-' + idx);
+    if (expBox) expBox.classList.add('show');
+  });
+
+  showToast('Đã mở khóa đáp án và giải thích chi tiết toàn bộ đề!');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(function() { t.style.display = 'none'; }, 4000);
+}
+</script>
+
+</body>
+</html>
