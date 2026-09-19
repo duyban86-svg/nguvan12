@@ -927,6 +927,9 @@ const studentsDatabase = {"12A08":[{"stt":1,"name":"Đồng Hà Anh"},{"stt":2,"
 const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbxmf7eFagsotgPVz0TVAD4qu_OZAOinePGkTpi7vPLbYv7LRfE_IfLTF9sfYPz14Ss/exec";
 const TEACHER_MASTER_PIN = "1234";
 const DEFAULT_DURATION = 45;
+const TOPIC_ID = "TAY_TIEN";
+const EXAM_TOPIC = "CHUYÊN ĐỀ TÂY TIẾN";
+const SHEET_TARGET = "KẾT QUẢ - CHUYÊN ĐỀ TÂY TIẾN";
 
 let remoteConfig = {
   examStatus: "OPEN",
@@ -1086,7 +1089,7 @@ function checkRemoteConfig(showToastNotice) {
 
     const script = document.createElement('script');
     script.id = 'jsonp_config_tag';
-    script.src = GOOGLE_SHEETS_URL + '?action=check&callback=__onRemoteConfigLoaded&_t=' + new Date().getTime();
+    script.src = GOOGLE_SHEETS_URL + '?action=check&topicId=' + encodeURIComponent(TOPIC_ID) + '&examTopic=' + encodeURIComponent(EXAM_TOPIC) + '&callback=__onRemoteConfigLoaded&_t=' + new Date().getTime();
     script.onerror = function() {
       tryFetchFallback(showToastNotice);
     };
@@ -1099,7 +1102,7 @@ function checkRemoteConfig(showToastNotice) {
   function tryFetchFallback(notice) {
     if (isLoaded) return;
     try {
-      fetch(GOOGLE_SHEETS_URL + '?action=check&_t=' + new Date().getTime())
+      fetch(GOOGLE_SHEETS_URL + '?action=check&topicId=' + encodeURIComponent(TOPIC_ID) + '&examTopic=' + encodeURIComponent(EXAM_TOPIC) + '&_t=' + new Date().getTime())
         .then(function(res) { return res.json(); })
         .then(function(data) { window.__onRemoteConfigLoaded(data); })
         .catch(function() {
