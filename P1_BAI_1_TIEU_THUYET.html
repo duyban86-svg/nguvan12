@@ -919,6 +919,15 @@
         </div>
       </div>
 
+      
+      <!-- NÚT HỎI XÁC NHẬN DANH TÍNH TRƯỚC KHI KHÓA -->
+      <div id="student-confirm-box" style="display:none; margin-top:16px; text-align:center;">
+        <button type="button" class="btn btn-primary" id="btn-confirm-identity" onclick="confirmStudentIdentity()" style="width:100%; max-width:440px; font-size:0.95rem; font-weight:800; padding:12px 20px; background:linear-gradient(135deg, #059669, #047857); border:none; border-radius:10px; box-shadow:0 4px 12px rgba(5,150,105,0.25); color:white; cursor:pointer;">
+          🔒 XÁC NHẬN ĐÚNG LÀ TÔI & KHÓA DANH TÍNH LÀM BÀI
+        </button>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-top:6px;">⚠️ Nhấp để xác nhận. Sau khi xác nhận, danh tính sẽ được khóa cố định để đảm bảo kết quả bài thi.</p>
+      </div>
+
       <div id="student-verified-banner" style="display:none; margin-top:14px; padding:12px 16px; background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px; color:#166534; font-size:0.92rem; font-weight:600; justify-content:space-between; align-items:center;">
         <span id="student-verified-text">🟢 ĐÃ XÁC THỰC DANH TÍNH: ...</span>
         <span style="font-size:0.8rem; background:#dcfce7; padding:4px 10px; border-radius:6px; color:#15803d; font-weight:700;">🔒 Đã khóa danh tính</span>
@@ -933,7 +942,7 @@
         Hệ thống tự động khóa phần làm bài cho đến khi xác thực chính xác danh tính thí sinh. Điều này đảm bảo nếu có sự cố hoặc vi phạm rời màn hình quá 3 lần, hệ thống sẽ <strong>tự động thu bài với đầy đủ Lớp, Họ tên, STT</strong> về Google Sheets của Giáo viên.
       </p>
       <div style="display:inline-block; padding:8px 16px; background:#fef3c7; border-radius:8px; font-size:0.85rem; font-weight:700; color:#92400e;">
-        👆 Chọn Lớp học ➔ Chọn Họ và tên ➔ Hệ thống tự động mở bài làm
+        👆 Chọn Lớp học ➔ Chọn Họ và tên ➔ Bấm nút <strong>"Xác nhận danh tính"</strong> để mở bài làm
       </div>
     </div>
 
@@ -1313,81 +1322,22 @@ function promptMasterPin() {
 }
 
 
-function checkStudentIdentity() {
-  const classEl = document.getElementById('class-select');
-  const studentEl = document.getElementById('student-select');
-  const studentIdEl = document.getElementById('student-id');
-  
-  const classVal = classEl ? classEl.value.trim() : '';
-  const studentVal = studentEl ? studentEl.value.trim() : '';
-  let sttVal = studentIdEl ? studentIdEl.value.trim() : '';
-
-  if (!sttVal && studentEl && studentEl.selectedIndex > 0) {
-    sttVal = studentEl.options[studentEl.selectedIndex].dataset.id || '';
-    if (studentIdEl) studentIdEl.value = sttVal;
-  }
-  
-  const gateWarning = document.getElementById('student-gate-warning');
-  const workspaceBody = document.getElementById('exam-workspace-body');
-  const gateBadge = document.getElementById('student-gate-badge');
-  const verifiedBanner = document.getElementById('student-verified-banner');
-  const verifiedText = document.getElementById('student-verified-text');
-  
-  const isVerified = (classVal !== '' && studentVal !== '');
-
-  if (isVerified) {
-    // KHÓA MỤC XÁC THỰC THÔNG TIN (HỌC SINH KHÔNG THỂ THAY ĐỔI)
-    if (classEl) classEl.disabled = true;
-    if (studentEl) studentEl.disabled = true;
-
-    if (gateWarning) gateWarning.style.display = 'none';
-    if (workspaceBody) workspaceBody.style.display = 'block';
-    if (gateBadge) {
-      gateBadge.textContent = '🟢 Đã khóa danh tính thi';
-      gateBadge.style.background = '#dcfce7';
-      gateBadge.style.color = '#166534';
-    }
-    if (verifiedBanner) {
-      verifiedBanner.style.display = 'flex';
-      if (verifiedText) {
-        verifiedText.innerHTML = '🔒 Thí sinh: <strong>' + studentVal + '</strong> — Lớp: <strong>' + classVal + '</strong> (STT: <strong>' + (sttVal || 'N/A') + '</strong>)';
-      }
-    }
-  } else {
-    if (gateWarning) gateWarning.style.display = 'block';
-    if (workspaceBody) workspaceBody.style.display = 'none';
-    if (gateBadge) {
-      gateBadge.textContent = '🔴 Chưa chọn thí sinh';
-      gateBadge.style.background = '#fee2e2';
-      gateBadge.style.color = '#991b1b';
-    }
-    if (verifiedBanner) verifiedBanner.style.display = 'none';
-  }
-
-  return isVerified;
-}
-
-function unlockStudentEdit() {
-  if (currentMode === 'exam' && examTimer) {
-    if (!confirm('Bạn đang trong ca thi tính giờ. Bạn có chắc chắn muốn thay đổi thông tin thí sinh?')) return;
-  }
-  const classSel = document.getElementById('class-select');
-  const studentSel = document.getElementById('student-select');
-  if (classSel) classSel.disabled = false;
-  if (studentSel) studentSel.disabled = false;
-  showToast('Em có thể chọn lại Lớp và Họ tên.');
-}
+let isIdentityLocked = false;
 
 function onClassChange() {
+  if (isIdentityLocked) return;
   const classVal = document.getElementById('class-select').value;
   const studentSelect = document.getElementById('student-select');
   const idInput = document.getElementById('student-id');
+  const confirmBox = document.getElementById('student-confirm-box');
   
   studentSelect.innerHTML = '<option value="">-- Chọn học sinh trong danh sách --</option>';
   idInput.value = '';
+  if (confirmBox) confirmBox.style.display = 'none';
 
   if (!classVal || !studentsDatabase[classVal]) {
     studentSelect.disabled = true;
+    checkStudentIdentity();
     return;
   }
 
@@ -1401,15 +1351,100 @@ function onClassChange() {
 
   studentSelect.disabled = false;
   checkStudentIdentity();
-  saveProgressToStorage();
 }
 
 function onStudentChange() {
+  if (isIdentityLocked) return;
   const studentSelect = document.getElementById('student-select');
   const selectedOpt = studentSelect.options[studentSelect.selectedIndex];
-  document.getElementById('student-id').value = selectedOpt ? (selectedOpt.dataset.id || '') : '';
+  const stt = selectedOpt ? (selectedOpt.dataset.id || '') : '';
+  document.getElementById('student-id').value = stt;
+  
+  const classVal = document.getElementById('class-select').value;
+  const studentVal = studentSelect.value;
+  const confirmBox = document.getElementById('student-confirm-box');
+  
+  if (classVal && studentVal) {
+    if (confirmBox) confirmBox.style.display = 'block';
+  } else {
+    if (confirmBox) confirmBox.style.display = 'none';
+  }
   checkStudentIdentity();
+}
+
+function confirmStudentIdentity() {
+  const classVal = document.getElementById('class-select').value;
+  const studentSelect = document.getElementById('student-select');
+  const studentVal = studentSelect ? studentSelect.value : '';
+  const sttVal = document.getElementById('student-id').value || '';
+
+  if (!classVal || !studentVal) {
+    alert('Vui lòng chọn đầy đủ Lớp và Họ tên trước khi xác nhận!');
+    return;
+  }
+
+  const promptMsg = 
+    'XÁC NHẬN DANH TÍNH THÍ SINH:\n\n' +
+    '• Họ và tên: ' + studentVal + '\n' +
+    '• Lớp: ' + classVal + '\n' +
+    '• Số thứ tự: ' + (sttVal || 'N/A') + '\n\n' +
+    'Em có chắc chắn đây là thông tin của mình?\nSau khi xác nhận, danh tính sẽ được KHÓA CỐ ĐỊNH để nộp điểm về Giáo viên.';
+
+  if (!confirm(promptMsg)) return;
+
+  isIdentityLocked = true;
+  document.getElementById('class-select').disabled = true;
+  document.getElementById('student-select').disabled = true;
+  
+  const confirmBox = document.getElementById('student-confirm-box');
+  if (confirmBox) confirmBox.style.display = 'none';
+
+  checkStudentIdentity();
+  showToast('🟢 Đã xác nhận và khóa danh tính thành công! Em có thể bắt đầu làm bài.');
   saveProgressToStorage();
+}
+
+function checkStudentIdentity() {
+  const classEl = document.getElementById('class-select');
+  const studentEl = document.getElementById('student-select');
+  const studentIdEl = document.getElementById('student-id');
+  
+  const classVal = classEl ? classEl.value.trim() : '';
+  const studentVal = studentEl ? studentEl.value.trim() : '';
+  const sttVal = studentIdEl ? studentIdEl.value.trim() : '';
+  
+  const gateWarning = document.getElementById('student-gate-warning');
+  const workspaceBody = document.getElementById('exam-workspace-body');
+  const gateBadge = document.getElementById('student-gate-badge');
+  const verifiedBanner = document.getElementById('student-verified-banner');
+  const verifiedText = document.getElementById('student-verified-text');
+  
+  if (isIdentityLocked && classVal !== '' && studentVal !== '') {
+    if (gateWarning) gateWarning.style.display = 'none';
+    if (workspaceBody) workspaceBody.style.display = 'block';
+    if (gateBadge) {
+      gateBadge.textContent = '🟢 Đã khóa danh tính thi';
+      gateBadge.style.background = '#dcfce7';
+      gateBadge.style.color = '#166534';
+    }
+    if (verifiedBanner) {
+      verifiedBanner.style.display = 'flex';
+      if (verifiedText) {
+        verifiedText.innerHTML = '🔒 Thí sinh: <strong>' + studentVal + '</strong> — Lớp: <strong>' + classVal + '</strong> (STT: <strong>' + (sttVal || 'N/A') + '</strong>)';
+      }
+    }
+    return true;
+  } else {
+    if (gateWarning) gateWarning.style.display = 'block';
+    if (workspaceBody) workspaceBody.style.display = 'none';
+    if (gateBadge) {
+      gateBadge.textContent = (classVal && studentVal) ? '🟡 Chờ xác nhận danh tính' : '🔴 Chưa chọn thí sinh';
+      gateBadge.style.background = (classVal && studentVal) ? '#fef3c7' : '#fee2e2';
+      gateBadge.style.color = (classVal && studentVal) ? '#92400e' : '#991b1b';
+    }
+    if (verifiedBanner) verifiedBanner.style.display = 'none';
+    return false;
+  }
 }
 
 function setMode(mode) {
