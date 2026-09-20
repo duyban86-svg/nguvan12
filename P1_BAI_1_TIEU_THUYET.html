@@ -827,7 +827,14 @@
     .feedback-close { background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; line-height: 1; padding: 4px; border-radius: 6px; }
     .feedback-body { padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
     .feedback-footer { padding: 14px 20px; background: #f8fafc; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
-    
+    @media (max-width: 640px) {
+      .header-top { flex-direction: column; align-items: stretch; gap: 8px; }
+      .info-grid { grid-template-columns: 1fr; gap: 10px; }
+      .mode-tabs { flex-direction: column; gap: 6px; }
+      .mode-tab { width: 100%; text-align: center; }
+      .proctor-bar { flex-direction: column; align-items: stretch; }
+      .nav-stats-bar { flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
   </style>
 </head>
 <body>
@@ -913,8 +920,8 @@
       </div>
 
       <div id="student-verified-banner" style="display:none; margin-top:14px; padding:12px 16px; background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px; color:#166534; font-size:0.92rem; font-weight:600; justify-content:space-between; align-items:center;">
-        <span id="student-verified-text">🟢 Thí sinh: ...</span>
-        <button type="button" class="btn btn-outline" style="padding:4px 12px; font-size:0.75rem; border-color:#22c55e; color:#15803d; background:#fff;" onclick="unlockStudentEdit()">✏️ Đổi thông tin</button>
+        <span id="student-verified-text">🟢 ĐÃ XÁC THỰC DANH TÍNH: ...</span>
+        <span style="font-size:0.8rem; background:#dcfce7; padding:4px 10px; border-radius:6px; color:#15803d; font-weight:700;">🔒 Đã khóa danh tính</span>
       </div>
     </section>
 
@@ -974,6 +981,7 @@
     </div>
 
     <section class="results-card" id="results-card">
+      <div id="submission-reason-banner"></div>
       <div class="score-circle">
         <div class="score-num" id="final-score">0.0</div>
         <div class="score-label">Điểm số</div>
@@ -1328,17 +1336,21 @@ function checkStudentIdentity() {
   const isVerified = (classVal !== '' && studentVal !== '');
 
   if (isVerified) {
+    // KHÓA MỤC XÁC THỰC THÔNG TIN (HỌC SINH KHÔNG THỂ THAY ĐỔI)
+    if (classEl) classEl.disabled = true;
+    if (studentEl) studentEl.disabled = true;
+
     if (gateWarning) gateWarning.style.display = 'none';
     if (workspaceBody) workspaceBody.style.display = 'block';
     if (gateBadge) {
-      gateBadge.textContent = '🟢 Đã xác thực thí sinh';
+      gateBadge.textContent = '🟢 Đã khóa danh tính thi';
       gateBadge.style.background = '#dcfce7';
       gateBadge.style.color = '#166534';
     }
     if (verifiedBanner) {
       verifiedBanner.style.display = 'flex';
       if (verifiedText) {
-        verifiedText.innerHTML = '✅ Thí sinh: <strong>' + studentVal + '</strong> — Lớp: <strong>' + classVal + '</strong> (STT: <strong>' + (sttVal || 'N/A') + '</strong>)';
+        verifiedText.innerHTML = '🔒 Thí sinh: <strong>' + studentVal + '</strong> — Lớp: <strong>' + classVal + '</strong> (STT: <strong>' + (sttVal || 'N/A') + '</strong>)';
       }
     }
   } else {
@@ -1458,8 +1470,8 @@ function startTimer() {
     updateTimerDisplay();
     if (timeLeft <= 0) {
       clearInterval(examTimer);
-      alert('Đã hết thời gian làm bài! Hệ thống tự động thu bài.');
-      submitExam(true);
+      alert('Đã hết thời gian làm bài (30 phút)! Hệ thống tự động thu bài.');
+      submitExam(true, 'time_up');
     }
   }, 1000);
 }
@@ -1479,8 +1491,8 @@ function setupProctoring() {
       document.getElementById('violation-count').textContent = tabSwitchViolations + '/3';
       showToast('CẢNH BÁO: Rời màn hình thi (' + tabSwitchViolations + '/3)');
       if (tabSwitchViolations >= 3) {
-        alert('CẢNH BÁO: Rời màn hình quá 3 lần. Tự động thu bài!');
-        submitExam(true);
+        alert('CẢNH BÁO: Thí sinh đã rời màn hình quá 3 lần! Hệ thống tự động thu bài.');
+        submitExam(true, 'violation');
       }
     }
   });
@@ -1891,7 +1903,42 @@ function submitExam(isAutoSubmit) {
     }
   });
 
-  const finalScoreTenScale = ((totalScoreRaw / activeQuestions.length) * 10).toFixed(1);
+    const finalScoreTenScale = ((totalScoreRaw / activeQuestions.length) * 10).toFixed(1);
+
+  // ẨN TOÀN BỘ CÂU HỎI VÀ ĐIỀU HƯỚNG THEO YÊU CẦU BẢO MẬT
+  const qContainer = document.getElementById('questions-container');
+  if (qContainer) qContainer.style.display = 'none';
+  const qNav = document.getElementById('question-nav');
+  if (qNav) qNav.style.display = 'none';
+  const navStats = document.querySelector('.nav-stats-bar');
+  if (navStats) navStats.style.display = 'none';
+  const proctorBar = document.getElementById('proctor-bar');
+  if (proctorBar) proctorBar.style.display = 'none';
+  const modeTabs = document.querySelector('.mode-tabs');
+  if (modeTabs) modeTabs.style.display = 'none';
+  const btnBar = document.querySelector('.btn-bar');
+  if (btnBar) btnBar.style.display = 'none';
+
+  // HIỂN THỊ BANNER LÝ DO THU BÀI / NỘP BÀI
+  const reasonBanner = document.getElementById('submission-reason-banner');
+  if (reasonBanner) {
+    if (submitReason === 'violation') {
+      reasonBanner.innerHTML = '<div style="background:#fef2f2; border:2px solid #ef4444; border-radius:12px; padding:14px 18px; color:#991b1b; text-align:center; margin-bottom:18px;">' +
+        '<div style="font-size:1.1rem; font-weight:800; margin-bottom:4px;">🚨 HỆ THỐNG TỰ ĐỘNG THU BÀI DO VI PHẠM QUY CHẾ THI</div>' +
+        '<div style="font-size:0.9rem; line-height:1.5; color:#7f1d1d;">Thí sinh đã chuyển tab / rời màn hình thi quá 3 lần (3/3). Toàn bộ lịch sử vi phạm và kết quả bài làm đã được chuyển thẳng về Google Sheets của Giáo viên.</div>' +
+        '</div>';
+    } else if (submitReason === 'time_up') {
+      reasonBanner.innerHTML = '<div style="background:#fffbeb; border:2px solid #f59e0b; border-radius:12px; padding:14px 18px; color:#92400e; text-align:center; margin-bottom:18px;">' +
+        '<div style="font-size:1.1rem; font-weight:800; margin-bottom:4px;">⏱️ HỆ THỐNG TỰ ĐỘNG THU BÀI DO HẾT GIỜ LÀM BÀI</div>' +
+        '<div style="font-size:0.9rem; line-height:1.5; color:#78350f;">Đã kết thúc 30 phút làm bài chính thức. Hệ thống đã tự động thu bài và đồng bộ kết quả về Google Sheets.</div>' +
+        '</div>';
+    } else {
+      reasonBanner.innerHTML = '<div style="background:#f0fdf4; border:2px solid #22c55e; border-radius:12px; padding:14px 18px; color:#166534; text-align:center; margin-bottom:18px;">' +
+        '<div style="font-size:1.1rem; font-weight:800; margin-bottom:4px;">✅ THÍ SINH ĐÃ HOÀN THÀNH VÀ CHỦ ĐỘNG NỘP BÀI HỢP LỆ</div>' +
+        '<div style="font-size:0.9rem; line-height:1.5; color:#14532d;">Bài làm của em đã được hệ thống ghi nhận thành công.</div>' +
+        '</div>';
+    }
+  }
 
   document.getElementById('final-score').textContent = finalScoreTenScale;
   document.getElementById('result-title').textContent = 'KẾT QUẢ: ' + studentName + ' (' + className + ')';
