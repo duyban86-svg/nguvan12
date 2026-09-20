@@ -398,14 +398,25 @@
     </div>
     <h1>HỆ THỐNG ÔN TẬP & ĐÁNH GIÁ NĂNG LỰC NGỮ VĂN 12</h1>
     <p class="subtitle">
-      Hệ sinh thái học tập 3 Tầng: <strong>Bài học chính khóa SGK</strong> ➔ <strong>Chuyên đề Ôn thi Tốt nghiệp (6 Thể loại & Rèn Viết)</strong> ➔ <strong>Phòng Thi thử Tự luận (Chuẩn 120 phút)</strong>.
+      Hệ sinh thái học tập 3 Tầng: <strong>Bài học chính khóa SGK</strong> ➔ <strong>Chuyên đề Ôn thi Tốt nghiệp (6 Thể loại & Rèn Viết)</strong> ➔ <strong>Phòng Thi thử Tự luận (Ngữ liệu mở rộng)</strong>.
     </p>
 
-    <div class="quick-stats">
-      <div class="stat-pill">📚 <strong>Phần 1:</strong> 9 Bài học SGK (30 phút)</div>
-      <div class="stat-pill">🏛️ <strong>Phần 2:</strong> 6 Thể loại & Rèn Viết</div>
-      <div class="stat-pill">🎯 <strong>Phần 3:</strong> Thi thử 120p (Ngữ liệu mới)</div>
-      <div class="stat-pill">🔒 <strong>Điều khiển:</strong> Đóng/Mở từng bài độc lập</div>
+    
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:16px;">
+      <div class="quick-stats" style="margin-bottom:0;">
+        <div class="stat-pill" id="live-status-pill">🟢 <strong>Trực tuyến:</strong> Đang đồng bộ Google Sheets</div>
+        <div class="stat-pill">📚 <strong>Phần 1:</strong> 9 Bài SGK</div>
+        <div class="stat-pill">🏛️ <strong>Phần 2:</strong> 6 Thể loại</div>
+        <div class="stat-pill">🎯 <strong>Phần 3:</strong> Thi thử Tự luận</div>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn btn-outline" id="btn-refresh-status" style="padding:8px 16px; font-size:0.85rem; font-weight:700; border:1.5px solid #0d9488; color:#0f766e; background:#f0fdfa; display:inline-flex; align-items:center; gap:6px; cursor:pointer;" onclick="checkAllRemoteStatus(true)">
+          🔄 Kiểm tra tình trạng
+        </button>
+        <button class="btn btn-outline" style="padding:8px 16px; font-size:0.85rem; font-weight:700; border:1.5px solid #831843; color:#831843; background:#fdf2f8; display:inline-flex; align-items:center; gap:6px; cursor:pointer;" onclick="openFeedbackModal()">
+          💬 Báo cáo sai sót / Góp ý
+        </button>
+      </div>
     </div>
   </header>
 
@@ -428,68 +439,68 @@
   <div id="tab-p1" class="tab-panel active">
     
     <div class="info-banner">
-      <strong>📘 PHẦN 1: BÀI HỌC CHÍNH KHÓA (TIẾN TRÌNH TRÊN LỚP):</strong> Giúp học sinh hệ thống hóa <strong>Kiến thức cơ bản</strong> từng bài và tự đánh giá qua <strong>Bộ câu hỏi trắc nghiệm (30 phút)</strong> gồm: Trắc nghiệm 4 lựa chọn, Đúng/Sai, Điền khuyết.
+      <strong>📘 PHẦN 1: BÀI HỌC CHÍNH KHÓA (TIẾN TRÌNH TRÊN LỚP):</strong> Giúp học sinh hệ thống hóa <strong>Tóm tắt nội dung chính</strong> từng bài và thực hiện <strong>Bộ câu hỏi Tự đánh giá</strong> gồm: Trắc nghiệm 4 lựa chọn, Đúng/Sai, Điền khuyết (Menu thả xuống).
     </div>
 
     <div class="grid-container">
 
       <!-- BÀI 1 -->
-      <div class="app-card featured">
+      <div class="app-card featured" id="card-bai1">
         <div class="card-top">
           <div class="tag-row">
             <span class="tag tag-p1">Học kì I • Bài 1</span>
-            <span class="tag tag-ready">Đã mở đề</span>
+            <span class="tag tag-ready" id="tag-bai1">Đã mở đề</span>
           </div>
           <h2 class="card-title">Bài 1: Khả năng lớn lao của tiểu thuyết</h2>
-          <p class="card-meta">Văn bản: <em>Xuân Tóc Đỏ cứu quốc</em> (Vũ Trọng Phụng) & <em>Mùa lá rụng trong vườn</em> (Ma Văn Kháng). Thực hành TV: Nói mỉa, nghịch ngữ.</p>
+          <p class="card-meta">Văn bản: <em>"Xuân Tóc Đỏ cứu quốc"</em> (Vũ Trọng Phụng) & <em>"Mùa lá rụng trong vườn"</em> (Ma Văn Kháng). Thực hành TV: Nói mỉa, nghịch ngữ.</p>
           <ul class="card-features">
             <li>✓ Kiến thức cốt lõi: Tư duy đời tư cá nhân, không gian - thời gian tâm lý, tính đa thanh</li>
-            <li>✓ Đánh giá (30p): 30 câu hỏi chuẩn ma trận (Trắc nghiệm, Đúng/Sai, Điền khuyết) + Tự luận</li>
+            <li>✓ Tự đánh giá: 30 câu hỏi chuẩn ma trận (Trắc nghiệm, Đúng/Sai, Menu thả xuống)</li>
           </ul>
         </div>
-        <div class="card-actions">
-          <a href="P1_BAI_1_TIEU_THUYET.html" class="btn btn-primary">🎯 Làm Đề Đánh Giá (30p)</a>
-          <button onclick="openPromptModal('kienthuc_bai1')" class="btn btn-secondary">📖 Tóm tắt cốt lõi</button>
+        <div class="card-actions" id="actions-bai1">
+          <a href="P1_BAI_1_TIEU_THUYET.html" class="btn btn-primary">🎯 Tự Đánh Giá</a>
+          <button onclick="openPromptModal('kienthuc_bai1')" class="btn btn-secondary">📖 Tóm tắt nội dung chính</button>
         </div>
       </div>
 
       <!-- BÀI 2 -->
-      <div class="app-card featured">
+      <div class="app-card" id="card-bai2">
         <div class="card-top">
           <div class="tag-row">
             <span class="tag tag-p1">Học kì I • Bài 2</span>
-            <span class="tag tag-ready">Đã mở đề</span>
+            <span class="tag tag-soon" id="tag-bai2">Sắp mở</span>
           </div>
-          <h2 class="card-title">Bài 2: Những cảm xúc và suy tư sâu lắng</h2>
-          <p class="card-meta">Văn bản: <em>Tây Tiến</em> (Quang Dũng) & <em>Đàn ghi ta của Lor-ca</em> (Thanh Thảo). Thực hành TV: Lỗi logic câu và từ tượng trưng.</p>
+          <h2 class="card-title">Bài 2: Những thế giới thơ</h2>
+          <p class="card-meta">Văn bản: <em>"Tây Tiến"</em> (Quang Dũng), <em>"Đàn ghi ta của Lor-ca"</em> (Thanh Thảo), <em>"Cảm hoài"</em> (Đặng Dung), <em>"Bài thơ số 28"</em> (R. Tagore). Thực hành TV: Lỗi logic câu & câu mơ hồ; Ẩn dụ chuyển đổi cảm giác.</p>
           <ul class="card-features">
-            <li>✓ Kiến thức cơ bản: Hình ảnh thơ, biểu tượng, cái tôi trữ tình, nhạc điệu</li>
-            <li>✓ Đánh giá (30p - 45p): Khảo sát năng lực cảm thụ thơ hiện đại</li>
+            <li>✓ Kiến thức: Phong cách Cổ điển & Lãng mạn, hình ảnh thơ, biểu tượng, nhạc điệu, yếu tố tượng trưng - siêu thực</li>
+            <li>✓ Tự đánh giá: Hệ thống câu hỏi khảo sát năng lực cảm thụ và tiếp cận tác phẩm thơ</li>
           </ul>
         </div>
-        <div class="card-actions">
-          <a href="APP_ON_TAP_TAY_TIEN_12.html" class="btn btn-primary">🎯 Làm Đề Tây Tiến</a>
-          <a href="APP_ON_TAP_THO_12.html" class="btn btn-secondary">🎯 Đề Thơ 12</a>
+        <div class="card-actions" id="actions-bai2">
+          <button class="btn btn-disabled" disabled>⏳ Theo tiến trình</button>
+          <button onclick="openPromptModal('kienthuc_bai2')" class="btn btn-secondary">📖 Tóm tắt nội dung chính</button>
         </div>
       </div>
 
       <!-- BÀI 3 -->
-      <div class="app-card">
+      <div class="app-card" id="card-bai3">
         <div class="card-top">
           <div class="tag-row">
             <span class="tag tag-p1">Học kì I • Bài 3</span>
-            <span class="tag tag-soon">Sắp mở</span>
+            <span class="tag tag-soon" id="tag-bai3">Sắp mở</span>
           </div>
           <h2 class="card-title">Bài 3: Lập luận trong văn bản nghị luận</h2>
           <p class="card-meta">Văn bản: <em>Nhìn về vốn văn hóa dân tộc</em> (Trần Đình Hượu) & <em>Bản hòa âm ngôn từ</em> (Chu Văn Sơn).</p>
           <ul class="card-features">
             <li>✓ Kiến thức: Luận đề, luận điểm, lí lẽ, dẫn chứng và nghệ thuật lập luận</li>
-            <li>✓ Đánh giá (30p): Trắc nghiệm nhận diện phép lập luận và liên kết</li>
+            <li>✓ Tự đánh giá: Trắc nghiệm nhận diện phép lập luận và liên kết</li>
           </ul>
         </div>
         <div class="card-actions">
           <button class="btn btn-disabled" disabled>⏳ Theo tiến trình</button>
-          <button onclick="openPromptModal('kienthuc_bai3')" class="btn btn-secondary">📖 Tóm tắt bài</button>
+          <button onclick="openPromptModal('kienthuc_bai3')" class="btn btn-secondary">📖 Tóm tắt nội dung chính</button>
         </div>
       </div>
 
@@ -562,7 +573,7 @@
   <div id="tab-p2" class="tab-panel">
     
     <div class="info-banner">
-      <strong>🏛️ PHẦN 2: CHUYÊN ĐỀ ÔN THI TỐT NGHIỆP (THỂ LOẠI & KỸ NĂNG VIẾT):</strong> Gồm 2 nhánh chiến lược: <strong>A. Tri thức 6 Thể loại</strong> (Tự đánh giá & Trắc nghiệm) + <strong>B. Rèn Kỹ năng Viết</strong> (Viết đoạn 200 chữ & Viết bài 600 chữ).
+      <strong>🏛️ PHẦN 2: CHUYÊN ĐỀ ÔN THI TỐT NGHIỆP (THỂ LOẠI & KỸ NĂNG VIẾT):</strong> Gồm 2 nhánh chiến lược: <strong>A. Tri thức 6 Thể loại</strong> (Tóm tắt nội dung chính & Tự đánh giá) + <strong>B. Rèn Kỹ năng Viết</strong> (Viết đoạn 200 chữ & Viết bài 600 chữ).
     </div>
 
     <!-- NHÁNH A: 6 THỂ LOẠI -->
@@ -571,36 +582,42 @@
     <div class="grid-container">
 
       <!-- 1. THƠ -->
-      <div class="app-card">
+      <div class="app-card" id="card-p2-tho">
         <div class="card-top">
-          <div class="tag-row"><span class="tag tag-p2">Thể loại: Thơ</span><span class="tag tag-soon">Chờ cập nhật</span></div>
+          <div class="tag-row">
+            <span class="tag tag-p2">Thể loại: Thơ</span>
+            <span class="tag tag-soon" id="tag-p2-tho">Chờ cập nhật</span>
+          </div>
           <h3 class="card-title">1. Chuyên đề Thể loại Thơ</h3>
-          <p class="card-meta">Ngữ liệu 3 bộ SGK: <em>Tây Tiến, Đàn ghi ta của Lor-ca, Tràng giang, Đây thôn Vĩ Dạ</em>.</p>
+          <p class="card-meta">Ngữ liệu 3 bộ SGK: <em>"Tây Tiến"</em>, <em>"Đàn ghi ta của Lor-ca"</em>, <em>"Tràng giang"</em>, <em>"Đây thôn Vĩ Dạ"</em>, <em>"Cảm hoài"</em>.</p>
           <ul class="card-features">
             <li>✓ Tri thức thể loại: Hình ảnh, nhạc điệu, biểu tượng, cái tôi trữ tình</li>
-            <li>✓ Bộ đề trắc nghiệm tự đánh giá năng lực đọc hiểu thơ</li>
+            <li>✓ Tự đánh giá: Bộ câu hỏi khảo sát năng lực cảm thụ và tiếp cận tác phẩm thơ</li>
           </ul>
         </div>
         <div class="card-actions">
           <button class="btn btn-disabled" disabled>⏳ Theo tiến trình</button>
-          <button onclick="openPromptModal('trithuc_tho')" class="btn btn-secondary">📖 Tri thức Thể loại</button>
+          <button onclick="openPromptModal('trithuc_tho')" class="btn btn-secondary">📖 Tóm tắt nội dung chính</button>
         </div>
       </div>
 
       <!-- 2. TRUYỆN -->
-      <div class="app-card featured">
+      <div class="app-card featured" id="card-p2-truyen">
         <div class="card-top">
-          <div class="tag-row"><span class="tag tag-p2">Thể loại: Truyện</span><span class="tag tag-ready">Đã mở đề</span></div>
+          <div class="tag-row">
+            <span class="tag tag-p2">Thể loại: Truyện</span>
+            <span class="tag tag-ready" id="tag-p2-truyen">Đã mở đề</span>
+          </div>
           <h3 class="card-title">2. Chuyên đề Truyện & Tiểu thuyết</h3>
-          <p class="card-meta">Ngữ liệu 3 bộ SGK: <em>Số đỏ, Mùa lá rụng trong vườn, Muối của rừng, Chuyện chức Phán sự, Lão Hạc, Hai đứa trẻ</em>.</p>
+          <p class="card-meta">Ngữ liệu 3 bộ SGK: <em>"Số đỏ"</em>, <em>"Mùa lá rụng trong vườn"</em>, <em>"Muối của rừng"</em>, <em>"Chuyện chức Phán sự đền Tản Viên"</em>, <em>"Lão Hạc"</em>, <em>"Hai đứa trẻ"</em>.</p>
           <ul class="card-features">
             <li>✓ Tri thức thể loại: Khái niệm, cốt truyện, nhân vật ước lệ, điểm nhìn toàn tri/hạn tri, lời nửa trực tiếp, 4 loại tình huống</li>
-            <li>✓ Đánh giá năng lực: 30 câu hỏi tư duy cao cấp (Trắc nghiệm, Đúng/Sai, Điền khuyết)</li>
+            <li>✓ Tự đánh giá: 30 câu hỏi tư duy cao cấp (Trắc nghiệm, Đúng/Sai, Menu thả xuống)</li>
           </ul>
         </div>
         <div class="card-actions">
-          <a href="P2_THE_LOAI_TRUYEN.html" class="btn btn-primary">🎯 Đề Tự Đánh Giá (45p)</a>
-          <button onclick="openPromptModal('trithuc_truyen')" class="btn btn-secondary">📖 Tri thức Thể loại</button>
+          <a href="P2_THE_LOAI_TRUYEN.html" class="btn btn-primary">🎯 Tự Đánh Giá</a>
+          <button onclick="openPromptModal('trithuc_truyen')" class="btn btn-secondary">📖 Tóm tắt nội dung chính</button>
         </div>
       </div>
 
@@ -609,15 +626,15 @@
         <div class="card-top">
           <div class="tag-row"><span class="tag tag-p2">Văn bản Nghị luận</span><span class="tag tag-soon">Chờ cập nhật</span></div>
           <h3 class="card-title">3. Chuyên đề Văn bản Nghị luận</h3>
-          <p class="card-meta">Ngữ liệu: <em>Nhìn về vốn văn hóa dân tộc, Bản hòa âm ngôn từ, Tuyên ngôn Độc lập</em>.</p>
+          <p class="card-meta">Ngữ liệu: <em>"Nhìn về vốn văn hóa dân tộc"</em>, <em>"Bản hòa âm ngôn từ trong Tiếng thu"</em>, <em>"Tuyên ngôn Độc lập"</em>.</p>
           <ul class="card-features">
             <li>✓ Tri thức: Luận đề, luận điểm, lí lẽ, bằng chứng, nghệ thuật lập luận</li>
-            <li>✓ Bộ đề trắc nghiệm kiểm tra tư duy phản biện & logic</li>
+            <li>✓ Tự đánh giá: Kiểm tra tư duy phản biện & logic lập luận</li>
           </ul>
         </div>
         <div class="card-actions">
           <button class="btn btn-disabled" disabled>⏳ Theo tiến trình</button>
-          <button onclick="openPromptModal('trithuc_nghiluan')" class="btn btn-secondary">📖 Tri thức Thể loại</button>
+          <button onclick="openPromptModal('trithuc_nghiluan')" class="btn btn-secondary">📖 Tóm tắt nội dung chính</button>
         </div>
       </div>
 
@@ -700,7 +717,7 @@
   <!-- ========================================== -->
   <div id="tab-p3" class="tab-panel">
     <div class="info-banner">
-      <strong>🎯 PHẦN 3: PHÒNG THI THỬ TỐT NGHIỆP THPT (120 PHÚT - 100% NGỮ LIỆU MỚI NGOÀI SGK):</strong> Mô phỏng trọn vẹn ma trận đề thi chính thức: <strong>Phần I Đọc hiểu (4.0đ)</strong> + <strong>Phần II Viết đoạn NLXH (2.0đ)</strong> + <strong>Viết bài NLVH/NLXH (4.0đ)</strong>.
+      <strong>🎯 PHẦN 3: PHÒNG THI THỬ TỐT NGHIỆP THPT (100% NGỮ LIỆU MỚI NGOÀI SGK):</strong> Mô phỏng trọn vẹn ma trận đề thi chính thức: <strong>Phần I Đọc hiểu (4.0đ)</strong> + <strong>Phần II Viết đoạn NLXH (2.0đ)</strong> + <strong>Viết bài NLVH/NLXH (4.0đ)</strong>.
     </div>
 
     <div class="grid-container">
@@ -708,11 +725,11 @@
       <div class="app-card">
         <div class="card-top">
           <div class="tag-row">
-            <span class="tag tag-p3">Đề thi thử 2025 • Đề 01</span>
+            <span class="tag tag-p3">Đề thi thử • Đề 01</span>
             <span class="tag tag-soon">Chờ cập nhật</span>
           </div>
           <h3 class="card-title">Đề Khảo sát Chất lượng Số 01: Thơ hiện đại</h3>
-          <p class="card-meta">Ngữ liệu ngoài SGK: Đoạn thơ trữ tình đương đại. Thời gian làm bài: 120 phút. Đầy đủ trắc nghiệm đọc hiểu và tự luận viết đoạn, viết bài.</p>
+          <p class="card-meta">Ngữ liệu ngoài SGK: Đoạn thơ trữ tình đương đại. Đầy đủ trắc nghiệm đọc hiểu và tự luận viết đoạn, viết bài.</p>
         </div>
         <div class="card-actions">
           <button class="btn btn-disabled" disabled>⏳ Chờ đề từ Giáo viên</button>
@@ -722,7 +739,7 @@
       <div class="app-card">
         <div class="card-top">
           <div class="tag-row">
-            <span class="tag tag-p3">Đề thi thử 2025 • Đề 02</span>
+            <span class="tag tag-p3">Đề thi thử • Đề 02</span>
             <span class="tag tag-soon">Chờ cập nhật</span>
           </div>
           <h3 class="card-title">Đề Khảo sát Chất lượng Số 02: Truyện ngắn hiện đại</h3>
@@ -736,7 +753,7 @@
       <div class="app-card">
         <div class="card-top">
           <div class="tag-row">
-            <span class="tag tag-p3">Đề thi thử 2025 • Đề 03</span>
+            <span class="tag tag-p3">Đề thi thử • Đề 03</span>
             <span class="tag tag-soon">Chờ cập nhật</span>
           </div>
           <h3 class="card-title">Đề Khảo sát Số 03: Văn bản Thông tin & Nghị luận</h3>
@@ -777,136 +794,241 @@
 
   const modalData = {
     kienthuc_bai1: {
-      title: "📖 TỔNG HỢP KIẾN THỨC CỐT LÕI: BÀI 1 - KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT",
+      title: "📖 TÓM TẮT NỘI DUNG CHÍNH: BÀI 1 - KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT",
       content: `
         <div style="font-size:0.9rem; line-height:1.75; color:#1e293b; max-height:500px; overflow-y:auto; padding-right:8px;">
           
           <div style="background:#fdf2f8; padding:12px 16px; border-radius:10px; margin-bottom:14px; border-left:4px solid #831843;">
             <h4 style="color:#831843; font-weight:800; margin-bottom:4px;">I. TRI THỨC NGỮ VĂN CỐT LÕI: TIỂU THUYẾT HIỆN ĐẠI</h4>
-            <p><strong>• Hệ hình tư duy đời tư:</strong> Hướng thẳng vào số phận cá nhân, khám phá thế giới nội tâm bí mật, phức tạp, đa chiều của "con người nếm trải".</p>
+            <p><strong>• Hệ hình tư duy đời tư:</strong> Hướng thẳng vào đời tư và số phận cá nhân, khám phá thế giới nội tâm bí mật, phức tạp, đa chiều của "con người nếm trải", khước từ sự lý tưởng hóa một chiều.</p>
             <p><strong>• Không gian & Thời gian tâm lý:</strong> Không gian mang tính chủ quan; Thời gian nghệ thuật phá vỡ trục tuyến tính cơ học để dịch chuyển sang thời gian tâm lý, dòng ý thức (đồng hiện, hồi tưởng, nén dãn).</p>
             <p><strong>• Điểm nhìn & Tính đa thanh:</strong> Luân chuyển linh hoạt giữa điểm nhìn bên ngoài và điểm nhìn bên trong; ngôn ngữ đa thanh là sự cọ xát, đối thoại bình đẳng giữa nhiều hệ ý thức.</p>
             <p><strong>• Thực hành TV:</strong> <em>Nói mỉa</em> (lệch pha giữa hiển ngôn và hàm ngôn) & <em>Nghịch ngữ</em> (kết hợp từ ngữ tương phản đối chọi để bộc lộ bản chất đời sống).</p>
           </div>
 
           <div style="background:#f8fafc; padding:12px 16px; border-radius:10px; margin-bottom:14px; border:1px solid #e2e8f0;">
-            <h4 style="color:#831843; font-weight:800; margin-bottom:6px;">II. VĂN BẢN 1: "XUÂN TÓC ĐỎ CỨU QUỐC" (VŨ TRỌNG PHỤNG)</h4>
-            <p><strong>1. Tình huống trào phúng liên hoàn:</strong></p>
+            <h4 style="color:#831843; font-weight:800; margin-bottom:6px;">II. VĂN BẢN 1: "XUÂN TÓC ĐỎ CỨU QUỐC" (VŨ TRỌNG PHỤNG - SỐ ĐỎ)</h4>
+            <p><strong>1. Tình huống trào phúng phi lý & kịch tính:</strong></p>
             <ul style="margin-left:20px; margin-bottom:6px;">
-              <li><em>Tình huống 1:</em> Trận đấu ngoại giao trên sân Rollandes Varreau; hai quán quân cũ mất tích, Xuân được đưa vào thi đấu.</li>
-              <li><em>Tình huống 2 (Trọng tâm):</em> Xuân đánh áp đảo khiến vua Xiêm thịnh nộ; giới cầm quyền thực dân sợ nổ ra chiến tranh ngoại giao nên ép Xuân "nhường điểm", chấp nhận thua cuộc.</li>
-              <li><em>Tình huống 3:</em> Đám đông phẫn nộ đòi tẩy chay, buộc Xuân và ông bầu Văn Minh leo lên mui xe hơi hùng biện "lật ngược thế cờ".</li>
+              <li>Trận đấu quần vợt ngoại giao giữa Xuân Tóc Đỏ và quán quân Xiêm La. Xuân đánh áp đảo khiến vua Xiêm thịnh nộ đe dọa chiến tranh.</li>
+              <li>Giới cầm quyền thực dân ép Xuân "nhường điểm", chấp nhận thua cuộc. Bản chất trào phúng nằm ở chỗ biến hành vi thua nhục nhã, bán độ thành nghĩa cử "hy sinh cao thượng vì Tổ quốc".</li>
             </ul>
-            <p><strong>2. Bức chân dung biếm họa & Tâm lý đám đông:</strong></p>
+            <p><strong>2. Nghệ thuật biếm họa nhân vật & Đám đông:</strong></p>
             <ul style="margin-left:20px; margin-bottom:6px;">
-              <li><em>Xuân Tóc Đỏ:</em> Kẻ lưu manh cơ hội, trơ tráo đánh tráo hành vi nhường điểm bán độ thành "lòng hi sinh cao thượng vì Tổ quốc"; ngôn ngữ vỉa hè kết hợp chính trị salon sáo rỗng.</li>
-              <li><em>Đám đông quần chúng:</em> U mê, nông nổi, bị "thôi miên" và xoay chuyển 180 độ từ giận dữ sang sùng bái tung hô "Sự đại bại vạn tuế".</li>
+              <li><em>Xuân Tóc Đỏ:</em> Nhân vật dị dạng điển hình của thói lưu manh cơ hội; ngôn ngữ hùng biện kết hợp thô tục vỉa hè với khẩu hiệu chính trị salon bịp bợm.</li>
+              <li><em>Đám đông quần chúng:</em> Nông nổi, u mê, bị "thôi miên" xoay chuyển 180 độ từ giận dữ đòi tẩy chay sang sùng bái tung hô "Sự đại bại vạn tuế".</li>
             </ul>
-            <p><strong>3. Đặc sắc nghệ thuật:</strong> Trần thuật ngôi thứ ba sắc lạnh; nghịch ngữ đắc địa (<em>"sự đại bại vạn tuế", "bậc vĩ nhân nhũn nhặn", "giơ quả đấm chào loài người"</em>); chỉ dẫn hành động mang đậm tính kịch hoạt kê.</p>
+            <p><strong>3. Đặc sắc nghệ thuật:</strong> Trần thuật ngôi thứ ba mỉa mai sắc lạnh; sử dụng nghịch ngữ đắc địa (<em>"sự đại bại vạn tuế", "bậc vĩ nhân nhũn nhặn giơ quả đấm chào loài người"</em>); chỉ dẫn hành động mang đậm tính kịch hoạt kê.</p>
           </div>
 
           <div style="background:#f0fdfa; padding:12px 16px; border-radius:10px; margin-bottom:14px; border:1px solid #ccfbf1;">
             <h4 style="color:#0f766e; font-weight:800; margin-bottom:6px;">III. VĂN BẢN 2: "MÙA LÁ RỤNG TRONG VƯỜN" (MA VĂN KHÁNG)</h4>
-            <p><strong>1. Không gian - Thời gian & Tâm sự ông Bằng:</strong></p>
+            <p><strong>1. Không gian - Thời gian tâm lý:</strong> Bối cảnh chiều 30 Tết mưa phùn, lá rụng xạc xào và bàn thờ gia tiên – "chiếc neo tinh thần" thiêng liêng soi chiếu nề nếp gia phong trước cơn lốc kinh tế thị trường.</p>
+            <p><strong>2. Bút pháp khắc họa nhân vật đời tư:</strong></p>
             <ul style="margin-left:20px; margin-bottom:6px;">
-              <li><em>Bối cảnh chiều 30 Tết:</em> Mưa phùn ẩm ướt, vườn lá rụng xạc xào và bàn thờ gia tiên – "chiếc neo tinh thần" thiêng liêng lưu giữ nề nếp gia phong.</li>
-              <li><em>Tâm sự ông Bằng:</em> Người trí thức già nề nếp, nghẹn ngào xúc động khi gặp lại con dâu cũ; nỗi đau xót lặng lẽ bỏ qua tên Cừ trong giờ cúng tất niên để bảo tồn sự thanh sạch cho nếp nhà.</li>
+              <li><em>Ông Bằng:</em> Trí thức già nề nếp, trăn trở giữ gìn gia phong, nghẹn ngào xúc động khi gặp lại con dâu cũ; nỗi đau xót lặng lẽ bỏ qua tên Cừ trong giờ cúng tất niên để giữ sự thanh sạch cho nếp nhà.</li>
+              <li><em>Chị Hoài:</em> Người phụ nữ nông thôn mộc mạc (áo bông chần, tay nải quà quê), giàu ân tình; là "chất keo kết dính" đánh thức tình cảm ruột thịt và sưởi ấm những rạn nứt trong gia đình.</li>
             </ul>
-            <p><strong>2. Hình tượng chị Hoài – Ngọn lửa sưởi ấm gia đình:</strong></p>
-            <ul style="margin-left:20px; margin-bottom:6px;">
-              <li><em>Sự trở về nghĩa tình:</em> Dù đã tái giá, chị vẫn vượt đường xa về thắp hương cho tổ tiên nhà chồng cũ bằng mệnh lệnh của lương tâm và đạo lý ân nghĩa.</li>
-              <li><em>Vẻ đẹp tâm hồn:</em> Mộc mạc (áo bông chần, gót chân nứt nẻ), tay nải quà quê nặng nghĩa tình (giò thủ người chồng mới gói biếu ông Bằng); là "chất keo kết dính" đánh thức tình thân và lương tri của các thành viên.</li>
+            <p><strong>3. Đặc sắc nghệ thuật:</strong> Lời trần thuật nửa trực tiếp hòa quyện giữa lời kể khách quan và dòng suy tưởng sâu kín của nhân vật Luận; chi tiết mang tính dự cảm và chiều sâu triết lý nhân văn.</p>
+          </div>
+
+          <div style="background:#f1f5f9; padding:12px 16px; border-radius:10px; border-left:4px solid #475569;">
+            <h4 style="color:#334155; font-weight:800; margin-bottom:4px;">IV. TỔNG KẾT SO SÁNH</h4>
+            <p>Hai tác phẩm minh chứng cho sự phong phú của tiểu thuyết hiện đại: Một bên <strong>hướng ngoại</strong> trào phúng sắc bén bóc trần sự giả dối xã hội (Vũ Trọng Phụng); một bên <strong>hướng nội</strong> tâm lý đằm thắm đi sâu bảo tồn vỉa quặng nghĩa tình gia đình truyền thống (Ma Văn Kháng).</p>
+          </div>
+
+        </div>
+      `
+    },
+    kienthuc_bai2: {
+      title: "📖 TÓM TẮT NỘI DUNG CHÍNH: BÀI 2 - NHỮNG THẾ GIỚI THƠ",
+      content: `
+        <div style="font-size:0.9rem; line-height:1.75; color:#1e293b; max-height:500px; overflow-y:auto; padding-right:8px;">
+          
+          <div style="background:#fdf2f8; padding:12px 16px; border-radius:10px; margin-bottom:14px; border-left:4px solid #831843;">
+            <h4 style="color:#831843; font-weight:800; margin-bottom:4px;">I. TRI THỨC NGỮ VĂN CỐT LÕI: NHỮNG THẾ GIỚI THƠ</h4>
+            <p><strong>• Phong cách Cổ điển (Classical style):</strong> Đề tài cao nhã (chí làm trai, vận mệnh quốc gia); cảm hứng hướng về cái vĩnh hằng; hình tượng tráng lệ, ước lệ vũ trụ, điển tích điển cố; tính quy phạm niêm luật chặt chẽ.</p>
+            <p><strong>• Phong cách Lãng mạn (Romanticism):</strong> Khẳng định cái cao cả phi thường, thoát ly thực tại tù túng; bộc lộ cái tôi cá nhân mãnh liệt, tự do; thủ pháp tương phản đối lập gắt gao (mĩ lệ và dữ dội, mộng ước và hiện thực).</p>
+            <p><strong>• Biểu tượng & Yếu tố Tượng trưng, Siêu thực:</strong></p>
+            <ul style="margin-left:20px;">
+              <li><em>Biểu tượng (Symbol):</em> Hình ảnh đa tầng nghĩa, gợi suy tư phổ quát, triết học về đời sống.</li>
+              <li><em>Yếu tố Tượng trưng:</em> Gợi tả hơn miêu tả trực diện, sử dụng tương giao cảm giác (âm thanh gợi màu sắc, xúc cảm) để bộc lộ trạng thái tinh thần mơ hồ, sâu kín.</li>
+              <li><em>Yếu tố Siêu thực:</em> Giải phóng vô thức và tiềm thức, phá vỡ logic cơ học để liên kết hình ảnh bất ngờ, mộng mị.</li>
             </ul>
-            <p><strong>3. Đặc sắc nghệ thuật:</strong> Lời trần thuật nửa trực tiếp hòa quyện lời kể khách quan và dòng suy tưởng sâu kín của nhân vật Luận; chi tiết biểu tượng giàu chất triết lý nhân văn.</p>
+            <p><strong>• Thực hành TV:</strong> Nhận diện và sửa <em>Lỗi logic câu, câu mơ hồ</em>; Biện pháp tu từ <em>Ẩn dụ chuyển đổi cảm giác</em>.</p>
+          </div>
+
+          <div style="background:#f8fafc; padding:12px 16px; border-radius:10px; margin-bottom:14px; border:1px solid #e2e8f0;">
+            <h4 style="color:#831843; font-weight:800; margin-bottom:6px;">II. HỆ THỐNG VĂN BẢN ĐỌC HIỂU</h4>
+            
+            <p style="color:#831843;"><strong>1. "Cảm hoài" (Đặng Dung) – Phong cách Cổ điển trung đại:</strong></p>
+            <ul style="margin-left:20px; margin-bottom:10px;">
+              <li><em>Đề tài & Chí hướng:</em> Nỗi lòng bi tráng của người tráng sĩ ôm hoài bão cứu nước lúc thời thế ngặt nghèo, vận nước gian nan, tóc bạc sớm khi thù nước chưa trả xong.</li>
+              <li><em>Hình tượng kỳ vĩ:</em> Tầm vóc vũ trụ (<em>"dốc lòng nâng trục đất", "tẩy binh khôn lối kéo Ngân Hà"</em>); tư thế kiêu dũng lẫm liệt qua chi tiết <em>"mài gươm dưới trăng"</em> (Kỉ độ Long Tuyền đới nguyệt ma).</li>
+              <li><em>Bút pháp:</em> Thất ngôn bát cú Đường luật chữ Hán, niêm luật đối xứng hoàn mỹ, giọng điệu hào hùng bi tráng.</li>
+            </ul>
+
+            <p style="color:#0f766e;"><strong>2. "Tây Tiến" (Quang Dũng) – Phong cách Lãng mạn & Bi tráng:</strong></p>
+            <ul style="margin-left:20px; margin-bottom:10px;">
+              <li><em>Cảm hứng:</em> Nỗi nhớ "chơi vơi" về vùng đất Tây Bắc hùng vĩ và đoàn binh Tây Tiến hào hoa trong thời kỳ đầu kháng chiến chống Pháp.</li>
+              <li><em>Tương phản gắt gao:</em> Thiên nhiên hiểm trở, dữ dội (<em>"dốc khúc khuỷu", "heo hút cồn mây", "thác gầm thét"</em>) đối lập với vẻ mĩ lệ, mơ màng (<em>"Mường Lát hoa về trong đêm hơi", "nhà ai Pha Luông mưa xa khơi", "hội đuốc hoa"</em>).</li>
+              <li><em>Người lính Tây Tiến:</em> Vượt lên hiện thực khắc nghiệt (<em>"không mọc tóc", "quân xanh màu lá", "biên cương mồ viễn xứ"</em>) bằng tâm hồn lãng mạn, hào hoa (<em>"mộng qua biên giới", "đêm mơ Hà Nội dáng kiều thơm"</em>), sẵn sàng hiến dâng tuổi thanh xuân.</li>
+              <li><em>Sáng tạo ngôn từ:</em> Phối thanh trắc - bằng tài hoa; lối diễn đạt phá cách nghệ thuật (<em>"súng ngửi trời"</em>).</li>
+            </ul>
+
+            <p style="color:#7c2d12;"><strong>3. "Đàn ghi ta của Lor-ca" (Thanh Thảo) – Tượng trưng & Siêu thực:</strong></p>
+            <ul style="margin-left:20px; margin-bottom:10px;">
+              <li><em>Cảm hứng:</em> Tôn vinh khát vọng tự do và cách tân nghệ thuật của thiên tài Lor-ca trước nền chính trị độc tài phát xít Tây Ban Nha.</li>
+              <li><em>Cấu trúc nhạc tính:</em> Mô phỏng ca khúc với chuỗi hòa âm mở đầu & kết thúc <em>"li-la li-la li-la..."</em> gợi dư âm ngân vang bất tận.</li>
+              <li><em>Hệ thống biểu tượng đa nghĩa:</em> <em>"Tiếng đàn bọt nước"</em> (cái đẹp mong manh, sinh sôi); <em>"Áo choàng bê bết đỏ"</em> (cái chết thảm khốc, oan khuất); <em>"Giọt nước mắt vầng trăng đáy giếng"</em> (nỗi xót thương và niềm tin vào sự bất tử của nghệ thuật).</li>
+              <li><em>Ẩn dụ chuyển đổi cảm giác:</em> <em>"tiếng ghi ta nâu", "tiếng ghi ta lá xanh", "tiếng ghi ta tròn bọt nước vỡ tan", "tiếng ghi ta ròng ròng máu chảy"</em>.</li>
+            </ul>
+
+            <p style="color:#334155;"><strong>4. "Bài thơ số 28" (R. Tagore) – Chiều sâu triết lý tình yêu:</strong></p>
+            <ul style="margin-left:20px;">
+              <li><em>Cấu tứ triết lý:</em> Truy tìm bản thể tình yêu đôi lứa – tình yêu vô biên không thể chiếm hữu cơ học.</li>
+              <li><em>Biểu tượng nghịch lý:</em> Đối lập cái hữu hạn dễ nắm bắt (<em>"viên ngọc", "đoá hoa"</em>) với <em>"trái tim"</em> vô tận như biển cả mênh mông.</li>
+              <li><em>Thông điệp:</em> Tình yêu chân chính là sự hiến dâng tự nguyện và trân trọng cội nguồn bí ẩn thiêng liêng của nhau.</li>
+            </ul>
+
+          </div>
+
+          <div style="background:#f1f5f9; padding:12px 16px; border-radius:10px; border-left:4px solid #475569;">
+            <h4 style="color:#334155; font-weight:800; margin-bottom:4px;">III. HÀNH TRÌNH VẬN ĐỘNG CỦA CÁC THẾ GIỚI THƠ</h4>
+            <p>Từ phong cách <strong>Cổ điển</strong> trang nghiêm trung đại (Đặng Dung) ➔ sang <strong>Lãng mạn</strong> hào hùng, bi tráng (Quang Dũng) ➔ mở ra thế giới <strong>Tượng trưng - Siêu thực</strong> đa tầng (Thanh Thảo) ➔ lắng đọng nơi chiều sâu <strong>Triết lý nhân loại</strong> (Tagore).</p>
           </div>
 
         </div>
       `
     },
     kienthuc_bai3: {
-      title: "📖 TÓM TẮT KIẾN THỨC CƠ BẢN: BÀI 3 (VĂN BẢN NGHỊ LUẬN)",
+      title: "📖 TÓM TẮT NỘI DUNG CHÍNH: BÀI 3 - LẬP LUẬN TRONG VĂN BẢN NGHỊ LUẬN",
       content: `
-        <div style="font-size:0.92rem; line-height:1.7;">
-          <p><strong>1. Cấu trúc văn bản nghị luận:</strong> Luận đề (vấn đề trung tâm) ➔ Hệ thống Luận điểm ➔ Lí lẽ sắc bén ➔ Dẫn chứng xác thực, thuyết phục.</p>
-          <p><strong>2. "Nhìn về vốn văn hóa dân tộc" (Trần Đình Hượu):</strong> Nhận diện nét đặc trưng bản sắc văn hóa Việt Nam (chuộng sự hòa hợp, thiết thực, tinh tế).</p>
-          <p><strong>3. "Bản hòa âm ngôn từ trong Tiếng thu" (Chu Văn Sơn):</strong> Mẫu mực về nghị luận văn học, nghệ thuật giải mã thi pháp ngôn từ thơ.</p>
+        <div style="font-size:0.9rem; line-height:1.75; color:#1e293b; max-height:500px; overflow-y:auto; padding-right:8px;">
+          
+          <div style="background:#fdf2f8; padding:12px 16px; border-radius:10px; margin-bottom:14px; border-left:4px solid #831843;">
+            <h4 style="color:#831843; font-weight:800; margin-bottom:4px;">I. TRI THỨC VĂN BẢN NGHỊ LUẬN</h4>
+            <p><strong>• Luận đề:</strong> Vấn đề tư tưởng, hiện tượng đời sống hoặc tác phẩm văn học trung tâm mà bài viết hướng tới giải quyết.</p>
+            <p><strong>• Luận điểm:</strong> Các ý kiến, quan điểm mang tính bộ phận nhằm triển khai, làm sáng tỏ cho luận đề chính.</p>
+            <p><strong>• Lí lẽ & Dẫn chứng:</strong> Lí lẽ phải logic, chặt chẽ, có sức thuyết phục; dẫn chứng phải tiêu biểu, xác thực, chính xác và có tính thời sự/văn học cao.</p>
+            <p><strong>• Thao tác lập luận:</strong> Phối hợp linh hoạt các thao tác: Giải thích, Phân tích, Chứng minh, So sánh, Bác bỏ, Bình luận.</p>
+          </div>
+
+          <div style="background:#f8fafc; padding:12px 16px; border-radius:10px; margin-bottom:14px; border:1px solid #e2e8f0;">
+            <h4 style="color:#831843; font-weight:800; margin-bottom:6px;">II. VĂN BẢN ĐỌC HIỂU TIÊU BIỂU</h4>
+            <p><strong>1. "Nhìn về vốn văn hóa dân tộc" (Trần Đình Hượu):</strong></p>
+            <ul style="margin-left:20px; margin-bottom:8px;">
+              <li>Chỉ rõ đặc trưng bản sắc văn hóa Việt Nam: Chuộng sự thiết thực, hài hòa, chuộng cái đẹp xinh xắn, tinh tế, hòa hợp với thiên nhiên.</li>
+              <li>Khả năng tiếp biến văn hóa ngoại sinh: Tiếp thu chọn lọc các yếu tố tích cực từ Nho giáo, Phật giáo, Đạo giáo để làm phong phú tâm hồn dân tộc.</li>
+            </ul>
+            <p><strong>2. "Bản hòa âm ngôn từ trong Tiếng thu" (Chu Văn Sơn):</strong></p>
+            <ul style="margin-left:20px;">
+              <li>Mẫu mực về bài nghị luận văn học: Đi sâu giải mã vẻ đẹp ngôn từ, nhịp điệu và thi pháp của bài thơ <em>Tiếng thu</em> (Lưu Trọng Lư).</li>
+              <li>Lối viết tinh tế, thấu cảm, kết hợp cảm thụ sâu sắc với tư duy phê bình học thuật sắc bén.</li>
+            </ul>
+          </div>
+
         </div>
       `
     },
     trithuc_tho: {
-      title: "🏛️ TRI THỨC THỂ LOẠI: THƠ HIỆN ĐẠI & TƯỢNG TRƯNG",
+      title: "🏛️ TÓM TẮT NỘI DUNG CHÍNH: CHUYÊN ĐỀ THỂ LOẠI THƠ",
       content: `
-        <div style="font-size:0.92rem; line-height:1.7;">
-          <p><strong>1. Cái tôi trữ tình:</strong> Trung tâm bộc lộ cảm xúc, suy tư, thế giới nội tâm của nhà thơ trước cuộc đời.</p>
-          <p><strong>2. Hình ảnh & Biểu tượng:</strong> Không chỉ miêu tả bề ngoài mà khơi gợi liên tưởng đa tầng (VD: tiếng đàn bọt nước, hoa tử đinh hương...).</p>
-          <p><strong>3. Nhạc điệu & Thi pháp:</strong> Nhạc cảm nội tại, tương giao giác quan (synesthesia), phá vỡ logic ngữ pháp thông thường để mở rộng biên độ cảm xúc.</p>
+        <div style="font-size:0.9rem; line-height:1.75; color:#1e293b; max-height:500px; overflow-y:auto; padding-right:8px;">
+          
+          <div style="background:#fdf2f8; padding:12px 16px; border-radius:10px; margin-bottom:14px; border-left:4px solid #831843;">
+            <h4 style="color:#831843; font-weight:800; margin-bottom:4px;">I. ĐẶC TRƯNG CHUNG CỦA THỂ LOẠI THƠ</h4>
+            <p><strong>• Khái niệm & Cái tôi trữ tình:</strong> Thơ là tiếng nói trực tiếp của tình cảm mãnh liệt. Cái tôi trữ tình là trung tâm bộc lộ cảm xúc, suy tư, lý tưởng thẩm mỹ của nhà thơ trước cuộc đời.</p>
+            <p><strong>• Cấu tứ & Hình ảnh thơ:</strong> Cấu tứ là cách thức tổ chức mạch cảm xúc và ý tưởng; hình ảnh thơ là phương tiện tạo hình giàu sức gợi cảm, gắn với liên tưởng độc đáo.</p>
+            <p><strong>• Biểu tượng & Tính đa nghĩa:</strong> Hình tượng thơ vượt lên sự miêu tả trực quan bề ngoài, mở ra các tầng ý nghĩa biểu trưng mang tính triết lý nhân sinh phổ quát.</p>
+            <p><strong>• Nhạc điệu & Thi pháp:</strong> Nhịp điệu, phối thanh trắc - bằng, gieo vần và nhạc cảm nội tại tạo nên sức ngân vang truyền cảm cho thi phẩm.</p>
+          </div>
+
+          <div style="background:#f8fafc; padding:12px 16px; border-radius:10px; margin-bottom:14px; border:1px solid #e2e8f0;">
+            <h4 style="color:#831843; font-weight:800; margin-bottom:6px;">II. CÁC KHU GIAO THOA VÀ PHONG CÁCH NGHỆ THUẬT</h4>
+            <ul style="margin-left:20px;">
+              <li><strong>Thơ Cổ điển (Trung đại):</strong> Tính quy phạm (niêm luật, đối), bút pháp ước lệ tượng trưng, đề tài đạo lý, tầm vóc vũ trụ (<em>Cảm hoài, Thu điếu, Tự tình</em>).</li>
+              <li><strong>Thơ Lãng mạn (Thơ Mới 1932-1945 & Kháng chiến):</strong> Đề cao cảm xúc cá nhân khoáng đạt, thủ pháp tương phản gắt gao, vẻ đẹp mĩ lệ đối lập với dữ dội (<em>Tây Tiến, Tràng giang, Đây thôn Vĩ Dạ</em>).</li>
+              <li><strong>Thơ Tượng trưng & Siêu thực (Hiện đại):</strong> Giải phóng vô thức, tương giao cảm giác, hình ảnh đa tầng mộng mị, nhạc tính nội tại phong phú (<em>Đàn ghi ta của Lor-ca</em>).</li>
+            </ul>
+          </div>
+
+          <div style="background:#f0fdfa; padding:12px 16px; border-radius:10px; border:1px solid #ccfbf1;">
+            <h4 style="color:#0f766e; font-weight:800; margin-bottom:4px;">III. PHƯƠNG PHÁP ĐỌC HIỂU & SO SÁNH THI PHẨM</h4>
+            <p>1. Giải mã cấu tứ, mạch vận động của cảm xúc và hình tượng cái tôi trữ tình.</p>
+            <p>2. Phân tích hệ thống hình ảnh, biểu tượng, nhạc tính và biện pháp tu từ độc đáo.</p>
+            <p>3. Đối sánh các thi phẩm: Nêu bật điểm tương đồng về chủ đề, cảm hứng và làm rõ nét sáng tạo độc đáo về thi pháp, giọng điệu riêng của từng tác giả.</p>
+          </div>
+
         </div>
       `
     },
     trithuc_truyen: {
-      title: "🏛️ TRI THỨC THỂ LOẠI: ĐẶC TRƯNG TRUYỆN & TIỂU THUYẾT HIỆN ĐẠI",
+      title: "🏛️ TÓM TẮT NỘI DUNG CHÍNH: CHUYÊN ĐỀ TRUYỆN & TIỂU THUYẾT",
       content: `
-        <div style="font-size:0.9rem; line-height:1.7; color:#1e293b; max-height:480px; overflow-y:auto; padding-right:8px;">
-          <h4 style="color:#0f766e; font-weight:800; margin-bottom:6px;">I. BẢN CHẤT VÀ CÁC THÀNH TỐ CẤU THÀNH</h4>
-          <p><strong>1. Khái niệm:</strong> Loại hình tự sự phản ánh đời sống qua thế giới hư cấu (sự kiện, cốt truyện, nhân vật, người kể chuyện), giúp độc giả nhận thức sâu sắc về đời sống và chiều sâu tâm lý con người.</p>
-          <p><strong>2. Cốt truyện:</strong></p>
-          <ul style="margin-left:20px; margin-bottom:6px;">
-            <li><em>Tuyến tính (cổ điển):</em> Theo trật tự thời gian trước - sau và quan hệ nhân quả.</li>
-            <li><em>Phi tuyến tính:</em> Thoát khỏi trật tự cơ học, đảo lộn theo dòng tâm lý, hồi ức của nhân vật.</li>
-          </ul>
-          <p><strong>3. Nhân vật:</strong> Là ước lệ nghệ thuật (không phải bản sao cơ học), phương tiện để tác giả đối thoại và gửi gắm quan niệm nhân sinh. Khắc họa qua lai lịch, ngoại hình, hành động, ngôn ngữ đối thoại/độc thoại và thế giới nội tâm.</p>
-          <p><strong>4. Người kể chuyện & Điểm nhìn:</strong></p>
-          <ul style="margin-left:20px; margin-bottom:6px;">
-            <li><em>Ngôi thứ nhất (xưng tôi):</em> Người kể hạn tri, góc nhìn chủ quan, trải nghiệm trực tiếp.</li>
-            <li><em>Ngôi thứ ba:</em> Người kể giấu mình, thường toàn tri (thấu suốt mọi việc và tâm tư).</li>
-            <li><em>Điểm nhìn bên trong:</em> Đi sâu khám phá biến chuyển tinh vi trong tâm hồn nhân vật.</li>
-          </ul>
-          <p><strong>5. Lời trần thuật nửa trực tiếp:</strong> Hòa quyện giữa lời người kể chuyện và tiếng nói nội tâm nhân vật ngay trong mạch kể.</p>
+        <div style="font-size:0.9rem; line-height:1.75; color:#1e293b; max-height:500px; overflow-y:auto; padding-right:8px;">
           
-          <h4 style="color:#831843; font-weight:800; margin-top:12px; margin-bottom:6px;">II. NGHỆ THUẬT KHẮC HỌA TÂM LÝ & TÌNH HUỐNG</h4>
-          <p><strong>1. Thủ pháp tâm lý:</strong> Độc thoại nội tâm, lời nửa trực tiếp, tả cảnh ngụ tình, phản ứng cơ thể/cử chỉ, thủ pháp đồng hiện và bút pháp dòng ý thức.</p>
-          <p><strong>2. 4 Loại tình huống truyện:</strong></p>
-          <ul style="margin-left:20px; margin-bottom:6px;">
-            <li><em>Tình huống hành động:</em> Xung đột ngoại cảnh gay gắt, thúc đẩy nhân vật hành động dứt khoát.</li>
-            <li><em>Tình huống tâm trạng:</em> Nảy sinh những biến chuyển, giằng xé nội tâm sâu sắc.</li>
-            <li><em>Tình huống nhận thức:</em> Khoảnh khắc "ngộ ra", vỡ lẽ bản chất chân lý đời sống.</li>
-            <li><em>Tình huống trào phúng:</em> Khai thác sự nhầm lẫn, trớ trêu để tạo tiếng cười châm biếm bóc trần sự giả dối.</li>
-          </ul>
-          <p><strong>3. Chi tiết nghệ thuật:</strong> Yếu tố tạo nên "xương thịt", cá tính và thần thái cho hình tượng; là điểm tựa cụ thể hóa tư tưởng của nhà văn.</p>
+          <div style="background:#fdf2f8; padding:12px 16px; border-radius:10px; margin-bottom:14px; border-left:4px solid #831843;">
+            <h4 style="color:#831843; font-weight:800; margin-bottom:4px;">I. BẢN CHẤT VÀ CÁC THÀNH TỐ CẤU THÀNH</h4>
+            <p><strong>1. Khái niệm:</strong> Loại hình tác phẩm tự sự phản ánh đời sống qua thế giới hư cấu (sự kiện, cốt truyện, nhân vật, người kể chuyện), giúp độc giả nhận thức sâu sắc về bức tranh xã hội và chiều sâu tâm lý con người.</p>
+            <p><strong>2. Cốt truyện:</strong> Tuyến tính (theo trình tự thời gian và quan hệ nhân quả) hoặc Phi tuyến tính (đảo lộn theo dòng tâm lý, liên tưởng, hồi ức).</p>
+            <p><strong>3. Nhân vật:</strong> Là ước lệ nghệ thuật (không phải bản sao cơ học), phương tiện để tác giả đối thoại và gửi gắm quan niệm nhân sinh. Khắc họa qua lai lịch, ngoại hình, hành động, ngôn ngữ (đối thoại/độc thoại) và thế giới nội tâm.</p>
+            <p><strong>4. Người kể chuyện & Điểm nhìn:</strong> Ngôi thứ nhất (hạn tri, trải nghiệm chủ quan); Ngôi thứ ba (toàn tri hoặc hạn tri nương theo nhân vật); Điểm nhìn bên trong (soi chiếu biến chuyển tâm lý tinh vi); Sự luân chuyển linh hoạt giữa các điểm nhìn.</p>
+          </div>
+
+          <div style="background:#f8fafc; padding:12px 16px; border-radius:10px; margin-bottom:14px; border:1px solid #e2e8f0;">
+            <h4 style="color:#831843; font-weight:800; margin-bottom:6px;">II. THỦ PHÁP KHẮC HỌA TÂM LÝ & TÌNH HUỐNG TRUYỆN</h4>
+            <p><strong>1. Thủ pháp khắc họa tâm lý nhân vật:</strong></p>
+            <ul style="margin-left:20px; margin-bottom:8px;">
+              <li><em>Độc thoại nội tâm & Lời nửa trực tiếp:</em> Hòa quyện lời kể khách quan với tiếng nói thầm kín bên trong nhân vật.</li>
+              <li><em>Tả cảnh ngụ tình & Phản ứng cơ thể:</em> Cử chỉ, hành động ngoại hiện phản ánh xung đột nội tâm sâu sắc.</li>
+              <li><em>Thủ pháp đồng hiện & Kỹ thuật dòng ý thức:</em> Đưa các sự kiện ở nhiều không gian, thời gian cùng xuất hiện trên nền tâm tưởng, mô phỏng dòng suy nghĩ miên man.</li>
+            </ul>
+            <p><strong>2. 4 Loại tình huống truyện tiêu biểu:</strong></p>
+            <ul style="margin-left:20px; margin-bottom:8px;">
+              <li><em>Tình huống hành động:</em> Xung đột ngoại cảnh gay gắt, thúc đẩy nhân vật hành động dứt khoát.</li>
+              <li><em>Tình huống tâm trạng:</em> Nảy sinh những biến chuyển, giằng xé nội tâm tinh tế, sâu sắc.</li>
+              <li><em>Tình huống nhận thức:</em> Khoảnh khắc "ngộ ra", vỡ lẽ chân lý đời sống và bản chất con người.</li>
+              <li><em>Tình huống trào phúng (hoạt kê):</em> Khai thác sự nhầm lẫn, trớ trêu để tạo tiếng cười châm biếm bóc trần thói hư tật xấu.</li>
+            </ul>
+            <p><strong>3. Chi tiết nghệ thuật:</strong> Yếu tố tạo nên "xương thịt" và linh hồn cho nhân vật; chi tiết tiêu biểu là điểm tựa cô đọng nhất kết tinh tư tưởng của nhà văn.</p>
+          </div>
+
         </div>
       `
     },
     trithuc_nghiluan: {
-      title: "🏛️ TRI THỨC THỂ LOẠI: VĂN BẢN NGHỊ LUẬN",
+      title: "🏛️ TÓM TẮT NỘI DUNG CHÍNH: CHUYÊN ĐỀ VĂN BẢN NGHỊ LUẬN",
       content: `
-        <div style="font-size:0.92rem; line-height:1.7;">
-          <p><strong>1. Luận điểm:</strong> Ý kiến thể hiện tư tưởng/quan điểm của người viết về từng khía cạnh của luận đề.</p>
-          <p><strong>2. Lí lẽ & Dẫn chứng:</strong> Lí lẽ phải chặt chẽ, logic; dẫn chứng phải tiêu biểu, xác thực và giàu sức thuyết phục.</p>
-          <p><strong>3. Thao tác lập luận:</strong> Giải thích, phân tích, chứng minh, bác bỏ, bình luận, so sánh.</p>
+        <div style="font-size:0.9rem; line-height:1.75; color:#1e293b; max-height:500px; overflow-y:auto; padding-right:8px;">
+          <p><strong>1. Luận đề:</strong> Vấn đề tư tưởng, đạo lý hoặc hiện tượng đời sống / tác phẩm văn học cần bàn luận.</p>
+          <p><strong>2. Luận điểm:</strong> Ý kiến thể hiện tư tưởng, quan điểm của người viết về từng khía cạnh của luận đề.</p>
+          <p><strong>3. Lí lẽ & Dẫn chứng:</strong> Lí lẽ phải chặt chẽ, giàu tính logic; dẫn chứng phải tiêu biểu, xác thực và giàu sức thuyết phục.</p>
+          <p><strong>4. Thao tác lập luận:</strong> Giải thích, phân tích, chứng minh, so sánh, bác bỏ, bình luận.</p>
         </div>
       `
     },
     viet_doan_tips: {
-      title: "💡 KĨ NĂNG VIẾT ĐOẠN VĂN (KHOẢNG 200 CHỮ - CHUẨN 2.0 ĐIỂM)",
+      title: "💡 KĨ NĂNG VIẾT ĐOẠN VĂN NGHỊ LUẬN (KHOẢNG 200 CHỮ - CHUẨN 2.0 ĐIỂM)",
       content: `
-        <div style="font-size:0.9rem; line-height:1.7;">
-          <p><strong>1. Cấu trúc chuẩn Tổng - Phân - Hợp:</strong></p>
+        <div style="font-size:0.9rem; line-height:1.75;">
+          <p><strong>Cấu trúc chuẩn Tổng - Phân - Hợp:</strong></p>
           <ul style="margin-left:20px;">
             <li><strong>Mở đoạn (1-2 câu):</strong> Nêu trực tiếp vấn đề nghị luận từ đề bài.</li>
-            <li><strong>Giải thích (1 câu):</strong> Định nghĩa từ khóa cốt lõi.</li>
-            <li><strong>Bàn luận & Dẫn chứng (4-6 câu):</strong> Vì sao vấn đề quan trọng? Đưa 01 dẫn chứng thực tế xác thực.</li>
-            <li><strong>Mở rộng / Bác bỏ (1-2 câu):</strong> Nhìn nhận vấn đề đa chiều.</li>
-            <li><strong>Bài học hành động (1-2 câu):</strong> Nhận thức và hành động của bản thân.</li>
+            <li><strong>Giải thích (1 câu):</strong> Định nghĩa từ khóa cốt lõi của vấn đề.</li>
+            <li><strong>Bàn luận & Dẫn chứng (4-6 câu):</strong> Vì sao vấn đề quan trọng? Đưa 01 dẫn chứng thực tế xác thực và phân tích ngắn gọn.</li>
+            <li><strong>Mở rộng / Phản biện (1-2 câu):</strong> Nhìn nhận vấn đề đa chiều, phê phán biểu hiện tiêu cực trái ngược.</li>
+            <li><strong>Bài học hành động (1-2 câu):</strong> Nhận thức và hành động thiết thực của bản thân.</li>
           </ul>
         </div>
       `
     },
     viet_doan_thuchanh: {
-      title: "✍️ ĐỀ THỰC HÀNH VIẾT ĐOẠN THEO THỂ LOẠI",
+      title: "✍️ HỆ THỐNG ĐỀ THỰC HÀNH VIẾT ĐOẠN THEO THỂ LOẠI",
       content: `
         <div style="font-size:0.92rem; line-height:1.6;">
           <p style="background:#fdf2f8; padding:12px; border-radius:8px; margin-bottom:12px;">
-            <strong>Đề 1 (Thơ):</strong> Viết đoạn văn 200 chữ cảm nhận vẻ đẹp bi tráng của hình tượng người lính Tây Tiến qua 4 câu thơ: <em>"Rải rác biên cương mồ viễn xứ / Chiến trường đi chẳng tiếc đời xanh..."</em>
+            <strong>Đề 1 (Thơ):</strong> Viết đoạn văn 200 chữ cảm nhận vẻ đẹp bi tráng của hình tượng người lính Tây Tiến qua 4 câu thơ: <em>"Rải rác biên cương mồ viễn xứ / Chiến trường đi chẳng tiếc đời xanh / Áo bào thay chiếu anh về đất / Sông Mã gầm lên khúc độc hành."</em>
           </p>
           <p style="background:#f0fdfa; padding:12px; border-radius:8px;">
             <strong>Đề 2 (Truyện):</strong> Viết đoạn văn 200 chữ làm rõ ý nghĩa của chi tiết "hoa tử huyền nở sau ba mươi năm" trong truyện ngắn <em>Muối của rừng</em> (Nguyễn Huy Thiệp).
@@ -917,20 +1039,20 @@
     viet_bai_tips: {
       title: "💡 KĨ NĂNG VIẾT BÀI VĂN NGHỊ LUẬN (KHOẢNG 600 CHỮ - CHUẨN 4.0 ĐIỂM)",
       content: `
-        <div style="font-size:0.9rem; line-height:1.7;">
-          <p><strong>1. Mở bài (1 đoạn):</strong> Giới thiệu tác giả, tác phẩm/vấn đề nghị luận và trích dẫn/nêu luận đề trọng tâm.</p>
+        <div style="font-size:0.9rem; line-height:1.75;">
+          <p><strong>1. Mở bài (1 đoạn):</strong> Giới thiệu tác giả, tác phẩm / vấn đề nghị luận và nêu rõ luận đề trọng tâm.</p>
           <p><strong>2. Thân bài (3-4 đoạn luận điểm):</strong></p>
           <ul style="margin-left:20px;">
-            <li>Luận điểm 1: Khái quát bối cảnh, vị trí đoạn trích/vấn đề.</li>
-            <li>Luận điểm 2 & 3: Phân tích sâu nội dung, hình tượng và đặc sắc nghệ thuật thể loại.</li>
-            <li>Luận điểm 4: Đánh giá, nâng tầm ý nghĩa tư tưởng và đóng góp phong cách tác giả.</li>
+            <li><em>Luận điểm 1:</em> Khái quát bối cảnh, vị trí đoạn trích hoặc giải thích vấn đề nghị luận.</li>
+            <li><em>Luận điểm 2 & 3:</em> Phân tích sâu nội dung, hình tượng và đặc sắc nghệ thuật thể loại.</li>
+            <li><em>Luận điểm 4:</em> Đánh giá, nâng tầm ý nghĩa tư tưởng, bài học nhân sinh và phong cách nghệ thuật.</li>
           </ul>
-          <p><strong>3. Kết bài (1 đoạn):</strong> Khẳng định giá trị tác phẩm/vấn đề và cảm xúc, liên hệ bản thân.</p>
+          <p><strong>3. Kết bài (1 đoạn):</strong> Khẳng định lại giá trị của tác phẩm / vấn đề và liên hệ trách nhiệm bản thân.</p>
         </div>
       `
     },
     viet_bai_thuchanh: {
-      title: "✍️ ĐỀ THỰC HÀNH VIẾT BÀI NGHỊ LUẬN HOÀN CHỈNH",
+      title: "✍️ HỆ THỐNG ĐỀ THỰC HÀNH VIẾT BÀI NGHỊ LUẬN HOÀN CHỈNH",
       content: `
         <div style="font-size:0.92rem; line-height:1.6;">
           <p style="background:#f0fdfa; padding:12px; border-radius:8px;">
@@ -958,7 +1080,303 @@
   function closeModalOutside(e) {
     if (e.target.id === 'generalModal') closeModal();
   }
+
+  const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbxmf7eFagsotgPVz0TVAD4qu_OZAOinePGkTpi7vPLbYv7LRfE_IfLTF9sfYPz14Ss/exec";
+
+  const TOPIC_CARDS = {
+    "TRUYEN_12": {
+      cardId: "card-bai1",
+      tagId: "tag-bai1",
+      actionsId: "actions-bai1",
+      link: "P1_BAI_1_TIEU_THUYET.html",
+      modalKey: "kienthuc_bai1",
+      title: "Bài 1: Khả năng lớn lao của tiểu thuyết"
+    },
+    "P1_BAI_1": {
+      cardId: "card-bai1",
+      tagId: "tag-bai1",
+      actionsId: "actions-bai1",
+      link: "P1_BAI_1_TIEU_THUYET.html",
+      modalKey: "kienthuc_bai1",
+      title: "Bài 1: Khả năng lớn lao của tiểu thuyết"
+    },
+    "TAY_TIEN": {
+      cardId: "card-bai2",
+      tagId: "tag-bai2",
+      actionsId: "actions-bai2",
+      link: "APP_ON_TAP_TAY_TIEN_12.html",
+      modalKey: "kienthuc_bai2",
+      title: "Bài 2: Những thế giới thơ"
+    },
+    "THO_12": {
+      cardId: "card-bai2",
+      tagId: "tag-bai2",
+      actionsId: "actions-bai2",
+      link: "APP_ON_TAP_TAY_TIEN_12.html",
+      modalKey: "kienthuc_bai2",
+      title: "Bài 2: Những thế giới thơ"
+    },
+    "BAI_3": {
+      cardId: "card-bai3",
+      tagId: "tag-bai3",
+      actionsId: "actions-bai3",
+      link: "#",
+      modalKey: "kienthuc_bai3",
+      title: "Bài 3: Lập luận trong văn bản nghị luận"
+    },
+    "P2_TRUYEN": {
+      cardId: "card-p2-truyen",
+      tagId: "tag-p2-truyen",
+      actionsId: "actions-p2-truyen",
+      link: "P2_THE_LOAI_TRUYEN.html",
+      modalKey: "trithuc_truyen",
+      title: "Chuyên đề Truyện & Tiểu thuyết"
+    }
+  };
+
+  function updateCardStatus(topicId, status) {
+    const info = TOPIC_CARDS[topicId];
+    if (!info) return;
+
+    const card = document.getElementById(info.cardId);
+    const tag = document.getElementById(info.tagId);
+    const actions = document.getElementById(info.actionsId);
+
+    if (!card || !tag || !actions) return;
+
+    if (status === 'OPEN') {
+      card.classList.add('featured');
+      tag.className = 'tag tag-ready';
+      tag.textContent = 'Đã mở đề';
+      actions.innerHTML = `
+        <a href="${info.link}" class="btn btn-primary">🎯 Tự Đánh Giá</a>
+        <button onclick="openPromptModal('${info.modalKey}')" class="btn btn-secondary">📖 Tóm tắt nội dung chính</button>
+      `;
+    } else {
+      // If already open by another alias, keep open
+      if (tag.textContent !== 'Đã mở đề') {
+        card.classList.remove('featured');
+        tag.className = 'tag tag-soon';
+        tag.textContent = 'Sắp mở';
+        actions.innerHTML = `
+          <button class="btn btn-disabled" disabled>⏳ Theo tiến trình</button>
+          <button onclick="openPromptModal('${info.modalKey}')" class="btn btn-secondary">📖 Tóm tắt nội dung chính</button>
+        `;
+      }
+    }
+  }
+
+  function checkAllRemoteStatus(showToastNotice) {
+    const pill = document.getElementById('live-status-pill');
+    const refreshBtn = document.getElementById('btn-refresh-status');
+    if (refreshBtn) refreshBtn.innerHTML = '⏳ Đang kiểm tra...';
+
+    const queries = ['TAY_TIEN', 'THO_12', 'TRUYEN_12', 'P1_BAI_1', 'P2_TRUYEN', 'BAI_3'];
+    let completed = 0;
+
+    queries.forEach(function(tid) {
+      const script = document.createElement('script');
+      const callbackName = '__onStatusLoaded_' + tid.replace(/[^a-zA-Z0-9]/g, '_');
+      
+      window[callbackName] = function(data) {
+        completed++;
+        if (data && data.status === 'success') {
+          updateCardStatus(tid, data.examStatus || 'CLOSED');
+        }
+        if (completed === queries.length) {
+          finishCheck();
+        }
+      };
+
+      script.src = GOOGLE_SHEETS_URL + '?action=check&topicId=' + encodeURIComponent(tid) + '&callback=' + callbackName + '&_t=' + Date.now();
+      script.onerror = function() {
+        completed++;
+        if (completed === queries.length) finishCheck();
+      };
+      document.body.appendChild(script);
+    });
+
+    function finishCheck() {
+      const now = new Date();
+      const pad = function(n) { return (n < 10 ? '0' : '') + n; };
+      const timeStr = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+
+      if (pill) {
+        pill.innerHTML = '🟢 <strong>Trực tuyến:</strong> Cập nhật lúc ' + timeStr;
+        pill.style.background = '#f0fdf4';
+        pill.style.color = '#166534';
+      }
+      if (refreshBtn) {
+        refreshBtn.innerHTML = '🔄 Kiểm tra tình trạng';
+      }
+      if (showToastNotice) {
+        showIndexToast('🟢 Đã cập nhật trạng thái đề thi mới nhất từ Google Sheets!');
+      }
+    }
+
+    setTimeout(finishCheck, 4000);
+  }
+
+  function showIndexToast(msg) {
+    const t = document.getElementById('toast-index');
+    if (!t) return;
+    t.textContent = msg;
+    t.style.display = 'block';
+    t.style.position = 'fixed';
+    t.style.bottom = '24px';
+    t.style.right = '24px';
+    t.style.background = '#0f172a';
+    t.style.color = '#fff';
+    t.style.padding = '12px 20px';
+    t.style.borderRadius = '10px';
+    t.style.boxShadow = '0 10px 25px rgba(0,0,0,0.2)';
+    t.style.zIndex = '9999';
+    t.style.fontWeight = '600';
+    setTimeout(function() { t.style.display = 'none'; }, 3500);
+  }
+
+  // FEEDBACK MODAL FUNCTIONS
+  function openFeedbackModal(defaultLesson, defaultPosition) {
+    if (defaultLesson) {
+      const sel = document.getElementById('fb-lesson');
+      if (sel) sel.value = defaultLesson;
+    }
+    if (defaultPosition) {
+      const pos = document.getElementById('fb-position');
+      if (pos) pos.value = defaultPosition;
+    }
+    document.getElementById('feedbackModal').style.display = 'flex';
+  }
+
+  function closeFeedbackModal() {
+    document.getElementById('feedbackModal').style.display = 'none';
+  }
+
+  function closeFeedbackModalOutside(e) {
+    if (e.target.id === 'feedbackModal') closeFeedbackModal();
+  }
+
+  function submitFeedback(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-submit-fb');
+    btn.disabled = true;
+    btn.textContent = '⏳ Đang gửi...';
+
+    const lesson = document.getElementById('fb-lesson').value;
+    const position = document.getElementById('fb-position').value;
+    const type = document.getElementById('fb-type').value;
+    const contentText = document.getElementById('fb-content').value;
+    const sender = document.getElementById('fb-sender').value || 'Ẩn danh';
+    const className = document.getElementById('fb-class').value || '--';
+
+    const payload = {
+      action: 'feedback',
+      timestamp: new Date().toLocaleString('vi-VN'),
+      lesson: lesson,
+      position: position,
+      type: type,
+      content: contentText,
+      sender: sender,
+      className: className
+    };
+
+    // Send via Image Ping / GET
+    const query = 'action=feedback' +
+      '&lesson=' + encodeURIComponent(lesson) +
+      '&position=' + encodeURIComponent(position) +
+      '&type=' + encodeURIComponent(type) +
+      '&content=' + encodeURIComponent(contentText) +
+      '&sender=' + encodeURIComponent(sender) +
+      '&className=' + encodeURIComponent(className);
+
+    try {
+      const img = new Image();
+      img.src = GOOGLE_SHEETS_URL + '?' + query + '&_t=' + Date.now();
+    } catch(err) {}
+
+    setTimeout(function() {
+      btn.disabled = false;
+      btn.textContent = '📤 Gửi góp ý';
+      closeFeedbackModal();
+      document.getElementById('feedbackForm').reset();
+      showIndexToast('✅ Cảm ơn phản hồi quý báu của Thầy/Cô và các em học sinh!');
+    }, 1000);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    checkAllRemoteStatus(false);
+  });
+  
 </script>
 
+
+  <!-- FEEDBACK / BUG REPORT MODAL -->
+  <div id="feedbackModal" class="modal-overlay" onclick="closeFeedbackModalOutside(event)">
+    <div class="modal-content" style="max-width:550px;">
+      <button class="modal-close" onclick="closeFeedbackModal()">✕</button>
+      <h3 style="font-size:1.25rem; font-weight:800; color:#831843; margin-bottom:6px; display:flex; align-items:center; gap:8px;">
+        <span>💬</span> BÁO CÁO SAI SÓT HOẶC GÓP Ý
+      </h3>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px;">
+        Đóng góp của Thầy/Cô và các em học sinh giúp hệ thống đề thi ngày càng hoàn thiện và chính xác hơn.
+      </p>
+
+      <form id="feedbackForm" onsubmit="submitFeedback(event)">
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; color:#475569; display:block; margin-bottom:4px;">BÀI HỌC / CHUYÊN ĐỀ (*)</label>
+            <select id="fb-lesson" class="input-control" style="width:100%; padding:10px; border-radius:8px; border:1.5px solid #cbd5e1;" required>
+              <option value="Bài 1: Khả năng lớn lao của tiểu thuyết">Bài 1: Khả năng lớn lao của tiểu thuyết</option>
+              <option value="Bài 2: Những thế giới thơ (Tây Tiến)">Bài 2: Những thế giới thơ (Tây Tiến)</option>
+              <option value="Chuyên đề: Thể loại Truyện">Chuyên đề: Thể loại Truyện</option>
+              <option value="Chuyên đề: Thể loại Thơ">Chuyên đề: Thể loại Thơ</option>
+              <option value="Chuyên đề: Văn bản Nghị luận">Chuyên đề: Văn bản Nghị luận</option>
+              <option value="Giao diện / Tính năng chung">Giao diện / Tính năng chung của hệ thống</option>
+            </select>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; color:#475569; display:block; margin-bottom:4px;">VỊ TRÍ / CÂU SỐ (NẾU CÓ)</label>
+              <input type="text" id="fb-position" class="input-control" placeholder="Ví dụ: Câu 12, Đề thi..." style="width:100%; padding:10px; border-radius:8px; border:1.5px solid #cbd5e1;">
+            </div>
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; color:#475569; display:block; margin-bottom:4px;">LOẠI PHẢN ÁNH (*)</label>
+              <select id="fb-type" class="input-control" style="width:100%; padding:10px; border-radius:8px; border:1.5px solid #cbd5e1;" required>
+                <option value="Báo lỗi đáp án / giải thích">Báo lỗi đáp án / giải thích</option>
+                <option value="Báo lỗi chính tả / trích dẫn">Báo lỗi chính tả / trích dẫn</option>
+                <option value="Góp ý cải tiến giao diện">Góp ý cải tiến giao diện</option>
+                <option value="Đề xuất bổ sung nội dung">Đề xuất bổ sung nội dung</option>
+                <option value="Ý kiến khác">Ý kiến khác</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size:0.8rem; font-weight:700; color:#475569; display:block; margin-bottom:4px;">NỘI DUNG CHI TIẾT (*)</label>
+            <textarea id="fb-content" class="input-control" rows="4" placeholder="Mô tả cụ thể sai sót hoặc ý kiến đóng góp của bạn..." style="width:100%; padding:10px; border-radius:8px; border:1.5px solid #cbd5e1; font-family:inherit;" required></textarea>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; color:#475569; display:block; margin-bottom:4px;">HỌ TÊN NGƯỜI GỬI (Tùy chọn)</label>
+              <input type="text" id="fb-sender" class="input-control" placeholder="Tên Giáo viên / Học sinh" style="width:100%; padding:10px; border-radius:8px; border:1.5px solid #cbd5e1;">
+            </div>
+            <div>
+              <label style="font-size:0.8rem; font-weight:700; color:#475569; display:block; margin-bottom:4px;">LỚP HỌC (Tùy chọn)</label>
+              <input type="text" id="fb-class" class="input-control" placeholder="12A08, 12A13..." style="width:100%; padding:10px; border-radius:8px; border:1.5px solid #cbd5e1;">
+            </div>
+          </div>
+
+          <div style="margin-top:8px; display:flex; gap:10px; justify-content:flex-end;">
+            <button type="button" class="btn btn-secondary" onclick="closeFeedbackModal()">Đóng</button>
+            <button type="submit" class="btn btn-primary" id="btn-submit-fb">📤 Gửi góp ý</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-index" class="toast"></div>
 </body>
 </html>
