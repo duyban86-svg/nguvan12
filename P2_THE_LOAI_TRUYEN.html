@@ -842,6 +842,7 @@
         <span class="badge badge-gold">30 CÂU HỎI</span>
         <span class="badge badge-live" id="live-connection-badge">🟢 Hệ thống sẵn sàng</span>
       </div>
+      <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem; border-color:#831843; color:#831843;" onclick="openGenreRefModal()">📖 Đặc trưng thể loại</button>
       <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem; border-color:#0284c7; color:#0284c7;" onclick="openFeedbackModal()">💬 Báo lỗi / Góp ý</button>
       <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem;" onclick="promptMasterPin()">🔑 Giáo viên</button>
     </div>
@@ -1068,6 +1069,505 @@
       <button class="btn btn-outline" style="padding:10px 18px; font-size:0.9rem;" onclick="closeFeedbackModal()">Hủy</button>
       <button class="btn btn-primary" id="btn-submit-feedback" style="padding:10px 22px; font-size:0.9rem;" onclick="submitFeedbackForm()">📤 Gửi phản ánh</button>
     </div>
+  </div>
+</div>
+
+
+<!-- MODAL ĐẶC TRƯNG THỂ LOẠI -->
+<div id="genreRefModal" class="modal-overlay" onclick="if(event.target===this)closeGenreRefModal()" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.75); backdrop-filter:blur(4px); z-index:99999; justify-content:center; align-items:center; padding:16px;">
+  <div class="modal-content" style="background:white; border-radius:16px; width:100%; max-width:920px; max-height:90vh; overflow:hidden; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); display:flex; flex-direction:column;">
+    
+<div class="modal-header-custom" style="padding: 16px 20px; background: linear-gradient(135deg, #831843, #be185d); color: white; border-radius: 12px 12px 0 0; display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <span class="badge" style="background: rgba(255,255,255,0.2); color: #fff; font-size: 0.75rem; padding: 4px 8px; border-radius: 6px; font-weight: 700; text-transform: uppercase;">Chuyên đề Ôn thi Tốt nghiệp THPT</span>
+    <h2 style="font-size: 1.35rem; font-weight: 800; margin: 4px 0 0 0;">📖 ĐẶC TRƯNG THỂ LOẠI: TRUYỆN & TIỂU THUYẾT HIỆN ĐẠI</h2>
+  </div>
+  <button class="modal-close" onclick="closeGenreRefModal()" style="background: rgba(0,0,0,0.2); border: none; color: white; font-size: 1.4rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
+</div>
+
+<!-- NAV TABS -->
+<div class="genre-nav-tabs" style="display: flex; background: #fdf2f8; border-bottom: 2px solid #fbcfe8; padding: 6px 12px; gap: 6px; overflow-x: auto;">
+  <button class="genre-tab-btn active" onclick="switchGenreTab('g-tab-1')" style="padding: 10px 16px; border: none; background: white; border-radius: 8px; font-family: inherit; font-size: 0.9rem; font-weight: 700; color: #831843; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); white-space: nowrap;">
+    <span>🧩</span> 1. Bản đồ Thể loại (Lí luận cốt lõi)
+  </button>
+  <button class="genre-tab-btn" onclick="switchGenreTab('g-tab-2')" style="padding: 10px 16px; border: none; background: transparent; border-radius: 8px; font-family: inherit; font-size: 0.9rem; font-weight: 700; color: #64748b; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap;">
+    <span>📚</span> 2. Giải mã Tác phẩm (Case Studies)
+  </button>
+  <button class="genre-tab-btn" onclick="switchGenreTab('g-tab-3')" style="padding: 10px 16px; border: none; background: transparent; border-radius: 8px; font-family: inherit; font-size: 0.9rem; font-weight: 700; color: #64748b; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap;">
+    <span>⚖️</span> 3. Bàn cân Đối sánh Thi pháp
+  </button>
+  <button class="genre-tab-btn" onclick="switchGenreTab('g-tab-4')" style="padding: 10px 16px; border: none; background: transparent; border-radius: 8px; font-family: inherit; font-size: 0.9rem; font-weight: 700; color: #64748b; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap;">
+    <span>🎯</span> 4. Cẩm nang Phòng thi THPT
+  </button>
+</div>
+
+<div class="genre-modal-body" style="padding: 24px; max-height: 75vh; overflow-y: auto; line-height: 1.7; color: #1e293b; background: #ffffff;">
+
+  <!-- ==================== TAB 1: BẢN ĐỒ THỂ LOẠI ==================== -->
+  <div id="g-tab-1" class="genre-tab-content" style="display: block;">
+    
+    <div style="background: #fdf4f8; border-left: 5px solid #831843; padding: 16px 20px; border-radius: 8px; margin-bottom: 24px;">
+      <h3 style="color: #831843; font-size: 1.15rem; font-weight: 800; margin-bottom: 6px;">📌 I. KHÁI NIỆM CHUNG VỀ THỂ LOẠI TRUYỆN</h3>
+      <p style="margin: 0; font-size: 0.95rem; color: #334155;">
+        <strong>Truyện</strong> là loại hình tác phẩm tự sự, phương thức phản ánh đời sống chủ yếu thông qua việc xây dựng <em>thế giới hư cấu</em> với hệ thống sự kiện, cốt truyện, nhân vật và người kể chuyện nhằm tái hiện bức tranh đời sống xã hội cũng như chiều sâu tâm lí con người. Từ một vài sự việc, nhân vật cụ thể, tác phẩm giúp người đọc hình dung được bức tranh rộng lớn về đời sống và làm chuyển biến nhận thức của độc giả.
+      </p>
+    </div>
+
+    <h3 style="color: #0f172a; font-size: 1.1rem; font-weight: 800; margin: 20px 0 12px; display: flex; align-items: center; gap: 8px;">
+      <span>🏛️</span> II. CÁC YẾU TỐ ĐẶC TRƯNG CẤU THÀNH TÁC PHẨM TRUYỆN
+    </h3>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px;">
+      
+      <!-- Cốt truyện -->
+      <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px; border-top: 4px solid #0284c7;">
+        <h4 style="color: #0369a1; font-weight: 800; font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+          <span>🧵</span> 1. Cốt truyện & Sự kiện
+        </h4>
+        <p style="font-size: 0.9rem; margin-bottom: 10px;">
+          <strong>Khái niệm:</strong> Hệ thống chuỗi sự kiện, biến cố xảy ra trong đời sống nhân vật được liên kết theo mạch kể nhất định.
+        </p>
+        <div style="background: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; border: 1px dashed #cbd5e1;">
+          <p style="margin-bottom: 6px;"><strong>Mô hình tổ chức:</strong></p>
+          <ul style="padding-left: 18px; margin: 0;">
+            <li style="margin-bottom: 4px;"><strong>Cốt truyện tuyến tính (cổ điển):</strong> Trật tự trước - sau theo quan hệ nhân quả (<em>Trình bày ➔ Thắt nút ➔ Phát triển ➔ Cao trào ➔ Mở nút</em>).</li>
+            <li><strong>Cốt truyện phi tuyến tính (hiện đại):</strong> Phá vỡ trật tự thời gian máy móc, vận động theo dòng tâm lí, liên tưởng, hồi ức.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Nhân vật -->
+      <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px; border-top: 4px solid #831843;">
+        <h4 style="color: #831843; font-weight: 800; font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+          <span>👤</span> 2. Nhân vật trong truyện
+        </h4>
+        <p style="font-size: 0.9rem; margin-bottom: 10px;">
+          <strong>Bản chất nghệ thuật:</strong> Nhân vật là <em>ước lệ nghệ thuật</em>, không phải bản sao nguyên xi ngoài đời thực. Nhân vật chính diện là phương tiện đối thoại, chia sẻ góc nhìn đa chiều về con người.
+        </p>
+        <div style="background: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; border: 1px dashed #cbd5e1;">
+          <ul style="padding-left: 18px; margin: 0;">
+            <li style="margin-bottom: 4px;"><strong>Nhân vật trung tâm/chính:</strong> Giữ vai trò chủ đạo vận động cốt truyện và thể hiện tư tưởng cốt lõi.</li>
+            <li><strong>Nhân vật phụ:</strong> Làm phông nền, bối cảnh, chất xúc tác thúc đẩy sự phát triển của cốt truyện.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Ngôi kể & Điểm nhìn -->
+      <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px; border-top: 4px solid #0d9488;">
+        <h4 style="color: #0f766e; font-weight: 800; font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+          <span>👁️</span> 3. Người kể chuyện & Điểm nhìn
+        </h4>
+        <p style="font-size: 0.9rem; margin-bottom: 10px;">
+          <strong>Ngôi kể:</strong> Hình thức hiện diện của người kể chuyện.
+        </p>
+        <div style="background: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; border: 1px dashed #cbd5e1;">
+          <ul style="padding-left: 18px; margin: 0;">
+            <li style="margin-bottom: 4px;"><strong>Ngôi thứ nhất (xưng "tôi"):</strong> Trải nghiệm trực tiếp, mang tính chủ quan, điểm nhìn <em>hạn tri</em>.</li>
+            <li style="margin-bottom: 4px;"><strong>Ngôi thứ ba:</strong> Giấu mình, tạo cảm giác khách quan; có thể là <em>toàn tri</em> (biết hết) hoặc <em>hạn tri</em> (nương theo tâm trí nhân vật).</li>
+            <li><strong>Luân chuyển điểm nhìn:</strong> Đan xen ngôi kể và dịch chuyển góc nhìn giúp tạo cái nhìn đa chiều, phức hợp.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Không - Thời gian & Chi tiết -->
+      <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px; border-top: 4px solid #b45309;">
+        <h4 style="color: #b45309; font-weight: 800; font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+          <span>⏳</span> 4. Không gian, Thời gian & Chi tiết
+        </h4>
+        <p style="font-size: 0.9rem; margin-bottom: 10px;">
+          <strong>Không - Thời gian:</strong> Môi trường địa lí, bối cảnh tâm tưởng, thời gian thực tại va đập thời gian tâm lí.
+        </p>
+        <div style="background: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; border: 1px dashed #cbd5e1;">
+          <ul style="padding-left: 18px; margin: 0;">
+            <li style="margin-bottom: 4px;"><strong>Chi tiết nghệ thuật:</strong> Yếu tố nhỏ nhất tạo "xương thịt" và linh hồn sống động cho hình tượng.</li>
+            <li style="margin-bottom: 4px;"><strong>Chi tiết tiêu biểu:</strong> Điểm kết tinh tư tưởng thẩm mĩ và cá tính nhân vật.</li>
+            <li><strong>Chi tiết lặp lại (Mô-típ):</strong> Khắc sâu chủ đề và tạo ám ảnh nghệ thuật.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 4 THỦ PHÁP KHẮC HỌA TÂM LÍ -->
+    <div style="background: #fffdf5; border: 2px solid #fef08a; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+      <h3 style="color: #854d0e; font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <span>🧠</span> 4 THỦ PHÁP KHẮC HỌA TÂM LÍ NHÂN VẬT CHUYÊN SÂU
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;">
+        
+        <div style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #fde047;">
+          <strong style="color: #a16207; display: block; margin-bottom: 6px;">1. Miêu tả trực tiếp:</strong>
+          <p style="font-size: 0.86rem; margin: 0; color: #475569;">
+            • <strong>Độc thoại nội tâm:</strong> Tái hiện suy nghĩ thầm kín không phát thành lời.<br>
+            • <strong>Lời nửa trực tiếp:</strong> Xóa nhòa ranh giới giữa người kể chuyện và ngôn ngữ nhân vật.<br>
+            • <strong>Điểm nhìn bên trong:</strong> Soi tỏ tỉ mỉ từng ngóc ngách tâm trạng.
+          </p>
+        </div>
+
+        <div style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #fde047;">
+          <strong style="color: #a16207; display: block; margin-bottom: 6px;">2. Khắc họa gián tiếp:</strong>
+          <p style="font-size: 0.86rem; margin: 0; color: #475569;">
+            • <strong>Hành động, cử chỉ, phản ứng cơ thể:</strong> Nét mặt co rúm, tiếng thở dài, bước chân vội vã.<br>
+            • <strong>Tình huống thử thách:</strong> Biến cố gay gắt buộc nhân vật bộc lộ thực chất nhân cách.
+          </p>
+        </div>
+
+        <div style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #fde047;">
+          <strong style="color: #a16207; display: block; margin-bottom: 6px;">3. Tả cảnh ngụ tình:</strong>
+          <p style="font-size: 0.86rem; margin: 0; color: #475569;">
+            • Mượn bức tranh thiên nhiên, không gian và bước chuyển của thời gian để phản chiếu tâm trạng con người (như cảnh phố huyện chiều tàn trong <em>"Hai đứa trẻ"</em>).
+          </p>
+        </div>
+
+        <div style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #fde047;">
+          <strong style="color: #a16207; display: block; margin-bottom: 6px;">4. Dòng ý thức & Đồng hiện:</strong>
+          <p style="font-size: 0.86rem; margin: 0; color: #475569;">
+            • <strong>Thủ pháp đồng hiện:</strong> Nhiều sự kiện/không gian xuất hiện cùng lúc trên nền hồi ức.<br>
+            • <strong>Kĩ thuật dòng ý thức:</strong> Mô phỏng trạng thái biến hóa phức tạp của ý thức và tiềm thức.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 4 LOẠI TÌNH HUỐNG TRUYỆN -->
+    <div style="background: #f0fdf4; border: 2px solid #bbf7d0; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+      <h3 style="color: #166534; font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <span>⚡</span> 4 LOẠI TÌNH HUỐNG TRUYỆN TIÊU BIỂU (HẠT NHÂN CỐT TRUYỆN)
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px;">
+        <div style="background: white; padding: 12px; border-radius: 8px; border-left: 4px solid #16a34a;">
+          <strong style="color: #15803d; font-size: 0.9rem;">1. Tình huống hành động:</strong>
+          <p style="font-size: 0.85rem; margin: 4px 0 0 0; color: #475569;">Xoay quanh biến cố ngoại cảnh gay gắt, buộc nhân vật phải hành động dứt khoát để giải quyết tình thế.</p>
+        </div>
+        <div style="background: white; padding: 12px; border-radius: 8px; border-left: 4px solid #16a34a;">
+          <strong style="color: #15803d; font-size: 0.9rem;">2. Tình huống tâm trạng:</strong>
+          <p style="font-size: 0.85rem; margin: 4px 0 0 0; color: #475569;">Biến cố làm nảy sinh những biến chuyển, giằng xé nội tâm sâu sắc, khám phá thế giới cảm xúc tinh tế.</p>
+        </div>
+        <div style="background: white; padding: 12px; border-radius: 8px; border-left: 4px solid #16a34a;">
+          <strong style="color: #15803d; font-size: 0.9rem;">3. Tình huống nhận thức:</strong>
+          <p style="font-size: 0.85rem; margin: 4px 0 0 0; color: #475569;">Khoảnh khắc "ngộ ra", giúp nhân vật vỡ lẽ bản chất con người và chân lí đời sống (như ông Diểu trong <em>"Muối của rừng"</em>).</p>
+        </div>
+        <div style="background: white; padding: 12px; border-radius: 8px; border-left: 4px solid #16a34a;">
+          <strong style="color: #15803d; font-size: 0.9rem;">4. Tình huống trào phúng:</strong>
+          <p style="font-size: 0.85rem; margin: 4px 0 0 0; color: #475569;">Khai thác sự trớ trêu, phi lí để tạo tiếng cười châm biếm, lột trần thói hư tật xấu (như <em>"Xuân Tóc Đỏ cứu quốc"</em>).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CÁC TIỂU LOẠI TRUYỆN -->
+    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 18px;">
+      <h4 style="color: #334155; font-weight: 800; font-size: 0.95rem; margin-bottom: 10px;">📚 HỆ THỐNG CÁC TIỂU LOẠI TRUYỆN TIÊU BIỂU:</h4>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <span class="tag" style="background:#e0f2fe; color:#0369a1; padding:6px 10px; border-radius:6px; font-weight:600; font-size:0.85rem;">🏛️ Truyện dân gian (Thần thoại, Cổ tích, Truyện cười)</span>
+        <span class="tag" style="background:#fce7f3; color:#9d174d; padding:6px 10px; border-radius:6px; font-weight:600; font-size:0.85rem;">📜 Truyện truyền kì (Trung đại)</span>
+        <span class="tag" style="background:#fef3c7; color:#b45309; padding:6px 10px; border-radius:6px; font-weight:600; font-size:0.85rem;">🎶 Truyện thơ (Dân gian & Truyện thơ Nôm)</span>
+        <span class="tag" style="background:#dcfce7; color:#15803d; padding:6px 10px; border-radius:6px; font-weight:600; font-size:0.85rem;">📖 Truyện ngắn hiện đại (Cô đọng, lát cắt đời sống)</span>
+        <span class="tag" style="background:#ede9fe; color:#6d28d9; padding:6px 10px; border-radius:6px; font-weight:600; font-size:0.85rem;">📚 Tiểu thuyết hiện đại (Quy mô lớn, đa tuyến, đa thanh)</span>
+        <span class="tag" style="background:#f1f5f9; color:#475569; padding:6px 10px; border-radius:6px; font-weight:600; font-size:0.85rem;">🔍 Truyện trinh thám, Đồng thoại, Truyện kí</span>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ==================== TAB 2: GIẢI MÃ TÁC PHẨM ==================== -->
+  <div id="g-tab-2" class="genre-tab-content" style="display: none;">
+    
+    <!-- TÁC PHẨM 1: XUÂN TÓC ĐỎ CỨU QUỐC -->
+    <div style="background: #fff; border: 2px solid #fda4af; border-radius: 12px; padding: 22px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+        <h3 style="color: #9f1239; font-size: 1.2rem; font-weight: 800; margin: 0;">
+          🎭 1. "Xuân Tóc Đỏ cứu quốc" (Trích <em>Số đỏ</em> - Vũ Trọng Phụng)
+        </h3>
+        <span class="tag" style="background: #ffe4e6; color: #9f1239; font-weight: 700; font-size: 0.8rem; padding: 4px 10px; border-radius: 6px;">Tiểu thuyết trào phúng • Hoạt kê</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 14px;">
+        <div style="background: #fff1f2; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #be123c; display: block; margin-bottom: 4px;">🎯 Nghệ thuật đặt tên biếm họa:</strong>
+          • <strong>Xuân Tóc Đỏ:</strong> Kẻ hạ lưu, vô học vỉa hè leo lên danh vọng nhờ vận may "số đỏ".<br>
+          • <strong>Văn Minh:</strong> Danh xưng đối lập hoàn toàn bản chất giả dối, cơ hội, sính ngoại.<br>
+          • <strong>TYPN:</strong> Viết tắt khẩu hiệu "Tôi yêu phụ nữ", biểu tượng bịp bợm phong trào Âu hóa.
+        </div>
+
+        <div style="background: #fff1f2; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #be123c; display: block; margin-bottom: 4px;">⚖️ Vênh lệch bản chất vs Danh xưng:</strong>
+          • Bản chất lưu manh, đánh thua đối thủ ➔ Đội lốt "bậc vĩ nhân", "người hùng cứu quốc".<br>
+          • Đám đông khán giả trong trạng thái "thôi miên, lên đồng", cuồng nhiệt tung hô <em>"Sự đại bại vạn tuế!"</em>.
+        </div>
+      </div>
+
+      <div style="background: #fff; padding: 14px; border-radius: 8px; border: 1.5px dashed #f43f5e; font-size: 0.88rem;">
+        <strong style="color: #be123c; display: block; margin-bottom: 4px;">🎬 Kĩ thuật trần thuật & Sân khấu hóa:</strong>
+        • Điểm nhìn trần thuật ngôi thứ ba dịch chuyển linh hoạt như ống kính điện ảnh (từ toàn cảnh khán đài ➔ rỉ tai bí mật ➔ đặc tả cận cảnh cử chỉ Xuân).<br>
+        • Sử dụng dày đặc nghịch ngữ (<em>"bậc vĩ nhân nhũn nhặn giơ quả đấm chào loài người"</em>, <em>"chết một cách rất thể thao"</em>, <em>"sự đại bại vạn tuế"</em>).<br>
+        • Các chỉ dẫn hành động trong ngoặc đơn <em>(nó vỗ vào ngực, nó đấm tay xuống không khí...)</em> mang dáng dấp kịch bản sân khấu, biến xã hội thành sàn diễn hài kịch khổng lồ.
+      </div>
+    </div>
+
+    <!-- TÁC PHẨM 2: MÙA LÁ RỤNG TRONG VƯỜN -->
+    <div style="background: #fff; border: 2px solid #fed7aa; border-radius: 12px; padding: 22px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+        <h3 style="color: #9a3412; font-size: 1.2rem; font-weight: 800; margin: 0;">
+          🍂 2. "Mùa lá rụng trong vườn" (Ma Văn Kháng)
+        </h3>
+        <span class="tag" style="background: #ffedd5; color: #9a3412; font-weight: 700; font-size: 0.8rem; padding: 4px 10px; border-radius: 6px;">Tiểu thuyết tâm lí • Thế sự đời tư</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 14px;">
+        <div style="background: #fff7ed; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #c2410c; display: block; margin-bottom: 4px;">🕯️ Chiều 30 Tết & Bàn thờ gia tiên:</strong>
+          • Không gian thiêng liêng đóng vai trò là "chiếc neo tinh thần", thước đo soi chiếu nhân cách và đạo lí gia phong truyền thống.<br>
+          • <strong>Ông Bằng:</strong> Trí thức già nề nếp, nỗi đau buồn nhân tính cao đẹp khi gìn giữ nếp nhà trước rạn nứt thời cuộc.
+        </div>
+
+        <div style="background: #fff7ed; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #c2410c; display: block; margin-bottom: 4px;">🌸 Hình tượng Chị Hoài:</strong>
+          • Vẻ ngoài lam lũ (áo bông chần hạt lựu, đôi gót chân nứt nẻ) nhưng tâm hồn đôn hậu, thuỷ chung son sắt.<br>
+          • Trở về bằng mệnh lệnh của đạo nghĩa, là chất keo kết dính sưởi ấm nếp nhà và thức tỉnh lương tri các em.
+        </div>
+      </div>
+
+      <div style="background: #fff; padding: 14px; border-radius: 8px; border: 1.5px dashed #ea580c; font-size: 0.88rem;">
+        <strong style="color: #c2410c; display: block; margin-bottom: 4px;">🧠 Bút pháp tâm lí & Lời nửa trực tiếp:</strong>
+        • Khai thác dòng "tâm ức" và "tiềm thức", thời gian tâm lí đan cài thời gian thực tại của buổi cúng tất niên.<br>
+        • Lời trần thuật nửa trực tiếp mô phỏng trọn vẹn nỗi ngổn ngang, bối rối, dằn vặt của nhân vật trước ngưỡng cửa kinh tế thị trường.<br>
+        • Nghệ thuật cài cắm chi tiết dự cảm (nét mặt lo âu, lời nói mỉa, sự vắng mặt của Cừ) báo trước những biến cố gia đình ở các chương sau.
+      </div>
+    </div>
+
+    <!-- TÁC PHẨM 3: MUỐI CỦA RỪNG -->
+    <div style="background: #fff; border: 2px solid #bbf7d0; border-radius: 12px; padding: 22px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+        <h3 style="color: #166534; font-size: 1.2rem; font-weight: 800; margin: 0;">
+          🌲 3. "Muối của rừng" (Nguyễn Huy Thiệp)
+        </h3>
+        <span class="tag" style="background: #dcfce7; color: #166534; font-weight: 700; font-size: 0.8rem; padding: 4px 10px; border-radius: 6px;">Truyện ngắn hiện đại • Đề tài sinh thái</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+        <div style="background: #f0fdf4; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #15803d; display: block; margin-bottom: 4px;">🔄 Hành trình biến đổi nhận thức của ông Diểu:</strong>
+          • <strong>Đầu truyện:</strong> Trang bị đầy đủ vũ khí, kiêu ngạo mang tâm thế kẻ hủy diệt tự nhiên.<br>
+          • <strong>Cuối truyện:</strong> Buông bỏ súng, nhường quần áo băng bó vết thương cho con mồi, trở về trần trụi, thanh tẩy tâm hồn để hòa hợp với đất trời.
+        </div>
+
+        <div style="background: #f0fdf4; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #15803d; display: block; margin-bottom: 4px;">🌸 Biểu tượng Hoa tử huyền:</strong>
+          • Chi tiết kì ảo xuất hiện ở kết truyện (30 năm mới nở một lần, màu trắng, vị mặn).<br>
+          • Ẩn dụ nghệ thuật: Điềm báo thanh bình, ấm no và phần thưởng thiên nhiên dành cho người biết sám hối, hướng thiện.
+        </div>
+      </div>
+    </div>
+
+    <!-- TÁC PHẨM 4: LÃO HẠC & HAI ĐỨA TRẺ -->
+    <div style="background: #fff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 22px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+      <h3 style="color: #334155; font-size: 1.2rem; font-weight: 800; margin-bottom: 12px;">
+        🕯️ 4. "Lão Hạc" (Nam Cao) & "Hai đứa trẻ" (Thạch Lam)
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+        <div style="background: #f8fafc; padding: 14px; border-radius: 8px; font-size: 0.88rem; border-left: 4px solid #64748b;">
+          <strong style="color: #1e293b; display: block; margin-bottom: 4px;">🐕 "Lão Hạc" (Nam Cao):</strong>
+          • <strong>Cốt truyện kịch tính:</strong> Chuỗi sự kiện nhân quả (bán chó ➔ gửi vườn ➔ chết bằng bả chó).<br>
+          • <strong>Tình huống nhận thức & đạo đức:</strong> Lão Hạc chết đau đớn dữ dội để bảo toàn mảnh vườn cho con và giữ trọn nhân phẩm thanh sạch.<br>
+          • <strong>Điểm nhìn ông giáo:</strong> Tinh thần <em>"cố tìm mà hiểu"</em> - nhìn con người bằng lòng trắc ẩn để phát hiện hạt ngọc lương thiện ẩn sâu sau sự bần cùng.
+        </div>
+
+        <div style="background: #f8fafc; padding: 14px; border-radius: 8px; font-size: 0.88rem; border-left: 4px solid #0284c7;">
+          <strong style="color: #0369a1; display: block; margin-bottom: 4px;">🚂 "Hai đứa trẻ" (Thạch Lam):</strong>
+          • <strong>Truyện không có cốt truyện:</strong> Một lát cắt đời thường êm ả từ chiều tàn đến đêm khuya.<br>
+          • <strong>Tương phản ánh sáng vs bóng tối:</strong> Bóng tối mênh mông của phố huyện nghèo đối lập với ánh sáng rực rỡ, huyên náo của chuyến tàu đêm.<br>
+          • <strong>Chất thơ trong văn xuôi:</strong> Nhịp điệu chậm rãi, đánh thức tình trắc ẩn và khát vọng vươn tới cuộc sống tươi sáng của những tâm hồn bé nhỏ.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ==================== TAB 3: BÀN CÂN ĐỐI SÁNH ==================== -->
+  <div id="g-tab-3" class="genre-tab-content" style="display: none;">
+    
+    <!-- BẢNG ĐỐI SÁNH 1 -->
+    <div style="margin-bottom: 30px;">
+      <h3 style="color: #831843; font-size: 1.15rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <span>📊</span> BẢNG 1: ĐỐI SÁNH "LÃO HẠC" (NAM CAO) & "HAI ĐỨA TRẺ" (THẠCH LAM)
+      </h3>
+      <div style="overflow-x: auto;">
+        <table class="rubric-table" style="width: 100%; font-size: 0.88rem;">
+          <thead>
+            <tr>
+              <th style="width: 22%; background: #fdf2f8; color: #831843;">Phương diện đối sánh</th>
+              <th style="width: 39%; background: #f8fafc; color: #1e293b;">"Lão Hạc" (Nam Cao)</th>
+              <th style="width: 39%; background: #f0fdfa; color: #0f766e;">"Hai đứa trẻ" (Thạch Lam)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; color: #831843;">Phong cách sáng tác</td>
+              <td><strong>Hiện thực phê phán:</strong> Miêu tả trần trụi, sắc bén, đi sâu vào bi kịch và xung đột xã hội gay gắt.</td>
+              <td><strong>Hiện thực pha lãng mạn:</strong> Giàu chất thơ, tinh tế, nhẹ nhàng, đượm buồn man mác.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #831843;">Cốt truyện & Tình huống</td>
+              <td>Cốt truyện kịch tính, sự kiện nhân quả dồn dập (bán chó ➔ gửi vườn ➔ tự tử); tình huống đạo đức và nhận thức bi kịch.</td>
+              <td>Cốt truyện phi sự kiện ("truyện không có cốt truyện"), là lát cắt sinh hoạt thường nhật êm đềm (chiều tà ➔ đợi tàu).</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #831843;">Nghệ thuật nhân vật</td>
+              <td>Khắc họa hành động dằn vặt, nét mặt co rúm, độc thoại nội tâm và cái chết dữ dội để bật phẩm giá người nông dân.</td>
+              <td>Khắc họa thế giới cảm xúc mong manh, những rung động mơ hồ của hai đứa trẻ và ước mơ hướng về ánh sáng.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #831843;">Ngôi kể & Điểm nhìn</td>
+              <td>Ngôi thứ nhất (ông giáo). Điểm nhìn gắn với sự tự vấn, đồng cảm của trí thức ("cố tìm mà hiểu").</td>
+              <td>Ngôi thứ ba với điểm nhìn hạn tri đặt vào cảm nhận của nhân vật Liên; làm mờ ranh giới người kể và nhân vật.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #831843;">Không gian & Thời gian</td>
+              <td>Làng quê nghèo ngột ngạt; thời gian gắn liền với chuỗi biến cố bi thảm dồn dập cuối đời.</td>
+              <td>Phố huyện nghèo. Bóng tối đối lập khe sáng leo lét; thời gian tự nhiên trôi chậm rãi (chiều ➔ đêm ➔ khuya).</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #831843;">Giọng điệu & Ngôn ngữ</td>
+              <td>Triết lí, sâu cay, xót xa, đậm màu sắc tự vấn và đúc kết quy luật nhân sinh.</td>
+              <td>Êm dịu, chậm rãi, trữ tình, giàu nhạc điệu và sức gợi cảm xúc.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BẢNG ĐỐI SÁNH 2 -->
+    <div style="margin-bottom: 24px;">
+      <h3 style="color: #9f1239; font-size: 1.15rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <span>📊</span> BẢNG 2: ĐỐI SÁNH "XUÂN TÓC ĐỎ CỨU QUỐC" & "MÙA LÁ RỤNG TRONG VƯỜN"
+      </h3>
+      <div style="overflow-x: auto;">
+        <table class="rubric-table" style="width: 100%; font-size: 0.88rem;">
+          <thead>
+            <tr>
+              <th style="width: 22%; background: #ffe4e6; color: #9f1239;">Tiêu chí đối sánh</th>
+              <th style="width: 39%; background: #fff1f2; color: #be123c;">"Xuân Tóc Đỏ cứu quốc" (Vũ Trọng Phụng)</th>
+              <th style="width: 39%; background: #fff7ed; color: #c2410c;">"Mùa lá rụng trong vườn" (Ma Văn Kháng)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700; color: #9f1239;">Tiểu loại & Cảm quan</td>
+              <td><strong>Tiểu thuyết trào phúng hoạt kê:</strong> Nhìn đời sống như "tấn trò não nuột, xen lẫn bi và hài"; phê phán xã hội đảo điên.</td>
+              <td><strong>Tiểu thuyết tâm lí thế sự:</strong> Nhìn đời sống từ góc độ đời tư gia đình; cảm quan nhân ái, tin yêu và hướng thiện.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #9f1239;">Quy mô & Bối cảnh</td>
+              <td>Không gian công cộng, sự kiện xã hội quy mô lớn: sân quần vợt Rollandes Varreau náo nhiệt hơn 3000 người.</td>
+              <td>Không gian sinh hoạt gia đình đời thường: ngôi nhà ông Bằng ở Hà Nội vào buổi cúng tất niên chiều 30 Tết.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #9f1239;">Tình huống cốt lõi</td>
+              <td>Tình huống phi lí, kịch tính: trận đấu thể thao biến thành nguy cơ chiến tranh, buộc Xuân "đổi thắng thành thua" để cứu quốc.</td>
+              <td>Tình huống tâm trạng, đạo đức: sự xuất hiện bất ngờ của chị Hoài làm bừng thức kí ức và thử thách nếp ứng xử gia phong.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #9f1239;">Nghệ thuật nhân vật</td>
+              <td>Con người dị dạng, biếm họa: hoạt động như con rối; bản chất lưu manh đối lập danh xưng "anh hùng", "vĩ nhân".</td>
+              <td>Con người nếm trải, đa chiều: đối sánh giữa nếp sống trọng nghĩa (ông Bằng, chị Hoài) và thực dụng (Lý, Cừ).</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #9f1239;">Thủ pháp nội tâm</td>
+              <td>Soi chiếu từ bên ngoài qua hành động phóng đại, cử chỉ kịch hóa (vỗ ngực, đấm tay vào không khí).</td>
+              <td>Khai thác sâu cõi lòng bên trong qua dòng "tâm ức", "tiềm thức" và lời trần thuật nửa trực tiếp.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #9f1239;">Ngôn ngữ & Giọng điệu</td>
+              <td>Giọng điệu mỉa mai, khinh miệt; ngôn từ vỉa hè suồng sã; dày đặc nghịch ngữ, nói mỉa.</td>
+              <td>Giọng điệu ấm áp, suy tư, trĩu nặng âu lo; lời văn tinh tế, giàu chất trữ tình và phong vị văn hóa.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- QUAN HỆ NỘI DUNG VÀ HÌNH THỨC -->
+    <div style="background: #fdf2f8; border-left: 4px solid #831843; padding: 16px; border-radius: 8px;">
+      <h4 style="color: #831843; font-weight: 800; font-size: 0.95rem; margin-bottom: 6px;">🔄 MỐI QUAN HỆ BIỆN CHỨNG GIỮA NỘI DUNG VÀ HÌNH THỨC:</h4>
+      <p style="font-size: 0.88rem; margin: 0; color: #334155;">
+        • Muốn bóc trần một xã hội bát nháo, giả dối ➔ Vũ Trọng Phụng buộc phải dùng <em>tiếng cười trào phúng, tình huống kịch hóa và nghịch ngữ gay gắt</em>.<br>
+        • Muốn soi tỏ những rạn nứt âm thầm và gìn giữ đạo lí gia đình ➔ Ma Văn Kháng phải tìm đến <em>bút pháp tâm lí, giọng văn đời tư, lời nửa trực tiếp và chi tiết dự cảm</em>.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- ==================== TAB 4: CẨM NANG PHÒNG THI ==================== -->
+  <div id="g-tab-4" class="genre-tab-content" style="display: none;">
+    
+    <!-- TỪ KHÓA ĂN ĐIỂM -->
+    <div style="background: #fffdf5; border: 2px solid #fde047; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+      <h3 style="color: #854d0e; font-size: 1.15rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <span>🔑</span> BỘ TỪ KHÓA "VÀNG" ĂN ĐIỂM LÍ LUẬN VĂN HỌC (ĐỀ THI TỐT NGHIỆP THPT)
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;">
+        <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #fef08a;">
+          <code style="color: #92400e; font-weight: 800; font-size: 0.9rem;">Điểm nhìn hạn tri:</code>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #64748b;">Góc nhìn trần thuật bị giới hạn theo tầm hiểu biết và cảm xúc của một nhân vật, tạo tính chân thực và sự đồng cảm sâu sắc.</p>
+        </div>
+        <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #fef08a;">
+          <code style="color: #92400e; font-weight: 800; font-size: 0.9rem;">Người kể toàn tri:</code>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #64748b;">Người kể chuyện giấu mình ở ngôi thứ ba, thấu suốt mọi hành động bên ngoài lẫn cõi lòng sâu kín của tất cả nhân vật.</p>
+        </div>
+        <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #fef08a;">
+          <code style="color: #92400e; font-weight: 800; font-size: 0.9rem;">Lời nửa trực tiếp:</code>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #64748b;">Lời trần thuật của người kể chuyện hòa lẫn với độc thoại nội tâm của nhân vật, xóa nhòa khoảng cách trần thuật.</p>
+        </div>
+        <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #fef08a;">
+          <code style="color: #92400e; font-weight: 800; font-size: 0.9rem;">Thời gian tâm lí:</code>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #64748b;">Thời gian bị co giãn, đảo lộn theo cảm thụ chủ quan, dòng hồi ức và trạng thái tâm trạng của nhân vật.</p>
+        </div>
+        <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #fef08a;">
+          <code style="color: #92400e; font-weight: 800; font-size: 0.9rem;">Nghịch ngữ (Oxymoron):</code>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #64748b;">Kết hợp các từ ngữ tương phản đối chọi gay gắt trong cùng một ngữ cảnh nhằm tạo hiệu quả châm biếm, mỉa mai sâu sắc.</p>
+        </div>
+        <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #fef08a;">
+          <code style="color: #92400e; font-weight: 800; font-size: 0.9rem;">Chi tiết tiêu biểu:</code>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #64748b;">Điểm sáng thẩm mĩ cô đọng, nơi kết tinh tư tưởng, quan niệm nhân sinh và tạo "thần thái" bất hủ cho nhân vật.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CÔNG THỨC 3 BƯỚC -->
+    <div style="background: #f0fdfa; border: 2px solid #99f6e4; border-radius: 12px; padding: 20px;">
+      <h3 style="color: #0f766e; font-size: 1.15rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <span>📝</span> CÔNG THỨC 3 BƯỚC GIẢI MÃ CÂU HỎI ĐỌC HIỂU TRUYỆN TRONG ĐỀ THI
+      </h3>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="background: white; padding: 14px; border-radius: 8px; border-left: 4px solid #0d9488;">
+          <strong style="color: #0f766e;">Bước 1: Nhận diện Hình thức thể loại</strong>
+          <p style="font-size: 0.88rem; margin: 4px 0 0 0; color: #475569;">Xác định chính xác: <em>Ngôi kể (ngôi 1 hay ngôi 3)? Điểm nhìn (toàn tri, hạn tri, bên trong hay bên ngoài)? Ngôn ngữ trần thuật (lời kể, lời nhân vật hay lời nửa trực tiếp)?</em></p>
+        </div>
+        <div style="background: white; padding: 14px; border-radius: 8px; border-left: 4px solid #0d9488;">
+          <strong style="color: #0f766e;">Bước 2: Phân tích Tác dụng thẩm mĩ & Chiều sâu tâm lí</strong>
+          <p style="font-size: 0.88rem; margin: 4px 0 0 0; color: #475569;">Lý giải: <em>Thủ pháp nghệ thuật này giúp soi tỏ trạng thái tâm lí, xung đột nội tâm nào của nhân vật? Làm nổi bật tính cách hay sự biến chuyển nhận thức gì?</em></p>
+        </div>
+        <div style="background: white; padding: 14px; border-radius: 8px; border-left: 4px solid #0d9488;">
+          <strong style="color: #0f766e;">Bước 3: Đánh giá Thông điệp tư tưởng & Quan niệm nhân sinh</strong>
+          <p style="font-size: 0.88rem; margin: 4px 0 0 0; color: #475569;">Khái quát: <em>Tác giả gửi gắm triết lí sống, bài học đạo đức hay thái độ phê phán, trân trọng gì đối với con người và xã hội?</em></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- MODAL FOOTER -->
+<div style="padding: 14px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; border-radius: 0 0 12px 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+  <span style="font-size: 0.8rem; color: #64748b;">💡 Dùng phím <strong>ESC</strong> hoặc bấm nút đóng để quay lại trang chủ</span>
+  <button class="btn btn-primary" onclick="closeGenreRefModal()" style="padding: 8px 20px; font-size: 0.9rem;">Đã hiểu & Đóng</button>
+</div>
+
   </div>
 </div>
 
@@ -2210,6 +2710,41 @@ function submitFeedbackForm() {
     alert('Cảm ơn bạn! Ý kiến đóng góp đã được gửi về hệ thống của Giáo viên thành công.');
   }, 1200);
 }
+
+
+function openGenreRefModal() {
+  const modal = document.getElementById('genreRefModal');
+  if (modal) modal.style.display = 'flex';
+}
+function closeGenreRefModal() {
+  const modal = document.getElementById('genreRefModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function switchGenreTab(tabId) {
+  const tabContents = document.querySelectorAll('.genre-tab-content');
+  tabContents.forEach(tc => tc.style.display = 'none');
+
+  const activeContent = document.getElementById(tabId);
+  if (activeContent) activeContent.style.display = 'block';
+
+  const tabBtns = document.querySelectorAll('.genre-tab-btn');
+  tabBtns.forEach(btn => {
+    btn.classList.remove('active');
+    btn.style.background = 'transparent';
+    btn.style.color = '#64748b';
+    btn.style.boxShadow = 'none';
+  });
+
+  const currentBtn = event ? event.currentTarget : null;
+  if (currentBtn) {
+    currentBtn.classList.add('active');
+    currentBtn.style.background = '#ffffff';
+    currentBtn.style.color = '#831843';
+    currentBtn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+  }
+}
+
 
 </script>
 

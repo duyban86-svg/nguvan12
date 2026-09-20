@@ -617,7 +617,7 @@
         </div>
         <div class="card-actions">
           <a href="P2_THE_LOAI_TRUYEN.html" class="btn btn-primary">🎯 Tự Đánh Giá</a>
-          <button onclick="openPromptModal('trithuc_truyen')" class="btn btn-secondary">📖 Tóm tắt nội dung chính</button>
+          <button onclick="openPromptModal('trithuc_truyen')" class="btn btn-secondary">📖 Đặc trưng thể loại</button>
         </div>
       </div>
 
@@ -1150,7 +1150,7 @@
       tag.textContent = 'Đã mở đề';
       actions.innerHTML = `
         <a href="${info.link}" class="btn btn-primary">🎯 Tự Đánh Giá</a>
-        <button onclick="openPromptModal('${info.modalKey}')" class="btn btn-secondary">📖 Tóm tắt nội dung chính</button>
+        <button onclick="openPromptModal('${info.modalKey}')" class="btn btn-secondary">${info.modalKey.startsWith('trithuc') ? '📖 Đặc trưng thể loại' : '📖 Tóm tắt nội dung chính'}</button>
       `;
     } else {
       // If already open by another alias, keep open
@@ -1160,7 +1160,7 @@
         tag.textContent = 'Sắp mở';
         actions.innerHTML = `
           <button class="btn btn-disabled" disabled>⏳ Theo tiến trình</button>
-          <button onclick="openPromptModal('${info.modalKey}')" class="btn btn-secondary">📖 Tóm tắt nội dung chính</button>
+          <button onclick="openPromptModal('${info.modalKey}')" class="btn btn-secondary">${info.modalKey.startsWith('trithuc') ? '📖 Đặc trưng thể loại' : '📖 Tóm tắt nội dung chính'}</button>
         `;
       }
     }
@@ -1307,6 +1307,31 @@
     checkAllRemoteStatus(false);
   });
   
+
+function switchGenreTab(tabId) {
+  const tabContents = document.querySelectorAll('.genre-tab-content');
+  tabContents.forEach(tc => tc.style.display = 'none');
+
+  const activeContent = document.getElementById(tabId);
+  if (activeContent) activeContent.style.display = 'block';
+
+  const tabBtns = document.querySelectorAll('.genre-tab-btn');
+  tabBtns.forEach(btn => {
+    btn.classList.remove('active');
+    btn.style.background = 'transparent';
+    btn.style.color = '#64748b';
+    btn.style.boxShadow = 'none';
+  });
+
+  const currentBtn = event ? event.currentTarget : null;
+  if (currentBtn) {
+    currentBtn.classList.add('active');
+    currentBtn.style.background = '#ffffff';
+    currentBtn.style.color = '#831843';
+    currentBtn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+  }
+}
+
 </script>
 
 
