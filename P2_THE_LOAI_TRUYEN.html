@@ -788,6 +788,46 @@
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+  
+    /* FEEDBACK MODAL */
+    .feedback-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      animation: fadeIn 0.2s ease;
+    }
+    .feedback-modal.show { display: flex; }
+    .feedback-dialog {
+      background: #ffffff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.1);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: 90vh;
+    }
+    .feedback-header {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, var(--primary), #9d174d);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .feedback-header h3 { font-size: 1.1rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .feedback-close { background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; line-height: 1; padding: 4px; border-radius: 6px; }
+    .feedback-body { padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+    .feedback-footer { padding: 14px 20px; background: #f8fafc; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px; }
+    
   </style>
 </head>
 <body>
@@ -802,6 +842,7 @@
         <span class="badge badge-gold">30 CÂU HỎI</span>
         <span class="badge badge-live" id="live-connection-badge">🟢 Hệ thống sẵn sàng</span>
       </div>
+      <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem; border-color:#0284c7; color:#0284c7;" onclick="openFeedbackModal()">💬 Báo lỗi / Góp ý</button>
       <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem;" onclick="promptMasterPin()">🔑 Giáo viên</button>
     </div>
 
@@ -967,6 +1008,67 @@
 
   </div><!-- end main-exam-workspace -->
 
+</div>
+
+
+<!-- MODAL BÁO CÁO SAI SÓT HOẶC GÓP Ý -->
+<div id="feedbackModal" class="feedback-modal" onclick="if(event.target===this)closeFeedbackModal()">
+  <div class="feedback-dialog">
+    <div class="feedback-header">
+      <h3><span>💬</span> Báo cáo sai sót / Góp ý đề thi</h3>
+      <button class="feedback-close" onclick="closeFeedbackModal()">&times;</button>
+    </div>
+    <div class="feedback-body">
+      <div style="font-size:0.88rem; color:#64748b;">
+        Mọi phản ánh về đề thi (câu hỏi, ngữ liệu, đáp án, lỗi chính tả, lỗi hiển thị) sẽ được chuyển trực tiếp đến Giáo viên để hoàn thiện hệ thống.
+      </div>
+
+      <div class="input-group">
+        <label for="fb-topic">BÀI / CHUYÊN ĐỀ</label>
+        <input type="text" id="fb-topic" class="input-control" value="CHUYÊN ĐỀ: THỂ LOẠI TRUYỆN & TIỂU THUYẾT" readonly style="background:#f1f5f9; font-weight:700; color:var(--primary);">
+      </div>
+
+      <div class="input-group">
+        <label for="fb-location">VỊ TRÍ PHẢN ÁNH (*)</label>
+        <select id="fb-location" class="input-control" style="font-weight:600;">
+          <option value="Chung">-- Toàn bộ đề thi / Hệ thống chung --</option>
+          <option value="Phần trắc nghiệm">Phần trắc nghiệm (chung)</option>
+          <option value="Câu 1 - 5">Câu 1 đến 5</option>
+          <option value="Câu 6 - 10">Câu 6 đến 10</option>
+          <option value="Câu 11 - 15">Câu 11 đến 15</option>
+          <option value="Câu 16 - 20">Câu 16 đến 20</option>
+          <option value="Câu 21 - 25">Câu 21 đến 25</option>
+          <option value="Câu 26 - 30">Câu 26 đến 30</option>
+          <option value="Khác">Vấn đề khác</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="fb-type">LOẠI SAI SÓT / Ý KIẾN (*)</label>
+        <select id="fb-type" class="input-control" style="font-weight:600;">
+          <option value="Sai đáp án">❌ Đáp án chưa chính xác / gây tranh cãi</option>
+          <option value="Lỗi chính tả / Trích dẫn">📝 Lỗi chính tả / Trích dẫn ngữ liệu sai</option>
+          <option value="Lỗi hiển thị / Kỹ thuật">⚙️ Lỗi hiển thị / Không chọn được đáp án / Lỗi nộp bài</option>
+          <option value="Góp ý câu hỏi hay hơn">💡 Đề xuất câu hỏi hoặc phương án trả lời hay hơn</option>
+          <option value="Khác">Khác</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="fb-content">NỘI DUNG CHI TIẾT (*)</label>
+        <textarea id="fb-content" class="input-control" rows="4" placeholder="Mô tả cụ thể câu hỏi bị sai hoặc nội dung bạn muốn góp ý..." style="resize:vertical;"></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="fb-sender">NGƯỜI GỬI (Học sinh / Giáo viên)</label>
+        <input type="text" id="fb-sender" class="input-control" placeholder="Họ và tên (và Lớp nếu là học sinh)...">
+      </div>
+    </div>
+    <div class="feedback-footer">
+      <button class="btn btn-outline" style="padding:10px 18px; font-size:0.9rem;" onclick="closeFeedbackModal()">Hủy</button>
+      <button class="btn btn-primary" id="btn-submit-feedback" style="padding:10px 22px; font-size:0.9rem;" onclick="submitFeedbackForm()">📤 Gửi phản ánh</button>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -2021,6 +2123,94 @@ function showToast(msg) {
   toast.className = 'toast show';
   setTimeout(function() { toast.className = 'toast'; }, 3500);
 }
+
+// --- XỬ LÝ MODAL BÁO CÁO SAI SÓT / GÓP Ý ---
+function openFeedbackModal() {
+  const modal = document.getElementById('feedbackModal');
+  if (modal) {
+    const studentName = (document.getElementById('student-select') || {}).value || '';
+    const className = (document.getElementById('class-select') || {}).value || '';
+    const senderInput = document.getElementById('fb-sender');
+    if (senderInput && studentName && !senderInput.value) {
+      senderInput.value = studentName + (className ? ' (' + className + ')' : '');
+    }
+    modal.classList.add('show');
+  }
+}
+
+function closeFeedbackModal() {
+  const modal = document.getElementById('feedbackModal');
+  if (modal) modal.classList.remove('show');
+}
+
+function submitFeedbackForm() {
+  const topic = (document.getElementById('fb-topic') || {}).value || 'CHUYÊN ĐỀ: THỂ LOẠI TRUYỆN & TIỂU THUYẾT';
+  const location = (document.getElementById('fb-location') || {}).value || 'Chung';
+  const type = (document.getElementById('fb-type') || {}).value || 'Góp ý';
+  const content = ((document.getElementById('fb-content') || {}).value || '').trim();
+  const sender = ((document.getElementById('fb-sender') || {}).value || '').trim();
+  const className = (document.getElementById('class-select') || {}).value || '';
+
+  if (!content) {
+    alert('Vui lòng nhập nội dung chi tiết mà bạn muốn phản ánh hoặc góp ý!');
+    return;
+  }
+
+  const btn = document.getElementById('btn-submit-feedback');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ Đang gửi phản ánh...';
+  }
+
+  const feedbackData = {
+    action: 'feedback',
+    examTopic: topic,
+    topicId: 'P2_TRUYEN',
+    location: location,
+    feedbackType: type,
+    content: content,
+    sender: sender || 'Ẩn danh',
+    className: className,
+    timestamp: new Date().toLocaleString('vi-VN')
+  };
+
+  const payloadStr = JSON.stringify(feedbackData);
+
+  // Kênh 1: Fetch POST
+  try {
+    fetch(GOOGLE_SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: payloadStr
+    }).catch(function() {});
+  } catch(e) {}
+
+  // Kênh 2: Image Ping GET
+  try {
+    const ping = new Image();
+    ping.src = GOOGLE_SHEETS_URL + '?action=feedback' +
+      '&examTopic=' + encodeURIComponent(topic) +
+      '&topicId=' + encodeURIComponent('P2_TRUYEN') +
+      '&location=' + encodeURIComponent(location) +
+      '&feedbackType=' + encodeURIComponent(type) +
+      '&content=' + encodeURIComponent(content) +
+      '&sender=' + encodeURIComponent(sender || 'Ẩn danh') +
+      '&className=' + encodeURIComponent(className);
+  } catch(e) {}
+
+  setTimeout(function() {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '📤 Gửi phản ánh';
+    }
+    const contentInput = document.getElementById('fb-content');
+    if (contentInput) contentInput.value = '';
+    closeFeedbackModal();
+    alert('Cảm ơn bạn! Ý kiến đóng góp đã được gửi về hệ thống của Giáo viên thành công.');
+  }, 1200);
+}
+
 </script>
 
 </body>
