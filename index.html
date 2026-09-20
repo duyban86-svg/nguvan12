@@ -1815,6 +1815,14 @@ function switchGenreTab(tabId) {
 </script>
 
 
+  <!-- GENERAL TOPIC MODAL (TÓM TẮT NỘI DUNG CHÍNH & ĐẶC TRƯNG THỂ LOẠI) -->
+  <div id="generalModal" class="modal-overlay" onclick="closeModalOutside(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
   <!-- FEEDBACK / BUG REPORT MODAL -->
   <div id="feedbackModal" class="modal-overlay" onclick="closeFeedbackModalOutside(event)">
     <div class="modal-content" style="max-width:550px;">
