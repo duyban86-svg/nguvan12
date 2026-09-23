@@ -966,10 +966,13 @@
 
     <div class="nav-stats-bar">
       <div class="nav-stats-tags">
-        <span>📝 Đã làm: <strong id="stat-answered" style="color:var(--primary);">0/30</strong></span>
+        <span>📝 Trắc nghiệm: <strong id="stat-answered" style="color:var(--primary);">0/30</strong></span>
         <span>🚩 Đã cắm cờ: <strong id="stat-flagged" style="color:#b45309;">0</strong></span>
+        <span>✍️ Tự luận (3.0đ): <strong id="stat-essay-words" style="color:#0f766e;">0 từ</strong></span>
       </div>
-      <span style="font-size:0.75rem; color:var(--text-muted);">💾 Tự động lưu tiến độ</span>
+      <button type="button" class="btn btn-outline" onclick="document.getElementById('essay-section-card').scrollIntoView({ behavior: 'smooth', block: 'start' })" style="padding:4px 10px; font-size:0.75rem; border-color:#0d9488; color:#0f766e; background:#f0fdfa; font-weight:700; cursor:pointer;">
+        ✍️ Làm bài Tự luận ↓
+      </button>
     </div>
 
     <section class="question-nav" id="question-nav"></section>
@@ -2100,13 +2103,24 @@ function renderEssaySection() {
         '</div>';
     }
 
+    let teacherExamUnlockHtml = '';
+    if (currentMode === 'exam' && !isUnlocked) {
+      teacherExamUnlockHtml = 
+        '<div style="margin-top:12px; padding-top:10px; border-top:1px dashed #e2e8f0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">' +
+          '<span style="font-size:0.8rem; color:#64748b;">🔒 <em>Dàn ý & Văn mẫu đã được khóa để bảo mật ca thi.</em></span>' +
+          '<button type="button" class="btn btn-outline" style="padding:4px 12px; font-size:0.75rem; border-color:#0d9488; color:#0f766e; background:#f0fdfa; font-weight:700; cursor:pointer;" onclick="promptTeacherPinForEssay()">' +
+            '🔑 Mở khóa Dàn ý & Bài mẫu (Giáo viên PIN 1358)' +
+          '</button>' +
+        '</div>';
+    }
+
     promptBox.innerHTML = practiceTabsHtml +
       '<div style="font-size:0.85rem; font-weight:800; color:#0f766e; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">' +
         (essayData.title || 'ĐỀ BÀI TỰ LUẬN') + (essayData.level ? ' • <span style="color:#b45309;">[' + essayData.level + ']</span>' : '') +
       '</div>' +
       '<div style="font-size:0.96rem; line-height:1.65; color:#1e293b; font-weight:500;">' +
         essayData.prompt +
-      '</div>';
+      '</div>' + teacherExamUnlockHtml;
   }
 
   // Render Outline Panel
@@ -2150,6 +2164,23 @@ function renderEssaySection() {
   }
 }
 
+function promptTeacherPinForEssay() {
+  const pin = prompt('Nhập mã PIN Giáo viên (1358) để mở khóa Dàn ý & Đoạn văn tham khảo:');
+  if (!pin) return;
+  const validPin = (remoteConfig.teacherPin || TEACHER_MASTER_PIN).toUpperCase();
+  if (pin.trim().toUpperCase() === validPin || pin.trim().toUpperCase() === TEACHER_MASTER_PIN.toUpperCase()) {
+    isUnlocked = true;
+    renderEssaySection();
+    const essayOutline = document.getElementById('essay-outline-panel');
+    if (essayOutline) essayOutline.style.display = 'block';
+    const essaySample = document.getElementById('essay-sample-panel');
+    if (essaySample) essaySample.style.display = 'block';
+    showToast('✅ Đã mở khóa Dàn ý & Đoạn văn tham khảo cho Giáo viên!');
+  } else {
+    alert('MÃ PIN GIÁO VIÊN KHÔNG ĐÚNG!');
+  }
+}
+
 function switchPracticeEssay(deKey) {
   currentPracticeDeKey = deKey;
   renderEssaySection();
@@ -2180,6 +2211,8 @@ function handleEssayInput(val) {
       badgeEl.style.borderColor = '#cbd5e1';
     }
   }
+
+  updateNavStats();
 
   // Auto save to localStorage
   try {
@@ -2473,6 +2506,24 @@ function updateNavStats() {
   const statFlg = document.getElementById('stat-flagged');
   if (statAns) statAns.textContent = answeredCount + '/' + activeQuestions.length;
   if (statFlg) statFlg.textContent = flaggedQuestions.size;
+
+  const essayVal = (document.getElementById('essay-textarea') ? document.getElementById('essay-textarea').value : '').trim();
+  const essayWords = essayVal.length > 0 ? essayVal.split(/\s+/).filter(Boolean).length : 0;
+  const statEssay = document.getElementById('stat-essay-words');
+  if (statEssay) statEssay.textContent = essayWords + ' từ';
+
+  const essayNavBtn = document.getElementById('nav-btn-essay');
+  if (essayNavBtn) {
+    if (essayWords > 0) {
+      essayNavBtn.innerHTML = '✍️ Tự luận: ' + essayWords + '/200 từ';
+      essayNavBtn.style.background = '#059669';
+      essayNavBtn.style.borderColor = '#059669';
+    } else {
+      essayNavBtn.innerHTML = '✍️ PHẦN II: TỰ LUẬN (3.0Đ)';
+      essayNavBtn.style.background = '#0f766e';
+      essayNavBtn.style.borderColor = '#0f766e';
+    }
+  }
 }
 
 function renderNavigation() {
@@ -2491,6 +2542,27 @@ function renderNavigation() {
     };
     nav.appendChild(btn);
   });
+
+  // NÚT ĐIỀU HƯỚNG NỔI BẬT ĐẾN PHẦN TỰ LUẬN
+  const essayBtn = document.createElement('button');
+  essayBtn.className = 'nav-btn';
+  essayBtn.id = 'nav-btn-essay';
+  essayBtn.innerHTML = '✍️ PHẦN II: TỰ LUẬN (3.0Đ)';
+  essayBtn.style.width = 'auto';
+  essayBtn.style.padding = '0 16px';
+  essayBtn.style.borderRadius = '10px';
+  essayBtn.style.background = '#0f766e';
+  essayBtn.style.color = '#ffffff';
+  essayBtn.style.fontWeight = '800';
+  essayBtn.style.fontSize = '0.8rem';
+  essayBtn.style.cursor = 'pointer';
+  essayBtn.style.border = '1.5px solid #0f766e';
+  essayBtn.style.marginLeft = '8px';
+  essayBtn.onclick = function() {
+    const el = document.getElementById('essay-section-card');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  nav.appendChild(essayBtn);
 }
 
 function renderQuestions() {
