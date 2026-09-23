@@ -440,6 +440,12 @@
         </button>
       </div>
     </div>
+
+    <!-- GOOGLE AUTH BRIDGE BAR (LIÊN KẾT VỚI SO-DIEM-12) -->
+    <div id="auth-bridge-bar" style="margin: 16px 0; padding: 12px 16px; border-radius: 14px; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #fff; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border: 1px solid rgba(99, 102, 241, 0.3);">
+      <div id="auth-bridge-info" style="display: flex; align-items: center; gap: 12px; font-size: 0.88rem;"></div>
+      <div id="auth-bridge-actions" style="display: flex; align-items: center; gap: 8px;"></div>
+    </div>
   </header>
 
   <!-- NAVIGATION TABS (MATCHING MINDMAP 3 PARTS) -->
@@ -1783,7 +1789,64 @@
     }, 1000);
   }
 
+  function initAuthBridge() {
+    const infoEl = document.getElementById('auth-bridge-info');
+    const actionEl = document.getElementById('auth-bridge-actions');
+    if (!infoEl || !actionEl) return;
+
+    let boundStudent = null;
+    let loggedUser = null;
+
+    try {
+      const sStr = localStorage.getItem('app_bound_student');
+      if (sStr) boundStudent = JSON.parse(sStr);
+    } catch (e) {}
+
+    try {
+      const uStr = localStorage.getItem('app_logged_user');
+      if (uStr) loggedUser = JSON.parse(uStr);
+    } catch (e) {}
+
+    const soDiemUrl = 'https://duyban86-svg.github.io/so-diem-12/';
+
+    if (boundStudent && boundStudent.name) {
+      const avatar = loggedUser && loggedUser.picture ? loggedUser.picture : `https://ui-avatars.com/api/?name=${encodeURIComponent(boundStudent.name)}&background=6366f1&color=fff&bold=true`;
+      infoEl.innerHTML = `
+        <img src="${avatar}" alt="Avatar" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #818cf8; flex-shrink: 0;" />
+        <div>
+          <div style="font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+            <span>${boundStudent.name}</span>
+            <span style="font-size: 0.75rem; background: #312e81; color: #c7d2fe; padding: 2px 8px; border-radius: 9999px; border: 1px solid #4f46e5; font-weight: 800;">Lớp ${boundStudent.lop} (STT: #${boundStudent.stt})</span>
+            <span style="font-size: 0.75rem; background: #064e3b; color: #6ee7b7; padding: 2px 8px; border-radius: 9999px; border: 1px solid #059669; font-weight: 700;">✓ Đã xác thực Google</span>
+          </div>
+          <div style="font-size: 0.78rem; color: #94a3b8; font-family: monospace;">${boundStudent.email || (loggedUser ? loggedUser.email : '')}</div>
+        </div>
+      `;
+      actionEl.innerHTML = `
+        <a href="${soDiemUrl}" target="_blank" style="padding: 8px 14px; background: #4338ca; color: #fff; border-radius: 10px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #6366f1; transition: all 0.2s;">
+          <span>📊</span> Sổ Điểm Cá Nhân
+        </a>
+      `;
+    } else {
+      infoEl.innerHTML = `
+        <div style="width: 34px; height: 34px; border-radius: 10px; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">
+          🔑
+        </div>
+        <div>
+          <div style="font-weight: 700; color: #fde68a;">Chưa liên kết tài khoản Google từ Sổ điểm</div>
+          <div style="font-size: 0.78rem; color: #cbd5e1;">Đăng nhập Google tại Sổ điểm để tự động khóa danh tính và đồng bộ điểm bài thi.</div>
+        </div>
+      `;
+      actionEl.innerHTML = `
+        <a href="${soDiemUrl}" target="_blank" style="padding: 8px 14px; background: #f59e0b; color: #0f172a; border-radius: 10px; font-size: 0.8rem; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3); transition: all 0.2s;">
+          <span>🚀</span> Đăng Nhập / Xác Thực Ngay
+        </a>
+      `;
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
+    initAuthBridge();
     checkAllRemoteStatus(false);
   });
   
