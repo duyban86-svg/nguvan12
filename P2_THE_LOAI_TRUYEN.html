@@ -858,6 +858,33 @@
     <p class="subtitle">Tri thức thể loại Truyện: Cốt truyện tuyến tính/phi tuyến tính, Nhân vật & Bản chất nghệ thuật, Ngôi kể & Điểm nhìn luân chuyển, Lời nửa trực tiếp, Khắc họa tâm lý, 4 Loại tình huống truyện, Chi tiết nghệ thuật, Bút pháp dòng ý thức & Đồng hiện.</p>
   </header>
 
+  <!-- THANH CÔNG CỤ GIÁO VIÊN TOÀN QUYỀN (HIỂN THỊ KHI ĐĂNG NHẬP GIÁO VIÊN) -->
+  <div id="teacher-command-bar" style="display:none; background:linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color:#f8fafc; border-radius:var(--radius); padding:16px 20px; margin-bottom:24px; box-shadow:var(--shadow-lg); border:2px solid #f59e0b;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:1.6rem;">👑</span>
+        <div>
+          <div style="font-weight:800; font-size:1.05rem; color:#fde047;">CHẾ ĐỘ GIÁO VIÊN TOÀN QUYỀN (TEACHER SUPER ADMIN)</div>
+          <div style="font-size:0.82rem; color:#94a3b8;">Định danh: <strong>Thầy Bùi Duy Ban</strong> (<code id="teacher-bar-email" style="color:#38bdf8;">duyban86@gmail.com</code>) • Toàn quyền xem đáp án, duyệt đề & quản trị</div>
+        </div>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn" style="background:#f59e0b; color:#78350f; font-weight:800; padding:6px 14px; font-size:0.82rem;" onclick="toggleTeacherAnswers()" id="btn-teacher-toggle-answers">👁️ Hiện toàn bộ Đáp án</button>
+        <button class="btn btn-outline" style="border-color:#38bdf8; color:#38bdf8; font-weight:700; padding:6px 12px; font-size:0.82rem;" onclick="checkRemoteConfig(true)">🔄 Đồng bộ Sheet tức thì</button>
+        <a href="https://script.google.com/macros/s/AKfycbxmf7eFagsotgPVz0TVAD4qu_OZAOinePGkTpi7vPLbYv7LRfE_IfLTF9sfYPz14Ss/exec" target="_blank" class="btn btn-outline" style="border-color:#4ade80; color:#4ade80; font-weight:700; padding:6px 12px; font-size:0.82rem; text-decoration:none;">📊 Mở Google Sheets</a>
+        <button class="btn btn-outline" style="border-color:#ef4444; color:#fca5a5; font-weight:700; padding:6px 12px; font-size:0.82rem;" onclick="disableTeacherMode()">👤 Góc nhìn học sinh</button>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding-top:10px; border-top:1px solid rgba(255,255,255,0.1); font-size:0.85rem;">
+      <span style="color:#cbd5e1; font-weight:700;">📑 Xem nhanh Đề & Dàn ý:</span>
+      <button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem; border-color:#cbd5e1; color:#ffffff;" onclick="switchTeacherEssayView('12A08')">Lớp 12A08 (Chị Hoài)</button>
+      <button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem; border-color:#cbd5e1; color:#ffffff;" onclick="switchTeacherEssayView('12A13')">Lớp 12A13 (Xuân Tóc Đỏ)</button>
+      <button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem; border-color:#cbd5e1; color:#ffffff;" onclick="switchTeacherEssayView('12A21')">Lớp 12A21 (Lời nửa trực tiếp)</button>
+      <button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem; border-color:#cbd5e1; color:#ffffff;" onclick="switchTeacherEssayView('de1')">Đề Ôn tập 1</button>
+      <button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem; border-color:#cbd5e1; color:#ffffff;" onclick="switchTeacherEssayView('de2')">Đề Ôn tập 2</button>
+    </div>
+  </div>
+
   <!-- MÀN HÌNH KHÓA TỪ XA -->
   <div class="remote-lock-screen" id="remote-lock-screen">
     <div class="remote-lock-icon">🔒</div>
@@ -1727,7 +1754,136 @@ function normalizeQuestion(q) {
   };
 }
 
+const TEACHER_EMAIL = "duyban86@gmail.com";
+let isTeacherMode = false;
+let teacherAnswersVisible = false;
 let verifiedGoogleStudent = null;
+
+function getValidTeacherPin() {
+  return String(remoteConfig.teacherPin || remoteConfig.masterPin || TEACHER_MASTER_PIN || "1358").trim().toUpperCase();
+}
+
+function getValidPasscode() {
+  return String(remoteConfig.examPasscode || remoteConfig.passcode || "123456").trim().toUpperCase();
+}
+
+function enableTeacherMode(reason) {
+  isTeacherMode = true;
+  isGatePassed = true;
+  isIdentityLocked = true;
+  isUnlocked = true;
+  remoteConfig.examStatus = 'OPEN';
+
+  const classEl = document.getElementById('class-select');
+  const studentEl = document.getElementById('student-select');
+  const sttEl = document.getElementById('student-id');
+
+  if (classEl) {
+    let gvClassOpt = Array.from(classEl.options).find(opt => opt.value === 'GV');
+    if (!gvClassOpt) {
+      gvClassOpt = document.createElement('option');
+      gvClassOpt.value = 'GV';
+      gvClassOpt.textContent = '👑 Tổ Ngữ văn (Giáo viên)';
+      classEl.insertBefore(gvClassOpt, classEl.firstChild);
+    }
+    classEl.value = 'GV';
+    classEl.disabled = true;
+  }
+
+  if (studentEl) {
+    studentEl.innerHTML = '<option value="Thầy Bùi Duy Ban" data-id="GV">👑 Thầy Bùi Duy Ban (Giáo viên Bộ môn)</option>';
+    studentEl.value = 'Thầy Bùi Duy Ban';
+    studentEl.disabled = true;
+  }
+
+  if (sttEl) sttEl.value = 'GV';
+
+  verifiedGoogleStudent = {
+    lop: 'Tổ Ngữ văn',
+    stt: 'GV',
+    name: 'Thầy Bùi Duy Ban',
+    email: TEACHER_EMAIL
+  };
+
+  applyGateControl();
+  checkStudentIdentity();
+
+  const bar = document.getElementById('teacher-command-bar');
+  if (bar) bar.style.display = 'block';
+
+  renderEssaySection();
+  const essayOutline = document.getElementById('essay-outline-panel');
+  if (essayOutline) essayOutline.style.display = 'block';
+  const essaySample = document.getElementById('essay-sample-panel');
+  if (essaySample) essaySample.style.display = 'block';
+
+  showToast('👑 ĐÃ KÍCH HOẠT CHẾ ĐỘ GIÁO VIÊN TOÀN QUYỀN!');
+}
+
+function disableTeacherMode() {
+  if (!confirm('Bạn có muốn chuyển về Giao diện Học sinh để trải nghiệm góc nhìn của học sinh?')) return;
+  isTeacherMode = false;
+  isIdentityLocked = false;
+  teacherAnswersVisible = false;
+  
+  const bar = document.getElementById('teacher-command-bar');
+  if (bar) bar.style.display = 'none';
+
+  const classEl = document.getElementById('class-select');
+  const studentEl = document.getElementById('student-select');
+  const sttEl = document.getElementById('student-id');
+
+  if (classEl) {
+    classEl.disabled = false;
+    classEl.value = '';
+  }
+  if (studentEl) {
+    studentEl.disabled = false;
+    studentEl.innerHTML = '<option value="">-- Chọn học sinh trong danh sách --</option>';
+  }
+  if (sttEl) sttEl.value = '';
+
+  verifiedGoogleStudent = null;
+  checkStudentIdentity();
+  renderQuestions();
+  renderEssaySection();
+  showToast('Đã chuyển về Chế độ Học sinh.');
+}
+
+function toggleTeacherAnswers() {
+  teacherAnswersVisible = !teacherAnswersVisible;
+  const btn = document.getElementById('btn-teacher-toggle-answers');
+  if (btn) {
+    btn.textContent = teacherAnswersVisible ? '🙈 Ẩn Đáp án' : '👁️ Hiện toàn bộ Đáp án';
+  }
+  renderQuestions();
+  showToast(teacherAnswersVisible ? 'Đã hiển thị đáp án và lời giải tất cả câu hỏi!' : 'Đã ẩn đáp án.');
+}
+
+function switchTeacherEssayView(key) {
+  if (key === '12A08' || key === '12A13' || key === '12A21') {
+    currentMode = 'exam';
+    const classEl = document.getElementById('class-select');
+    if (classEl) classEl.value = key;
+    renderEssaySection();
+    const essayOutline = document.getElementById('essay-outline-panel');
+    if (essayOutline) essayOutline.style.display = 'block';
+    const essaySample = document.getElementById('essay-sample-panel');
+    if (essaySample) essaySample.style.display = 'block';
+    showToast('Đang xem Đề & Dàn ý Tự luận Lớp ' + key);
+  } else if (key === 'de1' || key === 'de2') {
+    currentMode = 'practice';
+    currentPracticeDeKey = key;
+    renderEssaySection();
+    const essayOutline = document.getElementById('essay-outline-panel');
+    if (essayOutline) essayOutline.style.display = 'block';
+    const essaySample = document.getElementById('essay-sample-panel');
+    if (essaySample) essaySample.style.display = 'block';
+    showToast('Đang xem ' + (key === 'de1' ? 'Đề Ôn tập 1' : 'Đề Ôn tập 2'));
+  }
+  const essayCard = document.getElementById('essay-section-card');
+  if (essayCard) essayCard.scrollIntoView({ behavior: 'smooth' });
+}
 
 function checkGoogleAuthBridge() {
   try {
@@ -1738,8 +1894,20 @@ function checkGoogleAuthBridge() {
       try { loggedUser = JSON.parse(userStr); } catch(e) {}
     }
 
+    const email = (loggedUser && loggedUser.email) ? loggedUser.email.toLowerCase() : (boundStr ? (JSON.parse(boundStr).email || '').toLowerCase() : '');
+
+    // NẾU LÀ EMAIL GIÁO VIÊN DUYBAN86@GMAIL.COM -> KÍCH HOẠT QUYỀN GIÁO VIÊN NGAY
+    if (email === TEACHER_EMAIL.toLowerCase()) {
+      enableTeacherMode('Nhận diện Google SSO: ' + email);
+      return;
+    }
+
     if (boundStr) {
       const bound = JSON.parse(boundStr);
+      if (bound && (bound.email || '').toLowerCase() === TEACHER_EMAIL.toLowerCase()) {
+        enableTeacherMode('Nhận diện Google SSO: ' + bound.email);
+        return;
+      }
       if (bound && bound.lop && bound.name) {
         verifiedGoogleStudent = bound;
         
@@ -1784,6 +1952,13 @@ document.addEventListener('DOMContentLoaded', function() {
   setupProctoring();
   checkRemoteConfig();
   updateNavStats();
+
+  // Tự động đồng bộ kiểm tra cấu hình nền từ Google Sheets mỗi 15 giây
+  if (!window._configPollingInterval) {
+    window._configPollingInterval = setInterval(function() {
+      checkRemoteConfig(false);
+    }, 15000);
+  }
 });
 
 function loadSavedProgress() {
@@ -1791,7 +1966,7 @@ function loadSavedProgress() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const data = JSON.parse(saved);
-      if (data && !data.isSubmitted) {
+      if (data && !data.isSubmitted && !isTeacherMode) {
         userAnswers = data.userAnswers || {};
         if (Array.isArray(data.flagged)) flaggedQuestions = new Set(data.flagged);
         if (data.className) {
@@ -1816,6 +1991,7 @@ function loadSavedProgress() {
 
 function saveProgressToStorage() {
   try {
+    if (isTeacherMode) return;
     const payload = {
       userAnswers: userAnswers,
       flagged: Array.from(flaggedQuestions),
@@ -1838,16 +2014,19 @@ function checkRemoteConfig(showToastNotice) {
       badge.textContent = '🟢 Đã kết nối Google Sheets (' + (remoteConfig.examStatus || 'OPEN') + ')';
       badge.className = 'badge badge-live';
       applyGateControl();
-      if (showToastNotice) showToast('Đã cập nhật trạng thái từ Google Sheets!');
+      if (showToastNotice) showToast('Đã đồng bộ cấu hình mới nhất từ Google Sheets!');
     }
   };
+
+  const timestamp = Date.now();
+  const nocache = Math.random();
 
   try {
     const oldScript = document.getElementById('jsonp_config_tag');
     if (oldScript) oldScript.remove();
     const script = document.createElement('script');
     script.id = 'jsonp_config_tag';
-    script.src = GOOGLE_SHEETS_URL + '?action=check&topicId=' + encodeURIComponent(TOPIC_ID) + '&examTopic=' + encodeURIComponent(EXAM_TOPIC) + '&callback=__onRemoteConfigLoaded&_t=' + new Date().getTime();
+    script.src = GOOGLE_SHEETS_URL + '?action=check&topicId=' + encodeURIComponent(TOPIC_ID) + '&examTopic=' + encodeURIComponent(EXAM_TOPIC) + '&callback=__onRemoteConfigLoaded&_t=' + timestamp + '&nocache=' + nocache;
     script.onerror = function() { tryFetchFallback(); };
     document.body.appendChild(script);
   } catch(e) { tryFetchFallback(); }
@@ -1855,7 +2034,7 @@ function checkRemoteConfig(showToastNotice) {
   function tryFetchFallback() {
     if (isLoaded) return;
     try {
-      fetch(GOOGLE_SHEETS_URL + '?action=check&topicId=' + encodeURIComponent(TOPIC_ID) + '&examTopic=' + encodeURIComponent(EXAM_TOPIC) + '&_t=' + new Date().getTime())
+      fetch(GOOGLE_SHEETS_URL + '?action=check&topicId=' + encodeURIComponent(TOPIC_ID) + '&examTopic=' + encodeURIComponent(EXAM_TOPIC) + '&_t=' + Date.now() + '&nocache=' + Math.random())
         .then(function(res) { return res.json(); })
         .then(function(data) { window.__onRemoteConfigLoaded(data); })
         .catch(function() {
@@ -1877,30 +2056,43 @@ function applyGateControl() {
   const passcodeGate = document.getElementById('exam-passcode-gate');
   const workspace = document.getElementById('main-exam-workspace');
 
+  if (isTeacherMode) {
+    if (lockScreen) lockScreen.style.display = 'none';
+    if (passcodeGate) passcodeGate.style.display = 'none';
+    if (workspace) workspace.style.display = 'block';
+    return;
+  }
+
   if (remoteConfig.examStatus === 'CLOSED' || remoteConfig.examStatus === 'MAINTENANCE') {
-    lockScreen.style.display = 'block';
-    passcodeGate.style.display = 'none';
-    workspace.style.display = 'none';
-    document.getElementById('remote-lock-desc').textContent = remoteConfig.announcement || 'Giáo viên hiện đang tạm khóa đề thi trên Google Sheets.';
+    if (lockScreen) lockScreen.style.display = 'block';
+    if (passcodeGate) passcodeGate.style.display = 'none';
+    if (workspace) workspace.style.display = 'none';
+    const lockDesc = document.getElementById('remote-lock-desc');
+    if (lockDesc) lockDesc.textContent = remoteConfig.announcement || 'Giáo viên hiện đang tạm khóa đề thi trên Google Sheets.';
   } else {
-    lockScreen.style.display = 'none';
+    if (lockScreen) lockScreen.style.display = 'none';
     if (!isGatePassed && currentMode === 'exam') {
-      passcodeGate.style.display = 'block';
-      workspace.style.display = 'none';
+      if (passcodeGate) passcodeGate.style.display = 'block';
+      if (workspace) workspace.style.display = 'none';
     } else {
-      passcodeGate.style.display = 'none';
-      workspace.style.display = 'block';
+      if (passcodeGate) passcodeGate.style.display = 'none';
+      if (workspace) workspace.style.display = 'block';
     }
   }
 }
 
 function verifyExamPasscode() {
   const inputCode = document.getElementById('input-exam-code').value.trim().toUpperCase();
-  const validCode = (remoteConfig.examPasscode || "123456").toUpperCase();
-  const validPin = (remoteConfig.teacherPin || TEACHER_MASTER_PIN).toUpperCase();
-  const masterPin = TEACHER_MASTER_PIN.toUpperCase();
+  const validCode = getValidPasscode();
+  const validPin = getValidTeacherPin();
 
-  if (inputCode === validCode || inputCode === validPin || inputCode === masterPin) {
+  if (inputCode === validPin || inputCode === TEACHER_MASTER_PIN) {
+    enableTeacherMode('Mở ca thi bằng PIN Giáo viên');
+    showToast('Đã mở khóa toàn quyền Giáo viên!');
+    return;
+  }
+
+  if (inputCode === validCode) {
     isGatePassed = true;
     document.getElementById('exam-passcode-gate').style.display = 'none';
     document.getElementById('main-exam-workspace').style.display = 'block';
@@ -1913,16 +2105,14 @@ function verifyExamPasscode() {
 }
 
 function promptMasterPin() {
-  const pin = prompt('Nhập Master PIN Giáo viên:');
-  const validPin = (remoteConfig.teacherPin || TEACHER_MASTER_PIN).toUpperCase();
-  const masterPin = TEACHER_MASTER_PIN.toUpperCase();
-  if (pin && (pin.trim().toUpperCase() === validPin || pin.trim().toUpperCase() === masterPin)) {
-    remoteConfig.examStatus = 'OPEN';
-    isGatePassed = true;
-    applyGateControl();
-    showToast('Đã mở khóa bằng quyền Giáo viên!');
-  } else if (pin) {
-    alert('PIN Giáo viên không đúng!');
+  const pin = prompt('Nhập PIN Giáo viên (hoặc đăng nhập bằng duyban86@gmail.com):');
+  if (!pin) return;
+  const inputPin = pin.trim().toUpperCase();
+  const validPin = getValidTeacherPin();
+  if (inputPin === validPin || inputPin === TEACHER_MASTER_PIN) {
+    enableTeacherMode('Nhập PIN Giáo viên');
+  } else {
+    alert('PIN Giáo viên không đúng! (Mã hiện tại trên Sheet hoặc 1358)');
   }
 }
 
@@ -2338,6 +2528,26 @@ function checkStudentIdentity() {
   const verifiedBanner = document.getElementById('student-verified-banner');
   const verifiedText = document.getElementById('student-verified-text');
   const unlockBtn = document.getElementById('btn-unlock-identity');
+
+  // NẾU LÀ CHẾ ĐỘ GIÁO VIÊN TOÀN QUYỀN
+  if (isTeacherMode) {
+    if (gateWarning) gateWarning.style.display = 'none';
+    if (workspaceBody) workspaceBody.style.display = 'block';
+    if (gateBadge) {
+      gateBadge.textContent = '👑 Quyền Giáo viên (Full Admin)';
+      gateBadge.style.background = '#fef3c7';
+      gateBadge.style.color = '#92400e';
+    }
+    if (verifiedBanner) {
+      verifiedBanner.style.display = 'flex';
+      if (verifiedText) {
+        verifiedText.innerHTML = '👑 <strong>GIÁO VIÊN BỘ MÔN: THẦY BÙI DUY BAN</strong> • <code style="color:#0284c7; font-weight:700;">' + TEACHER_EMAIL + '</code> • Đã kích hoạt toàn bộ quyền quản trị';
+      }
+      if (unlockBtn) unlockBtn.style.display = 'none';
+    }
+    renderEssaySection();
+    return true;
+  }
   
   const hasSelected = (classVal !== '' && studentVal !== '');
 
@@ -2432,12 +2642,16 @@ function startTimer() {
   updateTimerDisplay();
 
   examTimer = setInterval(function() {
-    timeLeft--;
-    updateTimerDisplay();
+    if (timeLeft > 0) {
+      timeLeft--;
+      updateTimerDisplay();
+    }
     if (timeLeft <= 0) {
       clearInterval(examTimer);
-      alert('Đã hết thời gian làm bài (40 phút)! Hệ thống tự động thu bài.');
-      submitExam(true, 'time_up');
+      if (!isTeacherMode) {
+        alert('Đã hết thời gian làm bài (40 phút)! Hệ thống tự động thu bài.');
+        submitExam(true, 'time_up');
+      }
     }
   }, 1000);
 }
@@ -2451,7 +2665,7 @@ function updateTimerDisplay() {
 
 function setupProctoring() {
   document.addEventListener('visibilitychange', function() {
-    if (currentMode !== 'exam' || isSubmitted) return;
+    if (currentMode !== 'exam' || isSubmitted || isTeacherMode) return;
     if (document.hidden) {
       tabSwitchViolations++;
       document.getElementById('violation-count').textContent = tabSwitchViolations + '/3';
@@ -2592,7 +2806,11 @@ function renderQuestions() {
         const optKey = opt.key || 'A';
         const optText = opt.text || '';
         const isSelected = (userAnswers[idx] === optKey);
-        optionsHtml += '<div class="option-label ' + (isSelected ? 'selected' : '') + '" id="opt-label-' + idx + '-' + optKey + '" onclick="selectSingleOption(' + idx + ', \'' + optKey + '\')">' +
+        let extraClass = '';
+        if (teacherAnswersVisible) {
+          if (optKey === q.correctAnswer) extraClass = ' correct';
+        }
+        optionsHtml += '<div class="option-label ' + (isSelected ? 'selected' : '') + extraClass + '" id="opt-label-' + idx + '-' + optKey + '" onclick="selectSingleOption(' + idx + ', \'' + optKey + '\')">' +
           '<input type="radio" name="q_' + idx + '" value="' + optKey + '" ' + (isSelected ? 'checked' : '') + ' style="cursor:pointer;" onchange="selectSingleOption(' + idx + ', \'' + optKey + '\')">' +
           '<span>' + optText + '</span>' +
         '</div>';
@@ -2607,7 +2825,12 @@ function renderQuestions() {
         const optKey = opt.key || 'A';
         const optText = opt.text || '';
         const isSelected = currentSelected.includes(optKey);
-        optionsHtml += '<div class="option-label ' + (isSelected ? 'selected' : '') + '" id="opt-label-' + idx + '-' + optKey + '" onclick="toggleMultipleOption(' + idx + ', \'' + optKey + '\')">' +
+        let extraClass = '';
+        if (teacherAnswersVisible) {
+          const isCorrectChoice = Array.isArray(q.correctAnswer) ? q.correctAnswer.includes(optKey) : q.correctAnswer === optKey;
+          if (isCorrectChoice) extraClass = ' correct';
+        }
+        optionsHtml += '<div class="option-label ' + (isSelected ? 'selected' : '') + extraClass + '" id="opt-label-' + idx + '-' + optKey + '" onclick="toggleMultipleOption(' + idx + ', \'' + optKey + '\')">' +
           '<input type="checkbox" value="' + optKey + '" ' + (isSelected ? 'checked' : '') + ' style="cursor:pointer;" onchange="toggleMultipleOption(' + idx + ', \'' + optKey + '\')">' +
           '<span>' + optText + '</span>' +
         '</div>';
@@ -2621,11 +2844,18 @@ function renderQuestions() {
       (q.subQuestions || []).forEach(function(sq) {
         const sId = sq.id || 'a';
         const val = ansObj[sId]; // 'true' or 'false'
+        const isCorrectTrue = String(sq.correctAnswer).toLowerCase() === 'true';
+        let trueBtnExtra = '';
+        let falseBtnExtra = '';
+        if (teacherAnswersVisible) {
+          if (isCorrectTrue) trueBtnExtra = ' selected-true';
+          else falseBtnExtra = ' selected-false';
+        }
         subRowsHtml += '<div class="tf-row" id="tf-row-' + idx + '-' + sId + '">' +
-          '<div class="tf-text"><strong>' + sId + ')</strong> ' + sq.text + '</div>' +
+          '<div class="tf-text"><strong>' + sId + ')</strong> ' + sq.text + (teacherAnswersVisible ? (' <span style="font-weight:700; color:' + (isCorrectTrue ? '#16a34a' : '#dc2626') + ';">[Đáp án: ' + (isCorrectTrue ? 'ĐÚNG' : 'SAI') + ']</span>') : '') + '</div>' +
           '<div class="tf-buttons">' +
-            '<button type="button" class="btn-tf ' + (val === 'true' ? 'selected-true' : '') + '" id="btn-tf-' + idx + '-' + sId + '-true" onclick="selectTrueFalse(' + idx + ', \'' + sId + '\', \'true\')">✓ Đúng</button>' +
-            '<button type="button" class="btn-tf ' + (val === 'false' ? 'selected-false' : '') + '" id="btn-tf-' + idx + '-' + sId + '-false" onclick="selectTrueFalse(' + idx + ', \'' + sId + '\', \'false\')">✗ Sai</button>' +
+            '<button type="button" class="btn-tf ' + (val === 'true' ? 'selected-true' : '') + trueBtnExtra + '" id="btn-tf-' + idx + '-' + sId + '-true" onclick="selectTrueFalse(' + idx + ', \'' + sId + '\', \'true\')">✓ Đúng</button>' +
+            '<button type="button" class="btn-tf ' + (val === 'false' ? 'selected-false' : '') + falseBtnExtra + '" id="btn-tf-' + idx + '-' + sId + '-false" onclick="selectTrueFalse(' + idx + ', \'' + sId + '\', \'false\')">✗ Sai</button>' +
           '</div>' +
         '</div>';
       });
@@ -2647,13 +2877,17 @@ function renderQuestions() {
           '<select id="fill-input-' + idx + '" class="fill-blank-input fill-blank-select" onchange="onFillBlankInput(' + idx + ', this.value)">' +
             optsHtml +
           '</select>' +
+          (teacherAnswersVisible ? ('<div style="margin-top:8px; padding:6px 12px; background:#dcfce7; border-radius:8px; color:#166534; font-weight:700; font-size:0.85rem;">✅ Đáp án chuẩn: ' + q.correctAnswer + '</div>') : '') +
         '</div>';
       } else {
         bodyHtml = '<div class="fill-blank-box">' +
           '<input type="text" id="fill-input-' + idx + '" class="fill-blank-input" placeholder="Nhập từ / cụm từ cần điền..." value="' + val.replace(/"/g, '&quot;') + '" oninput="onFillBlankInput(' + idx + ', this.value)">' +
+          (teacherAnswersVisible ? ('<div style="margin-top:8px; padding:6px 12px; background:#dcfce7; border-radius:8px; color:#166534; font-weight:700; font-size:0.85rem;">✅ Đáp án chuẩn: ' + q.correctAnswer + '</div>') : '') +
         '</div>';
       }
     }
+
+    const showExp = teacherAnswersVisible || (currentMode === 'practice' && isQuestionAnswered(idx)) || isSubmitted;
 
     card.innerHTML = 
       '<div class="question-header">' +
@@ -2668,7 +2902,7 @@ function renderQuestions() {
       '</div>' +
       '<div class="question-content">' + q.text + '</div>' +
       bodyHtml +
-      '<div class="explanation-box ' + (currentMode === 'practice' && isQuestionAnswered(idx) ? 'show' : '') + '" id="exp-' + idx + '">' +
+      '<div class="explanation-box ' + (showExp ? 'show' : '') + '" id="exp-' + idx + '">' +
         '<strong>💡 Giải thích chi tiết: </strong>' + (q.explanation || 'Đáp án đã được lưu.') +
       '</div>';
 
@@ -2800,21 +3034,27 @@ function submitExam(isAutoSubmit, reason) {
   const studentIdEl = document.getElementById('student-id');
   const infoCard = document.getElementById('student-info-card');
 
-  const className = classEl ? String(classEl.value || '').trim() : '';
-  const studentName = studentEl ? String(studentEl.value || '').trim() : '';
+  let className = classEl ? String(classEl.value || '').trim() : '';
+  let studentName = studentEl ? String(studentEl.value || '').trim() : '';
   let studentStt = studentIdEl ? String(studentIdEl.value || '').trim() : '';
 
-  if (!studentStt && studentEl.selectedIndex > 0) {
-    studentStt = studentEl.options[studentEl.selectedIndex].dataset.id || '';
-    studentIdEl.value = studentStt;
-  }
-
-  if (!className || !studentName) {
-    if (infoCard) {
-      infoCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if (isTeacherMode) {
+    className = 'Tổ Ngữ văn';
+    studentName = 'Thầy Bùi Duy Ban';
+    studentStt = 'GV';
+  } else {
+    if (!studentStt && studentEl && studentEl.selectedIndex > 0) {
+      studentStt = studentEl.options[studentEl.selectedIndex].dataset.id || '';
+      studentIdEl.value = studentStt;
     }
-    showToast('⚠️ Vui lòng chọn Lớp và Họ tên trước khi nộp bài!');
-    return;
+
+    if (!className || !studentName) {
+      if (infoCard) {
+        infoCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      showToast('⚠️ Vui lòng chọn Lớp và Họ tên trước khi nộp bài!');
+      return;
+    }
   }
 
   let answeredCount = 0;

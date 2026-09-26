@@ -1789,6 +1789,32 @@
     }, 1000);
   }
 
+  const TEACHER_EMAIL = "duyban86@gmail.com";
+  const TEACHER_MASTER_PIN = "1358";
+
+  function promptTeacherLogin() {
+    const pin = prompt('Nhập Mã Giáo viên (Teacher Master PIN) hoặc Email:');
+    if (!pin) return;
+    const input = pin.trim().toLowerCase();
+    if (input === '1358' || input === TEACHER_EMAIL.toLowerCase()) {
+      localStorage.setItem('app_logged_user', JSON.stringify({
+        email: TEACHER_EMAIL,
+        name: 'Thầy Bùi Duy Ban',
+        role: 'teacher'
+      }));
+      initAuthBridge();
+      alert('👑 ĐĂNG NHẬP GIÁO VIÊN THÀNH CÔNG!\n\nChào mừng Thầy Bùi Duy Ban. Bạn đã có toàn quyền truy cập tất cả bài thi và đề ôn tập.');
+    } else {
+      alert('❌ Mã Giáo viên không đúng!');
+    }
+  }
+
+  function logoutTeacher() {
+    if (!confirm('Bạn có muốn đăng xuất khỏi Chế độ Giáo viên?')) return;
+    localStorage.removeItem('app_logged_user');
+    initAuthBridge();
+  }
+
   function initAuthBridge() {
     const infoEl = document.getElementById('auth-bridge-info');
     const actionEl = document.getElementById('auth-bridge-actions');
@@ -1808,7 +1834,38 @@
     } catch (e) {}
 
     const soDiemUrl = 'https://duyban86-svg.github.io/so-diem-12/';
+    const sheetsUrl = 'https://script.google.com/macros/s/AKfycbxmf7eFagsotgPVz0TVAD4qu_OZAOinePGkTpi7vPLbYv7LRfE_IfLTF9sfYPz14Ss/exec';
 
+    // 1. Kiểm tra tài khoản GIÁO VIÊN
+    const currentEmail = (loggedUser && loggedUser.email) || (boundStudent && boundStudent.email) || '';
+    if (currentEmail.toLowerCase().trim() === TEACHER_EMAIL.toLowerCase().trim()) {
+      const avatar = loggedUser && loggedUser.picture ? loggedUser.picture : 'https://ui-avatars.com/api/?name=Bui+Duy+Ban&background=f59e0b&color=fff&bold=true';
+      infoEl.innerHTML = `
+        <img src="${avatar}" alt="Avatar" style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid #f59e0b; flex-shrink: 0;" />
+        <div>
+          <div style="font-weight: 800; color: #fde047; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span>👑 Thầy Bùi Duy Ban</span>
+            <span style="font-size: 0.75rem; background: #854d0e; color: #fef08a; padding: 2px 8px; border-radius: 9999px; border: 1px solid #eab308; font-weight: 800;">TEACHER SUPER ADMIN</span>
+            <span style="font-size: 0.75rem; background: #064e3b; color: #6ee7b7; padding: 2px 8px; border-radius: 9999px; border: 1px solid #059669; font-weight: 700;">✓ Toàn quyền</span>
+          </div>
+          <div style="font-size: 0.78rem; color: #94a3b8; font-family: monospace;">${TEACHER_EMAIL}</div>
+        </div>
+      `;
+      actionEl.innerHTML = `
+        <a href="${sheetsUrl}" target="_blank" style="padding: 8px 14px; background: #059669; color: #fff; border-radius: 10px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #10b981; transition: all 0.2s;">
+          <span>📊</span> Quản trị Sheets
+        </a>
+        <a href="${soDiemUrl}" target="_blank" style="padding: 8px 14px; background: #4338ca; color: #fff; border-radius: 10px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #6366f1; transition: all 0.2s;">
+          <span>📋</span> Sổ Điểm 12
+        </a>
+        <button onclick="logoutTeacher()" style="padding: 8px 12px; background: transparent; color: #fca5a5; border-radius: 10px; font-size: 0.8rem; font-weight: 700; border: 1px solid #ef4444; cursor: pointer; transition: all 0.2s;">
+          Đăng xuất
+        </button>
+      `;
+      return;
+    }
+
+    // 2. Học sinh đã xác thực
     if (boundStudent && boundStudent.name) {
       const avatar = loggedUser && loggedUser.picture ? loggedUser.picture : `https://ui-avatars.com/api/?name=${encodeURIComponent(boundStudent.name)}&background=6366f1&color=fff&bold=true`;
       infoEl.innerHTML = `
@@ -1828,18 +1885,22 @@
         </a>
       `;
     } else {
+      // 3. Chưa đăng nhập
       infoEl.innerHTML = `
         <div style="width: 34px; height: 34px; border-radius: 10px; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">
           🔑
         </div>
         <div>
           <div style="font-weight: 700; color: #fde68a;">Chưa liên kết tài khoản Google từ Sổ điểm</div>
-          <div style="font-size: 0.78rem; color: #cbd5e1;">Đăng nhập Google tại Sổ điểm để tự động khóa danh tính và đồng bộ điểm bài thi.</div>
+          <div style="font-size: 0.78rem; color: #cbd5e1;">Học sinh đăng nhập Google tại Sổ điểm hoặc Giáo viên đăng nhập để quản trị.</div>
         </div>
       `;
       actionEl.innerHTML = `
-        <a href="${soDiemUrl}" target="_blank" style="padding: 8px 14px; background: #f59e0b; color: #0f172a; border-radius: 10px; font-size: 0.8rem; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3); transition: all 0.2s;">
-          <span>🚀</span> Đăng Nhập / Xác Thực Ngay
+        <button onclick="promptTeacherLogin()" style="padding: 8px 14px; background: #1e293b; color: #fde047; border-radius: 10px; font-size: 0.8rem; font-weight: 800; border: 1px solid #f59e0b; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;">
+          <span>👑</span> Giáo viên
+        </button>
+        <a href="${soDiemUrl}" target="_blank" style="padding: 8px 14px; background: #d97706; color: #fff; border-radius: 10px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #f59e0b; transition: all 0.2s;">
+          <span>🔗</span> Học sinh Đăng nhập
         </a>
       `;
     }
