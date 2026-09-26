@@ -845,8 +845,8 @@
     <div class="header-top">
       <div class="badges-group">
         <span class="badge badge-primary">BÀI 1: KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT</span>
-        <span class="badge badge-secondary">30 PHÚT</span>
-        <span class="badge badge-gold">30 CÂU HỎI</span>
+        <span class="badge badge-secondary">40 PHÚT</span>
+        <span class="badge badge-gold">30 CÂU TN (7.0Đ) + TỰ LUẬN (3.0Đ)</span>
         <span class="badge badge-live" id="live-connection-badge">🟢 Hệ thống sẵn sàng</span>
       </div>
       <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem; border-color:#0284c7; color:#0284c7;" onclick="openFeedbackModal()">💬 Báo lỗi / Góp ý</button>
@@ -972,14 +972,14 @@
         📖 CHẾ ĐỘ ÔN TẬP (Xem giải thích tức thì)
       </button>
       <button class="mode-tab" id="tab-exam" onclick="setMode('exam')">
-        ⏱️ CHẾ ĐỘ THI THỬ (Chính thức 30 phút)
+        ⏱️ CHẾ ĐỘ THI THỬ (Chính thức 40 phút)
       </button>
     </div>
 
     <div class="proctor-bar" id="proctor-bar">
       <div class="timer-badge" id="timer-badge">
         <span>⏱️</span>
-        <span id="timer-display">30:00</span>
+        <span id="timer-display">40:00</span>
       </div>
       <div class="violation-badge" id="violation-badge">
         <span>⚠️ Rời màn hình:</span>
@@ -989,15 +989,79 @@
 
     <div class="nav-stats-bar">
       <div class="nav-stats-tags">
-        <span>📝 Đã làm: <strong id="stat-answered" style="color:var(--primary);">0/30</strong></span>
+        <span>📝 Trắc nghiệm: <strong id="stat-answered" style="color:var(--primary);">0/30</strong></span>
         <span>🚩 Đã cắm cờ: <strong id="stat-flagged" style="color:#b45309;">0</strong></span>
+        <span>✍️ Tự luận (3.0đ): <strong id="stat-essay-words" style="color:#0f766e;">0 từ</strong></span>
       </div>
-      <span style="font-size:0.75rem; color:var(--text-muted);">💾 Tự động lưu tiến độ</span>
+      <button type="button" class="btn btn-outline" onclick="document.getElementById('essay-section-card').scrollIntoView({ behavior: 'smooth', block: 'start' })" style="padding:4px 10px; font-size:0.75rem; border-color:#0d9488; color:#0f766e; background:#f0fdfa; font-weight:700; cursor:pointer;">
+        ✍️ Làm bài Tự luận ↓
+      </button>
     </div>
 
     <section class="question-nav" id="question-nav"></section>
 
     <main id="questions-container"></main>
+
+    <!-- PHẦN II: TỰ LUẬN VIẾT ĐOẠN VĂN THEO BÀI HỌC -->
+    <section class="card" id="essay-section-card" style="margin-top: 24px; border: 2px solid var(--secondary); background: #ffffff; border-radius: 16px; padding: 22px; box-shadow: 0 4px 20px rgba(15, 118, 110, 0.08);">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:1.5px solid #e2e8f0; padding-bottom:12px;">
+        <div>
+          <span class="badge" style="background:var(--secondary-light); color:var(--secondary); font-weight:800; font-size:0.78rem; padding:4px 10px; text-transform:uppercase; letter-spacing:0.5px; border:1px solid #99f6e4;">
+            ✍️ PHẦN II: TỰ LUẬN (3.0 ĐIỂM)
+          </span>
+          <h3 id="essay-card-title" style="font-size:1.15rem; font-weight:800; color:#0f766e; margin-top:6px; margin-bottom:0;">
+            RÈN KĨ NĂNG VIẾT ĐOẠN VĂN NGHỊ LUẬN (KHOẢNG 150 – 200 CHỮ)
+          </h3>
+        </div>
+        <div id="essay-mode-badge" style="font-size:0.8rem; font-weight:700; color:#0f766e; background:#f0fdfa; padding:6px 12px; border-radius:10px; border:1px solid #99f6e4;">
+          📖 Chế độ Ôn tập
+        </div>
+      </div>
+
+      <!-- ĐỀ BÀI HIỂN THỊ ĐỘNG -->
+      <div id="essay-prompt-box" style="background:#f8fafc; border-left:4px solid var(--secondary); border-radius:8px; padding:16px; margin-bottom:16px;"></div>
+
+      <!-- THANH CÔNG CỤ ÔN TẬP (CHỈ HIỂN THỊ Ở CHẾ ĐỘ ÔN TẬP HOẶC KHI GIÁO VIÊN MỞ KHÓA) -->
+      <div id="essay-practice-tools" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+        <button type="button" class="btn btn-outline" style="padding:6px 14px; font-size:0.8rem; font-weight:700; border-color:#0d9488; color:#0f766e; background:#f0fdfa; cursor:pointer;" onclick="toggleEssayOutline()">
+          💡 <span id="btn-toggle-outline-text">Xem Dàn ý gợi ý & Từ khóa lí luận</span>
+        </button>
+        <button type="button" class="btn btn-outline" style="padding:6px 14px; font-size:0.8rem; font-weight:700; border-color:#831843; color:#831843; background:#fdf2f8; cursor:pointer;" onclick="toggleEssaySample()">
+          📖 <span id="btn-toggle-sample-text">Đọc Đoạn văn tham khảo đạt điểm tối đa (200 chữ)</span>
+        </button>
+      </div>
+
+      <!-- KHUNG DÀN Ý GỢI Ý -->
+      <div id="essay-outline-panel" style="display:none; background:#fffdf5; border:1.5px solid #fde047; border-radius:10px; padding:16px; margin-bottom:16px;"></div>
+
+      <!-- KHUNG ĐOẠN VĂN MẪU -->
+      <div id="essay-sample-panel" style="display:none; background:#fdf2f8; border:1.5px solid #fbcfe8; border-radius:10px; padding:16px; margin-bottom:16px;"></div>
+
+      <!-- KHUNG SOẠN THẢO BÀI LÀM -->
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px;">
+          <label for="essay-textarea" style="font-weight:700; font-size:0.88rem; color:#334155; display:flex; align-items:center; gap:6px;">
+            <span>📝</span> BÀI LÀM CỦA THÍ SINH (VIẾT ĐOẠN VĂN HOÀN CHỈNH):
+          </label>
+          <div id="essay-word-count-badge" style="font-size:0.8rem; font-weight:700; padding:3px 10px; border-radius:20px; background:#f1f5f9; color:#475569; border:1px solid #cbd5e1;">
+            Số từ: <strong id="essay-word-count" style="color:var(--primary);">0</strong> / 200 từ
+          </div>
+        </div>
+        <textarea 
+          id="essay-textarea" 
+          rows="8" 
+          placeholder="Nhập đoạn văn của em tại đây (khoảng 150 – 200 chữ). Hệ thống tự động lưu bài làm và đếm số từ theo thời gian thực..."
+          oninput="handleEssayInput(this.value)"
+          style="width:100%; border:1.5px solid #cbd5e1; border-radius:12px; padding:14px; font-family:'Plus Jakarta Sans', sans-serif; font-size:0.92rem; line-height:1.7; color:#1e293b; resize:vertical; outline:none; transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='var(--secondary)'"
+          onblur="this.style.borderColor='#cbd5e1'"
+        ></textarea>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; font-size:0.78rem; color:var(--text-muted); flex-wrap:wrap; gap:6px;">
+          <span>💡 <em>Lưu ý: Đoạn văn viết liền mạch không xuống dòng, dung lượng khoảng 150 – 200 từ.</em></span>
+          <span id="essay-save-indicator" style="color:#059669; font-weight:600;">💾 Đã tự động lưu bài</span>
+        </div>
+      </div>
+    </section>
 
     
 
@@ -1211,10 +1275,326 @@ function toggleTeacherAnswers() {
   renderQuestions();
   showToast(teacherAnswersVisible ? 'Đã hiển thị đáp án và lời giải tất cả câu hỏi!' : 'Đã ẩn đáp án.');
 }
-const DEFAULT_DURATION = 30;
+const DEFAULT_DURATION = 40;
 const TOPIC_ID = "P1_BAI_1";
 const EXAM_TOPIC = "BÀI 1: KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT";
 const SHEET_TARGET = "KẾT QUẢ - BÀI 1: KHẢ NĂNG LỚN LAO CỦA TIỂU THUYẾT";
+
+const ESSAY_DATA = {
+  practice: {
+    'de1': {
+      classCode: '12A08_12A13',
+      level: 'Cơ bản (Trào phúng & Ngôn từ nói mỉa)',
+      title: 'ĐỀ ÔN TẬP 1 (CƠ BẢN - 12A08 & 12A13)',
+      prompt: 'Viết đoạn văn nghị luận (khoảng 150 – 200 chữ) làm rõ <strong>nghệ thuật trào phúng sắc lạnh của Vũ Trọng Phụng qua tình huống kịch tính và ngôn từ nói mỉa</strong> trong đoạn trích <em>"Xuân Tóc Đỏ cứu quốc"</em> (trích <em>"Số đỏ"</em>).',
+      outline: [
+        '<strong>1. Mở đoạn:</strong> Giới thiệu tác giả Vũ Trọng Phụng, tiểu thuyết <em>"Số đỏ"</em> và nghệ thuật trào phúng đỉnh cao trong đoạn trích <em>"Xuân Tóc Đỏ cứu quốc"</em>.',
+        '<strong>2. Thân đoạn:</strong>',
+        '• <em>Tình huống kịch tính, phi lí:</em> Trận đấu thể thao biến thành nguy cơ chiến tranh, ép Xuân "đổi thắng thành thua" rồi biến sự thua cuộc nhục nhã thành "nghĩa cử hy sinh cứu quốc".',
+        '• <em>Nghệ thuật ngôn từ:</em> Phối hợp tài tình thủ pháp nói mỉa, nghịch ngữ (<em>"Sự đại bại vạn tuế!"</em>) và lối viết kịch bản hóa (chỉ dẫn hành động "vỗ ngực, đấm tay vào không khí").',
+        '• <em>Hiệu quả nghệ thuật:</em> Bóc trần sự giả dối, cơ hội của Xuân và tâm lý bầy đàn u mê của đám đông thị dân.',
+        '<strong>3. Kết đoạn:</strong> Khẳng định sức sống bền vững của tiếng cười trào phúng Vũ Trọng Phụng và giá trị hiện thực sâu sắc.'
+      ],
+      keywords: ['Nghệ thuật trào phúng', 'Tình huống kịch tính', 'Nói mỉa (Irony)', 'Nghịch ngữ', 'Sân khấu hóa', 'Tâm lý bầy đàn'],
+      sample: 'Nghệ thuật trào phúng sắc lạnh trong đoạn trích <em>"Xuân Tóc Đỏ cứu quốc"</em> đã khẳng định tài năng bậc thầy của Vũ Trọng Phụng trong việc phơi bày sự tha hóa, loạn chuẩn của xã hội Âu hóa nửa mùa thời thuộc địa. Sức công phá của tiếng cười bắt nguồn từ tình huống trào phúng phi lí bậc nhất: một trận đấu thể thao bị chính trị hóa, buộc Xuân phải "nhường điểm" chịu thua nhưng lại được nhào nặn thành sự hy sinh cứu quốc vĩ đại. Bằng ngòi bút kịch bản hóa sắc sảo, tác giả lồng ghép các chỉ dẫn hành động (vỗ ngực, đấm tay vào không khí) biến màn diễn thuyết của Xuân thành vở hề kịch trơ trẽn. Đặc biệt, nghệ thuật nói mỉa kết hợp nghịch ngữ đắt giá <em>"Sự đại bại vạn tuế!"</em> đã bóc trần trọn vẹn bản chất giảo hoạt của kẻ lưu manh vỉa hè, đồng thời vạch trần tâm lý bầy đàn nông nổi, u mê của đám đông thị dân. Đoạn trích không chỉ mang lại tiếng cười châm biếm sâu cay mà còn gióng lên hồi chuông cảnh tỉnh về thói mị dân trơ trẽn trong xã hội đương thời.'
+    },
+    'de2': {
+      classCode: '12A21',
+      level: 'Khá Giỏi (Vẻ đẹp nghĩa tình gia phong)',
+      title: 'ĐỀ ÔN TẬP 2 (KHÁ GIỎI - 12A21)',
+      prompt: 'Viết đoạn văn nghị luận (khoảng 150 – 200 chữ) phân tích <strong>vẻ đẹp của nếp sống nghĩa tình gia phong truyền thống qua hình ảnh nhân vật chị Hoài</strong> trong đoạn trích <em>"Mùa lá rụng trong vườn"</em> (Ma Văn Kháng).',
+      outline: [
+        '<strong>1. Mở đoạn:</strong> Giới thiệu nhà văn Ma Văn Kháng, tiểu thuyết <em>"Mùa lá rụng trong vườn"</em> và hình tượng nhân vật chị Hoài – biểu tượng cho nếp nhà gia phong.',
+        '<strong>2. Thân đoạn:</strong>',
+        '• <em>Diện mạo mộc mạc, đôn hậu:</em> Áo bông chần hạt lựu, gót chân nứt nẻ thâm đen, tay nải trĩu nặng quà quê mộc mạc đậm đà phong vị đồng quê.',
+        '• <em>Tấm lòng thủy chung, son sắt:</em> Dù đã tái giá nhưng chiều 30 Tết vẫn lặn lội về thắp hương tổ tiên, viếng chồng liệt sĩ; kính trọng bố chồng cũ (ông Bằng).',
+        '• <em>Ý nghĩa biểu tượng:</em> Chị Hoài là "chất keo kết dính", ngọn lửa sưởi ấm gia phong, đánh thức lương tri các thành viên trước sự rạn nứt của thời mở cửa.',
+        '<strong>3. Kết đoạn:</strong> Khẳng định giá trị nhân văn cao đẹp: niềm tin vào sức sống trường tồn của đạo lý gia đình truyền thống.'
+      ],
+      keywords: ['Chị Hoài', 'Nếp nhà gia phong', 'Đạo lý nghĩa tình', 'Chất keo kết dính', 'Chiều 30 Tết', 'Văn hóa truyền thống'],
+      sample: 'Hình tượng nhân vật chị Hoài trong đoạn trích <em>"Mùa lá rụng trong vườn"</em> của Ma Văn Kháng là biểu tượng ngời sáng cho vẻ đẹp nghĩa tình và nếp sống gia phong truyền thống bền vững của người Việt Nam. Hiện diện giữa không gian chiều 30 Tết trang nghiêm trong chiếc áo bông chần hạt lựu và đôi gót chân nứt nẻ thâm đen mang nặng phong vị đồng quê, chị Hoài đem đến cho gia đình ông Bằng một luồng gió ấm áp, xua đi cảm giác lạnh lẽo của mùa lá rụng. Dù hoàn cảnh éo le đã đưa chị đi bước nữa, chị vẫn son sắt giữ trọn đạo dâu trưởng, trở về thắp hương tổ tiên với tấm lòng thành kính, nghĩa tình vẹn nguyên. Bằng bút pháp hiện thực tâm lý đằm thắm, Ma Văn Kháng đã khắc họa chị Hoài như một "chất keo kết dính" kì diệu, đánh thức phần lương tri thanh sạch và sưởi ấm những rạn nứt âm thầm giữa các thành viên trong cơn lốc kinh tế thị trường. Nhân vật chị Hoài nhắc nhở mỗi chúng ta bài học nhân sinh sâu sắc về việc trân trọng cội nguồn và neo giữ đạo lý gia đình.'
+    }
+  },
+
+  exam: {
+    '12A08': {
+      classCode: '12A08',
+      level: 'Cơ bản (Nghịch ngữ & Tâm lý bầy đàn)',
+      title: 'ĐỀ THI CHÍNH THỨC - LỚP 12A08',
+      prompt: 'Viết đoạn văn nghị luận (khoảng 150 – 200 chữ) phân tích ý nghĩa trào phúng của nghịch ngữ <strong>"Sự đại bại vạn tuế!"</strong> và <strong>tâm lý bầy đàn u mê, dễ bị "thôi miên" của đám đông thị dân</strong> trong đoạn trích <em>"Xuân Tóc Đỏ cứu quốc"</em> (Vũ Trọng Phụng).',
+      outline: [
+        '<strong>1. Mở đoạn:</strong> Nêu tác giả Vũ Trọng Phụng, đoạn trích và giới thiệu nghịch ngữ "Sự đại bại vạn tuế!" cùng bức tranh tâm lý đám đông.',
+        '<strong>2. Thân đoạn:</strong>',
+        '• <em>Giải mã nghịch ngữ:</em> "Đại bại" (thua cuộc nhục nhã) ghép với "Vạn tuế" (tung hô chiến thắng bất diệt) tạo sự phi lí, bóc trần màn kịch cứu quốc bịp bợm.',
+        '• <em>Phân tích tâm lý đám đông:</em> Từ phẫn nộ đòi "đả đảo" lập tức quay sang "hoan hô, vạn tuế" khi nghe lời mị dân sáo rỗng của Xuân; thể hiện sự nông nổi, a dua, mất khả năng tự chủ tư duy.',
+        '• <em>Ý nghĩa phê phán:</em> Tố cáo xã hội thực dân tư sản loạn chuẩn, nơi sự giả dối lên ngôi nhờ mảnh đất màu mỡ là sự u mê của quần chúng.',
+        '<strong>3. Kết đoạn:</strong> Đánh giá sức công phá của tiếng cười Vũ Trọng Phụng và bài học tỉnh táo trước tâm lý đám đông.'
+      ],
+      sample: 'Nghịch ngữ <em>"Sự đại bại vạn tuế!"</em> trong màn kết đoạn trích <em>"Xuân Tóc Đỏ cứu quốc"</em> là đỉnh cao nghệ thuật trào phúng của Vũ Trọng Phụng, phơi bày trần trụi sự lố lăng của màn kịch thể thao chính trị và tâm lý bầy đàn u mê của đám đông thị dân đương thời. Bằng việc đặt hai khái niệm đối chọi gay gắt — "đại bại" (thua cuộc nhục nhã) bên cạnh "vạn tuế" (suy tôn chiến thắng vĩnh cửu) — ngòi bút sắc lạnh của tác giả đã bóc trần sự thật trớ trêu: một hành vi nhường điểm bán độ đê hèn lại được tôn vinh như một kỳ tích cứu quốc vĩ đại. Đáng châm biếm hơn cả là phản ứng của đám đông khán giả: từ trạng thái phẫn nộ đòi "đả đảo", họ lập tức bị những khẩu hiệu mị dân sáo rỗng của Xuân "thôi miên", đồng thanh hô vang sự đại bại trong niềm hân hoan mù quáng. Qua tiếng cười hoạt kê chua chát, Vũ Trọng Phụng không chỉ vạch mặt kẻ cơ hội lọc lừa mà còn gióng lên bài học cảnh tỉnh đanh thép về hiểm họa của lối sống a dua, nông nổi và sự suy đồi nhận thức của đám đông mất phương hướng.'
+    },
+    '12A13': {
+      classCode: '12A13',
+      level: 'Chuẩn (Nỗi niềm ưu tư của người cha gia phong)',
+      title: 'ĐỀ THI CHÍNH THỨC - LỚP 12A13',
+      prompt: 'Viết đoạn văn nghị luận (khoảng 150 – 200 chữ) làm rõ <strong>nỗi niềm ưu tư, cô uẩn của nhân vật ông Bằng</strong> trong giờ phút cúng tất niên chiều 30 Tết qua đoạn trích <em>"Mùa lá rụng trong vườn"</em> (Ma Văn Kháng).',
+      outline: [
+        '<strong>1. Mở đoạn:</strong> Giới thiệu tác giả Ma Văn Kháng, tác phẩm và nỗi niềm cô uẩn sâu sắc của người cha (ông Bằng).',
+        '<strong>2. Thân đoạn:</strong>',
+        '• <em>Không gian tâm lý thiêng liêng:</em> Chiều 30 Tết, khói hương nghi ngút bên bàn thờ tổ tiên – nơi lưu giữ linh hồn gia tộc.',
+        '• <em>Tâm trạng giằng xé:</em> Niềm xúc động khi tưởng nhớ người vợ đã khuất và con trai liệt sĩ; nỗi đau đớn xót xa khi ngập ngừng bỏ qua tên Cừ (đứa con lầm lạc) để giữ sự thanh sạch cho bàn thờ gia tiên.',
+        '• <em>Chiều sâu nhân vật:</em> Người cha nghiêm cẩn gia phong nhưng trĩu nặng âu lo, cô đơn trước những rạn nứt âm thầm của nếp nhà thời mở cửa.',
+        '<strong>3. Kết đoạn:</strong> Khẳng định tấm lòng nhân hậu, tinh thần trách nhiệm của ông Bằng và giá trị nhân văn của tác phẩm.'
+      ],
+      sample: 'Trong đoạn trích <em>"Mùa lá rụng trong vườn"</em>, nhà văn Ma Văn Kháng đã khắc họa tinh tế nỗi niềm ưu tư, cô uẩn sâu sắc của nhân vật ông Bằng trong giờ phút cúng tất niên chiều 30 Tết linh thiêng. Đứng trước bàn thờ gia tiên với ba nén hương thơm, ông Bằng hiện lên như một chứng nhân lịch sử đau đáu gìn giữ nếp nhà truyền thống giữa những chao đảo thời cuộc. Tâm trạng ông là sự giao thoa phức cảm giữa lòng thành kính tri ân tổ tiên, nỗi tiếc thương khôn nguôi người vợ hiền và anh con cả liệt sĩ, cùng bi kịch giằng xé xót xa khi lặng lẽ bỏ qua tên Cừ — đứa con trai lầm lạc. Bút pháp hiện thực tâm lý sâu sắc của Ma Văn Kháng đã soi chiếu vào cõi lòng cô đơn, trĩu nặng của người cha già: nghiêm cẩn giữ gìn sự tôn nghiêm của gia phong nhưng trong tim lại quặn thắt nỗi đau xót và dự cảm âu lo trước sự rạn nứt đạo đức của con cháu trong thời kinh tế thị trường. Nhân vật ông Bằng để lại niềm xúc động sâu xa về đức hy sinh và thiên lương cao đẹp của một thế hệ cả đời vì nếp nhà gia tộc.'
+    },
+    '12A21': {
+      classCode: '12A21',
+      level: 'Khá Giỏi (Xung đột Đạo lý gia phong & Lối sống thực dụng)',
+      title: 'ĐỀ THI CHÍNH THỨC - LỚP 12A21',
+      prompt: 'Viết đoạn văn nghị luận (khoảng 150 – 200 chữ) làm rõ <strong>sự va đập gay gắt giữa nếp sống đạo đức gia phong truyền thống và lối sống thực dụng thời kinh tế thị trường</strong> qua thái độ của các thành viên gia đình đối với chị Hoài trong đoạn trích <em>"Mùa lá rụng trong vườn"</em> (Ma Văn Kháng).',
+      outline: [
+        '<strong>1. Mở đoạn:</strong> Giới thiệu Ma Văn Kháng, đoạn trích và sự va đập giữa chuẩn mực đạo lý gia đình với lối sống thực dụng thời mở cửa.',
+        '<strong>2. Thân đoạn:</strong>',
+        '• <em>Nếp sống trọng nghĩa tình (ông Bằng, Luận, Đông):</em> Đón nhận chị Hoài bằng niềm xúc động chân thành, trân trọng nghĩa dâu con son sắt, coi tình nghĩa cao hơn mọi ràng buộc pháp lý.',
+        '• <em>Lối sống toan tính, thực dụng (cô Lý):</em> Nhìn sự trở về của chị Hoài qua lăng kính vật chất, ngỡ ngàng trước chiếc tay nải quà quê mộc mạc, toan tính quyền lợi đời thường.',
+        '• <em>Ý nghĩa triết luận:</em> Sự xuất hiện của chị Hoài như một "phép thử" nhân cách, phơi bày những rạn nứt âm thầm trong nền tảng đạo đức gia đình trước vòng xoáy kinh tế thị trường.',
+        '<strong>3. Kết đoạn:</strong> Đánh giá bút pháp tâm lý đối thoại của Ma Văn Kháng và bài học giữ gìn bản sắc văn hóa nếp nhà.'
+      ],
+      sample: 'Sự xuất hiện bất ngờ của chị Hoài trong buổi chiều 30 Tết ở <em>"Mùa lá rụng trong vườn"</em> đã trở thành một "phép thử" tâm lý sắc sảo, làm bộc lộ rõ nét sự va đập gay gắt giữa nếp sống đạo đức gia phong truyền thống và lối sống thực dụng thời kỳ đổi mới. Đối diện với người dâu trưởng đã đi bước nữa, gia đình ông Bằng phân hóa thành hai mạch ứng xử đối lập. Một bên là đại diện cho đạo lý nghĩa tình truyền thống — ông Bằng, Luận và Đông — đón nhận chị Hoài bằng niềm xúc động rưng rưng, trân quý tấm lòng thủy chung vượt lên mọi định kiến và ràng buộc pháp lý. Đối lập lại là cô em dâu Lý — hiện thân của tư duy thực dụng, toan tính vật chất thời mở cửa — thoạt đầu ngỡ ngàng, e ngại trước chiếc tay nải quà quê thô mộc và luôn cân đo mọi quan hệ qua lăng kính lợi ích cá nhân. Bằng bút pháp hiện thực tâm lý đa thanh, Ma Văn Kháng đã làm nổi bật xung đột ngầm ẩn đầy trăn trở: giữa cơn lốc của kinh tế thị trường, các giá trị văn hóa và nếp nhà thiêng liêng đang bị thử thách dữ dội, đòi hỏi mỗi con người phải biết neo giữ thiên lương để không bị tha hóa nhân phẩm.'
+    },
+    'default': {
+      classCode: 'Chung',
+      level: 'Tiêu chuẩn (Đặc trưng Tiểu thuyết)',
+      title: 'ĐỀ THI CHÍNH THỨC - BÀI 1: TIỂU THUYẾT',
+      prompt: 'Viết đoạn văn nghị luận (khoảng 150 – 200 chữ) phân tích một nét đặc sắc về nghệ thuật xây dựng nhân vật hoặc nghệ thuật trần thuật trong hai đoạn trích <em>"Xuân Tóc Đỏ cứu quốc"</em> (Vũ Trọng Phụng) hoặc <em>"Mùa lá rụng trong vườn"</em> (Ma Văn Kháng).',
+      outline: [
+        '<strong>1. Mở đoạn:</strong> Giới thiệu tác giả, tác phẩm và nét đặc sắc nghệ thuật tự sự cần phân tích.',
+        '<strong>2. Thân đoạn:</strong> Phân tích biểu hiện và hiệu quả của thủ pháp nghệ thuật đối với việc khắc họa chủ đề.',
+        '<strong>3. Kết đoạn:</strong> Đánh giá đóng góp nghệ thuật và thông điệp tác phẩm.'
+      ],
+      sample: 'Trong tiểu thuyết hiện đại, nghệ thuật khắc họa nhân vật và tổ chức điểm nhìn đóng vai trò then chốt...'
+    }
+  }
+};
+
+let currentPracticeDeKey = 'de1';
+
+function getActiveEssayData() {
+  const classVal = (document.getElementById('class-select') || {}).value || '';
+  if (currentMode === 'exam') {
+    if (ESSAY_DATA.exam[classVal]) {
+      return ESSAY_DATA.exam[classVal];
+    }
+    return ESSAY_DATA.exam['default'];
+  } else {
+    if (classVal === '12A21' && currentPracticeDeKey === 'de1') {
+      currentPracticeDeKey = 'de2';
+    }
+    return ESSAY_DATA.practice[currentPracticeDeKey] || ESSAY_DATA.practice['de1'];
+  }
+}
+
+function renderEssaySection() {
+  const essayCard = document.getElementById('essay-section-card');
+  if (!essayCard) return;
+
+  const classVal = (document.getElementById('class-select') || {}).value || '';
+  const modeBadge = document.getElementById('essay-mode-badge');
+  const promptBox = document.getElementById('essay-prompt-box');
+  const practiceTools = document.getElementById('essay-practice-tools');
+  const outlinePanel = document.getElementById('essay-outline-panel');
+  const samplePanel = document.getElementById('essay-sample-panel');
+  const essayTitle = document.getElementById('essay-card-title');
+
+  const essayData = getActiveEssayData();
+
+  if (currentMode === 'exam') {
+    if (modeBadge) {
+      modeBadge.innerHTML = '⏱️ Chế độ Thi thử' + (classVal ? ' — Lớp: ' + classVal : '');
+      modeBadge.style.background = '#fef2f2';
+      modeBadge.style.color = '#991b1b';
+      modeBadge.style.borderColor = '#fecaca';
+    }
+    if (essayTitle) {
+      essayTitle.innerHTML = 'ĐỀ BÀI TỰ LUẬN VIẾT ĐOẠN VĂN (3.0 ĐIỂM)' + (classVal ? ' — LỚP ' + classVal : '');
+    }
+    if (practiceTools) {
+      practiceTools.style.display = isUnlocked ? 'flex' : 'none';
+    }
+    if (!isUnlocked) {
+      if (outlinePanel) outlinePanel.style.display = 'none';
+      if (samplePanel) samplePanel.style.display = 'none';
+    }
+  } else {
+    if (modeBadge) {
+      modeBadge.innerHTML = '📖 Chế độ Ôn tập (Có Dàn ý & Văn mẫu)';
+      modeBadge.style.background = '#f0fdfa';
+      modeBadge.style.color = '#0f766e';
+      modeBadge.style.borderColor = '#99f6e4';
+    }
+    if (essayTitle) {
+      essayTitle.innerHTML = 'RÈN KĨ NĂNG VIẾT ĐOẠN VĂN NGHỊ LUẬN (KHOẢNG 150 – 200 CHỮ)';
+    }
+    if (practiceTools) {
+      practiceTools.style.display = 'flex';
+    }
+  }
+
+  // Render Prompt Box
+  if (promptBox) {
+    let practiceTabsHtml = '';
+    if (currentMode === 'practice') {
+      practiceTabsHtml = 
+        '<div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">' +
+        '<button type="button" class="btn" style="padding:5px 12px; font-size:0.8rem; border-radius:8px; cursor:pointer; font-weight:700; ' +
+        (currentPracticeDeKey === 'de1' ? 'background:#0f766e; color:#fff;' : 'background:#e2e8f0; color:#334155;') +
+        '" onclick="switchPracticeEssay(\'de1\')">📚 Đề 1 (Cơ bản - 12A08 & 12A13)</button>' +
+        '<button type="button" class="btn" style="padding:5px 12px; font-size:0.8rem; border-radius:8px; cursor:pointer; font-weight:700; ' +
+        (currentPracticeDeKey === 'de2' ? 'background:#0f766e; color:#fff;' : 'background:#e2e8f0; color:#334155;') +
+        '" onclick="switchPracticeEssay(\'de2\')">🎯 Đề 2 (Khá Giỏi - 12A21)</button>' +
+        '</div>';
+    }
+
+    promptBox.innerHTML = practiceTabsHtml +
+      '<div style="font-size:0.85rem; font-weight:800; color:#0f766e; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">' +
+        (essayData.title || 'ĐỀ BÀI TỰ LUẬN') + (essayData.level ? ' • <span style="color:#b45309;">[' + essayData.level + ']</span>' : '') +
+      '</div>' +
+      '<div style="font-size:0.96rem; line-height:1.65; color:#1e293b; font-weight:500;">' +
+        essayData.prompt +
+      '</div>';
+  }
+
+  // Render Outline Panel
+  if (outlinePanel && essayData.outline) {
+    let kwHtml = '';
+    if (essayData.keywords && essayData.keywords.length > 0) {
+      kwHtml = '<div style="margin-top:10px; padding-top:8px; border-top:1px dashed #cbd5e1; font-size:0.85rem; color:#475569;">' +
+        '<strong>🔑 Từ khóa lí luận then chốt:</strong> ' +
+        essayData.keywords.map(function(k) { return '<span class="badge" style="background:#e0f2fe; color:#0369a1; padding:2px 8px; margin:2px; border-radius:6px; font-weight:600; font-size:0.8rem;">' + k + '</span>'; }).join(' ') +
+        '</div>';
+    }
+    outlinePanel.innerHTML = 
+      '<h4 style="margin:0 0 10px; font-size:0.95rem; font-weight:800; color:#92400e; display:flex; align-items:center; gap:6px;">' +
+        '<span>💡</span> GỢI Ý DÀN Ý 3 PHẦN CHO ĐOẠN VĂN 150 – 200 CHỮ:' +
+      '</h4>' +
+      '<div style="font-size:0.9rem; line-height:1.7; color:#334155;">' +
+        essayData.outline.map(function(item) { return '<div style="margin-bottom:6px;">' + item + '</div>'; }).join('') +
+      '</div>' + kwHtml;
+  }
+
+  // Render Sample Panel
+  if (samplePanel && essayData.sample) {
+    samplePanel.innerHTML = 
+      '<h4 style="margin:0 0 10px; font-size:0.95rem; font-weight:800; color:#831843; display:flex; align-items:center; gap:6px;">' +
+        '<span>📖</span> ĐOẠN VĂN THAM KHẢO CHUẨN ĐẠT ĐIỂM TỐI ĐA (KHOẢNG 200 CHỮ):' +
+      '</h4>' +
+      '<div style="font-size:0.92rem; line-height:1.75; color:#1e293b; background:#fff; padding:14px; border-radius:8px; border:1px solid #fbcfe8; font-style:italic;">' +
+        essayData.sample +
+      '</div>';
+  }
+
+  // Restore saved essay answer if exists
+  const textarea = document.getElementById('essay-textarea');
+  if (textarea && !textarea.value) {
+    const storageKey = 'p1_essay_' + (currentMode === 'exam' ? (classVal || 'default') : ('practice_' + currentPracticeDeKey));
+    const savedText = localStorage.getItem(storageKey) || localStorage.getItem('p1_essay_general') || '';
+    if (savedText) {
+      textarea.value = savedText;
+      handleEssayInput(savedText);
+    }
+  }
+}
+
+function promptTeacherPinForEssay() {
+  const pin = prompt('Nhập mã PIN Giáo viên (1358) để mở khóa Dàn ý & Đoạn văn tham khảo:');
+  if (!pin) return;
+  const validPin = (remoteConfig.teacherPin || TEACHER_MASTER_PIN).toUpperCase();
+  if (pin.trim().toUpperCase() === validPin || pin.trim().toUpperCase() === TEACHER_MASTER_PIN.toUpperCase()) {
+    isUnlocked = true;
+    renderEssaySection();
+    const essayOutline = document.getElementById('essay-outline-panel');
+    if (essayOutline) essayOutline.style.display = 'block';
+    const essaySample = document.getElementById('essay-sample-panel');
+    if (essaySample) essaySample.style.display = 'block';
+    showToast('✅ Đã mở khóa Dàn ý & Đoạn văn tham khảo cho Giáo viên!');
+  } else {
+    alert('MÃ PIN GIÁO VIÊN KHÔNG ĐÚNG!');
+  }
+}
+
+function switchPracticeEssay(deKey) {
+  currentPracticeDeKey = deKey;
+  renderEssaySection();
+}
+
+function handleEssayInput(val) {
+  const countEl = document.getElementById('essay-word-count');
+  const badgeEl = document.getElementById('essay-word-count-badge');
+  const words = val.trim().length > 0 ? val.trim().split(/\s+/).filter(Boolean).length : 0;
+  
+  if (countEl) countEl.textContent = words;
+  if (badgeEl) {
+    if (words >= 150 && words <= 250) {
+      badgeEl.style.background = '#dcfce7';
+      badgeEl.style.color = '#166534';
+      badgeEl.style.borderColor = '#86efac';
+    } else if (words > 0 && words < 150) {
+      badgeEl.style.background = '#fef3c7';
+      badgeEl.style.color = '#92400e';
+      badgeEl.style.borderColor = '#fde68a';
+    } else if (words > 250) {
+      badgeEl.style.background = '#fee2e2';
+      badgeEl.style.color = '#991b1b';
+      badgeEl.style.borderColor = '#fca5a5';
+    } else {
+      badgeEl.style.background = '#f1f5f9';
+      badgeEl.style.color = '#475569';
+      badgeEl.style.borderColor = '#cbd5e1';
+    }
+  }
+
+  updateNavStats();
+
+  // Auto save to localStorage
+  try {
+    const classVal = (document.getElementById('class-select') || {}).value || '';
+    const storageKey = 'p1_essay_' + (currentMode === 'exam' ? (classVal || 'default') : ('practice_' + currentPracticeDeKey));
+    localStorage.setItem(storageKey, val);
+    localStorage.setItem('p1_essay_general', val);
+
+    const ind = document.getElementById('essay-save-indicator');
+    if (ind) {
+      ind.textContent = '💾 Đã lưu (' + new Date().toLocaleTimeString('vi-VN', { hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ')';
+      ind.style.color = '#059669';
+    }
+  } catch(e) {}
+}
+
+function toggleEssayOutline() {
+  const panel = document.getElementById('essay-outline-panel');
+  const btnText = document.getElementById('btn-toggle-outline-text');
+  if (!panel) return;
+  if (panel.style.display === 'none' || !panel.style.display) {
+    panel.style.display = 'block';
+    if (btnText) btnText.textContent = 'Ẩn Dàn ý gợi ý & Từ khóa lí luận';
+  } else {
+    panel.style.display = 'none';
+    if (btnText) btnText.textContent = 'Xem Dàn ý gợi ý & Từ khóa lí luận';
+  }
+}
+
+function toggleEssaySample() {
+  const panel = document.getElementById('essay-sample-panel');
+  const btnText = document.getElementById('btn-toggle-sample-text');
+  if (!panel) return;
+  if (panel.style.display === 'none' || !panel.style.display) {
+    panel.style.display = 'block';
+    if (btnText) btnText.textContent = 'Ẩn Đoạn văn tham khảo đạt điểm tối đa';
+  } else {
+    panel.style.display = 'none';
+    if (btnText) btnText.textContent = 'Đọc Đoạn văn tham khảo đạt điểm tối đa (200 chữ)';
+  }
+}
 
 let remoteConfig = {
   examStatus: "OPEN",
@@ -1339,6 +1719,7 @@ document.addEventListener('DOMContentLoaded', function() {
   checkGoogleAuthBridge();
   renderNavigation();
   renderQuestions();
+  renderEssaySection();
   setupProctoring();
   checkRemoteConfig();
   updateNavStats();
@@ -1526,6 +1907,7 @@ function onClassChange() {
   if (!classVal || !studentsDatabase[classVal]) {
     studentSelect.disabled = true;
     checkStudentIdentity();
+    renderEssaySection();
     return;
   }
 
@@ -1539,6 +1921,7 @@ function onClassChange() {
 
   studentSelect.disabled = false;
   checkStudentIdentity();
+  renderEssaySection();
 }
 
 function onStudentChange() {
@@ -1559,6 +1942,7 @@ function onStudentChange() {
   }
   
   checkStudentIdentity();
+  renderEssaySection();
   saveProgressToStorage();
 }
 
@@ -1574,6 +1958,7 @@ function unlockStudentIdentity() {
   document.getElementById('class-select').disabled = false;
   document.getElementById('student-select').disabled = false;
   checkStudentIdentity();
+  renderEssaySection();
   showToast('Em có thể chọn lại Lớp và Họ tên.');
 }
 
@@ -1713,6 +2098,7 @@ function setMode(mode) {
 
   renderNavigation();
   renderQuestions();
+  renderEssaySection();
   updateNavStats();
   saveProgressToStorage();
 }
@@ -1805,6 +2191,24 @@ function updateNavStats() {
   const statFlg = document.getElementById('stat-flagged');
   if (statAns) statAns.textContent = answeredCount + '/' + activeQuestions.length;
   if (statFlg) statFlg.textContent = flaggedQuestions.size;
+
+  const essayVal = (document.getElementById('essay-textarea') ? document.getElementById('essay-textarea').value : '').trim();
+  const essayWords = essayVal.length > 0 ? essayVal.split(/\s+/).filter(Boolean).length : 0;
+  const statEssay = document.getElementById('stat-essay-words');
+  if (statEssay) statEssay.textContent = essayWords + ' từ';
+
+  const essayNavBtn = document.getElementById('nav-btn-essay');
+  if (essayNavBtn) {
+    if (essayWords > 0) {
+      essayNavBtn.innerHTML = '✍️ Tự luận: ' + essayWords + '/200 từ';
+      essayNavBtn.style.background = '#059669';
+      essayNavBtn.style.borderColor = '#059669';
+    } else {
+      essayNavBtn.innerHTML = '✍️ PHẦN II: TỰ LUẬN (3.0Đ)';
+      essayNavBtn.style.background = '#0f766e';
+      essayNavBtn.style.borderColor = '#0f766e';
+    }
+  }
 }
 
 function renderNavigation() {
@@ -1823,6 +2227,27 @@ function renderNavigation() {
     };
     nav.appendChild(btn);
   });
+
+  // NÚT ĐIỀU HƯỚNG NỔI BẬT ĐẾN PHẦN TỰ LUẬN
+  const essayBtn = document.createElement('button');
+  essayBtn.className = 'nav-btn';
+  essayBtn.id = 'nav-btn-essay';
+  essayBtn.innerHTML = '✍️ PHẦN II: TỰ LUẬN (3.0Đ)';
+  essayBtn.style.width = 'auto';
+  essayBtn.style.padding = '0 16px';
+  essayBtn.style.borderRadius = '10px';
+  essayBtn.style.background = '#0f766e';
+  essayBtn.style.color = '#ffffff';
+  essayBtn.style.fontWeight = '800';
+  essayBtn.style.fontSize = '0.8rem';
+  essayBtn.style.cursor = 'pointer';
+  essayBtn.style.border = '1.5px solid #0f766e';
+  essayBtn.style.marginLeft = '8px';
+  essayBtn.onclick = function() {
+    const el = document.getElementById('essay-section-card');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  nav.appendChild(essayBtn);
 }
 
 function renderQuestions() {
@@ -2087,13 +2512,26 @@ function submitExam(isAutoSubmit, reason) {
   });
 
   if (!isAutoSubmit && currentMode === 'exam' && answeredCount < activeQuestions.length) {
-    if (!confirm('Bạn mới làm ' + answeredCount + '/' + activeQuestions.length + ' câu hỏi. Chắc chắn muốn nộp bài ngay?')) {
+    if (!confirm('Bạn mới làm ' + answeredCount + '/' + activeQuestions.length + ' câu hỏi trắc nghiệm. Chắc chắn muốn nộp bài ngay?')) {
+      return;
+    }
+  }
+
+  const essayVal = (document.getElementById('essay-textarea') ? document.getElementById('essay-textarea').value : '').trim();
+  const essayWords = essayVal.length > 0 ? essayVal.split(/\s+/).filter(Boolean).length : 0;
+  const activeEssay = getActiveEssayData();
+
+  if (!isAutoSubmit && currentMode === 'exam' && essayWords === 0) {
+    if (!confirm('Bạn chưa nhập bài làm Tự luận Phần II (3.0 điểm). Bạn có chắc chắn muốn nộp bài không?')) {
       return;
     }
   }
 
   isSubmitted = true;
   clearInterval(examTimer);
+
+  const essayTextarea = document.getElementById('essay-textarea');
+  if (essayTextarea) essayTextarea.disabled = true;
 
   const submitBtn = document.querySelector('.btn-bar .btn-primary');
   if (submitBtn) {
@@ -2173,7 +2611,7 @@ function submitExam(isAutoSubmit, reason) {
     }
   });
 
-    const finalScoreTenScale = ((totalScoreRaw / activeQuestions.length) * 10).toFixed(1);
+  const finalScoreTenScale = ((totalScoreRaw / activeQuestions.length) * 10).toFixed(1);
 
   // ẨN TOÀN BỘ CÂU HỎI VÀ ĐIỀU HƯỚNG THEO YÊU CẦU BẢO MẬT
   const qContainer = document.getElementById('questions-container');
@@ -2200,12 +2638,12 @@ function submitExam(isAutoSubmit, reason) {
     } else if (submitReason === 'time_up') {
       reasonBanner.innerHTML = '<div style="background:#fffbeb; border:2px solid #f59e0b; border-radius:12px; padding:14px 18px; color:#92400e; text-align:center; margin-bottom:18px;">' +
         '<div style="font-size:1.1rem; font-weight:800; margin-bottom:4px;">⏱️ HỆ THỐNG TỰ ĐỘNG THU BÀI DO HẾT GIỜ LÀM BÀI</div>' +
-        '<div style="font-size:0.9rem; line-height:1.5; color:#78350f;">Đã kết thúc 30 phút làm bài chính thức. Hệ thống đã tự động thu bài và đồng bộ kết quả về Google Sheets.</div>' +
+        '<div style="font-size:0.9rem; line-height:1.5; color:#78350f;">Đã kết thúc 40 phút làm bài chính thức. Hệ thống đã tự động thu bài và đồng bộ kết quả về Google Sheets.</div>' +
         '</div>';
     } else {
       reasonBanner.innerHTML = '<div style="background:#f0fdf4; border:2px solid #22c55e; border-radius:12px; padding:14px 18px; color:#166534; text-align:center; margin-bottom:18px;">' +
         '<div style="font-size:1.1rem; font-weight:800; margin-bottom:4px;">✅ THÍ SINH ĐÃ HOÀN THÀNH VÀ CHỦ ĐỘNG NỘP BÀI HỢP LỆ</div>' +
-        '<div style="font-size:0.9rem; line-height:1.5; color:#14532d;">Bài làm của em đã được hệ thống ghi nhận thành công.</div>' +
+        '<div style="font-size:0.9rem; line-height:1.5; color:#14532d;">Bài làm trắc nghiệm & đoạn văn tự luận của em đã được hệ thống ghi nhận thành công.</div>' +
         '</div>';
     }
   }
@@ -2213,7 +2651,7 @@ function submitExam(isAutoSubmit, reason) {
   document.getElementById('final-score').textContent = finalScoreTenScale;
   document.getElementById('result-title').textContent = 'KẾT QUẢ: ' + studentName + ' (' + className + ')';
   document.getElementById('result-detail').textContent = 
-    'Đạt: ' + finalScoreTenScale + '/10.0 điểm (' + correctCount + '/' + activeQuestions.length + ' câu hỏi trọn vẹn).';
+    'Trắc nghiệm: ' + finalScoreTenScale + '/10.0 điểm (' + correctCount + '/' + activeQuestions.length + ' câu đúng). Tự luận: ' + essayWords + ' từ (Đã ghi nhận).';
   
   document.getElementById('results-card').classList.add('show');
   document.getElementById('results-card').scrollIntoView({ behavior: 'smooth' });
@@ -2247,6 +2685,9 @@ function submitExam(isAutoSubmit, reason) {
     score: finalScoreTenScale,
     totalScore: finalScoreTenScale,
     mcqScore: finalScoreTenScale,
+    essayWords: essayWords,
+    essayContent: essayVal,
+    essayPromptTitle: activeEssay ? activeEssay.title : '',
     correctCount: correctCount + '/' + activeQuestions.length,
     duration: durationFormatted,
     tabSwitches: tabSwitchViolations,
@@ -2291,6 +2732,10 @@ function syncScoreToGoogleSheets(payload) {
     '&topicId=' + encodeURIComponent(typeof TOPIC_ID !== 'undefined' ? TOPIC_ID : 'P1_BAI_1') +
     '&examTopic=' + encodeURIComponent(payload.examTopic || '') +
     '&score=' + encodeURIComponent(payload.score || 0) +
+    '&mcqScore=' + encodeURIComponent(payload.mcqScore || payload.score || 0) +
+    '&essayWords=' + encodeURIComponent(payload.essayWords || 0) +
+    '&essayContent=' + encodeURIComponent(payload.essayContent || '') +
+    '&essayPromptTitle=' + encodeURIComponent(payload.essayPromptTitle || '') +
     '&correctCount=' + encodeURIComponent(payload.correctCount || '0/30') +
     '&totalQuestions=30' +
     '&percentage=' + encodeURIComponent(Math.round((parseFloat(payload.score || 0) / 10) * 100)) +
