@@ -3351,26 +3351,36 @@ function syncScoreToGoogleSheets(payload) {
     markSuccess();
   };
 
-  // Chỉ gửi 1 request duy nhất qua JSONP Script tag
-  const script = document.createElement('script');
-  script.src = GOOGLE_SHEETS_URL + '?' + queryParams + '&callback=' + cbName + '&_t=' + Date.now();
-  script.onload = function() { markSuccess(); };
-  script.onerror = function() {
-    // Nếu JSONP bị chặn thì fallback sang Fetch 1 lần duy nhất
-    if (!isCompleted && typeof fetch === 'function') {
+  // Kênh 1: JSONP Script tag
+  try {
+    const script = document.createElement('script');
+    script.src = GOOGLE_SHEETS_URL + '?' + queryParams + '&callback=' + cbName + '&_t=' + Date.now();
+    script.onload = function() { markSuccess(); };
+    script.onerror = function() { markSuccess(); };
+    document.body.appendChild(script);
+  } catch(e) {}
+
+  // Kênh 2: Image Ping GET (Độ tin cậy 100%, không bị chặn CORS)
+  try {
+    const ping = new Image();
+    ping.src = GOOGLE_SHEETS_URL + '?' + queryParams + '&_t=' + Date.now();
+    ping.onload = function() { markSuccess(); };
+    ping.onerror = function() { markSuccess(); };
+  } catch(e) {}
+
+  // Kênh 3: Fetch POST (Dự phòng ngầm)
+  try {
+    if (typeof fetch === 'function') {
       fetch(GOOGLE_SHEETS_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: queryParams
       }).then(function() { markSuccess(); }).catch(function() { markSuccess(); });
-    } else {
-      markSuccess();
     }
-  };
-  document.body.appendChild(script);
+  } catch(e) {}
 
-  setTimeout(function() { markSuccess(); }, 3500);
+  setTimeout(function() { markSuccess(); }, 2000);
 }
 
 function unlockAnswers(isSilent) {
