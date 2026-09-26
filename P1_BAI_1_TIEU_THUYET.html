@@ -869,6 +869,7 @@
       </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         <button type="button" style="background:#f59e0b; color:#78350f; font-weight:800; padding:8px 14px; font-size:0.82rem; border-radius:8px; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(245,158,11,0.25);" onclick="toggleTeacherAnswers()" id="btn-teacher-toggle-answers">👁️ Hiện toàn bộ Đáp án</button>
+        <button type="button" style="background:#0f766e; color:#ffffff; font-weight:700; padding:8px 13px; font-size:0.82rem; border-radius:8px; border:1px solid #2dd4bf; cursor:pointer; display:inline-flex; align-items:center; gap:5px;" onclick="openQuestionImporterModal()">📥 Nhập câu hỏi Word</button>
         <button type="button" style="background:#0284c7; color:#ffffff; font-weight:700; padding:8px 13px; font-size:0.82rem; border-radius:8px; border:1px solid #38bdf8; cursor:pointer; display:inline-flex; align-items:center; gap:5px;" onclick="checkRemoteConfig(true)">🔄 Đồng bộ Sheet tức thì</button>
         <a href="https://script.google.com/macros/s/AKfycbxmf7eFagsotgPVz0TVAD4qu_OZAOinePGkTpi7vPLbYv7LRfE_IfLTF9sfYPz14Ss/exec" target="_blank" style="background:#059669; color:#ffffff; font-weight:700; padding:8px 13px; font-size:0.82rem; border-radius:8px; border:1px solid #34d399; text-decoration:none; display:inline-flex; align-items:center; gap:5px;">📊 Mở Google Sheets</a>
         <button type="button" style="background:#334155; color:#fca5a5; font-weight:700; padding:8px 13px; font-size:0.82rem; border-radius:8px; border:1px solid #ef4444; cursor:pointer; display:inline-flex; align-items:center; gap:5px;" onclick="disableTeacherMode()">👤 Góc nhìn học sinh</button>
@@ -2453,7 +2454,133 @@ function submitFeedbackForm() {
   }, 1200);
 }
 
+
+
+let importedQuestionsBuffer = [];
+
+function openQuestionImporterModal() {
+  const m = document.getElementById('question-importer-modal');
+  if (m) m.classList.add('show');
+}
+
+function closeQuestionImporterModal() {
+  const m = document.getElementById('question-importer-modal');
+  if (m) m.classList.remove('show');
+}
+
+function parseImportedQuestions() {
+  const text = document.getElementById('importer-raw-text').value;
+  const countEl = document.getElementById('importer-parsed-count');
+  const prevBox = document.getElementById('importer-preview-box');
+
+  if (!text.trim()) {
+    alert('Vui lòng dán nội dung câu hỏi trước khi phân tích!');
+    return;
+  }
+
+  // Regex thông minh tách từng câu
+  const rawBlocks = text.split(/(?:^|\n)(?:Câu\s*\d+|\d+[.:\)])\s*/i).filter(b => b.trim().length > 0);
+  const parsed = [];
+
+  rawBlocks.forEach((block, idx) => {
+    const lines = block.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+    if (lines.length === 0) return;
+
+    let qText = lines[0];
+    let level = 'Thông hiểu';
+    const lvlMatch = qText.match(/^\((Nhận biết|Thông hiểu|Vận dụng|Vận dụng cao)\)[:\s]*/i);
+    if (lvlMatch) {
+      level = lvlMatch[1];
+      qText = qText.substring(lvlMatch[0].length).trim();
+    }
+
+    let optA = '', optB = '', optC = '', optD = '';
+    let correctAns = '';
+    let explanation = '';
+
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i];
+      if (/^A[.:\s]+/i.test(line)) optA = line.replace(/^A[.:\s]+/i, '').trim();
+      else if (/^B[.:\s]+/i.test(line)) optB = line.replace(/^B[.:\s]+/i, '').trim();
+      else if (/^C[.:\s]+/i.test(line)) optC = line.replace(/^C[.:\s]+/i, '').trim();
+      else if (/^D[.:\s]+/i.test(line)) optD = line.replace(/^D[.:\s]+/i, '').trim();
+      else if (/^(?:Đáp án|ĐA|Answer)[:\s]*/i.test(line)) correctAns = line.replace(/^(?:Đáp án|ĐA|Answer)[:\s]*/i, '').trim().toUpperCase();
+      else if (/^(?:Giải thích|Lời giải|Gợi ý|Explain)[:\s]*/i.test(line)) explanation = line.replace(/^(?:Giải thích|Lời giải|Gợi ý|Explain)[:\s]*/i, '').trim();
+      else if (!optA && !correctAns) qText += ' ' + line;
+      else if (explanation) explanation += ' ' + line;
+    }
+
+    const options = [];
+    if (optA) options.push({ key: 'A', text: optA });
+    if (optB) options.push({ key: 'B', text: optB });
+    if (optC) options.push({ key: 'C', text: optC });
+    if (optD) options.push({ key: 'D', text: optD });
+
+    if (options.length >= 2 || correctAns) {
+      parsed.push({
+        id: idx + 1,
+        level: level,
+        type: 'single_choice',
+        text: qText,
+        options: options,
+        correctAnswer: correctAns || 'A',
+        explanation: explanation || ('Đáp án đúng: ' + (correctAns || 'A'))
+      });
+    }
+  });
+
+  importedQuestionsBuffer = parsed;
+  countEl.textContent = '✅ Đã nhận diện thành công: ' + parsed.length + ' câu hỏi';
+  
+  if (prevBox) {
+    prevBox.style.display = 'block';
+    prevBox.innerHTML = parsed.map((q, i) => '<div><strong>Câu ' + (i + 1) + ' (' + q.level + '):</strong> ' + q.text.substring(0, 70) + '... (ĐA: <span style="color:#b91c1c; font-weight:bold;">' + q.correctAnswer + '</span>)</div>').join('');
+  }
+}
+
+function applyImportedQuestions() {
+  if (!importedQuestionsBuffer || importedQuestionsBuffer.length === 0) {
+    alert('Chưa có câu hỏi nào được phân tích. Vui lòng bấm "⚡ 1. Phân tích & Xem trước" trước!');
+    return;
+  }
+
+  activeQuestions = importedQuestionsBuffer.map(normalizeQuestion);
+  renderQuestions();
+  updateProgress();
+  closeQuestionImporterModal();
+  showToast('🎉 Đã cập nhật ' + activeQuestions.length + ' câu hỏi mới vào bài thi!');
+}
+
 </script>
+
+
+  <!-- MODAL NHẬP CÂU HỎI TỪ WORD / TEXT (DÀNH CHO GIÁO VIÊN) -->
+  <div class="feedback-modal" id="question-importer-modal">
+    <div class="feedback-dialog" style="max-width: 680px; width: 95%;">
+      <div class="feedback-header" style="background: linear-gradient(135deg, #0f766e, #115e59);">
+        <h3>📥 NHẬP CÂU HỎI TỪ WORD / GOOGLE DOCS</h3>
+        <button type="button" class="feedback-close" onclick="closeQuestionImporterModal()">✕</button>
+      </div>
+      <div class="feedback-body" style="gap: 12px;">
+        <div style="font-size: 0.85rem; color: #475569; line-height: 1.5;">
+          Thầy/Cô chỉ cần <strong>Copy & Dán</strong> nội dung câu hỏi từ tệp Word hoặc soạn thảo trực tiếp theo định dạng chuẩn bên dưới:
+        </div>
+        <textarea id="importer-raw-text" style="width: 100%; height: 200px; padding: 12px; border-radius: 10px; border: 1.5px solid #cbd5e1; font-family: monospace; font-size: 0.85rem; line-height: 1.5; resize: vertical;" placeholder="Câu 1 (Thông hiểu): Nội dung câu hỏi...&#10;A. Phương án A&#10;B. Phương án B&#10;C. Phương án C&#10;D. Phương án D&#10;Đáp án: A&#10;Giải thích: Lời giải chi tiết...&#10;&#10;Câu 2 (Vận dụng): Nội dung câu hỏi 2..."></textarea>
+        <div style="display: flex; gap: 8px; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+          <button type="button" class="btn" style="background: #0284c7; color: white; padding: 8px 16px; font-size: 0.85rem;" onclick="parseImportedQuestions()">⚡ 1. Phân tích & Xem trước</button>
+          <span id="importer-parsed-count" style="font-size: 0.85rem; font-weight: 700; color: #0f766e;"></span>
+        </div>
+        <div id="importer-preview-box" style="display:none; max-height: 150px; overflow-y: auto; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; font-size: 0.82rem;"></div>
+      </div>
+      <div class="feedback-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <a href="DE_THI_BAI_1_TIEU_THUYET_30P.doc" download class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 12px; border-color:#0f766e; color:#0f766e; text-decoration:none;">📄 Tải File Word Mẫu</a>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn btn-outline" style="padding: 6px 14px; font-size: 0.85rem;" onclick="closeQuestionImporterModal()">Đóng</button>
+          <button type="button" class="btn" id="btn-apply-imported-questions" style="background: #059669; color: white; padding: 6px 16px; font-size: 0.85rem; font-weight: 700;" onclick="applyImportedQuestions()">💾 2. Áp dụng vào Bài thi</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
