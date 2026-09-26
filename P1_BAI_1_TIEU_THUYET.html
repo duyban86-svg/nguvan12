@@ -875,6 +875,14 @@
         <button type="button" style="background:#334155; color:#fca5a5; font-weight:700; padding:8px 13px; font-size:0.82rem; border-radius:8px; border:1px solid #ef4444; cursor:pointer; display:inline-flex; align-items:center; gap:5px;" onclick="disableTeacherMode()">👤 Góc nhìn học sinh</button>
       </div>
     </div>
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding-top:12px; border-top:1px solid rgba(255,255,255,0.12); font-size:0.85rem;">
+      <span style="color:#cbd5e1; font-weight:700;">📑 Xem nhanh Đề & Dàn ý:</span>
+      <button type="button" style="background:#1e1b4b; color:#c7d2fe; border:1.5px solid #6366f1; font-weight:700; padding:6px 12px; border-radius:8px; font-size:0.8rem; cursor:pointer;" onclick="switchTeacherEssayView('12A08')">Lớp 12A08 (Chị Hoài)</button>
+      <button type="button" style="background:#1e1b4b; color:#c7d2fe; border:1.5px solid #6366f1; font-weight:700; padding:6px 12px; border-radius:8px; font-size:0.8rem; cursor:pointer;" onclick="switchTeacherEssayView('12A13')">Lớp 12A13 (Xuân Tóc Đỏ)</button>
+      <button type="button" style="background:#1e1b4b; color:#c7d2fe; border:1.5px solid #6366f1; font-weight:700; padding:6px 12px; border-radius:8px; font-size:0.8rem; cursor:pointer;" onclick="switchTeacherEssayView('12A21')">Lớp 12A21 (Lời nửa trực tiếp)</button>
+      <button type="button" style="background:#064e3b; color:#a7f3d0; border:1.5px solid #10b981; font-weight:700; padding:6px 12px; border-radius:8px; font-size:0.8rem; cursor:pointer;" onclick="switchTeacherEssayView('de1')">Đề Ôn tập 1 (Xuân Tóc Đỏ)</button>
+      <button type="button" style="background:#082f49; color:#bae6fd; border:1.5px solid #0ea5e9; font-weight:700; padding:6px 12px; border-radius:8px; font-size:0.8rem; cursor:pointer;" onclick="switchTeacherEssayView('de2')">Đề Ôn tập 2 (Chị Hoài)</button>
+    </div>
   </div>
 
 
@@ -1274,6 +1282,31 @@ function toggleTeacherAnswers() {
   }
   renderQuestions();
   showToast(teacherAnswersVisible ? 'Đã hiển thị đáp án và lời giải tất cả câu hỏi!' : 'Đã ẩn đáp án.');
+}
+
+function switchTeacherEssayView(key) {
+  if (key === '12A08' || key === '12A13' || key === '12A21') {
+    currentMode = 'exam';
+    const classEl = document.getElementById('class-select');
+    if (classEl) classEl.value = key;
+    renderEssaySection();
+    const essayOutline = document.getElementById('essay-outline-panel');
+    if (essayOutline) essayOutline.style.display = 'block';
+    const essaySample = document.getElementById('essay-sample-panel');
+    if (essaySample) essaySample.style.display = 'block';
+    showToast('Đang xem Đề & Dàn ý Tự luận Lớp ' + key);
+  } else if (key === 'de1' || key === 'de2') {
+    currentMode = 'practice';
+    currentPracticeDeKey = key;
+    renderEssaySection();
+    const essayOutline = document.getElementById('essay-outline-panel');
+    if (essayOutline) essayOutline.style.display = 'block';
+    const essaySample = document.getElementById('essay-sample-panel');
+    if (essaySample) essaySample.style.display = 'block';
+    showToast('Đang xem ' + (key === 'de1' ? 'Đề Ôn tập 1' : 'Đề Ôn tập 2'));
+  }
+  const essayCard = document.getElementById('essay-section-card');
+  if (essayCard) essayCard.scrollIntoView({ behavior: 'smooth' });
 }
 const DEFAULT_DURATION = 40;
 const TOPIC_ID = "P1_BAI_1";
