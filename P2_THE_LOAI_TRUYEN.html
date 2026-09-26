@@ -893,7 +893,10 @@
     <p id="remote-lock-desc" style="color: var(--text-muted); font-size: 1rem; max-width: 500px; margin: 0 auto 20px;">
       Giáo viên hiện đang tạm khóa đề thi trên Google Sheets. Vui lòng chờ đến khi Thầy/Cô mở đề tại lớp.
     </p>
-    <button class="btn btn-primary" onclick="checkRemoteConfig(true)">🔄 Kiểm tra lại trạng thái</button>
+    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="checkRemoteConfig(true)">🔄 Kiểm tra lại trạng thái</button>
+      <button class="btn btn-outline" style="border-color:#f59e0b; color:#b45309; font-weight:700; background:#fffbeb;" onclick="promptMasterPin()">🔑 Giáo viên Mở khóa (PIN 1358)</button>
+    </div>
   </div>
 
   <!-- CỔNG NHẬP MÃ CA THI (KHI THI THỬ) -->
@@ -2067,14 +2070,13 @@ function applyGateControl() {
   const currentStatus = String(remoteConfig.examStatus || remoteConfig.status || 'OPEN').toUpperCase().trim();
   const isClosed = (currentStatus === 'CLOSED' || currentStatus === 'LOCKED' || currentStatus === 'MAINTENANCE' || currentStatus === 'KHÓA' || currentStatus === 'ĐÓNG');
 
-  if (isClosed) {
+  if (isClosed && currentMode === 'exam') {
     if (lockScreen) lockScreen.style.display = 'block';
     if (passcodeGate) passcodeGate.style.display = 'none';
     if (workspace) workspace.style.display = 'none';
     const lockDesc = document.getElementById('remote-lock-desc');
     if (lockDesc) {
       const ann = remoteConfig.announcement;
-      // Bảo mật: Không bao giờ hiển thị mã PIN hoặc mã Ca thi trong dòng thông báo khóa
       if (ann && ann !== remoteConfig.teacherPin && ann !== remoteConfig.examPasscode && !/^\d{3,6}$/.test(ann)) {
         lockDesc.textContent = ann;
       } else {

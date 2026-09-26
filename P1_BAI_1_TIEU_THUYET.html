@@ -885,7 +885,10 @@
     <p id="remote-lock-desc" style="color: var(--text-muted); font-size: 1rem; max-width: 500px; margin: 0 auto 20px;">
       Giáo viên hiện đang tạm khóa đề thi trên Google Sheets. Vui lòng chờ đến khi Thầy/Cô mở đề tại lớp.
     </p>
-    <button class="btn btn-primary" onclick="checkRemoteConfig(true)">🔄 Kiểm tra lại trạng thái</button>
+    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="checkRemoteConfig(true)">🔄 Kiểm tra lại trạng thái</button>
+      <button class="btn btn-outline" style="border-color:#f59e0b; color:#b45309; font-weight:700; background:#fffbeb;" onclick="promptMasterPin()">🔑 Giáo viên Mở khóa (PIN 1358)</button>
+    </div>
   </div>
 
   <!-- CỔNG NHẬP MÃ CA THI (KHI THI THỬ) -->
@@ -1433,19 +1436,37 @@ function applyGateControl() {
   const passcodeGate = document.getElementById('exam-passcode-gate');
   const workspace = document.getElementById('main-exam-workspace');
 
-  if (remoteConfig.examStatus === 'CLOSED' || remoteConfig.examStatus === 'MAINTENANCE') {
-    lockScreen.style.display = 'block';
-    passcodeGate.style.display = 'none';
-    workspace.style.display = 'none';
-    document.getElementById('remote-lock-desc').textContent = remoteConfig.announcement || 'Giáo viên hiện đang tạm khóa đề thi trên Google Sheets.';
+  if (isTeacherMode) {
+    if (lockScreen) lockScreen.style.display = 'none';
+    if (passcodeGate) passcodeGate.style.display = 'none';
+    if (workspace) workspace.style.display = 'block';
+    return;
+  }
+
+  const currentStatus = String(remoteConfig.examStatus || remoteConfig.status || 'OPEN').toUpperCase().trim();
+  const isClosed = (currentStatus === 'CLOSED' || currentStatus === 'LOCKED' || currentStatus === 'MAINTENANCE' || currentStatus === 'KHÓA' || currentStatus === 'ĐÓNG');
+
+  if (isClosed && currentMode === 'exam') {
+    if (lockScreen) lockScreen.style.display = 'block';
+    if (passcodeGate) passcodeGate.style.display = 'none';
+    if (workspace) workspace.style.display = 'none';
+    const lockDesc = document.getElementById('remote-lock-desc');
+    if (lockDesc) {
+      const ann = remoteConfig.announcement;
+      if (ann && ann !== remoteConfig.teacherPin && ann !== remoteConfig.examPasscode && !/^\d{3,6}$/.test(ann)) {
+        lockDesc.textContent = ann;
+      } else {
+        lockDesc.textContent = 'Giáo viên hiện đang tạm khóa đề thi trên Google Sheets. Vui lòng chờ đến khi Thầy/Cô mở đề tại lớp.';
+      }
+    }
   } else {
-    lockScreen.style.display = 'none';
+    if (lockScreen) lockScreen.style.display = 'none';
     if (!isGatePassed && currentMode === 'exam') {
-      passcodeGate.style.display = 'block';
-      workspace.style.display = 'none';
+      if (passcodeGate) passcodeGate.style.display = 'block';
+      if (workspace) workspace.style.display = 'none';
     } else {
-      passcodeGate.style.display = 'none';
-      workspace.style.display = 'block';
+      if (passcodeGate) passcodeGate.style.display = 'none';
+      if (workspace) workspace.style.display = 'block';
     }
   }
 }
