@@ -2064,12 +2064,23 @@ function applyGateControl() {
     return;
   }
 
-  if (remoteConfig.examStatus === 'CLOSED' || remoteConfig.examStatus === 'MAINTENANCE') {
+  const currentStatus = String(remoteConfig.examStatus || remoteConfig.status || 'OPEN').toUpperCase().trim();
+  const isClosed = (currentStatus === 'CLOSED' || currentStatus === 'LOCKED' || currentStatus === 'MAINTENANCE' || currentStatus === 'KHÓA' || currentStatus === 'ĐÓNG');
+
+  if (isClosed) {
     if (lockScreen) lockScreen.style.display = 'block';
     if (passcodeGate) passcodeGate.style.display = 'none';
     if (workspace) workspace.style.display = 'none';
     const lockDesc = document.getElementById('remote-lock-desc');
-    if (lockDesc) lockDesc.textContent = remoteConfig.announcement || 'Giáo viên hiện đang tạm khóa đề thi trên Google Sheets.';
+    if (lockDesc) {
+      const ann = remoteConfig.announcement;
+      // Bảo mật: Không bao giờ hiển thị mã PIN hoặc mã Ca thi trong dòng thông báo khóa
+      if (ann && ann !== remoteConfig.teacherPin && ann !== remoteConfig.examPasscode && !/^\d{3,6}$/.test(ann)) {
+        lockDesc.textContent = ann;
+      } else {
+        lockDesc.textContent = 'Giáo viên hiện đang tạm khóa đề thi trên Google Sheets. Vui lòng chờ đến khi Thầy/Cô mở đề tại lớp.';
+      }
+    }
   } else {
     if (lockScreen) lockScreen.style.display = 'none';
     if (!isGatePassed && currentMode === 'exam') {
