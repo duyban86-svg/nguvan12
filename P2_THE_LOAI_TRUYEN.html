@@ -2554,6 +2554,38 @@ function checkStudentIdentity() {
   
   const hasSelected = (classVal !== '' && studentVal !== '');
 
+  // Ở CHẾ ĐỘ ÔN TẬP (PRACTICE)
+  if (currentMode === 'practice') {
+    if (workspaceBody) workspaceBody.style.display = 'block';
+    if (gateWarning) gateWarning.style.display = 'none';
+    if (hasSelected && isIdentityLocked) {
+      if (gateBadge) {
+        gateBadge.textContent = '🟢 Đã xác thực: ' + studentVal + ' (' + classVal + ')';
+        gateBadge.style.background = '#dcfce7';
+        gateBadge.style.color = '#166534';
+      }
+      if (verifiedBanner) {
+        verifiedBanner.style.display = 'flex';
+        if (verifiedText) {
+          verifiedText.innerHTML = '🔒 Thí sinh: <strong>' + studentVal + '</strong> — Lớp: <strong>' + classVal + '</strong> (STT: <strong>' + (sttVal || 'N/A') + '</strong>)';
+        }
+        if (unlockBtn) unlockBtn.style.display = isSubmitted ? 'none' : 'inline-block';
+      }
+      renderEssaySection();
+      return true;
+    } else {
+      if (gateBadge) {
+        gateBadge.textContent = hasSelected ? '🟡 Chờ xác nhận danh tính' : '📖 Chế độ Ôn tập tự do';
+        gateBadge.style.background = hasSelected ? '#fef3c7' : '#e0f2fe';
+        gateBadge.style.color = hasSelected ? '#92400e' : '#0369a1';
+      }
+      if (verifiedBanner) verifiedBanner.style.display = 'none';
+      renderEssaySection();
+      return false;
+    }
+  }
+
+  // Ở CHẾ ĐỘ THI THỬ (EXAM)
   if (hasSelected && isIdentityLocked) {
     if (gateWarning) gateWarning.style.display = 'none';
     if (workspaceBody) workspaceBody.style.display = 'block';
@@ -2601,6 +2633,8 @@ function setMode(mode) {
   flaggedQuestions.clear();
   tabSwitchViolations = 0;
   document.getElementById('results-card').classList.remove('show');
+
+  checkStudentIdentity();
 
   const essayTextarea = document.getElementById('essay-textarea');
   if (essayTextarea) essayTextarea.disabled = false;

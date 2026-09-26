@@ -1506,13 +1506,9 @@ function promptMasterPin() {
 
   if (inputPin === validPin || inputPin === masterPin || inputPin === "1358") {
     enableTeacherMode('pin_prompt');
-    alert('✅ XÁC THỰC GIÁO VIÊN THÀNH CÔNG!
-
-Đã mở khóa toàn quyền: Xem tất cả đáp án, duyệt đề, không bị giới hạn thời gian hay giám sát.');
+    alert('✅ XÁC THỰC GIÁO VIÊN THÀNH CÔNG!\n\nĐã mở khóa toàn quyền: Xem tất cả đáp án, duyệt đề, không bị giới hạn thời gian hay giám sát.');
   } else {
-    alert('❌ MÃ GIÁO VIÊN KHÔNG ĐÚNG!
-
-Vui lòng kiểm tra lại mã PIN được cấu hình trên Google Sheets hoặc liên hệ quản trị viên.');
+    alert('❌ MÃ GIÁO VIÊN KHÔNG ĐÚNG!\n\nVui lòng kiểm tra lại mã PIN được cấu hình trên Google Sheets hoặc liên hệ quản trị viên.');
   }
 }
 
@@ -1596,9 +1592,58 @@ function checkStudentIdentity() {
   const verifiedBanner = document.getElementById('student-verified-banner');
   const verifiedText = document.getElementById('student-verified-text');
   const unlockBtn = document.getElementById('btn-unlock-identity');
+
+  // NẾU LÀ CHẾ ĐỘ GIÁO VIÊN TOÀN QUYỀN
+  if (isTeacherMode) {
+    if (gateWarning) gateWarning.style.display = 'none';
+    if (workspaceBody) workspaceBody.style.display = 'block';
+    if (gateBadge) {
+      gateBadge.textContent = '👑 Quyền Giáo viên (Full Admin)';
+      gateBadge.style.background = '#fef3c7';
+      gateBadge.style.color = '#92400e';
+    }
+    if (verifiedBanner) {
+      verifiedBanner.style.display = 'flex';
+      if (verifiedText) {
+        verifiedText.innerHTML = '👑 <strong>TÀI KHOẢN GIÁO VIÊN:</strong> <code style="color:#0284c7; font-weight:700;">' + TEACHER_EMAIL + '</code> • Đã kích hoạt toàn bộ quyền quản trị';
+      }
+      if (unlockBtn) unlockBtn.style.display = 'none';
+    }
+    return true;
+  }
   
   const hasSelected = (classVal !== '' && studentVal !== '');
 
+  // Ở CHẾ ĐỘ ÔN TẬP (PRACTICE)
+  if (currentMode === 'practice') {
+    if (workspaceBody) workspaceBody.style.display = 'block';
+    if (gateWarning) gateWarning.style.display = 'none';
+    if (hasSelected && isIdentityLocked) {
+      if (gateBadge) {
+        gateBadge.textContent = '🟢 Đã xác thực: ' + studentVal + ' (' + classVal + ')';
+        gateBadge.style.background = '#dcfce7';
+        gateBadge.style.color = '#166534';
+      }
+      if (verifiedBanner) {
+        verifiedBanner.style.display = 'flex';
+        if (verifiedText) {
+          verifiedText.innerHTML = '🔒 Thí sinh: <strong>' + studentVal + '</strong> — Lớp: <strong>' + classVal + '</strong> (STT: <strong>' + (sttVal || 'N/A') + '</strong>)';
+        }
+        if (unlockBtn) unlockBtn.style.display = isSubmitted ? 'none' : 'inline-block';
+      }
+      return true;
+    } else {
+      if (gateBadge) {
+        gateBadge.textContent = hasSelected ? '🟡 Chờ xác nhận danh tính' : '📖 Chế độ Ôn tập tự do';
+        gateBadge.style.background = hasSelected ? '#fef3c7' : '#e0f2fe';
+        gateBadge.style.color = hasSelected ? '#92400e' : '#0369a1';
+      }
+      if (verifiedBanner) verifiedBanner.style.display = 'none';
+      return false;
+    }
+  }
+
+  // Ở CHẾ ĐỘ THI THỬ (EXAM)
   if (hasSelected && isIdentityLocked) {
     if (gateWarning) gateWarning.style.display = 'none';
     if (workspaceBody) workspaceBody.style.display = 'block';
@@ -1644,6 +1689,8 @@ function setMode(mode) {
   flaggedQuestions.clear();
   tabSwitchViolations = 0;
   document.getElementById('results-card').classList.remove('show');
+
+  checkStudentIdentity();
 
   if (mode === 'exam') {
     proctorBar.style.display = 'flex';
