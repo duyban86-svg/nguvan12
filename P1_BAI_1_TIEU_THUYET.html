@@ -887,7 +887,7 @@
     </p>
     <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
       <button class="btn btn-primary" onclick="checkRemoteConfig(true)">🔄 Kiểm tra lại trạng thái</button>
-      <button class="btn btn-outline" style="border-color:#f59e0b; color:#b45309; font-weight:700; background:#fffbeb;" onclick="promptMasterPin()">🔑 Giáo viên Mở khóa (PIN 1358)</button>
+      <button class="btn btn-outline" style="border-color:#f59e0b; color:#b45309; font-weight:700; background:#fffbeb;" onclick="promptMasterPin()">🔑 Dành cho Giáo viên</button>
     </div>
   </div>
 
@@ -1506,7 +1506,7 @@ function renderEssaySection() {
 }
 
 function promptTeacherPinForEssay() {
-  const pin = prompt('Nhập mã PIN Giáo viên (1358) để mở khóa Dàn ý & Đoạn văn tham khảo:');
+  const pin = prompt('Nhập mã PIN Giáo viên để mở khóa Dàn ý & Đoạn văn tham khảo:');
   if (!pin) return;
   const validPin = (remoteConfig.teacherPin || TEACHER_MASTER_PIN).toUpperCase();
   if (pin.trim().toUpperCase() === validPin || pin.trim().toUpperCase() === TEACHER_MASTER_PIN.toUpperCase()) {
