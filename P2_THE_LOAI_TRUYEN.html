@@ -2293,24 +2293,13 @@ function renderEssaySection() {
         '</div>';
     }
 
-    let teacherExamUnlockHtml = '';
-    if (currentMode === 'exam' && !isUnlocked) {
-      teacherExamUnlockHtml = 
-        '<div style="margin-top:12px; padding-top:10px; border-top:1px dashed #e2e8f0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">' +
-          '<span style="font-size:0.8rem; color:#64748b;">🔒 <em>Dàn ý & Văn mẫu đã được khóa để bảo mật ca thi.</em></span>' +
-          '<button type="button" class="btn btn-outline" style="padding:4px 12px; font-size:0.75rem; border-color:#0d9488; color:#0f766e; background:#f0fdfa; font-weight:700; cursor:pointer;" onclick="promptTeacherPinForEssay()">' +
-            '🔑 Mở khóa Dàn ý & Bài mẫu (Giáo viên PIN 1358)' +
-          '</button>' +
-        '</div>';
-    }
-
     promptBox.innerHTML = practiceTabsHtml +
       '<div style="font-size:0.85rem; font-weight:800; color:#0f766e; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">' +
         (essayData.title || 'ĐỀ BÀI TỰ LUẬN') + (essayData.level ? ' • <span style="color:#b45309;">[' + essayData.level + ']</span>' : '') +
       '</div>' +
       '<div style="font-size:0.96rem; line-height:1.65; color:#1e293b; font-weight:500;">' +
         essayData.prompt +
-      '</div>' + teacherExamUnlockHtml;
+      '</div>';
   }
 
   // Render Outline Panel
