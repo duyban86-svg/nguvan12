@@ -907,7 +907,7 @@
       Vui lòng nhập Mã ca thi do Giáo viên cấp tại lớp để bắt đầu tính giờ làm bài.
     </p>
     <div class="gate-input-box">
-      <input type="text" id="input-exam-code" class="passcode-input" placeholder="MÃ CA THI" maxlength="10">
+      <input type="text" id="input-exam-code" class="passcode-input" placeholder="MÃ CA THI" maxlength="10" onkeydown="if(event.key==='Enter') verifyExamPasscode()" autocomplete="off">
       <button class="btn btn-primary" onclick="verifyExamPasscode()">Xác nhận & Bắt đầu làm bài</button>
     </div>
   </div>
@@ -2096,6 +2096,14 @@ let teacherAnswersVisible = false;
 let verifiedGoogleStudent = null;
 const TEACHER_EMAIL = "duyban86@gmail.com";
 const TEACHER_MASTER_PIN = "1358";
+
+function getValidTeacherPin() {
+  return String(remoteConfig.teacherPin || remoteConfig.masterPin || TEACHER_MASTER_PIN || "1358").trim().toUpperCase();
+}
+
+function getValidPasscode() {
+  return String(remoteConfig.examPasscode || remoteConfig.passcode || "123456").trim().toUpperCase();
+}
 let currentMode = 'practice';
 let activeQuestions = [];
 let userAnswers = {};
