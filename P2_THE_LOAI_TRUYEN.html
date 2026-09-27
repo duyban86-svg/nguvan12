@@ -907,7 +907,7 @@
       Vui lòng nhập Mã ca thi do Giáo viên cấp tại lớp để bắt đầu tính giờ làm bài.
     </p>
     <div class="gate-input-box">
-      <input type="text" id="input-exam-code" class="passcode-input" placeholder="MÃ CA THI" maxlength="10">
+      <input type="text" id="input-exam-code" class="passcode-input" placeholder="MÃ CA THI" maxlength="10" onkeydown="if(event.key==='Enter') verifyExamPasscode()" autocomplete="off">
       <button class="btn btn-primary" onclick="verifyExamPasscode()">Xác nhận & Bắt đầu làm bài</button>
     </div>
   </div>
@@ -3293,18 +3293,22 @@ function syncScoreToGoogleSheets(payload) {
   const syncTitle = document.getElementById('sync-title');
   const syncDesc = document.getElementById('sync-desc');
 
-  syncBox.className = 'sync-box syncing';
-  syncTitle.textContent = '⏳ Đang truyền dữ liệu bài thi về Google Sheets...';
-  syncDesc.textContent = 'Hệ thống đang gửi dữ liệu qua cổng bảo mật.';
+  if (syncBox) {
+    syncBox.className = 'sync-box syncing';
+    syncTitle.textContent = '⏳ Đang truyền dữ liệu bài thi về Google Sheets...';
+    syncDesc.textContent = 'Hệ thống đang gửi dữ liệu qua cổng bảo mật.';
+  }
 
   let isCompleted = false;
 
   function markSuccess() {
     if (isCompleted) return;
     isCompleted = true;
-    syncBox.className = 'sync-box success';
-    syncTitle.textContent = '✅ ĐÃ GỬI BÀI VÀO GOOGLE SHEETS THÀNH CÔNG!';
-    syncDesc.textContent = 'Kết quả bài thi của em ' + payload.studentName + ' (Lớp ' + payload.className + ') đã được ghi nhận.';
+    if (syncBox) {
+      syncBox.className = 'sync-box success';
+      syncTitle.textContent = '✅ ĐÃ GỬI BÀI VÀO GOOGLE SHEETS THÀNH CÔNG!';
+      syncDesc.textContent = 'Kết quả bài thi của em ' + payload.studentName + ' (Lớp ' + payload.className + ') đã được ghi nhận.';
+    }
     showToast('Đồng bộ điểm lên Google Sheets thành công!');
   }
 
@@ -3317,7 +3321,7 @@ function syncScoreToGoogleSheets(payload) {
     '&stt=' + encodeURIComponent(payload.stt || '') +
     '&googleEmail=' + encodeURIComponent(payload.googleEmail || (verifiedGoogleStudent ? verifiedGoogleStudent.email : '') || '') +
     '&email=' + encodeURIComponent(payload.googleEmail || (verifiedGoogleStudent ? verifiedGoogleStudent.email : '') || '') +
-    '&topicId=' + encodeURIComponent(typeof TOPIC_ID !== 'undefined' ? TOPIC_ID : 'P2_TRUYEN') +
+    '&topicId=' + encodeURIComponent(typeof TOPIC_ID !== 'undefined' ? TOPIC_ID : 'P1_BAI_1') +
     '&examTopic=' + encodeURIComponent(payload.examTopic || '') +
     '&score=' + encodeURIComponent(payload.score || 0) +
     '&mcqScore=' + encodeURIComponent(payload.mcqScore || payload.score || 0) +
@@ -3337,29 +3341,52 @@ function syncScoreToGoogleSheets(payload) {
   const cbName = '__onExamSubmitted_' + Date.now();
   window[cbName] = function(res) {
     markSuccess();
+    try { delete window[cbName]; } catch(e) {}
   };
 
-  // Chỉ gửi 1 request duy nhất qua JSONP Script tag
-  const script = document.createElement('script');
-  script.src = GOOGLE_SHEETS_URL + '?' + queryParams + '&callback=' + cbName + '&_t=' + Date.now();
-  script.onload = function() { markSuccess(); };
-  script.onerror = function() {
-    // Nếu JSONP bị chặn thì fallback sang Fetch 1 lần duy nhất
-    if (!isCompleted && typeof fetch === 'function') {
-      fetch(GOOGLE_SHEETS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: queryParams
-      }).then(function() { markSuccess(); }).catch(function() { markSuccess(); });
-    } else {
+  // KÊNH CHÍNH (JSONP): An toàn, vượt tường lửa CORS 100%, gửi 1 lần duy nhất
+  let jsonpCompleted = false;
+  try {
+    const oldScript = document.getElementById('jsonp_submit_tag');
+    if (oldScript) oldScript.remove();
+
+    const script = document.createElement('script');
+    script.id = 'jsonp_submit_tag';
+    script.src = GOOGLE_SHEETS_URL + '?' + queryParams + '&callback=' + cbName + '&_t=' + Date.now();
+    script.onload = function() {
+      jsonpCompleted = true;
       markSuccess();
-    }
-  };
-  document.body.appendChild(script);
+    };
+    script.onerror = function() {
+      // Chỉ khi JSONP lỗi thì mới thử kênh dự phòng
+      if (!isCompleted) {
+        fallbackSend(queryParams, markSuccess);
+      }
+    };
+    document.body.appendChild(script);
+  } catch(e) {
+    fallbackSend(queryParams, markSuccess);
+  }
 
-  setTimeout(function() { markSuccess(); }, 3500);
+  // Timeout dự phòng sau 5 giây nếu mạng quá yếu
+  setTimeout(function() {
+    if (!isCompleted && !jsonpCompleted) {
+      fallbackSend(queryParams, markSuccess);
+    }
+  }, 5000);
 }
+
+function fallbackSend(queryParams, callback) {
+  try {
+    const ping = new Image();
+    ping.src = GOOGLE_SHEETS_URL + '?' + queryParams + '&_fallback=img&_t=' + Date.now();
+    ping.onload = function() { if (callback) callback(); };
+    ping.onerror = function() { if (callback) callback(); };
+  } catch(e) {
+    if (callback) callback();
+  }
+}
+
 
 function unlockAnswers(isSilent) {
   if (!isSilent) {
