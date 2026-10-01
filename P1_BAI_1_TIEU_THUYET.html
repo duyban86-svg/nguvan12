@@ -835,6 +835,33 @@
       .proctor-bar { flex-direction: column; align-items: stretch; }
       .nav-stats-bar { flex-direction: column; align-items: flex-start; gap: 6px; }
     }
+  
+    .essay-textarea {
+      width: 100%;
+      min-height: 220px;
+      padding: 16px 18px;
+      font-size: 1rem;
+      line-height: 1.75;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      background: #f8fafc;
+      color: #0f172a;
+      box-sizing: border-box;
+      resize: vertical;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    .essay-textarea:focus {
+      border-color: #0d9488;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+    }
+    .essay-textarea::placeholder {
+      color: #94a3b8;
+      font-style: italic;
+    }
+
   </style>
 </head>
 <body>
@@ -1076,12 +1103,7 @@
             Số từ: <strong id="essay-word-count" style="color:var(--primary);">0</strong> / 200 từ
           </div>
         </div>
-        <textarea 
-            id="essay-textarea" 
-            class="essay-textarea" 
-            placeholder="Nhập bài viết đoạn văn nghị luận của em vào đây (khoảng 200 chữ)..." 
-            oninput="handleEssayInput(this.value)" 
-            onpaste="handleEssayPaste(event)"></textarea>
+        <textarea id="essay-textarea" class="essay-textarea" placeholder="Nhập bài viết đoạn văn nghị luận của em vào đây (khoảng 150 – 200 chữ)..." oninput="handleEssayInput(this.value)" onpaste="handleEssayPaste(event)"></textarea>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; font-size:0.78rem; color:var(--text-muted); flex-wrap:wrap; gap:6px;">
           <span>💡 <em>Lưu ý: Đoạn văn viết liền mạch không xuống dòng, dung lượng khoảng 150 – 200 từ.</em></span>
           <span id="essay-save-indicator" style="color:#059669; font-weight:600;">💾 Đã tự động lưu bài</span>
@@ -2266,8 +2288,59 @@ function promptTeacherPinForGate() {
 }
 
 // =========================================================================
-// QUẢN LÝ ĐỀ TỰ LUẬN (2 ĐỀ ÔN TẬP + 3 ĐỀ ĐÁNH GIÁ CHÍNH THỨC)
+// QUẢN LÝ ĐỀ TỰ LUẬN & SOẠN THẢO BÀI LÀM
 // =========================================================================
+function handleEssayInput(val) {
+  const countEl = document.getElementById('essay-word-count');
+  const badgeEl = document.getElementById('essay-word-count-badge');
+  const rawText = String(val || '').trim();
+  
+  // Đếm chính xác số từ tiếng Việt
+  const words = rawText.length > 0 ? rawText.split(/\s+/).filter(Boolean).length : 0;
+  
+  if (countEl) countEl.textContent = words;
+  
+  if (badgeEl) {
+    if (words >= 150 && words <= 250) {
+      badgeEl.style.background = '#dcfce7';
+      badgeEl.style.color = '#166534';
+      badgeEl.style.borderColor = '#86efac';
+      badgeEl.innerHTML = 'Số từ: <strong style="color:#15803d;">' + words + '</strong> / 200 từ (Đạt chuẩn)';
+    } else if (words > 250) {
+      badgeEl.style.background = '#fee2e2';
+      badgeEl.style.color = '#991b1b';
+      badgeEl.style.borderColor = '#fca5a5';
+      badgeEl.innerHTML = 'Số từ: <strong style="color:#b91c1c;">' + words + '</strong> / 200 từ (Hơi dài)';
+    } else if (words > 0) {
+      badgeEl.style.background = '#fef3c7';
+      badgeEl.style.color = '#92400e';
+      badgeEl.style.borderColor = '#fde68a';
+      badgeEl.innerHTML = 'Số từ: <strong style="color:#b45309;">' + words + '</strong> / 200 từ';
+    } else {
+      badgeEl.style.background = '#f1f5f9';
+      badgeEl.style.color = '#475569';
+      badgeEl.style.borderColor = '#cbd5e1';
+      badgeEl.innerHTML = 'Số từ: <strong style="color:var(--primary);">' + words + '</strong> / 200 từ';
+    }
+  }
+
+  // Tự động lưu bài làm vào localStorage
+  try {
+    const classVal = (document.getElementById('class-select') || {}).value || '';
+    const studentId = (document.getElementById('student-id') || {}).value || '';
+    const key = 'essay_save_' + (typeof TOPIC_ID !== 'undefined' ? TOPIC_ID : 'p') + '_' + (currentMode === 'exam' ? ('exam_' + assignedOfficialEssayKey + '_' + classVal + '_' + studentId) : ('practice_' + currentPracticeEssayKey));
+    localStorage.setItem(key, val);
+  } catch (e) {}
+}
+
+function handleEssayPaste(e) {
+  if (currentMode === 'exam' && !isTeacherMode) {
+    e.preventDefault();
+    alert('⚠️ QUY CHẾ THI: Thí sinh phải tự nhập bài làm trực tiếp từ bàn phím.\n\nThao tác Dán (Paste) văn bản từ bên ngoài bị vô hiệu hóa để bảo đảm tính trung thực.');
+    showToast('⚠️ Thao tác Dán bị chặn theo quy chế thi!');
+  }
+}
+
 function getActiveEssayData() {
   if (currentMode === 'exam') {
     const list = currentEssayPrompts.chinh_thuc || DEFAULT_ESSAY_PROMPTS.chinh_thuc;
@@ -2298,19 +2371,12 @@ function switchPracticeEssay(deKey) {
   renderEssaySection();
 }
 
-function handleEssayPaste(e) {
-  if (currentMode === 'exam' && !isTeacherMode) {
-    e.preventDefault();
-    alert('⚠️ QUY CHẾ THI: Thí sinh phải tự nhập bài làm trực tiếp từ bàn phím.\n\nThao tác Dán (Paste) văn bản từ bên ngoài bị vô hiệu hóa để bảo đảm tính trung thực.');
-    showToast('⚠️ Thao tác Dán bị chặn theo quy chế thi!');
-  }
-}
-
 function renderEssaySection() {
   const essayCard = document.getElementById('essay-section-card');
   if (!essayCard) return;
 
   const classVal = (document.getElementById('class-select') || {}).value || '';
+  const studentId = (document.getElementById('student-id') || {}).value || '';
   const modeBadge = document.getElementById('essay-mode-badge');
   const promptBox = document.getElementById('essay-prompt-box');
   const practiceTools = document.getElementById('essay-practice-tools');
@@ -2400,18 +2466,15 @@ function renderEssaySection() {
       '</div>';
   }
 
-  // Restore saved essay
+  // Tải nội dung bài làm đã lưu cho đúng đề hiện tại
   const textarea = document.getElementById('essay-textarea');
-  if (textarea && !textarea.value) {
-    const storageKey = 'p_essay_' + (currentMode === 'exam' ? (classVal + '_' + assignedOfficialEssayKey) : ('practice_' + currentPracticeEssayKey));
-    const savedText = localStorage.getItem(storageKey) || '';
-    if (savedText) {
-      textarea.value = savedText;
-      handleEssayInput(savedText);
-    }
+  if (textarea) {
+    const key = 'essay_save_' + (typeof TOPIC_ID !== 'undefined' ? TOPIC_ID : 'p') + '_' + (currentMode === 'exam' ? ('exam_' + assignedOfficialEssayKey + '_' + classVal + '_' + studentId) : ('practice_' + currentPracticeEssayKey));
+    const savedText = localStorage.getItem(key) || '';
+    textarea.value = savedText;
+    handleEssayInput(savedText);
   }
 }
-
 function toggleEssayOutline() {
   const panel = document.getElementById('essay-outline-panel');
   const btnText = document.getElementById('btn-toggle-outline-text');
