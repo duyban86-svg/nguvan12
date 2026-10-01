@@ -1581,7 +1581,77 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const STORAGE_KEY = "EXAM_APP_P2_THE_LOAI_THO";
+
+const DEFAULT_DURATION = 40;
+const TEACHER_EMAIL = "duyban86@gmail.com";
+const TEACHER_MASTER_PIN = "1358";
+let isTeacherMode = false;
+let teacherAnswersVisible = false;
+let isUnlocked = false;
+let isGatePassed = false;
+let isSubmitted = false;
+let isIdentityLocked = false;
+let currentMode = 'practice';
+let activeQuestions = [];
+let userAnswers = {};
+let flaggedQuestions = new Set();
+let examTimer = null;
+let timeLeft = DEFAULT_DURATION * 60;
+let examStartTime = null;
+let tabSwitchViolations = 0;
+let lastSubmissionPayload = null;
+let verifiedGoogleStudent = null;
+
+let remoteConfig = {
+  examStatus: "OPEN",
+  duration: 40,
+  announcement: "Chào mừng các em tham gia bài kiểm tra!",
+  teacherPin: "1358",
+  masterPin: "1358"
+};
+
+const DEFAULT_ESSAY_PROMPTS = {
+  "topicId": "P2_THO",
+  "examTopic": "CHUYÊN ĐỀ: ĐẶC TRƯNG THỂ LOẠI THƠ",
+  "on_tap": [
+    {
+      "id": "OT_1",
+      "title": "Đề Ôn tập 1 (Cấu tứ & Hình ảnh thơ)",
+      "prompt": "Viết đoạn văn khoảng 200 chữ phân tích vai trò của cấu tứ trong việc tổ chức và phát triển mạch cảm xúc của một bài thơ trữ tình.",
+      "outline": "1. Mở đoạn: Nêu khái niệm cấu tứ (linh hồn kết cấu bài thơ).<br>2. Thân đoạn: Trục liên kết cảm xúc, sáng tạo chuỗi hình ảnh độc đáo, định hướng dòng chảy tư tưởng toàn bài.<br>3. Kết đoạn: Đánh giá tầm quan trọng của cấu tứ đối với sự thành công của một thi phẩm."
+    },
+    {
+      "id": "OT_2",
+      "title": "Đề Ôn tập 2 (Nhạc điệu & Ngôn ngữ thơ)",
+      "prompt": "Viết đoạn văn khoảng 200 chữ làm rõ nét độc đáo của nhịp điệu và phối thanh trong thơ hiện đại.",
+      "outline": "1. Mở đoạn: Vị trí của nhạc tính và ngôn ngữ trong đặc trưng thể loại thơ.<br>2. Thân đoạn: Nhịp thơ biến hóa theo nhịp đập tâm hồn, phối hợp thanh điệu trầm bổng tạo dư ba cảm xúc lan tỏa.<br>3. Kết đoạn: Chiều sâu thẩm mỹ mà nhạc điệu thơ mang lại cho tâm hồn độc giả."
+    }
+  ],
+  "chinh_thuc": [
+    {
+      "id": "CT_1",
+      "title": "Đề Chính thức 1 (Hình tượng cái Tôi trữ tình)",
+      "prompt": "Viết đoạn văn khoảng 200 chữ phân tích sự vận động của cái tôi trữ tình từ thơ truyền thống sang thơ hiện đại và hậu hiện đại.",
+      "outline": "1. Mở đoạn: Giới thiệu cái tôi trữ tình - hạt nhân cảm xúc của tác phẩm thơ.<br>2. Thân đoạn: Sự chuyển dịch từ cái tôi phi ngã, ước lệ sang cái tôi cá tính tự do, phức hợp, dám phơi trải mọi góc khuất tâm trạng chân thực.<br>3. Kết đoạn: Ý nghĩa giải phóng cảm xúc và tôn vinh cá tính sáng tạo."
+    },
+    {
+      "id": "CT_2",
+      "title": "Đề Chính thức 2 (Biểu tượng & Nghệ thuật ẩn dụ)",
+      "prompt": "Viết đoạn văn khoảng 200 chữ phân tích sức gợi mở của hệ thống hình ảnh mang tính tượng trưng trong thơ thế kỉ XX.",
+      "outline": "1. Mở đoạn: Đặt vấn đề thi pháp hình ảnh tượng trưng trong thơ thế kỉ XX.<br>2. Thân đoạn: Tính đa tầng ý nghĩa, khả năng gợi cảm vượt ra ngoài giới hạn ngôn từ, khơi dậy sự liên tưởng và đồng sáng tạo của người đọc.<br>3. Kết đoạn: Vẻ đẹp bí ẩn, quyến rũ của nghệ thuật thơ ca đích thực."
+    },
+    {
+      "id": "CT_3",
+      "title": "Đề Chính thức 3 (Cảm thức thời gian trong thơ)",
+      "prompt": "Viết đoạn văn khoảng 200 chữ bàn về cảm thức thời gian và khát vọng bất tử hóa cái đẹp qua các thi phẩm chuyên đề Thơ.",
+      "outline": "1. Mở đoạn: Dẫn dắt cảm thức về thời gian - nỗi trăn trở muôn thuở của các nhà thơ.<br>2. Thân đoạn: Ý thức sâu sắc về sự hữu hạn của đời người đối lập với khát vọng lưu giữ khoảnh khắc và bất tử hóa cái đẹp qua ngôn từ thi ca.<br>3. Kết đoạn: Thông điệp nhân văn về sự trân trọng từng phút giây cuộc sống."
+    }
+  ]
+};
+let currentEssayPrompts = JSON.parse(JSON.stringify(DEFAULT_ESSAY_PROMPTS));
+let assignedOfficialEssayKey = "CT_1";
+let currentPracticeEssayKey = "OT_1";
+
 const rawQuizData = {
   title: "CHUYÊN ĐỀ: THỂ LOẠI THƠ",
   questions_common: [
@@ -2426,18 +2496,169 @@ const rawQuizData = {
 ]
 };
 
-let currentMode = 'practice';
-let activeQuestions = [];
-let userAnswers = {};
-let flaggedQuestions = new Set();
-let examTimer = null;
-let timeLeft = DEFAULT_DURATION * 60;
-let examStartTime = null;
-let tabSwitchViolations = 0;
-let isSubmitted = false;
-let isUnlocked = false;
-let isGatePassed = false;
-let lastSubmissionPayload = null;
+
+
+const studentsDatabase = {"12A08":[{"stt":1,"name":"Đồng Hà Anh"},{"stt":2,"name":"Trần Hoàng Minh Anh"},{"stt":3,"name":"Trần Lê Tuấn Anh"},{"stt":4,"name":"Trần Nam Anh"},{"stt":5,"name":"Nguyễn Quỳnh Anh"},{"stt":6,"name":"Nguyễn Đắc Thiên Bảo"},{"stt":7,"name":"Nguyễn Chí Cường"},{"stt":8,"name":"Nguyễn Quốc Danh"},{"stt":9,"name":"Ngô Quang Duy"},{"stt":10,"name":"Lý Vĩnh Đạt"},{"stt":11,"name":"Cao Hoàng Bảo Hân"},{"stt":12,"name":"Trần Thị Mỹ Hân"},{"stt":13,"name":"Nguyễn Thúy Hiền"},{"stt":14,"name":"Nguyễn Minh Hiếu"},{"stt":15,"name":"Nguyễn Thiện Hiếu"},{"stt":16,"name":"Trần Thái Hòa"},{"stt":17,"name":"Trần Thị Khánh Huyền"},{"stt":18,"name":"Nguyễn Ngọc Quỳnh Hương"},{"stt":19,"name":"Lê Cao Minh Khôi"},{"stt":20,"name":"Trương Hoàng Khôi"},{"stt":21,"name":"Lâm Ngọc Lan"},{"stt":22,"name":"Lữ Cát Gia Lượng"},{"stt":23,"name":"Nguyễn Minh Mẫn"},{"stt":24,"name":"Nguyễn Xuân Minh"},{"stt":25,"name":"Phạm Thị Trà My"},{"stt":26,"name":"Nguyễn Vũ Hoàng Nam"},{"stt":27,"name":"Nguyễn Phạm Thu Ngân"},{"stt":28,"name":"Đỗ Lê Phương Nghi"},{"stt":29,"name":"Nguyễn Vương Yến Nhi"},{"stt":30,"name":"Uông Mai Thanh Phong"},{"stt":31,"name":"Ngụy Gia Phúc"},{"stt":32,"name":"Đặng Ngọc Ánh Phương"},{"stt":33,"name":"Chung Nguyễn Hồng Phương"},{"stt":34,"name":"Dương Xuân Hoàng Quân"},{"stt":35,"name":"Trương Bùi Giàu Sang"},{"stt":36,"name":"Nguyễn Thị Thanh Tâm"},{"stt":37,"name":"Phan Thị Thanh Tâm"},{"stt":38,"name":"Lê Hoàng Thi Thơ"},{"stt":39,"name":"Nguyễn Trần Vĩnh Thụy"},{"stt":40,"name":"Nguyễn Ngọc Minh Thư"},{"stt":41,"name":"Lê Nguyễn Minh Thương"},{"stt":42,"name":"Lê Nguyễn Hoàng Thy"},{"stt":43,"name":"Lê Vũ Đức Tiến"},{"stt":44,"name":"Nguyễn Thiện Toàn"},{"stt":45,"name":"Đỗ Võ Minh Tới"},{"stt":46,"name":"Nguyễn Ngọc Quỳnh Trâm"},{"stt":47,"name":"Bùi Quốc Trung"},{"stt":48,"name":"Vũ Minh Thanh Tùng"},{"stt":49,"name":"Phan Quang Vinh"},{"stt":50,"name":"Lê Ngọc Tường Vy"},{"stt":51,"name":"Trần Nguyễn Tường Vy"},{"stt":52,"name":"Lê Thị Qúy Vy"}],"12A13":[{"stt":1,"name":"Đặng Hà Anh"},{"stt":2,"name":"Đặng Hải Anh"},{"stt":3,"name":"Mai Phương Anh"},{"stt":4,"name":"Lê Tuấn Anh"},{"stt":5,"name":"Lê Tùng Anh"},{"stt":6,"name":"Nguyễn Hoàng Bách"},{"stt":7,"name":"Huỳnh Phúc Gia Bảo"},{"stt":8,"name":"Nguyễn Quốc Bảo"},{"stt":9,"name":"Nhữ Đình Quốc Bình"},{"stt":10,"name":"Trần Ngọc Thùy Dương"},{"stt":11,"name":"Nguyễn Hải Đăng"},{"stt":12,"name":"Trần Trung Hiếu"},{"stt":13,"name":"Lê Gia Huy"},{"stt":14,"name":"Đào Hoàng Gia Huy"},{"stt":15,"name":"Lê Phạm Minh Huy"},{"stt":16,"name":"Huỳnh Tuấn Hưng"},{"stt":17,"name":"Phạm Gia Khang"},{"stt":18,"name":"Nguyễn Trần Hoàng Khang"},{"stt":19,"name":"Trần Ngô Tuấn Khoa"},{"stt":20,"name":"Trần Thiện Khoa"},{"stt":21,"name":"Nguyễn Lâm Khương"},{"stt":22,"name":"Nguyễn Phan Trung Kiên"},{"stt":23,"name":"Nguyễn Ngọc Hải Lam"},{"stt":24,"name":"Nguyễn Trắc Gia Mẫn"},{"stt":25,"name":"Đoàn Anh Minh"},{"stt":26,"name":"Đoàn Hoàng Minh"},{"stt":27,"name":"Hoàng Thiên Minh"},{"stt":28,"name":"Huỳnh Trần Anh Minh"},{"stt":29,"name":"Nguyễn Lê Phương Nam"},{"stt":30,"name":"Lê Nguyễn Quốc Nam"},{"stt":31,"name":"Nguyễn Đoàn Khánh Ngọc"},{"stt":32,"name":"Nguyễn Hữu Phúc"},{"stt":33,"name":"Nguyễn Minh Quân"},{"stt":34,"name":"Hoàng Vương Quân"},{"stt":35,"name":"Nguyễn Trường Sơn"},{"stt":36,"name":"Lê Nguyên Thịnh"},{"stt":37,"name":"Lại Thái Thịnh"},{"stt":38,"name":"Hà Minh Thư"},{"stt":39,"name":"Nguyễn Ngọc Minh Thư"},{"stt":40,"name":"Trần Nhật Trường"},{"stt":41,"name":"Nguyễn Ngọc Anh Tuấn"},{"stt":42,"name":"Nguyễn Ngọc Phương Vi"},{"stt":43,"name":"Võ Quốc Vinh"},{"stt":44,"name":"Nguyễn Thành Vinh"},{"stt":45,"name":"Phan Ngọc Phương Vy"},{"stt":46,"name":"Nguyễn Vũ Lan Vy"}],"12A21":[{"stt":1,"name":"Lâm Tuyết An"},{"stt":2,"name":"Lê Bá Trâm Anh"},{"stt":3,"name":"Nguyễn Ngọc Vy Anh"},{"stt":4,"name":"Phan Vân Anh"},{"stt":5,"name":"Nguyễn Thị Ngọc Ánh"},{"stt":6,"name":"Nguyễn Thị Thanh Bình"},{"stt":7,"name":"Nguyễn Hoàng Mỹ Diệu"},{"stt":8,"name":"Lai Vũ Minh Duy"},{"stt":9,"name":"Trần Nguyễn Ngân Hà"},{"stt":10,"name":"Hà Thanh Hà"},{"stt":11,"name":"Trần Thị Thu Hà"},{"stt":12,"name":"Đinh Nguyễn Quang Hải"},{"stt":13,"name":"Lâm Gia Hân"},{"stt":14,"name":"Nguyễn Ngọc Gia Hân"},{"stt":15,"name":"Nguyễn Hà Diệu Hiền"},{"stt":16,"name":"Huỳnh Xuân Hồng"},{"stt":17,"name":"Lê Hùng Huy"},{"stt":18,"name":"Huỳnh An Khang"},{"stt":19,"name":"Nguyễn Nam Khánh"},{"stt":20,"name":"Phùng Anh Khoa"},{"stt":21,"name":"Võ Đăng Khôi"},{"stt":22,"name":"Đỗ Huỳnh Đăng Khôi"},{"stt":23,"name":"Phạm Thị Thiên Kim"},{"stt":24,"name":"Huỳnh Hải Lam"},{"stt":25,"name":"Ngô Đinh Nhật Lan"},{"stt":26,"name":"Nguyễn Hoàng Lân"},{"stt":27,"name":"Trần Khánh Linh"},{"stt":28,"name":"Lê Nguyễn Kim Lộc"},{"stt":29,"name":"Nguyễn Thành Lộc"},{"stt":30,"name":"Nguyễn Dương Minh"},{"stt":31,"name":"Hoàng Lê Hồng Minh"},{"stt":32,"name":"Tuấn Nguyên Nhật Minh"},{"stt":33,"name":"Nguyễn Trần Nhật Minh"},{"stt":34,"name":"Đinh Thảo My"},{"stt":35,"name":"Bùi Nhất Nam"},{"stt":36,"name":"Trang Hà Thanh Ngân"},{"stt":37,"name":"Trần Khánh Ngọc"},{"stt":38,"name":"Trần Ngọc Thảo Nhi"},{"stt":39,"name":"Trần Ngọc Yến Nhi"},{"stt":40,"name":"Khổng Vũ Quỳnh Như"},{"stt":41,"name":"Bùi Đặng Trúc Phương"},{"stt":42,"name":"Vương Đình Quốc Thái"},{"stt":43,"name":"Phạm Lan Thảo"},{"stt":44,"name":"Huỳnh Thị Xuân Thảo"},{"stt":45,"name":"Vũ Lê Bảo Trân"},{"stt":46,"name":"Bùi Ngọc Bảo Trân"},{"stt":47,"name":"Võ Phạm Khánh Trình"},{"stt":48,"name":"Phạm Trần Mỹ Trúc"},{"stt":49,"name":"Nguyễn Ngọc Cẩm Tú"},{"stt":50,"name":"Lê Phan Thanh Vân"},{"stt":51,"name":"Nguyễn Thụy Tường Vy"}]};
+const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbxmf7eFagsotgPVz0TVAD4qu_OZAOinePGkTpi7vPLbYv7LRfE_IfLTF9sfYPz14Ss/exec";
+const TOPIC_ID = "P2_THO";
+const EXAM_TOPIC = "CHUYÊN ĐỀ: THỂ LOẠI THƠ";
+const STORAGE_KEY = "p2_tho_van12_state";
+
+function getValidTeacherPin() {
+  return String(remoteConfig.teacherPin || remoteConfig.masterPin || TEACHER_MASTER_PIN || "1358").trim().toUpperCase();
+}
+
+function getValidPasscode() {
+  return String(remoteConfig.examPasscode || remoteConfig.passcode || "123456").trim().toUpperCase();
+}
+
+
+function setMode(mode) {
+  return switchMode(mode);
+}
+
+function switchMode(mode) {
+  if (isSubmitted && !confirm('Bắt đầu lại bài kiểm tra với chế độ mới?')) return;
+  
+  currentMode = mode;
+  const tabPractice = document.getElementById('tab-practice');
+  const tabExam = document.getElementById('tab-exam');
+  if (tabPractice) tabPractice.classList.toggle('active', mode === 'practice');
+  if (tabExam) tabExam.classList.toggle('active', mode === 'exam');
+
+  const proctorBar = document.getElementById('proctor-bar');
+  isSubmitted = false;
+  isUnlocked = (mode === 'practice' || isTeacherMode);
+  userAnswers = {};
+  flaggedQuestions.clear();
+  tabSwitchViolations = 0;
+
+  const resultsCard = document.getElementById('results-card');
+  if (resultsCard) resultsCard.classList.remove('show');
+  const qContainer = document.getElementById('questions-container');
+  if (qContainer) qContainer.style.display = 'grid';
+  const qNav = document.getElementById('question-nav');
+  if (qNav) qNav.style.display = 'flex';
+  const navStats = document.querySelector('.nav-stats-bar');
+  if (navStats) navStats.style.display = 'flex';
+  const btnBar = document.querySelector('.btn-bar');
+  if (btnBar) btnBar.style.display = 'flex';
+
+  if (mode === 'exam') {
+    if (proctorBar) proctorBar.style.display = 'flex';
+    updateGateCandidateInfo();
+    applyGateControl();
+    initQuestions(true);
+    showToast('Chế độ Đánh giá chính thức (40 phút).');
+  } else {
+    if (proctorBar) proctorBar.style.display = 'none';
+    clearInterval(examTimer);
+    const gate = document.getElementById('exam-passcode-gate');
+    if (gate) gate.style.display = 'none';
+    const lockScreen = document.getElementById('remote-lock-screen');
+    if (lockScreen) lockScreen.style.display = 'none';
+    const workspace = document.getElementById('main-exam-workspace');
+    if (workspace) workspace.style.display = 'block';
+    initQuestions(false);
+    showToast('Chế độ Tự học & Ôn tập (Xem đáp án & giải thích tức thì).');
+  }
+
+  renderNavigation();
+  renderQuestions();
+  renderEssaySection();
+  updateNavStats();
+  saveProgressToStorage();
+}
+
+
+function updateGateCandidateInfo() {
+  const classEl = document.getElementById('class-select');
+  const studentEl = document.getElementById('student-select');
+  const confirmClass = document.getElementById('gate-confirm-class');
+  const confirmName = document.getElementById('gate-confirm-name');
+
+  const cVal = classEl ? classEl.value : '';
+  const sVal = studentEl ? studentEl.value : '';
+
+  if (confirmClass) confirmClass.textContent = cVal ? ('Lớp ' + cVal) : 'Chưa chọn lớp';
+  if (confirmName) confirmName.textContent = sVal ? sVal : 'Chưa chọn thí sinh';
+}
+
+function startOfficialExam() {
+  const classEl = document.getElementById('class-select');
+  const studentEl = document.getElementById('student-select');
+  const studentIdEl = document.getElementById('student-id');
+
+  const cVal = classEl ? String(classEl.value || '').trim() : '';
+  const sVal = studentEl ? String(studentEl.value || '').trim() : '';
+
+  if (!cVal || !sVal) {
+    alert('⚠️ VUI LÒNG CHỌN LỚP VÀ HỌ TÊN THÍ SINH!\n\nThí sinh vui lòng chọn thông tin của mình ở bảng trên trước khi bắt đầu.');
+    const infoCard = document.getElementById('student-info-card');
+    if (infoCard) infoCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const currentStatus = String(remoteConfig.examStatus || remoteConfig.status || 'OPEN').toUpperCase().trim();
+  if (currentStatus === 'CLOSED' || currentStatus === 'LOCKED' || currentStatus === 'KHÓA' || currentStatus === 'ĐÓNG') {
+    alert('🔒 CA THI HIỆN ĐANG TẠM KHÓA TRÊN GOOGLE SHEETS!\n\nVui lòng chờ Thầy/Cô mở ca thi tại lớp.');
+    applyGateControl();
+    return;
+  }
+
+  isGatePassed = true;
+  assignOfficialEssayForStudent();
+
+  const gate = document.getElementById('exam-passcode-gate');
+  if (gate) gate.style.display = 'none';
+  const lockScreen = document.getElementById('remote-lock-screen');
+  if (lockScreen) lockScreen.style.display = 'none';
+  const workspace = document.getElementById('main-exam-workspace');
+  if (workspace) workspace.style.display = 'block';
+
+  initQuestions(true);
+  renderNavigation();
+  renderQuestions();
+  renderEssaySection();
+  updateNavStats();
+
+  showToast('🚀 Bắt đầu bài Đánh giá chính thức (40 phút). Chúc em làm bài thật tốt!');
+  examStartTime = new Date();
+  startTimer();
+}
+
+function verifyExamPasscode() {
+  return startOfficialExam();
+}
+
+function promptTeacherPinForGate() {
+  const pin = prompt('Nhập mã PIN Giáo viên (mặc định: 1358) để truy cập chế độ Quản trị:');
+  if (!pin) return;
+  const validPin = getValidTeacherPin();
+  if (pin.trim().toUpperCase() === validPin || pin.trim() === '1358') {
+    enableTeacherMode('gate');
+    const gate = document.getElementById('exam-passcode-gate');
+    if (gate) gate.style.display = 'none';
+    const workspace = document.getElementById('main-exam-workspace');
+    if (workspace) workspace.style.display = 'block';
+    showToast('👑 Đã mở khóa Quyền Giáo viên!');
+  } else {
+    alert('MÃ PIN GIÁO VIÊN KHÔNG ĐÚNG!');
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function normalizeQuestion(q) {
   const text = q.text || q.question || '';
@@ -2489,10 +2710,10 @@ function normalizeQuestion(q) {
   };
 }
 
-const TEACHER_EMAIL = "duyban86@gmail.com";
-let isTeacherMode = false;
-let teacherAnswersVisible = false;
-let verifiedGoogleStudent = null;
+
+
+
+
 
 function getValidTeacherPin() {
   return String(remoteConfig.teacherPin || remoteConfig.masterPin || TEACHER_MASTER_PIN || "1358").trim().toUpperCase();
@@ -2843,28 +3064,7 @@ function applyGateControl() {
   }
 }
 
-function verifyExamPasscode() {
-  const inputCode = document.getElementById('input-exam-code').value.trim().toUpperCase();
-  const validCode = getValidPasscode();
-  const validPin = getValidTeacherPin();
 
-  if (inputCode === validPin || inputCode === TEACHER_MASTER_PIN) {
-    enableTeacherMode('Mở ca thi bằng PIN Giáo viên');
-    showToast('Đã mở khóa toàn quyền Giáo viên!');
-    return;
-  }
-
-  if (inputCode === validCode) {
-    isGatePassed = true;
-    document.getElementById('exam-passcode-gate').style.display = 'none';
-    document.getElementById('main-exam-workspace').style.display = 'block';
-    showToast('Xác thực thành công! Bắt đầu tính giờ.');
-    examStartTime = new Date();
-    startTimer();
-  } else {
-    alert('MÃ CA THI KHÔNG CHÍNH XÁC!\n\nVui lòng liên hệ Thầy/Cô để nhận mã ca thi.');
-  }
-}
 
 function promptMasterPin() {
   const pin = prompt('Nhập PIN Giáo viên (hoặc đăng nhập bằng duyban86@gmail.com):');
@@ -2882,61 +3082,49 @@ function promptMasterPin() {
 // ==========================================
 // DỮ LIỆU ĐỀ TỰ LUẬN PHÂN HÓA THEO LỚP & CHẾ ĐỘ
 // ==========================================
-const DEFAULT_ESSAY_PROMPTS = {
-  "topicId": "P2_THO",
-  "examTopic": "CHUYÊN ĐỀ: ĐẶC TRƯNG THỂ LOẠI THƠ",
-  "on_tap": [
-    {
-      "id": "OT_1",
-      "title": "Đề Ôn tập 1 (Cấu tứ & Hình ảnh thơ)",
-      "prompt": "Viết đoạn văn khoảng 200 chữ phân tích vai trò của cấu tứ trong việc tổ chức và phát triển mạch cảm xúc của một bài thơ trữ tình.",
-      "outline": "1. Mở đoạn: Nêu khái niệm cấu tứ (linh hồn kết cấu bài thơ).<br>2. Thân đoạn: Trục liên kết cảm xúc, sáng tạo chuỗi hình ảnh độc đáo, định hướng dòng chảy tư tưởng toàn bài.<br>3. Kết đoạn: Đánh giá tầm quan trọng của cấu tứ đối với sự thành công của một thi phẩm."
-    },
-    {
-      "id": "OT_2",
-      "title": "Đề Ôn tập 2 (Nhạc điệu & Ngôn ngữ thơ)",
-      "prompt": "Viết đoạn văn khoảng 200 chữ làm rõ nét độc đáo của nhịp điệu và phối thanh trong thơ hiện đại.",
-      "outline": "1. Mở đoạn: Vị trí của nhạc tính và ngôn ngữ trong đặc trưng thể loại thơ.<br>2. Thân đoạn: Nhịp thơ biến hóa theo nhịp đập tâm hồn, phối hợp thanh điệu trầm bổng tạo dư ba cảm xúc lan tỏa.<br>3. Kết đoạn: Chiều sâu thẩm mỹ mà nhạc điệu thơ mang lại cho tâm hồn độc giả."
-    }
-  ],
-  "chinh_thuc": [
-    {
-      "id": "CT_1",
-      "title": "Đề Chính thức 1 (Hình tượng cái Tôi trữ tình)",
-      "prompt": "Viết đoạn văn khoảng 200 chữ phân tích sự vận động của cái tôi trữ tình từ thơ truyền thống sang thơ hiện đại và hậu hiện đại.",
-      "outline": "1. Mở đoạn: Giới thiệu cái tôi trữ tình - hạt nhân cảm xúc của tác phẩm thơ.<br>2. Thân đoạn: Sự chuyển dịch từ cái tôi phi ngã, ước lệ sang cái tôi cá tính tự do, phức hợp, dám phơi trải mọi góc khuất tâm trạng chân thực.<br>3. Kết đoạn: Ý nghĩa giải phóng cảm xúc và tôn vinh cá tính sáng tạo."
-    },
-    {
-      "id": "CT_2",
-      "title": "Đề Chính thức 2 (Biểu tượng & Nghệ thuật ẩn dụ)",
-      "prompt": "Viết đoạn văn khoảng 200 chữ phân tích sức gợi mở của hệ thống hình ảnh mang tính tượng trưng trong thơ thế kỉ XX.",
-      "outline": "1. Mở đoạn: Đặt vấn đề thi pháp hình ảnh tượng trưng trong thơ thế kỉ XX.<br>2. Thân đoạn: Tính đa tầng ý nghĩa, khả năng gợi cảm vượt ra ngoài giới hạn ngôn từ, khơi dậy sự liên tưởng và đồng sáng tạo của người đọc.<br>3. Kết đoạn: Vẻ đẹp bí ẩn, quyến rũ của nghệ thuật thơ ca đích thực."
-    },
-    {
-      "id": "CT_3",
-      "title": "Đề Chính thức 3 (Cảm thức thời gian trong thơ)",
-      "prompt": "Viết đoạn văn khoảng 200 chữ bàn về cảm thức thời gian và khát vọng bất tử hóa cái đẹp qua các thi phẩm chuyên đề Thơ.",
-      "outline": "1. Mở đoạn: Dẫn dắt cảm thức về thời gian - nỗi trăn trở muôn thuở của các nhà thơ.<br>2. Thân đoạn: Ý thức sâu sắc về sự hữu hạn của đời người đối lập với khát vọng lưu giữ khoảnh khắc và bất tử hóa cái đẹp qua ngôn từ thi ca.<br>3. Kết đoạn: Thông điệp nhân văn về sự trân trọng từng phút giây cuộc sống."
-    }
-  ]
-};
-let currentEssayPrompts = JSON.parse(JSON.stringify(DEFAULT_ESSAY_PROMPTS));
-let assignedOfficialEssayKey = "CT_1";
-let currentPracticeEssayKey = "OT_1";
 
+
+
+
+
+// =========================================================================
+// QUẢN LÝ ĐỀ TỰ LUẬN (2 ĐỀ ÔN TẬP + 3 ĐỀ ĐÁNH GIÁ CHÍNH THỨC)
+// =========================================================================
 function getActiveEssayData() {
-  const classVal = (document.getElementById('class-select') || {}).value || '';
   if (currentMode === 'exam') {
-    if (ESSAY_DATA.exam[classVal]) {
-      return ESSAY_DATA.exam[classVal];
-    }
-    return ESSAY_DATA.exam['default'];
+    const list = currentEssayPrompts.chinh_thuc || DEFAULT_ESSAY_PROMPTS.chinh_thuc;
+    let found = list.find(item => item.id === assignedOfficialEssayKey);
+    return found || list[0];
   } else {
-    // Mode Practice: nếu là lớp 12A21 thì tự động chọn de2, còn lại de1
-    if (classVal === '12A21' && currentPracticeDeKey === 'de1') {
-      currentPracticeDeKey = 'de2';
-    }
-    return ESSAY_DATA.practice[currentPracticeDeKey] || ESSAY_DATA.practice['de1'];
+    const list = currentEssayPrompts.on_tap || DEFAULT_ESSAY_PROMPTS.on_tap;
+    let found = list.find(item => item.id === currentPracticeEssayKey);
+    return found || list[0];
+  }
+}
+
+function assignOfficialEssayForStudent() {
+  const studentIdEl = document.getElementById('student-id');
+  let sttNum = 1;
+  if (studentIdEl && studentIdEl.value) {
+    const parsed = parseInt(studentIdEl.value, 10);
+    if (!isNaN(parsed) && parsed > 0) sttNum = parsed;
+  }
+  
+  const list = currentEssayPrompts.chinh_thuc || DEFAULT_ESSAY_PROMPTS.chinh_thuc;
+  const idx = (sttNum - 1) % list.length;
+  assignedOfficialEssayKey = list[idx] ? list[idx].id : "CT_1";
+}
+
+function switchPracticeEssay(deKey) {
+  currentPracticeEssayKey = deKey;
+  renderEssaySection();
+}
+
+function handleEssayPaste(e) {
+  if (currentMode === 'exam' && !isTeacherMode) {
+    e.preventDefault();
+    alert('⚠️ QUY CHẾ THI: Thí sinh phải tự nhập bài làm trực tiếp từ bàn phím.\n\nThao tác Dán (Paste) văn bản từ bên ngoài bị vô hiệu hóa để bảo đảm tính trung thực.');
+    showToast('⚠️ Thao tác Dán bị chặn theo quy chế thi!');
   }
 }
 
@@ -2956,30 +3144,30 @@ function renderEssaySection() {
 
   if (currentMode === 'exam') {
     if (modeBadge) {
-      modeBadge.innerHTML = '⏱️ Chế độ Thi thử' + (classVal ? ' — Lớp: ' + classVal : '');
+      modeBadge.innerHTML = '📝 Đánh giá chính thức (40 phút)' + (classVal ? ' — Lớp: ' + classVal : '');
       modeBadge.style.background = '#fef2f2';
       modeBadge.style.color = '#991b1b';
       modeBadge.style.borderColor = '#fecaca';
     }
     if (essayTitle) {
-      essayTitle.innerHTML = 'ĐỀ BÀI TỰ LUẬN VIẾT ĐOẠN VĂN (3.0 ĐIỂM)' + (classVal ? ' — LỚP ' + classVal : '');
+      essayTitle.innerHTML = 'ĐỀ BÀI TỰ LUẬN ĐÁNH GIÁ CHÍNH THỨC (3.0 ĐIỂM)';
     }
     if (practiceTools) {
-      practiceTools.style.display = isUnlocked ? 'flex' : 'none';
+      practiceTools.style.display = (isUnlocked || isTeacherMode) ? 'flex' : 'none';
     }
-    if (!isUnlocked) {
+    if (!isUnlocked && !isTeacherMode) {
       if (outlinePanel) outlinePanel.style.display = 'none';
       if (samplePanel) samplePanel.style.display = 'none';
     }
   } else {
     if (modeBadge) {
-      modeBadge.innerHTML = '📖 Chế độ Ôn tập (Có Dàn ý & Văn mẫu)';
+      modeBadge.innerHTML = '📖 Tự học & Ôn tập (Có Dàn ý & Hướng dẫn)';
       modeBadge.style.background = '#f0fdfa';
       modeBadge.style.color = '#0f766e';
       modeBadge.style.borderColor = '#99f6e4';
     }
     if (essayTitle) {
-      essayTitle.innerHTML = 'RÈN KĨ NĂNG VIẾT ĐOẠN VĂN NGHỊ LUẬN (KHOẢNG 200 CHỮ)';
+      essayTitle.innerHTML = 'RÈN KĨ NĂNG VIẾT ĐOẠN VĂN NGHỊ LUẬN (KHOẢNG 150 – 200 CHỮ)';
     }
     if (practiceTools) {
       practiceTools.style.display = 'flex';
@@ -2990,20 +3178,22 @@ function renderEssaySection() {
   if (promptBox) {
     let practiceTabsHtml = '';
     if (currentMode === 'practice') {
-      practiceTabsHtml = 
-        '<div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">' +
-        '<button type="button" class="btn" style="padding:5px 12px; font-size:0.8rem; border-radius:8px; cursor:pointer; font-weight:700; ' +
-        (currentPracticeDeKey === 'de1' ? 'background:#0f766e; color:#fff;' : 'background:#e2e8f0; color:#334155;') +
-        '" onclick="switchPracticeEssay(\'de1\')">📚 Đề 1 (Cơ bản - 12A08 & 12A13)</button>' +
-        '<button type="button" class="btn" style="padding:5px 12px; font-size:0.8rem; border-radius:8px; cursor:pointer; font-weight:700; ' +
-        (currentPracticeDeKey === 'de2' ? 'background:#0f766e; color:#fff;' : 'background:#e2e8f0; color:#334155;') +
-        '" onclick="switchPracticeEssay(\'de2\')">🎯 Đề 2 (Khá Giỏi - 12A21)</button>' +
+      const onTapList = currentEssayPrompts.on_tap || DEFAULT_ESSAY_PROMPTS.on_tap;
+      practiceTabsHtml = '<div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">' +
+        onTapList.map(item => {
+          const isActive = (item.id === currentPracticeEssayKey);
+          return '<button type="button" class="btn" style="padding:6px 14px; font-size:0.82rem; border-radius:8px; cursor:pointer; font-weight:700; ' +
+            (isActive ? 'background:#0f766e; color:#ffffff; border:1px solid #0f766e;' : 'background:#e2e8f0; color:#334155; border:1px solid #cbd5e1;') +
+            '" onclick="switchPracticeEssay(\'' + item.id + '\')">📚 ' + item.title + '</button>';
+        }).join('') +
         '</div>';
+    } else {
+      practiceTabsHtml = '<div style="margin-bottom:10px;"><span class="badge" style="background:#dbeafe; color:#1e40af; font-weight:700; padding:4px 10px; border-radius:6px; font-size:0.8rem;">🎯 MÃ ĐỀ: ' + (essayData.id || assignedOfficialEssayKey) + '</span></div>';
     }
 
     promptBox.innerHTML = practiceTabsHtml +
-      '<div style="font-size:0.85rem; font-weight:800; color:#0f766e; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">' +
-        (essayData.title || 'ĐỀ BÀI TỰ LUẬN') + (essayData.level ? ' • <span style="color:#b45309;">[' + essayData.level + ']</span>' : '') +
+      '<div style="font-size:0.88rem; font-weight:800; color:#0f766e; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">' +
+        (essayData.title || 'ĐỀ BÀI TỰ LUẬN') +
       '</div>' +
       '<div style="font-size:0.96rem; line-height:1.65; color:#1e293b; font-weight:500;">' +
         essayData.prompt +
@@ -3011,109 +3201,37 @@ function renderEssaySection() {
   }
 
   // Render Outline Panel
-  if (outlinePanel && essayData.outline) {
-    let kwHtml = '';
-    if (essayData.keywords && essayData.keywords.length > 0) {
-      kwHtml = '<div style="margin-top:10px; padding-top:8px; border-top:1px dashed #cbd5e1; font-size:0.85rem; color:#475569;">' +
-        '<strong>🔑 Từ khóa lí luận then chốt:</strong> ' +
-        essayData.keywords.map(function(k) { return '<span class="badge" style="background:#e0f2fe; color:#0369a1; padding:2px 8px; margin:2px; border-radius:6px; font-weight:600; font-size:0.8rem;">' + k + '</span>'; }).join(' ') +
-        '</div>';
-    }
+  if (outlinePanel) {
     outlinePanel.innerHTML = 
-      '<h4 style="margin:0 0 10px; font-size:0.95rem; font-weight:800; color:#92400e; display:flex; align-items:center; gap:6px;">' +
-        '<span>💡</span> GỢI Ý DÀN Ý 3 PHẦN CHO ĐOẠN VĂN 200 CHỮ:' +
-      '</h4>' +
-      '<div style="font-size:0.9rem; line-height:1.7; color:#334155;">' +
-        essayData.outline.map(function(item) { return '<div style="margin-bottom:6px;">' + item + '</div>'; }).join('') +
-      '</div>' + kwHtml;
-  }
-
-  // Render Sample Panel
-  if (samplePanel && essayData.sample) {
-    samplePanel.innerHTML = 
-      '<h4 style="margin:0 0 10px; font-size:0.95rem; font-weight:800; color:#831843; display:flex; align-items:center; gap:6px;">' +
-        '<span>📖</span> ĐOẠN VĂN THAM KHẢO CHUẨN ĐẠT ĐIỂM TỐI ĐA (KHOẢNG 200 CHỮ):' +
-      '</h4>' +
-      '<div style="font-size:0.92rem; line-height:1.75; color:#1e293b; background:#fff; padding:14px; border-radius:8px; border:1px solid #fbcfe8; font-style:italic;">' +
-        essayData.sample +
+      '<div style="font-weight:700; color:#854d0e; margin-bottom:8px; display:flex; align-items:center; gap:6px;">' +
+      '  <span>💡</span> GỢI Ý DÀN Ý & PHƯƠNG PHÁP LẬP LUẬN:' +
+      '</div>' +
+      '<div style="font-size:0.92rem; line-height:1.6; color:#334155;">' +
+        (essayData.outline || 'Dàn ý đang được cập nhật...') +
       '</div>';
   }
 
-  // Restore saved essay answer if exists
+  // Render Sample Panel
+  if (samplePanel) {
+    samplePanel.innerHTML = 
+      '<div style="font-weight:700; color:#831843; margin-bottom:8px; display:flex; align-items:center; gap:6px;">' +
+      '  <span>📖</span> ĐOẠN VĂN THAM KHẢO ĐẠT ĐIỂM TỐI ĐA (KHOẢNG 200 CHỮ):' +
+      '</div>' +
+      '<div style="font-size:0.92rem; line-height:1.7; color:#334155; font-style:italic;">' +
+        (essayData.sample || essayData.prompt || 'Đoạn văn mẫu đang cập nhật...') +
+      '</div>';
+  }
+
+  // Restore saved essay
   const textarea = document.getElementById('essay-textarea');
   if (textarea && !textarea.value) {
-    const storageKey = 'p2_tho_essay_' + (currentMode === 'exam' ? (classVal || 'default') : ('practice_' + currentPracticeDeKey));
-    const savedText = localStorage.getItem(storageKey) || localStorage.getItem('p2_tho_essay_general') || '';
+    const storageKey = 'p_essay_' + (currentMode === 'exam' ? (classVal + '_' + assignedOfficialEssayKey) : ('practice_' + currentPracticeEssayKey));
+    const savedText = localStorage.getItem(storageKey) || '';
     if (savedText) {
       textarea.value = savedText;
       handleEssayInput(savedText);
     }
   }
-}
-
-function promptTeacherPinForEssay() {
-  const pin = prompt('Nhập mã PIN Giáo viên để mở khóa Dàn ý & Đoạn văn tham khảo:');
-  if (!pin) return;
-  const validPin = (remoteConfig.teacherPin || TEACHER_MASTER_PIN).toUpperCase();
-  if (pin.trim().toUpperCase() === validPin || pin.trim().toUpperCase() === TEACHER_MASTER_PIN.toUpperCase()) {
-    isUnlocked = true;
-    renderEssaySection();
-    const essayOutline = document.getElementById('essay-outline-panel');
-    if (essayOutline) essayOutline.style.display = 'block';
-    const essaySample = document.getElementById('essay-sample-panel');
-    if (essaySample) essaySample.style.display = 'block';
-    showToast('✅ Đã mở khóa Dàn ý & Đoạn văn tham khảo cho Giáo viên!');
-  } else {
-    alert('MÃ PIN GIÁO VIÊN KHÔNG ĐÚNG!');
-  }
-}
-
-function switchPracticeEssay(deKey) {
-  currentPracticeDeKey = deKey;
-  renderEssaySection();
-}
-
-function handleEssayInput(val) {
-  const countEl = document.getElementById('essay-word-count');
-  const badgeEl = document.getElementById('essay-word-count-badge');
-  const words = val.trim().length > 0 ? val.trim().split(/\s+/).filter(Boolean).length : 0;
-  
-  if (countEl) countEl.textContent = words;
-  if (badgeEl) {
-    if (words >= 150 && words <= 250) {
-      badgeEl.style.background = '#dcfce7';
-      badgeEl.style.color = '#166534';
-      badgeEl.style.borderColor = '#86efac';
-    } else if (words > 0 && words < 150) {
-      badgeEl.style.background = '#fef3c7';
-      badgeEl.style.color = '#92400e';
-      badgeEl.style.borderColor = '#fde68a';
-    } else if (words > 250) {
-      badgeEl.style.background = '#fee2e2';
-      badgeEl.style.color = '#991b1b';
-      badgeEl.style.borderColor = '#fca5a5';
-    } else {
-      badgeEl.style.background = '#f1f5f9';
-      badgeEl.style.color = '#475569';
-      badgeEl.style.borderColor = '#cbd5e1';
-    }
-  }
-
-  updateNavStats();
-
-  // Auto save to localStorage
-  try {
-    const classVal = (document.getElementById('class-select') || {}).value || '';
-    const storageKey = 'p2_tho_essay_' + (currentMode === 'exam' ? (classVal || 'default') : ('practice_' + currentPracticeDeKey));
-    localStorage.setItem(storageKey, val);
-    localStorage.setItem('p2_tho_essay_general', val);
-
-    const ind = document.getElementById('essay-save-indicator');
-    if (ind) {
-      ind.textContent = '💾 Đã lưu (' + new Date().toLocaleTimeString('vi-VN', { hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ')';
-      ind.style.color = '#059669';
-    }
-  } catch(e) {}
 }
 
 function toggleEssayOutline() {
@@ -3142,7 +3260,7 @@ function toggleEssaySample() {
   }
 }
 
-let isIdentityLocked = false;
+
 
 function onClassChange() {
   const classVal = document.getElementById('class-select').value;
@@ -3313,51 +3431,7 @@ function checkStudentIdentity() {
   }
 }
 
-function setMode(mode) {
-  if (isSubmitted && !confirm('Bắt đầu lại bài kiểm tra với chế độ mới?')) return;
-  
-  currentMode = mode;
-  document.getElementById('tab-practice').classList.toggle('active', mode === 'practice');
-  document.getElementById('tab-exam').classList.toggle('active', mode === 'exam');
-  
-  const proctorBar = document.getElementById('proctor-bar');
-  isSubmitted = false;
-  isUnlocked = (mode === 'practice');
-  userAnswers = {};
-  flaggedQuestions.clear();
-  tabSwitchViolations = 0;
-  document.getElementById('results-card').classList.remove('show');
 
-  checkStudentIdentity();
-
-  const essayTextarea = document.getElementById('essay-textarea');
-  if (essayTextarea) essayTextarea.disabled = false;
-
-  if (mode === 'exam') {
-    proctorBar.style.display = 'flex';
-    if (!isGatePassed) {
-      applyGateControl();
-    } else {
-      examStartTime = new Date();
-      startTimer();
-    }
-    initQuestions(true);
-    showToast('Chế độ Thi thử (' + DEFAULT_DURATION + ' phút).');
-  } else {
-    proctorBar.style.display = 'none';
-    clearInterval(examTimer);
-    document.getElementById('exam-passcode-gate').style.display = 'none';
-    document.getElementById('main-exam-workspace').style.display = 'block';
-    initQuestions(false);
-    showToast('Chế độ Ôn tập (Xem giải thích tức thì).');
-  }
-
-  renderNavigation();
-  renderQuestions();
-  renderEssaySection();
-  updateNavStats();
-  saveProgressToStorage();
-}
 
 function initQuestions(shuffle) {
   let list = [];
@@ -4433,7 +4507,6 @@ function applyImportedQuestions() {
   closeQuestionImporterModal();
   showToast('🎉 Đã cập nhật ' + activeQuestions.length + ' câu hỏi mới vào bài thi!');
 }
-
 </script>
 
 
