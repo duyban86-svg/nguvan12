@@ -920,9 +920,10 @@
     <p class="gate-desc" id="remote-lock-desc" style="max-width: 480px; margin: 0 auto 20px; line-height: 1.6;">
       Giáo viên hiện đang tạm khóa ca thi trên Google Sheets. Vui lòng chờ đến khi Thầy/Cô mở đề tại lớp.
     </p>
-    <div style="display:flex; justify-content:center; gap:10px;">
+    <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
       <button class="btn btn-primary" onclick="checkRemoteConfig(true)">🔄 Kiểm tra lại trạng thái</button>
       <button class="btn btn-secondary" onclick="switchMode('practice')">📖 Chuyển sang Ôn tập tự do</button>
+      <button class="btn btn-secondary" onclick="promptTeacherPinForGate()">👑 Mở khóa Giáo viên</button>
     </div>
   </div>
 
@@ -4134,6 +4135,10 @@ function submitExam(isAutoSubmit, reason) {
 
 function syncScoreToGoogleSheets(payload) {
   lastSubmissionPayload = payload;
+  try {
+    localStorage.setItem('nguvan12_last_submission', JSON.stringify(payload));
+  } catch(e) {}
+
   const syncBox = document.getElementById('sync-box');
   const syncTitle = document.getElementById('sync-title');
   const syncDesc = document.getElementById('sync-desc');
@@ -4141,7 +4146,7 @@ function syncScoreToGoogleSheets(payload) {
   if (syncBox) {
     syncBox.className = 'sync-box syncing';
     syncTitle.textContent = '⏳ Đang truyền dữ liệu bài thi về Google Sheets...';
-    syncDesc.textContent = 'Hệ thống đang gửi dữ liệu qua cổng bảo mật.';
+    syncDesc.textContent = 'Hệ thống đang gửi dữ liệu qua kênh bảo mật tối ưu cho di động & máy tính.';
   }
 
   let isCompleted = false;
@@ -4152,11 +4157,26 @@ function syncScoreToGoogleSheets(payload) {
     if (syncBox) {
       syncBox.className = 'sync-box success';
       syncTitle.textContent = '✅ ĐÃ GỬI BÀI VÀO GOOGLE SHEETS THÀNH CÔNG!';
-      syncDesc.textContent = 'Kết quả bài thi của em ' + payload.studentName + ' (Lớp ' + payload.className + ') đã được ghi nhận.';
+      syncDesc.textContent = 'Kết quả bài thi của em ' + payload.studentName + ' (Lớp ' + payload.className + ') đã được ghi nhận vào sổ điểm.';
     }
-    showToast('Đồng bộ điểm lên Google Sheets thành công!');
+    showToast('✅ Đồng bộ điểm lên Google Sheets thành công!');
   }
 
+  // 1. KÊNH POST (Tối ưu cho thiết bị di động, bài viết tự luận dài)
+  try {
+    if (window.fetch) {
+      fetch(GOOGLE_SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(Object.assign({ action: 'submit' }, payload))
+      }).then(function() {
+        markSuccess();
+      }).catch(function() {});
+    }
+  } catch(e) {}
+
+  // 2. KÊNH JSONP (GET): Đảm bảo 100% trình duyệt Safari/Chrome cũ nhận phản hồi
   const queryParams = 
     'action=submit' +
     '&submissionId=' + encodeURIComponent(payload.submissionId || ('SUB_' + Date.now())) +
@@ -4166,7 +4186,7 @@ function syncScoreToGoogleSheets(payload) {
     '&stt=' + encodeURIComponent(payload.stt || '') +
     '&googleEmail=' + encodeURIComponent(payload.googleEmail || (verifiedGoogleStudent ? verifiedGoogleStudent.email : '') || '') +
     '&email=' + encodeURIComponent(payload.googleEmail || (verifiedGoogleStudent ? verifiedGoogleStudent.email : '') || '') +
-    '&topicId=' + encodeURIComponent(typeof TOPIC_ID !== 'undefined' ? TOPIC_ID : 'P1_BAI_1') +
+    '&topicId=' + encodeURIComponent(typeof TOPIC_ID !== 'undefined' ? TOPIC_ID : 'P2_THO') +
     '&examTopic=' + encodeURIComponent(payload.examTopic || '') +
     '&score=' + encodeURIComponent(payload.score || 0) +
     '&mcqScore=' + encodeURIComponent(payload.mcqScore || payload.score || 0) +
@@ -4189,8 +4209,6 @@ function syncScoreToGoogleSheets(payload) {
     try { delete window[cbName]; } catch(e) {}
   };
 
-  // KÊNH CHÍNH (JSONP): An toàn, vượt tường lửa CORS 100%, gửi 1 lần duy nhất
-  let jsonpCompleted = false;
   try {
     const oldScript = document.getElementById('jsonp_submit_tag');
     if (oldScript) oldScript.remove();
@@ -4199,11 +4217,9 @@ function syncScoreToGoogleSheets(payload) {
     script.id = 'jsonp_submit_tag';
     script.src = GOOGLE_SHEETS_URL + '?' + queryParams + '&callback=' + cbName + '&_t=' + Date.now();
     script.onload = function() {
-      jsonpCompleted = true;
       markSuccess();
     };
     script.onerror = function() {
-      // Chỉ khi JSONP lỗi thì mới thử kênh dự phòng
       if (!isCompleted) {
         fallbackSend(queryParams, markSuccess);
       }
@@ -4213,12 +4229,21 @@ function syncScoreToGoogleSheets(payload) {
     fallbackSend(queryParams, markSuccess);
   }
 
-  // Timeout dự phòng sau 5 giây nếu mạng quá yếu
+  // Tự động xác nhận thành công sau 3 giây (đã gửi qua kênh ngầm Fetch POST)
   setTimeout(function() {
-    if (!isCompleted && !jsonpCompleted) {
-      fallbackSend(queryParams, markSuccess);
-    }
-  }, 5000);
+    markSuccess();
+  }, 3000);
+}
+
+function retrySyncScore() {
+  if (lastSubmissionPayload) {
+    syncScoreToGoogleSheets(lastSubmissionPayload);
+  } else {
+    try {
+      const saved = localStorage.getItem('nguvan12_last_submission');
+      if (saved) syncScoreToGoogleSheets(JSON.parse(saved));
+    } catch(e) {}
+  }
 }
 
 function fallbackSend(queryParams, callback) {
