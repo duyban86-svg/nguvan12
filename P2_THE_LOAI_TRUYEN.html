@@ -2646,7 +2646,16 @@ const EXAM_TOPIC = "CHUYÊN ĐỀ: THỂ LOẠI TRUYỆN";
 const STORAGE_KEY = "p2_truyen_van12_state";
 
 function getValidTeacherPin() {
-  return String(remoteConfig.teacherPin || remoteConfig.masterPin || TEACHER_MASTER_PIN || "1358").trim().toUpperCase();
+  const pin = remoteConfig.teacherPin || remoteConfig.masterPin || TEACHER_MASTER_PIN || "1358";
+  return String(pin).replace(/\.0+$/, '').replace(/[\s\r\n\t]/g, '').trim().toUpperCase();
+}
+
+function isTeacherPinCorrect(input) {
+  if (!input) return false;
+  const cleanInput = String(input).replace(/[\s\r\n\t]/g, '').trim().toUpperCase();
+  const validPin = getValidTeacherPin();
+  const masterPin = String(TEACHER_MASTER_PIN || "1358").trim().toUpperCase();
+  return (cleanInput === validPin || cleanInput === masterPin || cleanInput === "1358");
 }
 
 function getValidPasscode() {
@@ -2773,10 +2782,9 @@ function verifyExamPasscode() {
 }
 
 function promptTeacherPinForGate() {
-  const pin = prompt('Nhập mã PIN Giáo viên (mặc định: 1358) để truy cập chế độ Quản trị:');
+  const pin = prompt('Nhập mã PIN Giáo viên (mã chọn ở Google Sheets hoặc mặc định: 1358):');
   if (!pin) return;
-  const validPin = getValidTeacherPin();
-  if (pin.trim().toUpperCase() === validPin || pin.trim() === '1358') {
+  if (isTeacherPinCorrect(pin)) {
     enableTeacherMode('gate');
     const gate = document.getElementById('exam-passcode-gate');
     if (gate) gate.style.display = 'none';
@@ -2784,7 +2792,7 @@ function promptTeacherPinForGate() {
     if (workspace) workspace.style.display = 'block';
     showToast('👑 Đã mở khóa Quyền Giáo viên!');
   } else {
-    alert('MÃ PIN GIÁO VIÊN KHÔNG ĐÚNG!');
+    alert('❌ MÃ PIN GIÁO VIÊN KHÔNG ĐÚNG!\n\nMã PIN đang được cấu hình trên Google Sheets: ' + getValidTeacherPin());
   }
 }
 
