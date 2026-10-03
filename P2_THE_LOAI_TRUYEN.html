@@ -3108,14 +3108,25 @@ function checkRemoteConfig(showToastNotice) {
     if (config && (config.status === 'success' || config.teacherPin || config.masterPin || config.examStatus || config.essayPrompts)) {
       remoteConfig = Object.assign({}, remoteConfig, config);
       
-      // Cập nhật động 5 đề tự luận từ Sheet nếu có
-      if (config.essayPrompts && (config.essayPrompts.chinh_thuc || config.essayPrompts.on_tap)) {
-        if (config.essayPrompts.chinh_thuc && config.essayPrompts.chinh_thuc.length > 0) {
-          currentEssayPrompts.chinh_thuc = config.essayPrompts.chinh_thuc;
-        }
-        if (config.essayPrompts.on_tap && config.essayPrompts.on_tap.length > 0) {
-          currentEssayPrompts.on_tap = config.essayPrompts.on_tap;
-        }
+      // Cập nhật động 5 đề tự luận từ Sheet (kèm làm sạch dữ liệu & gắn bài văn mẫu)
+      if (config.essayPrompts) {
+        ['on_tap', 'chinh_thuc'].forEach(function(modeKey) {
+          if (Array.isArray(config.essayPrompts[modeKey]) && config.essayPrompts[modeKey].length > 0) {
+            currentEssayPrompts[modeKey] = config.essayPrompts[modeKey].map(function(item, idx) {
+              if (item.title && (item.title.indexOf('Nỗi buồn chiến tranh') !== -1 || item.prompt.indexOf('Nỗi buồn chiến tranh') !== -1 || item.prompt.indexOf('Bảo Ninh') !== -1)) {
+                const defItem = (DEFAULT_ESSAY_PROMPTS[modeKey] || [])[idx] || DEFAULT_ESSAY_PROMPTS.on_tap[1];
+                return JSON.parse(JSON.stringify(defItem));
+              }
+              if (!item.sample) {
+                const defaultMatch = (DEFAULT_ESSAY_PROMPTS[modeKey] || []).find(function(d) { return d.id === item.id; });
+                if (defaultMatch && defaultMatch.sample) {
+                  item.sample = defaultMatch.sample;
+                }
+              }
+              return item;
+            });
+          }
+        });
         renderEssaySection();
       }
 
@@ -3345,7 +3356,7 @@ function renderEssaySection() {
     }
   } else {
     if (modeBadge) {
-      modeBadge.innerHTML = '📖 Tự học & Ôn tập (Có Dàn ý & Hướng dẫn)';
+      modeBadge.innerHTML = '📖 Tự học & Ôn tập (Có Dàn ý & Đoạn văn mẫu)';
       modeBadge.style.background = '#f0fdfa';
       modeBadge.style.color = '#0f766e';
       modeBadge.style.borderColor = '#99f6e4';
@@ -3356,6 +3367,8 @@ function renderEssaySection() {
     if (practiceTools) {
       practiceTools.style.display = 'flex';
     }
+    if (outlinePanel) outlinePanel.style.display = 'block';
+    if (samplePanel) samplePanel.style.display = 'block';
   }
 
   // Render Prompt Box
