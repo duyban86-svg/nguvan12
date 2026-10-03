@@ -876,14 +876,44 @@
         <span class="badge badge-gold">30 CÂU HỎI</span>
         <span class="badge badge-live" id="live-connection-badge">🟢 Hệ thống sẵn sàng</span>
       </div>
-      <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem; border-color:#831843; color:#831843;" onclick="openGenreRefModal()">📖 Đặc trưng thể loại</button>
+      <button class="btn" style="padding: 7px 16px; font-size: 0.82rem; font-weight: 800; background: linear-gradient(135deg, #831843, #be185d); color: #ffffff; border: none; border-radius: 9999px; box-shadow: 0 4px 10px rgba(131,24,67,0.3); cursor: pointer; display: inline-flex; align-items: center; gap: 6px;" onclick="openGenreRefModal('g-tab-1')">
+        📖 Cẩm nang Đặc trưng Thể loại Thơ
+      </button>
       <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem; border-color:#0284c7; color:#0284c7;" onclick="openFeedbackModal()">💬 Báo lỗi / Góp ý</button>
       <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem;" onclick="promptMasterPin()">🔑 Giáo viên</button>
     </div>
 
     <h1>CHUYÊN ĐỀ: ĐẶC TRƯNG THỂ LOẠI THƠ</h1>
-    <p class="subtitle">Tri thức thể loại Thơ: Thơ Cổ điển, Thơ Lãng mạn, Thơ Tượng trưng & Siêu thực; Nhân vật & Chủ thể trữ tình; Cảm xúc & Ý niệm; Nhịp điệu, Nhạc tính & Hình ảnh biểu tượng; Bút pháp liên tưởng vô thức & Đồng hiện nghệ thuật.</p>
+    <p class="subtitle">Tri thức thể loại Thơ: Thơ Cổ điển, Thơ Lãng mạn, Thơ Tượng trưng & Siêu thực; Cấu tứ & Mạch cảm xúc; Nhạc tính & Hình ảnh biểu tượng; Kĩ năng làm bài thi Tốt nghiệp THPT.</p>
   </header>
+
+  <!-- BANNER TRA CỨU NHANH ĐẶC TRƯNG THỂ LOẠI & CẤU TỨ -->
+  <div style="background: linear-gradient(135deg, #fdf2f8 0%, #fff7ed 50%, #f0fdfa 100%); border: 2px solid #fbcfe8; border-radius: var(--radius); padding: 18px 22px; margin-bottom: 24px; box-shadow: var(--shadow-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+    <div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+        <span style="font-size: 1.4rem;">💡</span>
+        <strong style="color: #831843; font-size: 1.05rem; font-weight: 800;">CẨM NANG TRI THỨC THI PHÁP & PHƯƠNG PHÁP GIẢI MÃ CẤU TỨ THƠ</strong>
+        <span class="badge" style="background: #be185d; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 9999px;">Tài liệu K12</span>
+      </div>
+      <p style="font-size: 0.88rem; color: #475569; margin: 0;">
+        Học sinh có thể mở Cẩm nang bất kỳ lúc nào trong quá trình ôn luyện để tra cứu bản đồ thể loại, bài học tác phẩm mẫu và bí quyết bóc tách cấu tứ thơ.
+      </p>
+    </div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <button type="button" class="btn" style="background: #831843; color: white; font-weight: 700; font-size: 0.82rem; padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(131,24,67,0.25);" onclick="openGenreRefModal('g-tab-1')">
+        🧩 1. Bản đồ Thể loại
+      </button>
+      <button type="button" class="btn" style="background: #9a3412; color: white; font-weight: 700; font-size: 0.82rem; padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(154,52,18,0.25);" onclick="openGenreRefModal('g-tab-2')">
+        📚 2. Giải mã Tác phẩm
+      </button>
+      <button type="button" class="btn" style="background: #0f766e; color: white; font-weight: 700; font-size: 0.82rem; padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(15,118,110,0.25);" onclick="openGenreRefModal('g-tab-3')">
+        ⚖️ 3. Đối sánh Thi pháp
+      </button>
+      <button type="button" class="btn" style="background: #4f46e5; color: white; font-weight: 800; font-size: 0.82rem; padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(79,70,229,0.3); animation: pulse 2.5s infinite;" onclick="openGenreRefModal('g-tab-4')">
+        🎯 4. Cẩm nang & Cấu tứ
+      </button>
+    </div>
+  </div>
 
   <!-- THANH CÔNG CỤ GIÁO VIÊN TOÀN QUYỀN (HIỂN THỊ KHI ĐĂNG NHẬP GIÁO VIÊN) -->
   <div id="teacher-command-bar" style="display:none; background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color:#f8fafc; border-radius:var(--radius); padding:16px 20px; margin-bottom:24px; box-shadow:var(--shadow-lg); border:2px solid #f59e0b;">
@@ -1254,15 +1284,27 @@
   <!-- ==================== TAB 1: BẢN ĐỒ THỂ LOẠI THƠ ==================== -->
   <div id="g-tab-1" class="genre-tab-content" style="display: block;">
     
-    <div style="background: #fdf4f8; border-left: 5px solid #831843; padding: 16px 20px; border-radius: 8px; margin-bottom: 24px;">
-      <h3 style="color: #831843; font-size: 1.15rem; font-weight: 800; margin-bottom: 6px;">📌 I. KHÁI NIỆM & BẢN CHẤT CỦA THỂ LOẠI THƠ</h3>
-      <p style="margin: 0; font-size: 0.95rem; color: #334155;">
-        <strong>Thơ</strong> là phương thức biểu hiện trữ tình, là tiếng nói trực tiếp của tình cảm mãnh liệt, rung động tâm hồn và những trăn trở, suy tư nhân sinh của nhà thơ trước cuộc đời. Ngôn ngữ thơ hàm súc, cô đọng, giàu hình ảnh gợi cảm, nhạc điệu phong phú và đa tầng ý nghĩa biểu tượng.
-      </p>
+    <!-- I. KHÁI NIỆM & BẢN CHẤT -->
+    <div style="background: linear-gradient(135deg, #fdf2f8 0%, #fff1f2 100%); border-left: 5px solid #831843; padding: 18px 22px; border-radius: 10px; margin-bottom: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <h3 style="color: #831843; font-size: 1.18rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+        <span>📌</span> I. KHÁI NIỆM & BẢN CHẤT CỦA THỂ LOẠI THƠ
+      </h3>
+      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.93rem; color: #334155;">
+        <p style="margin: 0;">
+          • <strong>Khái niệm:</strong> Thơ là dạng thức tổ chức ngôn từ nghệ thuật biểu cảm, có nhạc tính, gần với lời ca, tiếng hát, phân biệt với văn xuôi vốn sử dụng ngôn từ gần với lời nói thông thường.
+        </p>
+        <p style="margin: 0;">
+          • <strong>Bản chất trữ tình:</strong> Thơ là tiếng nói trực tiếp của tình cảm, thể hiện những rung động mãnh liệt, sâu kín hoặc những cảm xúc tinh tế, mơ hồ của con người trước cuộc sống. Thơ không biểu đạt bằng ý niệm thuần túy hay lý luận trừu tượng mà bằng <em>hình ảnh thấm đẫm cảm xúc</em>.
+        </p>
+        <p style="margin: 0;">
+          • <strong>Mối quan hệ cảm xúc và sự việc:</strong> Thơ có thể mượn một câu chuyện, sự kiện hay khung cảnh làm duyên cớ, nhưng mục đích tối thượng luôn là bộc lộ thế giới nội tâm và mạch nguồn cảm xúc của tác giả.
+        </p>
+      </div>
     </div>
 
-    <h3 style="color: #0f172a; font-size: 1.1rem; font-weight: 800; margin: 20px 0 12px; display: flex; align-items: center; gap: 8px;">
-      <span>🏛️</span> II. 6 YẾU TỐ THI PHÁP ĐẶC TRƯNG CỦA TÁC PHẨM THƠ
+    <!-- II. 6 YẾU TỐ THI PHÁP ĐẶC TRƯNG -->
+    <h3 style="color: #0f172a; font-size: 1.15rem; font-weight: 800; margin: 24px 0 14px; display: flex; align-items: center; gap: 8px;">
+      <span>🏛️</span> II. CÁC YẾU TỐ THI PHÁP ĐẶC TRƯNG CẤU THÀNH THI PHẨM
     </h3>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px;">
@@ -1270,31 +1312,32 @@
       <!-- 1. Chủ thể trữ tình -->
       <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px; border-top: 4px solid #0284c7;">
         <h4 style="color: #0369a1; font-weight: 800; font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-          <span>👤</span> 1. Chủ thể trữ tình (Cái tôi trữ tình)
+          <span>👤</span> 1. Chủ thể trữ tình (Nhân vật trữ tình)
         </h4>
-        <p style="font-size: 0.9rem; margin-bottom: 10px;">
-          <strong>Bản chất:</strong> Trung tâm phát ngôn, nơi bộc lộ cảm xúc, suy tư, thái độ thẩm mỹ trước cuộc sống.
+        <p style="font-size: 0.88rem; margin-bottom: 10px; color: #334155;">
+          Là người trực tiếp bộc lộ rung động, tư tưởng và tình cảm trong bài thơ trước một khung cảnh hay biến cố đời sống. Gắn bó mật thiết nhưng <em>không hoàn toàn đồng nhất</em> với tác giả ngoài đời thực.
         </p>
-        <div style="background: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; border: 1px dashed #cbd5e1;">
-          <ul style="padding-left: 18px; margin: 0;">
-            <li style="margin-bottom: 4px;"><strong>Hiện diện trực tiếp:</strong> Xưng <em>"tôi", "ta", "anh", "thiếp"</em> bộc bạch trực tiếp nỗi lòng.</li>
+        <div style="background: #fff; padding: 10px 12px; border-radius: 8px; font-size: 0.84rem; border: 1px dashed #cbd5e1;">
+          <ul style="padding-left: 16px; margin: 0; color: #475569;">
+            <li style="margin-bottom: 4px;"><strong>Hiện diện trực tiếp:</strong> Xưng danh xưng cụ thể (<em>tôi, ta, anh, em, tráng sĩ...</em>).</li>
             <li><strong>Ẩn mình (gián tiếp):</strong> Hóa thân vào bức tranh cảnh vật, khách thể thẩm mỹ, tiếng đàn, dòng sông.</li>
           </ul>
         </div>
       </div>
 
-      <!-- 2. Cấu tứ & Mạch cảm xúc -->
+      <!-- 2. Cấu tứ & Tứ thơ -->
       <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px; border-top: 4px solid #831843;">
         <h4 style="color: #831843; font-weight: 800; font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-          <span>🧵</span> 2. Cấu tứ & Mạch cảm xúc
+          <span>🧵</span> 2. Cấu tứ & Tứ thơ
         </h4>
-        <p style="font-size: 0.9rem; margin-bottom: 10px;">
-          <strong>Khái niệm:</strong> Cách thức tổ chức, liên kết hệ thống hình ảnh, ý tưởng thành một chỉnh thể nghệ thuật toàn vẹn.
+        <p style="font-size: 0.88rem; margin-bottom: 10px; color: #334155;">
+          • <strong>Cấu tứ:</strong> Khâu then chốt khởi đầu sáng tạo nghệ thuật nhằm xác định hướng phát triển của hình tượng thơ và cách triển khai toàn bộ tác phẩm.<br>
+          • <strong>Tứ thơ:</strong> Sản phẩm của hoạt động cấu tứ; là "xương sống" giúp bài thơ trở thành một chỉnh thể sống động liên kết chặt chẽ.
         </p>
-        <div style="background: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; border: 1px dashed #cbd5e1;">
-          <ul style="padding-left: 18px; margin: 0;">
-            <li style="margin-bottom: 4px;"><strong>Mạch vận động:</strong> Đi từ cảnh ➔ tình, từ cụ thể ➔ khái quát, từ hiện thực ➔ mộng ảo.</li>
-            <li><strong>Ý tứ cốt lõi:</strong> Hạt nhân tư tưởng chi phối toàn bộ cấu trúc thi phẩm.</li>
+        <div style="background: #fff; padding: 10px 12px; border-radius: 8px; font-size: 0.84rem; border: 1px dashed #cbd5e1;">
+          <ul style="padding-left: 16px; margin: 0; color: #475569;">
+            <li style="margin-bottom: 4px;"><strong>Mạch vận động:</strong> Từ cảnh ➔ tình, cụ thể ➔ khái quát, thực ➔ mộng ảo.</li>
+            <li><strong>Tứ thơ trung tâm:</strong> <em>Mài gươm dưới trăng</em> (Cảm hoài), <em>Tiếng đàn bọt nước</em> (Lor-ca).</li>
           </ul>
         </div>
       </div>
@@ -1304,63 +1347,134 @@
         <h4 style="color: #0f766e; font-weight: 800; font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
           <span>🌸</span> 3. Hình ảnh & Biểu tượng thơ
         </h4>
-        <p style="font-size: 0.9rem; margin-bottom: 10px;">
-          <strong>Chuyển hóa thẩm mỹ:</strong> Hình ảnh thơ khơi gợi cảm giác cụ thể; biểu tượng thơ tích tụ chiều sâu triết lý đa tầng.
+        <p style="font-size: 0.88rem; margin-bottom: 10px; color: #334155;">
+          • <strong>Hình ảnh thơ:</strong> Tái tạo sự vật, hiện tượng cụ thể bằng ngôn từ để hữu hình hóa cảm xúc vô hình.<br>
+          • <strong>Biểu tượng đa tầng:</strong> Hình ảnh ngụ ý sâu sắc, vượt lên miêu tả thông thường để mở ra suy tư triết lý.
         </p>
-        <div style="background: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; border: 1px dashed #cbd5e1;">
-          <ul style="padding-left: 18px; margin: 0;">
-            <li style="margin-bottom: 4px;"><strong>Hình ảnh thị giác/thính giác:</strong> Dốc khúc khuỷu, mưa xa khơi, tiếng thác gầm.</li>
-            <li><strong>Biểu tượng văn hóa:</strong> <em>Tiếng đàn bọt nước, mài gươm dưới trăng, sông Mã gầm lên</em>.</li>
+        <div style="background: #fff; padding: 10px 12px; border-radius: 8px; font-size: 0.84rem; border: 1px dashed #cbd5e1;">
+          <ul style="padding-left: 16px; margin: 0; color: #475569;">
+            <li style="margin-bottom: 4px;"><strong>Tả thực & Ước lệ:</strong> Rừng phong, hoa cúc, con thuyền lẻ loi, dốc núi.</li>
+            <li><strong>Tượng trưng & Siêu thực:</strong> <em>Giọt nước mắt vầng trăng, bơi trên ghi-ta bạc</em>.</li>
           </ul>
         </div>
       </div>
 
-      <!-- 4. Nhạc điệu & Thanh âm -->
+      <!-- 4. Ngôn ngữ & Tính đa nghĩa -->
       <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px; border-top: 4px solid #b45309;">
         <h4 style="color: #b45309; font-weight: 800; font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-          <span>🎶</span> 4. Nhạc điệu, Vần & Nhịp
+          <span>📖</span> 4. Ngôn ngữ & Tính đa nghĩa
         </h4>
-        <p style="font-size: 0.9rem; margin-bottom: 10px;">
-          <strong>Nhạc cảm nội tại:</strong> Nhạc điệu sinh ra từ sự phối hợp vần, nhịp, âm điệu và sự đối xứng Bằng - Trắc.
+        <p style="font-size: 0.88rem; margin-bottom: 10px; color: #334155;">
+          Ngôn từ thơ hàm súc, cô đọng ("ý tại ngôn ngoại"), giàu sức gợi và tính biểu cảm cao. Thơ có xu hướng phá vỡ các quy tắc ngữ pháp thông thường để mở ra các trường liên tưởng mới lạ.
         </p>
-        <div style="background: #fff; padding: 10px; border-radius: 8px; font-size: 0.85rem; border: 1px dashed #cbd5e1;">
-          <ul style="padding-left: 18px; margin: 0;">
-            <li style="margin-bottom: 4px;"><strong>Ngắt nhịp:</strong> Nhịp 4/3 cổ điển, 2/2/3 trữ tình, nhịp tự do đứt gãy hiện đại.</li>
-            <li><strong>Phối thanh:</strong> Đối ứng Bằng - Trắc tạo độ gân guốc, trắc trở hoặc êm dịu, phiêu lãng.</li>
+        <div style="background: #fff; padding: 10px 12px; border-radius: 8px; font-size: 0.84rem; border: 1px dashed #cbd5e1;">
+          <ul style="padding-left: 16px; margin: 0; color: #475569;">
+            <li style="margin-bottom: 4px;"><strong>Lạ hóa ngôn từ:</strong> <em>"nhớ chơi vơi", "súng ngửi trời", "dốc thăm thẳm"</em>.</li>
+            <li><strong>Ẩn dụ chuyển đổi cảm giác:</strong> <em>"tiếng ghi ta nâu", "lá xanh", "máu chảy"</em>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 5. Nhạc tính, Vần & Nhịp -->
+      <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px; border-top: 4px solid #6366f1;">
+        <h4 style="color: #4f46e5; font-weight: 800; font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+          <span>🎶</span> 5. Nhạc tính, Thi luật & Vần điệu
+        </h4>
+        <p style="font-size: 0.88rem; margin-bottom: 10px; color: #334155;">
+          • <strong>Vần thơ:</strong> Sự hòa âm, cộng hưởng giữa các âm tiết (vần chân, vần lưng; vần liền, vần cách).<br>
+          • <strong>Nhịp điệu:</strong> Điểm ngắt linh hoạt theo nhịp đập tâm hồn hoặc niêm luật thể loại.<br>
+          • <strong>Nhạc điệu:</strong> Phối hợp thanh điệu Bằng – Trắc, điệp âm, điệp từ tạo âm hưởng du dương.
+        </p>
+        <div style="background: #fff; padding: 10px 12px; border-radius: 8px; font-size: 0.84rem; border: 1px dashed #cbd5e1;">
+          <ul style="padding-left: 16px; margin: 0; color: #475569;">
+            <li style="margin-bottom: 4px;"><strong>Ngắt nhịp:</strong> 4/3 cổ điển, 2/2/3 trữ tình, nhịp tự do đứt gãy hiện đại.</li>
+            <li><strong>Phối thanh:</strong> Đối ứng Bằng - Trắc tạo độ gân guốc hoặc êm đềm (câu toàn thanh Bằng).</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 6. Không gian & Thời gian nghệ thuật -->
+      <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 18px; border-top: 4px solid #ea580c;">
+        <h4 style="color: #c2410c; font-weight: 800; font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+          <span>🌌</span> 6. Không gian & Thời gian Nghệ thuật
+        </h4>
+        <p style="font-size: 0.88rem; margin-bottom: 10px; color: #334155;">
+          Không gian và thời gian trong thơ là sản phẩm sáng tạo của chủ thể trữ tình, mang đậm tính tâm lí và cảm quan thời đại:
+        </p>
+        <div style="background: #fff; padding: 10px 12px; border-radius: 8px; font-size: 0.84rem; border: 1px dashed #cbd5e1;">
+          <ul style="padding-left: 16px; margin: 0; color: #475569;">
+            <li style="margin-bottom: 4px;"><strong>Thời gian:</strong> Thời gian vũ trụ tuần hoàn (cổ điển) ➔ Thời gian tâm lí hoài niệm, trôi chảy một đi không trở lại (hiện đại).</li>
+            <li><strong>Không gian:</strong> Không gian ước lệ vũ trụ kì vĩ ➔ Không gian thực địa trải nghiệm ➔ Không gian tâm tưởng, mộng ảo.</li>
           </ul>
         </div>
       </div>
 
     </div>
 
-    <!-- 3 KHU GIAO THOA PHONG CÁCH NGHỆ THUẬT -->
-    <div style="background: #fffdf5; border: 2px solid #fef08a; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
-      <h3 style="color: #854d0e; font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-        <span>🏛️</span> 3 PHONG CÁCH THI PHÁP LỚN CỦA VĂN HỌC
+    <!-- III. HỆ THỐNG PHÂN LOẠI THỂ LOẠI THƠ -->
+    <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+      <h3 style="color: #166534; font-size: 1.15rem; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+        <span>📊</span> III. HỆ THỐNG PHÂN LOẠI THỂ LOẠI THƠ
       </h3>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px;">
+        <div style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #86efac;">
+          <strong style="color: #15803d; display: block; margin-bottom: 6px;">1. Theo Luật thơ & Số tiếng:</strong>
+          <p style="font-size: 0.86rem; margin: 0; color: #334155;">
+            • <strong>Thơ cách luật:</strong> Tuân thủ niêm luật chặt chẽ (Đường luật thất ngôn bát cú/tứ tuyệt, lục bát, song thất lục bát, thơ 4-5-7-8 chữ).<br>
+            • <strong>Thơ tự do:</strong> Không ràng buộc số tiếng, số dòng, nhịp điệu biến hóa.<br>
+            • <strong>Thơ văn xuôi:</strong> Dạng câu văn xuôi nhưng giàu chất thơ, nhạc tính và hình ảnh biểu cảm.
+          </p>
+        </div>
+        <div style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #86efac;">
+          <strong style="color: #15803d; display: block; margin-bottom: 6px;">2. Theo Phương thức biểu đạt:</strong>
+          <p style="font-size: 0.86rem; margin: 0; color: #334155;">
+            • <strong>Thơ trữ tình:</strong> Tập trung bộc lộ trực tiếp thế giới tâm trạng của cái tôi.<br>
+            • <strong>Thơ tự sự & Truyện thơ:</strong> Có cốt truyện, biến cố, nhân vật nhưng đậm chất trữ tình.<br>
+            • <strong>Trường ca:</strong> Tác phẩm thơ dung lượng lớn, kết hợp nhiều bè cảm xúc, chất tự sự và cảm hứng sử thi.
+          </p>
+        </div>
+        <div style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #86efac;">
+          <strong style="color: #15803d; display: block; margin-bottom: 6px;">3. Theo Đề tài & Cảm hứng:</strong>
+          <p style="font-size: 0.86rem; margin: 0; color: #334155;">
+            • <strong>Thơ ngụ tình:</strong> Tình yêu lứa đôi, gia đình, quê hương, Tổ quốc.<br>
+            • <strong>Thơ thuyết lí:</strong> Chiêm nghiệm triết lí nhân sinh, thế sự sâu sắc.<br>
+            • <strong>Thơ trào phúng, tức sự, vịnh cảnh:</strong> Khắc họa và phê phán thế thái nhân tình.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- IV. 3 PHONG CÁCH THI PHÁP LỚN -->
+    <div style="background: #fffdf5; border: 2px solid #fef08a; border-radius: 12px; padding: 20px; margin-bottom: 12px;">
+      <h3 style="color: #854d0e; font-size: 1.15rem; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+        <span>👑</span> IV. 3 PHONG CÁCH THI PHÁP NGHỆ THUẬT LỚN
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px;">
         
-        <div style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #fde047;">
-          <strong style="color: #a16207; display: block; margin-bottom: 6px;">1. Thơ Cổ điển Trung đại:</strong>
-          <p style="font-size: 0.86rem; margin: 0; color: #475569;">
-            • <strong>Thi pháp quy phạm:</strong> Niêm luật nghiêm ngặt, đối ngẫu cung đình, thi liệu ước lệ tượng trưng.<br>
-            • <strong>Cảm quan thẩm mỹ:</strong> Hướng tới đạo lý, chí tráng sĩ và tầm vóc vũ trụ bao la (<em>Cảm hoài, Thu hứng</em>).
+        <div style="background: white; padding: 16px; border-radius: 10px; border: 1px solid #fde047; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+          <strong style="color: #a16207; font-size: 0.98rem; display: block; margin-bottom: 8px;">🏛️ 1. Phong cách Cổ điển (Classical style):</strong>
+          <p style="font-size: 0.86rem; margin: 0; color: #475569; line-height: 1.6;">
+            • <strong>Đề tài & Cảm hứng:</strong> Cao nhã, trang trọng; hướng về cái vĩnh hằng, nghĩa vụ đạo lý lớn lao (trung quân ái quốc, chí làm trai).<br>
+            • <strong>Hình tượng:</strong> Tráng lệ, lý tưởng hóa; gắn với hệ thống thi liệu ước lệ tầm vóc vũ trụ và điển cố.<br>
+            • <strong>Tính quy phạm:</strong> Niêm luật nghiêm ngặt, cấu trúc hài hòa, đối ngẫu chuẩn mực (<em>Cảm hoài, Thu hứng</em>).
           </p>
         </div>
 
-        <div style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #fde047;">
-          <strong style="color: #a16207; display: block; margin-bottom: 6px;">2. Thơ Lãng mạn & Bi tráng:</strong>
-          <p style="font-size: 0.86rem; margin: 0; color: #475569;">
-            • <strong>Giải phóng cảm xúc:</strong> Đề cao cái tôi cá nhân tự do, khoáng đạt, trí tưởng tượng phong phú.<br>
-            • <strong>Thủ pháp nghệ thuật:</strong> Tương phản dữ dội >< thơ mộng, bi tráng sử thi hóa sự hi sinh (<em>Tây Tiến</em>).
+        <div style="background: white; padding: 16px; border-radius: 10px; border: 1px solid #fde047; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+          <strong style="color: #a16207; font-size: 0.98rem; display: block; margin-bottom: 8px;">🌿 2. Phong cách Lãng mạn (Romanticism):</strong>
+          <p style="font-size: 0.86rem; margin: 0; color: #475569; line-height: 1.6;">
+            • <strong>Cảm hứng chủ đạo:</strong> Khẳng định cái cao cả, phi thường; vượt thoát hiện thực tầm thường.<br>
+            • <strong>Thế giới cảm xúc:</strong> Đề cao cái tôi cá nhân tự do, bộc lộ cảm xúc mạnh mẽ, phóng khoáng, hào hoa.<br>
+            • <strong>Thủ pháp nghệ thuật:</strong> Tương phản dữ dội >< thơ mộng; kết hợp bi tráng sử thi hóa sự hi sinh (<em>Tây Tiến</em>).
           </p>
         </div>
 
-        <div style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #fde047;">
-          <strong style="color: #a16207; display: block; margin-bottom: 6px;">3. Thơ Tượng trưng & Siêu thực:</strong>
-          <p style="font-size: 0.86rem; margin: 0; color: #475569;">
-            • <strong>Tương giao cảm giác:</strong> Âm thanh hóa màu sắc, hình khối (nghe tiếng đàn thấy màu nâu, lá xanh).<br>
-            • <strong>Cấu trúc phi tuyến tính:</strong> Giải phóng tiềm thức, mở rộng liên tưởng mộng ảo (<em>Đàn ghi ta của Lor-ca</em>).
+        <div style="background: white; padding: 16px; border-radius: 10px; border: 1px solid #fde047; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+          <strong style="color: #a16207; font-size: 0.98rem; display: block; margin-bottom: 8px;">🎨 3. Phong cách Tượng trưng & Siêu thực:</strong>
+          <p style="font-size: 0.86rem; margin: 0; color: #475569; line-height: 1.6;">
+            • <strong>Tương giao cảm giác:</strong> Gợi tả hơn miêu tả trực diện; đồng cảm giác (âm thanh gợi màu sắc, xúc cảm).<br>
+            • <strong>Yếu tố Siêu thực:</strong> Giải phóng vô thức và tiềm thức, phá vỡ logic thông thường để tạo liên tưởng bất ngờ, lạ hóa thế giới thơ.<br>
+            • <strong>Tính đa nghĩa:</strong> Hình ảnh biểu tượng mở ra đa chiều diễn giải (<em>Đàn ghi ta của Lor-ca</em>).
           </p>
         </div>
 
@@ -1376,73 +1490,164 @@
     <!-- TÁC PHẨM 1: CẢM HOÀI -->
     <div style="background: #fff; border: 2px solid #fda4af; border-radius: 12px; padding: 22px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
-        <h3 style="color: #9f1239; font-size: 1.2rem; font-weight: 800; margin: 0;">
-          ⚔️ 1. "Cảm hoài" (Đặng Dung)
+        <h3 style="color: #9f1239; font-size: 1.22rem; font-weight: 800; margin: 0;">
+          ⚔️ 1. "Cảm hoài" (Nỗi lòng) – Đặng Dung
         </h3>
-        <span class="tag" style="background: #ffe4e6; color: #9f1239; font-weight: 700; font-size: 0.8rem; padding: 4px 10px; border-radius: 6px;">Thơ Cổ điển Trung đại • Thất ngôn bát cú</span>
+        <span class="tag" style="background: #ffe4e6; color: #9f1239; font-weight: 700; font-size: 0.8rem; padding: 4px 10px; border-radius: 6px;">Thơ Cổ điển Trung đại • Thất ngôn bát cú Đường luật</span>
       </div>
+
+      <p style="font-size: 0.88rem; color: #475569; margin-bottom: 14px; font-style: italic;">
+        Ra đời trong bối cảnh cuộc kháng chiến chống quân Minh của nhà Hậu Trần rơi vào thế cùng lực kiệt, bài thơ là khúc ca bi tráng về chí khí, hoài bão cứu nước và nỗi đau của người anh hùng lỡ vận ("Dù sau trăm đời vẫn còn tưởng thấy sinh khí lẫm liệt").
+      </p>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 14px;">
         <div style="background: #fff1f2; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
-          <strong style="color: #be123c; display: block; margin-bottom: 4px;">🌌 Nỗi u hoài thời thế & Bi kịch anh hùng:</strong>
-          • <em>"Thế sự du du nại lão hà"</em>: Việc đời dằng dặc, tuổi già ập đến khi chí lớn chưa thành.<br>
-          • Phép đối <em>"thời lai"</em> (gặp thời) >< <em>"vận khứ"</em> (hết vận): Đúc kết quy luật hưng phế khốc liệt của lịch sử.
+          <strong style="color: #be123c; display: block; margin-bottom: 4px;">🌌 1. Hai câu đề: Nỗi ngậm ngùi trước việc đời & Đời người hữu hạn:</strong>
+          • <em>"Thế sự du du nại lão hà / Vô cùng thiên địa nhập hàm ca"</em>.<br>
+          • "Du du" (việc đời dằng dặc, bề bộn) đối lập với tuổi già bất lực ("nại lão hà"). Mượn cơn say ca ("hàm ca") nuốt nỗi thống khổ thế sự vào lòng.
         </div>
 
         <div style="background: #fff1f2; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
-          <strong style="color: #be123c; display: block; margin-bottom: 4px;">🌙 Tư thế mài gươm dưới bóng trăng tà:</strong>
-          • <em>"Kỉ độ thôn hàm phung vũ hận / Đao đầu không bạt vạn tinh đê"</em> (Mấy độ mài gươm bóng nguyệt tà).<br>
-          • Tư thế tráng sĩ tầm vóc vũ trụ, ý chí kiên định và tấm lòng trung liệt sáng mãi với non sông.
+          <strong style="color: #be123c; display: block; margin-bottom: 4px;">⚖️ 2. Hai câu thực: Bi kịch thời vận & Quy luật hưng phế:</strong>
+          • <em>"Thời lai đồ điếu thành công dị / Vận khứ anh hùng ẩm hận đa"</em>.<br>
+          • Đối ngẫu mẫu mực: "Thời lai" (gặp thời) >< "Vận khứ" (hết vận); "Đồ điếu" (kẻ mổ lợn câu cá thời hàn vi) >< "Anh hùng" (bậc cái thế nuốt hận khi vận nước đã hết).
+        </div>
+
+        <div style="background: #fff1f2; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #be123c; display: block; margin-bottom: 4px;">🌠 3. Hai câu luận: Hoài bão cứu thế mang tầm vóc vũ trụ:</strong>
+          • <em>"Trí chủ hữu hoài phù địa trục / Tẩy binh vô lộ vãn thiên hà"</em>.<br>
+          • Biểu tượng kì vĩ: "Phù địa trục" (xoay trục đất lập lại trật tự cõi bờ), "Vãn thiên hà" (mượn tứ thơ Đỗ Phủ kéo sông Ngân gột rửa vũ khí, đem lại thái bình).
+        </div>
+
+        <div style="background: #fff1f2; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #be123c; display: block; margin-bottom: 4px;">🌙 4. Hai câu kết: Tượng đài bi tráng mài gươm dưới trăng:</strong>
+          • <em>"Quốc thù vị báo đầu tiên bạch / Kỉ độ Long Tuyền đới nguyệt ma"</em>.<br>
+          • Nỗi xót xa nợ nước chưa đền mà đầu đã bạc ("đầu tiên bạch"), nhưng hành động bao lần mài thanh gươm báu Long Tuyền dưới bóng trăng khẳng định ý chí quật cường bất tử.
         </div>
       </div>
     </div>
 
-    <!-- TÁC PHẨM 2: TÂY TIẾN -->
+    <!-- TÁC PHẨM 2: THU HỨNG -->
     <div style="background: #fff; border: 2px solid #fed7aa; border-radius: 12px; padding: 22px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
-        <h3 style="color: #9a3412; font-size: 1.2rem; font-weight: 800; margin: 0;">
-          🌲 2. "Tây Tiến" (Quang Dũng)
+        <h3 style="color: #9a3412; font-size: 1.22rem; font-weight: 800; margin: 0;">
+          🍂 2. "Thu hứng" (Cảm xúc mùa thu - Bài 1) – Đỗ Phủ
         </h3>
-        <span class="tag" style="background: #ffedd5; color: #9a3412; font-weight: 700; font-size: 0.8rem; padding: 4px 10px; border-radius: 6px;">Thơ Kháng chiến • Bút pháp Lãng mạn & Bi tráng</span>
+        <span class="tag" style="background: #ffedd5; color: #9a3412; font-weight: 700; font-size: 0.8rem; padding: 4px 10px; border-radius: 6px;">Thơ Cổ điển Đường luật • Tả cảnh ngụ tình bậc thầy</span>
       </div>
+
+      <p style="font-size: 0.88rem; color: #475569; margin-bottom: 14px; font-style: italic;">
+        Sáng tác năm 766 khi Đỗ Phủ đang phiêu dạt, ốm yếu ở Quỳ Châu giữa cảnh đất nước chìm trong loạn lạc sau biến cố An Lộc Sơn. Bài thơ vận động từ không gian vũ trụ đến đời sống nhân gian, từ ngoại cảnh tiêu điều thẩm thấu trọn vẹn vào cõi lòng ưu ái vì dân vì nước.
+      </p>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 14px;">
         <div style="background: #fff7ed; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
-          <strong style="color: #c2410c; display: block; margin-bottom: 4px;">🌄 Thiên nhiên miền Tây hùng vĩ & Thơ mộng:</strong>
-          • <strong>Dữ dội, hiểm trở:</strong> <em>"Dốc lên khúc khuỷu dốc thăm thẳm / Heo hút cồn mây súng ngửi trời"</em>.<br>
-          • <strong>Thơ mộng, trữ tình:</strong> <em>"Nhà ai Pha Luông mưa xa khơi"</em> (toàn thanh bằng êm dịu), đêm hội đuốc hoa ấm áp.
+          <strong style="color: #c2410c; display: block; margin-bottom: 4px;">🌫️ 1. Hai câu đề: Cảnh thu tiêu sơ, rợn ngợp nơi thượng lưu:</strong>
+          • <em>"Ngọc lộ điêu thương phong thụ lâm / Vu sơn, Vu giáp khí tiêu sâm"</em>.<br>
+          • Sương móc trắng xóa ("ngọc lộ") tàn phá ("điêu thương") cả rừng phong; hẻm núi Vu sơn - Vu giáp ngập tràn hơi thu hiu hắt, lạnh lẽo ("tiêu sâm").
         </div>
 
         <div style="background: #fff7ed; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
-          <strong style="color: #c2410c; display: block; margin-bottom: 4px;">🎖️ Tượng đài người lính Hào hoa & Bi tráng:</strong>
-          • <strong>Hào hoa, lãng mạn:</strong> <em>"Mắt trừng gửi mộng qua biên giới / Đêm mơ Hà Nội dáng kiều thơm"</em>.<br>
-          • <strong>Bi tráng, bất tử:</strong> <em>"Chiến trường đi chẳng tiếc đời xanh / Áo bào thay chiếu anh về đất / Sông Mã gầm lên khúc độc hành"</em>.
+          <strong style="color: #c2410c; display: block; margin-bottom: 4px;">🌊 2. Hai câu thực: Không gian chao đảo giữa Trời & Đất:</strong>
+          • <em>"Giang gian ba lãng kiêm thiên dũng / Tái thượng phong vân tiếp địa âm"</em>.<br>
+          • Đối xứng theo trục tung: Sóng nước từ lòng sông vọt trùm bầu trời đối lập với Gió mây nơi biên ải sà sát mặt đất tối sầm ➔ Phản chiếu thời đại loạn lạc, bất an.
+        </div>
+
+        <div style="background: #fff7ed; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #c2410c; display: block; margin-bottom: 4px;">⛵ 3. Hai câu luận: Nỗi sầu tha hương & Số phận ngưng trệ:</strong>
+          • <em>"Tùng cúc lưỡng khai tha nhật lệ / Cô chu nhất hệ cố viên tâm"</em>.<br>
+          • Khóm cúc nở hai lần rơi dòng lệ cũ (thời gian chồng lớp đan xen); Con thuyền lẻ loi ("cô chu") bị buộc chặt ("nhất hệ") vào nỗi nhớ vườn cũ quê hương.
+        </div>
+
+        <div style="background: #fff7ed; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #c2410c; display: block; margin-bottom: 4px;">🔨 4. Hai câu kết: Âm thanh đời sống & Nỗi đau thế sự:</strong>
+          • <em>"Hàn y xứ xứ thôi đao xích / Bạch Đế thành cao cấp mộ châm"</em>.<br>
+          • Tiếng dao thước rộn rã cắt may áo rét, tiếng chày đập vải dồn dập trên thành Bạch Đế lúc hoàng hôn buông đập mạnh vào cõi lòng đau đáu vận mệnh non sông của "Thi thánh".
         </div>
       </div>
     </div>
 
-    <!-- TÁC PHẨM 3: ĐÀN GHI TA CỦA LOR-CA -->
+    <!-- TÁC PHẨM 3: TÂY TIẾN -->
     <div style="background: #fff; border: 2px solid #bbf7d0; border-radius: 12px; padding: 22px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
-        <h3 style="color: #166534; font-size: 1.2rem; font-weight: 800; margin: 0;">
-          🎸 3. "Đàn ghi ta của Lor-ca" (Thanh Thảo)
+        <h3 style="color: #166534; font-size: 1.22rem; font-weight: 800; margin: 0;">
+          🌲 3. "Tây Tiến" – Quang Dũng
         </h3>
-        <span class="tag" style="background: #dcfce7; color: #166534; font-weight: 700; font-size: 0.8rem; padding: 4px 10px; border-radius: 6px;">Thơ Tượng trưng & Siêu thực • Hiện đại sau 1975</span>
+        <span class="tag" style="background: #dcfce7; color: #166534; font-weight: 700; font-size: 0.8rem; padding: 4px 10px; border-radius: 6px;">Thơ Trữ tình Hiện đại • Cảm hứng Lãng mạn & Bi tráng</span>
       </div>
+
+      <p style="font-size: 0.88rem; color: #475569; margin-bottom: 14px; font-style: italic;">
+        Được sáng tác năm 1948 tại Phù Lưu Chanh theo dòng hoài niệm về đoàn binh Tây Tiến, bài thơ là đỉnh cao của cảm hứng lãng mạn kết tinh tinh thần bi tráng về người chiến sĩ vệ quốc thời kì đầu kháng chiến chống Pháp.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 14px;">
+        <div style="background: #f0fdf4; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #15803d; display: block; margin-bottom: 4px;">🌄 1. Nỗi nhớ chơi vơi & Thiên nhiên Tây Bắc:</strong>
+          • Nỗi nhớ "chơi vơi" bên Sông Mã mở ra bức tranh thiên nhiên vừa hiểm trở, dữ dội (<em>khúc khuỷu, thăm thẳm, cồn mây, thác gầm thét, cọp trêu người</em>) vừa mộng mơ, trữ tình (<em>hoa về trong đêm hơi, mưa xa khơi toàn thanh bằng</em>).
+        </div>
+
+        <div style="background: #f0fdf4; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #15803d; display: block; margin-bottom: 4px;">🎉 2. Kỉ niệm ấm áp tình quân dân & Chiều sương Châu Mộc:</strong>
+          • Đêm liên hoan rực rỡ "hội đuốc hoa", điệu khèn xứ lạ e ấp của thiếu nữ vùng cao; Bức tranh thủy mặc bảng lảng khói sương Châu Mộc với "dáng người trên độc mộc" kiên cường, mềm mại.
+        </div>
+
+        <div style="background: #f0fdf4; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #15803d; display: block; margin-bottom: 4px;">🎖️ 3. Tượng đài bi tráng về người lính Tây Tiến:</strong>
+          • Diện mạo gân guốc vì sốt rét rừng (<em>không mọc tóc, quân xanh màu lá</em>) nhưng toát lên khí phách "dữ oai hùm"; Trái tim hào hoa đa cảm (<em>"Đêm mơ Hà Nội dáng kiều thơm"</em>); Tư thế hiến dâng thanh thản (<em>"Chiến trường đi chẳng tiếc đời xanh"</em>).
+        </div>
+
+        <div style="background: #f0fdf4; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #15803d; display: block; margin-bottom: 4px;">✨ 4. Sự hy sinh bất tử & Lời thề Tây Tiến:</strong>
+          • Trang trọng hóa cái chết qua lối nói giảm nói tránh và từ Hán Việt (<em>áo bào thay chiếu anh về đất</em>), tiếng Sông Mã gầm lên khúc độc hành bi tráng; Lời thề quyết tử <em>"Hồn về Sầm Nứa chẳng về xuôi"</em>.
+        </div>
+      </div>
+    </div>
+
+    <!-- TÁC PHẨM 4: ĐÀN GHI TA CỦA LOR-CA -->
+    <div style="background: #fff; border: 2px solid #ddd6fe; border-radius: 12px; padding: 22px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+        <h3 style="color: #5b21b6; font-size: 1.22rem; font-weight: 800; margin: 0;">
+          🎸 4. "Đàn ghi ta của Lor-ca" – Thanh Thảo
+        </h3>
+        <span class="tag" style="background: #ede9fe; color: #5b21b6; font-weight: 700; font-size: 0.8rem; padding: 4px 10px; border-radius: 6px;">Thơ Tượng trưng & Siêu thực • Hiện đại sau 1975</span>
+      </div>
+
+      <p style="font-size: 0.88rem; color: #475569; margin-bottom: 14px; font-style: italic;">
+        Khúc ca bi tráng tôn vinh cuộc đời, khí phách và khát vọng cách tân nghệ thuật của người nghệ sĩ thiên tài Lor-ca qua hệ thống hình tượng giàu màu sắc tượng trưng, siêu thực và cấu trúc ca khúc giao hưởng.
+      </p>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
-        <div style="background: #f0fdf4; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
-          <strong style="color: #15803d; display: block; margin-bottom: 4px;">🎨 Tương giao cảm giác & Biến thể tiếng đàn:</strong>
-          • <em>"tiếng ghi ta nâu"</em> (đất mẹ, màu vỏ đàn), <em>"tiếng ghi ta lá xanh"</em> (khát vọng tuổi trẻ).<br>
-          • <em>"tiếng ghi ta tròn bọt nước vỡ tan"</em> (mong manh, dang dở), <em>"tiếng ghi ta ròng ròng máu chảy"</em> (nỗi đau bi tráng).
+        <div style="background: #f5f3ff; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #6d28d9; display: block; margin-bottom: 4px;">🎵 1. Cảm hứng thi phẩm & Hình tượng người nghệ sĩ tự do:</strong>
+          • Đề từ <em>"Khi tôi chết hãy chôn tôi với cây đàn"</em> gửi gắm thông điệp dấn thân cách tân; Lor-ca mang áo choàng đỏ gắt như dũng sĩ đấu bò tót đơn độc đấu tranh đòi tự do dân chủ.
         </div>
 
-        <div style="background: #f0fdf4; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
-          <strong style="color: #15803d; display: block; margin-bottom: 4px;">🌿 Sự bất tử của Nghệ thuật và Tự do:</strong>
-          • <em>"không ai chôn cất tiếng đàn / tiếng đàn như cỏ mọc hoang"</em>: Cái đẹp có sức sống tự nhiên mãnh liệt không thể bị hủy diệt.<br>
-          • Chuỗi âm thanh <em>"li-la li-la li-la"</em> ngân vang khúc tưởng niệm bất tử.
+        <div style="background: #f5f3ff; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #6d28d9; display: block; margin-bottom: 4px;">🎨 2. Ẩn dụ chuyển đổi cảm giác siêu thực:</strong>
+          • Tiếng đàn biến thành sinh thể đổ máu: <em>tiếng ghi ta nâu</em> (đất mẹ), <em>lá xanh</em> (hi vọng tuổi trẻ), <em>tròn bọt nước vỡ tan</em> (tức tưởi), <em>ròng ròng máu chảy</em> (nỗi đau đớn bi phẫn).
+        </div>
+
+        <div style="background: #f5f3ff; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #6d28d9; display: block; margin-bottom: 4px;">🌿 3. Sức sống bất tử của Nghệ thuật & Tự do:</strong>
+          • <em>"Không ai chôn cất tiếng đàn / tiếng đàn như cỏ mọc hoang"</em>: Cái đẹp chân chính có sức sống hoang dại, bền bỉ, không bạo lực nào tiêu diệt được.
+        </div>
+
+        <div style="background: #f5f3ff; padding: 14px; border-radius: 8px; font-size: 0.88rem;">
+          <strong style="color: #6d28d9; display: block; margin-bottom: 4px;">🌙 4. Biểu tượng siêu thực & Cõi siêu thoát:</strong>
+          • <em>"Giọt nước mắt vầng trăng long lanh đáy giếng"</em>; Lor-ca thanh thản <em>"bơi sang ngang trên chiếc ghi ta màu bạc"</em>, ném lá bùa và trái tim vào cõi vĩnh hằng.
         </div>
       </div>
+    </div>
+
+    <!-- TÁC PHẨM 5: BÀI THƠ SỐ 28 -->
+    <div style="background: #fff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 18px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+      <h3 style="color: #334155; font-size: 1.15rem; font-weight: 800; margin: 0 0 8px 0;">
+        💌 5. "Bài thơ số 28" – R. Tagore (Thơ Trữ tình Triết luận Ấn Độ)
+      </h3>
+      <p style="font-size: 0.88rem; color: #475569; margin: 0;">
+        • <strong>Cấu tứ & Nghịch lý thẩm mỹ:</strong> Đối lập giữa những vật thể hữu hạn dễ nắm bắt (<em>viên ngọc, đóa hoa</em>) với thế giới trái tim vô biên không biết đến giới hạn.<br>
+        • <strong>Chiều sâu triết lý:</strong> Tình yêu chân chính không phải là sự thấu suốt cơ học hay chiếm hữu, mà là sự dâng hiến tự nguyện và trân trọng cội nguồn bí ẩn thiêng liêng của tâm hồn.
+      </p>
     </div>
 
   </div>
@@ -1454,37 +1659,47 @@
     <!-- BẢNG ĐỐI SÁNH 1 -->
     <div style="margin-bottom: 30px;">
       <h3 style="color: #831843; font-size: 1.15rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-        <span>📊</span> BẢNG 1: ĐỐI SÁNH "CẢM HOÀI" (ĐẶNG DUNG) & "TÂY TIẾN" (QUANG DŨNG)
+        <span>📊</span> BẢNG 1: ĐỐI SÁNH "CẢM HOÀI" (ĐẶNG DUNG) & "THU HỨNG" (ĐỖ PHỦ)
       </h3>
       <div style="overflow-x: auto;">
         <table class="rubric-table" style="width: 100%; font-size: 0.88rem;">
           <thead>
             <tr>
-              <th style="width: 22%; background: #fdf2f8; color: #831843;">Phương diện đối sánh</th>
+              <th style="width: 22%; background: #fdf2f8; color: #831843;">Tiêu chí đối sánh</th>
               <th style="width: 39%; background: #fff1f2; color: #9f1239;">"Cảm hoài" (Đặng Dung)</th>
-              <th style="width: 39%; background: #fff7ed; color: #c2410c;">"Tây Tiến" (Quang Dũng)</th>
+              <th style="width: 39%; background: #fff7ed; color: #c2410c;">"Thu hứng" (Đỗ Phủ)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style="font-weight: 700; color: #831843;">Phong cách & Thời đại</td>
-              <td><strong>Cổ điển Trung đại:</strong> Cảm hứng chí nam nhi, lòng trung quân ái quốc trong thời loạn.</td>
-              <td><strong>Lãng mạn Kháng chiến:</strong> Cảm hứng yêu nước thời đại Hồ Chí Minh, lý tưởng vệ quốc giải phóng dân tộc.</td>
+              <td style="font-weight: 700; color: #831843;">Hoàn cảnh sáng tác</td>
+              <td>Tướng quân Đặng Dung viết khi kháng chiến chống Minh của nhà Hậu Trần rơi vào thế cùng lực kiệt.</td>
+              <td>"Thi thánh" Đỗ Phủ viết năm 766 khi già yếu, bệnh tật lưu lạc nơi Quỳ Châu sau loạn An Lộc Sơn.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #831843;">Tư thế Chủ thể trữ tình</td>
+              <td><strong>Tư thế Võ tướng / Tráng sĩ hành đạo:</strong> Chủ động đương đầu với vận nước, nuốt hận để chiến đấu đến cùng.</td>
+              <td><strong>Tư thế Kẻ sĩ lưu lạc / Văn nhân lữ thứ:</strong> Cô đơn, ngưng trệ, trầm tư chiêm nghiệm trước cảnh tha hương ngàn dặm.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #831843;">Tứ thơ & Phương thức</td>
+              <td><strong>Trực tiếp bộc lộ chí khí:</strong> Ngay từ đầu đã giãi bày tâm sự qua say ca (<em>hàm ca</em>) và hình tượng mài gươm rực lửa.</td>
+              <td><strong>Tả cảnh ngụ tình bậc thầy:</strong> 4 câu đầu dồn lực khắc họa cảnh thu rợn ngợp để khơi sâu tâm trạng sầu xứ ở 4 câu sau.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #831843;">Không gian & Thời gian</td>
+              <td>Không gian vũ trụ kì vĩ (<em>địa trục, thiên hà, ánh nguyệt</em>); Thời gian nghiệt ngã tuổi già ập đến khi nghiệp chưa thành (<em>đầu tiên bạch</em>).</td>
+              <td>Không gian chuyển từ đỉnh núi Vu sơn xuống dòng sông Trường Giang rồi lắng lại ở thành Bạch Đế; Thời gian chồng lớp (<em>lưỡng khai</em>).</td>
             </tr>
             <tr>
               <td style="font-weight: 700; color: #831843;">Hình tượng trung tâm</td>
-              <td><strong>Người tráng sĩ trung đại:</strong> Tư thế vũ trụ mài gươm dưới bóng trăng tà; nỗi ngậm ngùi vì vận nước lỡ dở.</td>
-              <td><strong>Người lính vệ quốc:</strong> Vẻ đẹp hào hoa thanh lịch của tuổi trẻ Hà thành kết hợp khí phách kiên cường <em>"quyết tử cho Tổ quốc quyết sinh"</em>.</td>
+              <td><strong>Người tráng sĩ mài gươm dưới trăng:</strong> Biểu tượng tráng lệ về ý chí quật cường và tinh thần chiến đấu không bao giờ lụi tàn.</td>
+              <td><strong>Con thuyền cô độc buộc chặt lòng nhớ quê:</strong> Biểu tượng thân phận trôi nổi bấp bênh, bế tắc giữa thời loạn.</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: #831843;">Sắc thái Bi tráng</td>
-              <td>Cái bi sinh ra từ nghịch cảnh thời thế <em>"vận khứ anh hùng ẩm hận đa"</em>, nhưng cái tráng vút lên từ khí phách không bao giờ khuất phục.</td>
-              <td>Cái bi sinh ra từ gian khổ, hi sinh khốc liệt (<em>"mồ viễn xứ", "áo bào thay chiếu"</em>); cái tráng vút lên từ sự dâng hiến thanh thản <em>"chẳng tiếc đời xanh"</em>.</td>
-            </tr>
-            <tr>
-              <td style="font-weight: 700; color: #831843;">Ngôn ngữ & Thể thơ</td>
-              <td>Thất ngôn bát cú Đường luật niêm luật nghiêm ngặt; từ ngữ chữ Hán trang trọng, hàm súc.</td>
-              <td>Thơ 7 chữ tự do, khoáng đạt; phối hợp từ ngữ Hán Việt cổ kính với khẩu ngữ đời thường và phép phối thanh điêu luyện.</td>
+              <td style="font-weight: 700; color: #831843;">Âm hưởng & Giọng điệu</td>
+              <td>Bi tráng, hào hùng, u uất mà lẫm liệt khí phách hào kiệt.</td>
+              <td>Trầm uất, ngậm ngùi, xót xa, da diết và giàu chiều sâu ưu thời mẫn thế.</td>
             </tr>
           </tbody>
         </table>
@@ -1492,39 +1707,94 @@
     </div>
 
     <!-- BẢNG ĐỐI SÁNH 2 -->
-    <div style="margin-bottom: 24px;">
-      <h3 style="color: #9f1239; font-size: 1.15rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+    <div style="margin-bottom: 30px;">
+      <h3 style="color: #9a3412; font-size: 1.15rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
         <span>📊</span> BẢNG 2: ĐỐI SÁNH "TÂY TIẾN" (QUANG DŨNG) & "ĐÀN GHI TA CỦA LOR-CA" (THANH THẢO)
       </h3>
       <div style="overflow-x: auto;">
         <table class="rubric-table" style="width: 100%; font-size: 0.88rem;">
           <thead>
             <tr>
-              <th style="width: 22%; background: #ffe4e6; color: #9f1239;">Tiêu chí đối sánh</th>
-              <th style="width: 39%; background: #fff7ed; color: #c2410c;">"Tây Tiến" (Quang Dũng)</th>
-              <th style="width: 39%; background: #f0fdf4; color: #166534;">"Đàn ghi ta của Lor-ca" (Thanh Thảo)</th>
+              <th style="width: 22%; background: #ffedd5; color: #9a3412;">Tiêu chí đối sánh</th>
+              <th style="width: 39%; background: #f0fdf4; color: #166534;">"Tây Tiến" (Quang Dũng)</th>
+              <th style="width: 39%; background: #f5f3ff; color: #5b21b6;">"Đàn ghi ta của Lor-ca" (Thanh Thảo)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style="font-weight: 700; color: #9f1239;">Khuynh hướng thi pháp</td>
-              <td><strong>Khuynh hướng Lãng mạn:</strong> Đề cao cảm xúc trữ tình trực tiếp, tương phản gay gắt giữa hiểm trở và mĩ lệ.</td>
-              <td><strong>Khuynh hướng Tượng trưng - Siêu thực:</strong> Giải phóng tiềm thức, cấu trúc dòng ý thức và thế giới hình ảnh đa nghĩa.</td>
+              <td style="font-weight: 700; color: #9a3412;">Bối cảnh & Cảm hứng</td>
+              <td>Sáng tác năm 1948; bắt nguồn từ nỗi nhớ đồng đội và núi rừng miền Tây thời kỳ đầu kháng chiến chống Pháp.</td>
+              <td>Sáng tác sau 1975; bắt nguồn từ niềm cảm phục, tri âm trước cuộc đời và cái chết bi phẫn của nhà thơ Tây Ban Nha Lor-ca.</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: #9f1239;">Hình ảnh & Cảm giác</td>
-              <td>Hình ảnh giàu tính tạo hình thị giác và thính giác (núi cao, cồn mây, đuốc hoa, dòng nước lũ).</td>
-              <td>Hình ảnh tương giao cảm giác: hữu hình hóa âm thanh (tiếng đàn nâu, lá xanh, tròn bọt nước, ròng ròng máu chảy).</td>
+              <td style="font-weight: 700; color: #9a3412;">Khuynh hướng Thẩm mĩ</td>
+              <td><strong>Lãng mạn kết hợp Bi tráng:</strong> Đậm chất hào hoa, phóng khoáng, dung hợp giữa chất cổ điển mực thước và tinh thần hiện đại.</td>
+              <td><strong>Tượng trưng và Siêu thực:</strong> Đậm tính triết luận, tư duy đồng hiện, kết hợp yếu tố huyền ảo, giải phóng liên tưởng tiềm thức.</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: #9f1239;">Cấu trúc & Dòng chảy</td>
-              <td>Mạch cảm xúc hoài niệm chảy theo không gian và thời gian hành quân của đoàn quân Tây Tiến.</td>
-              <td>Cấu trúc không dấu chấm câu, đứt gãy, mô phỏng tiết tấu phức điệu của bản giao hưởng ghi-ta và số phận bi tráng.</td>
+              <td style="font-weight: 700; color: #9a3412;">Hình tượng Trung tâm</td>
+              <td><strong>Tập thể người lính Tây Tiến:</strong> Vẻ đẹp tráng sĩ thời đại mới gắn liền với núi rừng Tây Bắc kì vĩ, lý tưởng xả thân vì Tổ quốc.</td>
+              <td><strong>Cá nhân người nghệ sĩ - chiến sĩ Lor-ca:</strong> Người nghệ sĩ tự do, đơn độc đấu tranh cho dân chủ và cách tân nghệ thuật.</td>
             </tr>
             <tr>
-              <td style="font-weight: 700; color: #9f1239;">Thông điệp nghệ thuật</td>
-              <td>Khắc ghi tượng đài bất tử của người lính kháng chiến chống Pháp vào lịch sử non sông.</td>
-              <td>Tôn vinh sự bất diệt của cái đẹp, khát vọng tự do và tinh thần cách tân nghệ thuật chân chính.</td>
+              <td style="font-weight: 700; color: #9a3412;">Thể thơ & Cấu trúc</td>
+              <td>Thể thơ 7 chữ (thất ngôn), cấu trúc đoạn khổ rành mạch, ngắt nhịp biến hóa theo dòng cảm xúc (4/3, 2/2/3).</td>
+              <td>Thể thơ tự do không dấu câu, không viết hoa đầu dòng; cấu trúc phỏng theo ca khúc giao hưởng với chuỗi hợp âm <em>"li-la"</em>.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #9a3412;">Nghệ thuật Hình ảnh</td>
+              <td>Hình ảnh tạo hình gân guốc kết hợp nét vẽ thơ mộng (<em>súng ngửi trời, dốc thăm thẳm, mưa xa khơi</em>).</td>
+              <td>Hình ảnh biểu tượng đa tầng và ẩn dụ chuyển đổi cảm giác (<em>áo choàng đỏ, tiếng ghi ta nâu/lá xanh/máu chảy, vầng trăng đáy giếng</em>).</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; color: #9a3412;">Ngôn ngữ & Giọng điệu</td>
+              <td>Hào sảng, tha thiết, thâm trầm; phối hợp từ Hán Việt trang trọng với ngôn ngữ chiến sĩ đời thường.</td>
+              <td>Lắng đọng, xót xa xen lẫn căm phẫn và siêu thoát; ngôn ngữ nén chặt, đa thanh, giàu nhạc tính hiện đại.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BẢNG ĐỐI SÁNH 3: MA TRẬN 3 PHONG CÁCH -->
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #166534; font-size: 1.15rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <span>🌐</span> BẢNG 3: MA TRẬN TỔNG QUAN 3 PHONG CÁCH THI PHÁP LỚN
+      </h3>
+      <div style="overflow-x: auto;">
+        <table class="rubric-table" style="width: 100%; font-size: 0.86rem;">
+          <thead>
+            <tr>
+              <th style="background: #f0fdf4; color: #166534;">Tiêu chí</th>
+              <th style="background: #fff1f2; color: #9f1239;">Phong cách Cổ điển</th>
+              <th style="background: #fff7ed; color: #c2410c;">Phong cách Lãng mạn</th>
+              <th style="background: #f5f3ff; color: #5b21b6;">Phong cách Tượng trưng - Siêu thực</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 700;">Đề tài & Nội dung</td>
+              <td>Đạo lý, thế sự, chí nam nhi, lòng trung quân ái quốc, vận mệnh đất nước.</td>
+              <td>Thế giới nội tâm, khát vọng tự do, tình yêu, lý tưởng cao cả vượt thoát thực tại.</td>
+              <td>Bản thể con người, chiều sâu vô thức, thân phận nghệ sĩ, sự bất tử của cái Đẹp.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700;">Cái tôi trữ tình</td>
+              <td>Cái tôi bổn phận, ước lệ, hòa nhập vào cộng đồng và đạo lý vũ trụ.</td>
+              <td>Cái tôi cá nhân tự do, giải phóng cảm xúc mãnh liệt, giàu chất phóng khoáng.</td>
+              <td>Cái tôi trực cảm, triết luận, giàu sức chiêm nghiệm và năng lực đồng hiện.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700;">Thi luật & Cấu trúc</td>
+              <td>Quy phạm nghiêm ngặt (niêm, luật, đối, vần) theo khuôn mẫu Đường luật.</td>
+              <td>Tương đối linh hoạt, biến hóa theo nhịp đập tự nhiên của cảm xúc.</td>
+              <td>Phá vỡ hoàn toàn niêm luật cổ điển; thơ tự do không dấu câu, cấu trúc phức điệu ca khúc.</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700;">Bút pháp & Ngôn ngữ</td>
+              <td>Hàm súc, ước lệ tượng trưng, điển tích điển cố, tả cảnh ngụ tình.</td>
+              <td>Tương phản gắt gao, mĩ lệ hóa hiện thực, từ ngữ tạo hình mới lạ và giàu chất họa.</td>
+              <td>Ẩn dụ chuyển đổi cảm giác, liên tưởng tiềm thức, biểu tượng đa nghĩa, lạ hóa ngôn từ.</td>
             </tr>
           </tbody>
         </table>
@@ -1540,7 +1810,7 @@
     <!-- TỪ KHÓA ĂN ĐIỂM -->
     <div style="background: #fffdf5; border: 2px solid #fde047; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
       <h3 style="color: #854d0e; font-size: 1.15rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-        <span>🔑</span> BỘ 6 TỪ KHÓA "VÀNG" ĂN ĐIỂM LÍ LUẬN VĂN HỌC THƠ (KỲ THI TỐT NGHIỆP THPT)
+        <span>🔑</span> BỘ 8 TỪ KHÓA "VÀNG" ĂN ĐIỂM LÍ LUẬN VĂN HỌC THƠ (KỲ THI TỐT NGHIỆP THPT)
       </h3>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;">
         <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #fef08a;">
@@ -1567,27 +1837,115 @@
           <code style="color: #92400e; font-weight: 800; font-size: 0.9rem;">Nhạc cảm nội tại:</code>
           <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #64748b;">Sức âm vang sinh ra từ sự phối thanh Bằng - Trắc, ngắt nhịp và điệp từ, điệp âm độc đáo.</p>
         </div>
+        <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #fef08a;">
+          <code style="color: #92400e; font-weight: 800; font-size: 0.9rem;">Lạ hóa ngôn từ:</code>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #64748b;">Sáng tạo cách kết hợp từ mới mẻ phá vỡ khuôn mẫu quen thuộc để mang lại ấn tượng thẩm mỹ sắc nét.</p>
+        </div>
+        <div style="background: white; padding: 12px; border-radius: 8px; border: 1px solid #fef08a;">
+          <code style="color: #92400e; font-weight: 800; font-size: 0.9rem;">Tính đa nghĩa (Ý tại ngôn ngoại):</code>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #64748b;">Khả năng gợi mở nhiều tầng nghĩa sâu xa vượt ngoài giới hạn chữ nghĩa bề mặt của văn bản.</p>
+        </div>
       </div>
     </div>
 
-    <!-- CÔNG THỨC 3 BƯỚC -->
-    <div style="background: #f0fdfa; border: 2px solid #99f6e4; border-radius: 12px; padding: 20px;">
+    <!-- CHUYÊN ĐỀ ĐẶC BIỆT: NGHỆ THUẬT CẤU TỨ & BÍ QUYẾT GIẢI MÃ TỨ THƠ -->
+    <div style="background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%); border: 2px solid #818cf8; border-radius: 12px; padding: 22px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.08);">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;">
+        <h3 style="color: #3730a3; font-size: 1.18rem; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 8px;">
+          <span>🧵</span> CHUYÊN ĐỀ NÂNG CAO: BẢN CHẤT CẤU TỨ & BÍ QUYẾT GIẢI MÃ "TỨ THƠ"
+        </h3>
+        <span class="tag" style="background: #e0e7ff; color: #3730a3; font-weight: 700; font-size: 0.78rem; padding: 4px 10px; border-radius: 6px;">Trọng tâm Đọc hiểu & Viết đoạn văn K12</span>
+      </div>
+
+      <!-- 1. TAM GIÁC PHÂN BIỆT Ý - CẤU TỨ - TỨ THƠ -->
+      <div style="background: white; border-radius: 10px; padding: 16px; margin-bottom: 16px; border: 1px solid #c7d2fe;">
+        <strong style="color: #4338ca; font-size: 0.95rem; display: block; margin-bottom: 8px;">📌 1. Phân biệt tam giác: Ý ➔ Cấu tứ ➔ Tứ thơ:</strong>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; font-size: 0.86rem;">
+          <div style="background: #f8fafc; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #64748b;">
+            <strong style="color: #334155;">1. Ý (Ý niệm / Chủ đề):</strong>
+            <p style="margin: 4px 0 0 0; color: #64748b;">Nội dung tư tưởng thô; điều nhà thơ muốn nói trước cuộc đời (VD: <em>nỗi đau mất nước, khát vọng tự do</em>).</p>
+          </div>
+          <div style="background: #eef2ff; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #6366f1;">
+            <strong style="color: #4f46e5;">2. Cấu tứ (Cách tổ chức):</strong>
+            <p style="margin: 4px 0 0 0; color: #4338ca;">Phương thức tìm kiếm một trục liên kết, sắp xếp hình tượng và triển khai điểm nhìn để hiện thực hóa cái "Ý".</p>
+          </div>
+          <div style="background: #fdf2f8; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #ec4899;">
+            <strong style="color: #be185d;">3. Tứ thơ (Sản phẩm kết tinh):</strong>
+            <p style="margin: 4px 0 0 0; color: #9d174d;">"Linh hồn", "hạt nhân" nghệ thuật sống động — hình tượng trung tâm làm điểm tựa cho cả bài thơ.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 4 DẠNG THỨC CẤU TỨ ĐIỂN HÌNH -->
+      <div style="background: white; border-radius: 10px; padding: 16px; margin-bottom: 16px; border: 1px solid #c7d2fe;">
+        <strong style="color: #4338ca; font-size: 0.95rem; display: block; margin-bottom: 8px;">🎭 2. 4 Dạng thức Cấu tứ thường gặp trong đề thi tốt nghiệp:</strong>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; font-size: 0.85rem;">
+          <div style="padding: 10px; border-radius: 6px; background: #fafafa; border: 1px solid #e5e7eb;">
+            <strong style="color: #0284c7;">A. Cấu tứ xoay quanh Biểu tượng:</strong>
+            <p style="margin: 4px 0 0 0; color: #4b5563;">Bài thơ vận động khám phá các tầng nghĩa của một biểu tượng then chốt (<em>"Tiếng đàn bọt nước"</em> trong Lor-ca, <em>"Sóng"</em> trong Xuân Quỳnh).</p>
+          </div>
+          <div style="padding: 10px; border-radius: 6px; background: #fafafa; border: 1px solid #e5e7eb;">
+            <strong style="color: #d97706;">B. Cấu tứ Nghịch lý / Tương phản:</strong>
+            <p style="margin: 4px 0 0 0; color: #4b5563;">Đặt ra mâu thuẫn nhận thức để làm bừng nở triết lý (<em>Đóa hoa/Viên ngọc hữu hạn >< Trái tim tình yêu vô biên</em> trong Bài thơ số 28).</p>
+          </div>
+          <div style="padding: 10px; border-radius: 6px; background: #fafafa; border: 1px solid #e5e7eb;">
+            <strong style="color: #16a34a;">C. Cấu tứ Dòng hoài niệm:</strong>
+            <p style="margin: 4px 0 0 0; color: #4b5563;">Chuyển động nương theo trục không gian thực địa và thời gian tâm lý (<em>Nỗi nhớ chơi vơi ➔ Chặng hành quân ➔ Tượng đài bi tráng</em> trong Tây Tiến).</p>
+          </div>
+          <div style="padding: 10px; border-radius: 6px; background: #fafafa; border: 1px solid #e5e7eb;">
+            <strong style="color: #9333ea;">D. Cấu tứ Siêu thực & Đồng hiện:</strong>
+            <p style="margin: 4px 0 0 0; color: #4b5563;">Phá vỡ logic tuyến tính, liên tưởng nhảy cóc qua tiềm thức và ẩn dụ tương giao cảm giác (<em>Bơi sang ngang trên chiếc ghi-ta màu bạc</em>).</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. MẪU ĐOẠN VĂN VIẾT VỀ CẤU TỨ -->
+      <div style="background: #fdf4ff; border-radius: 10px; padding: 14px 16px; border: 1px dashed #d946ef; font-size: 0.86rem; color: #701a75;">
+        <strong style="color: #a21caf; display: block; margin-bottom: 6px;">💡 Mẫu câu viết về Cấu tứ đạt điểm tối đa:</strong>
+        <em>"Nét đặc sắc làm nên sức sống thẩm mỹ của thi phẩm chính là ở một cấu tứ nghệ thuật độc đáo: nhà thơ không giãi bày cảm xúc trừu tượng mà kiến tạo trục vận động nương theo [hình tượng trung tâm / dòng hoài niệm / nghịch lý triết học], khởi đi từ [cảnh vật/sự việc] rồi từng bước thăng hoa thành [tứ thơ cốt lõi], qua đó gửi gắm trọn vẹn thông điệp nhân sinh sâu sắc..."</em>
+      </div>
+    </div>
+
+    <!-- CÔNG THỨC 4 BƯỚC -->
+    <div style="background: #f0fdfa; border: 2px solid #99f6e4; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
       <h3 style="color: #0f766e; font-size: 1.15rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-        <span>📝</span> CÔNG THỨC 3 BƯỚC GIẢI MÃ CÂU HỎI ĐỌC HIỂU & NGHỊ LUẬN THƠ
+        <span>📝</span> QUY TRÌNH 4 BƯỚC GIẢI MÃ CÂU HỎI ĐỌC HIỂU & NGHỊ LUẬN THƠ
       </h3>
       <div style="display: flex; flex-direction: column; gap: 10px;">
         <div style="background: white; padding: 14px; border-radius: 8px; border-left: 4px solid #0d9488;">
-          <strong style="color: #0f766e;">Bước 1: Nhận diện Hình thức nghệ thuật & Thi pháp thể loại</strong>
-          <p style="font-size: 0.88rem; margin: 4px 0 0 0; color: #475569;">Xác định: <em>Thể thơ, mạch cấu tứ, cách gieo vần, phối thanh Bằng - Trắc, ngắt nhịp và các biện pháp tu từ (tương phản, ẩn dụ, tương giao cảm giác).</em></p>
+          <strong style="color: #0f766e;">Bước 1: Nhận diện Thể thơ, Chủ thể trữ tình & Thi luật</strong>
+          <p style="font-size: 0.88rem; margin: 4px 0 0 0; color: #475569;">Xác định: <em>Thể thơ (Đường luật, tự do, 7 chữ, lục bát), vần, nhịp điệu, cách xưng danh của chủ thể trữ tình (trực tiếp hay ẩn mình).</em></p>
         </div>
         <div style="background: white; padding: 14px; border-radius: 8px; border-left: 4px solid #0d9488;">
-          <strong style="color: #0f766e;">Bước 2: Phân tích Thế giới hình tượng & Chiều sâu cảm xúc</strong>
-          <p style="font-size: 0.88rem; margin: 4px 0 0 0; color: #475569;">Lý giải: <em>Hình ảnh thơ gợi lên bức tranh thiên nhiên, con người nào? Tiếng nói nội tâm của chủ thể trữ tình đang giãi bày nỗi niềm, khát vọng gì?</em></p>
+          <strong style="color: #0f766e;">Bước 2: Bóc tách Mạch cấu tứ & Trục Không gian - Thời gian</strong>
+          <p style="font-size: 0.88rem; margin: 4px 0 0 0; color: #475569;">Phân tích: <em>Cảm xúc vận động như thế nào? (Từ cảnh sang tình, từ hiện thực sang hoài niệm/mộng ảo). Trục không gian và thời gian nghệ thuật mang ý nghĩa gì?</em></p>
         </div>
         <div style="background: white; padding: 14px; border-radius: 8px; border-left: 4px solid #0d9488;">
-          <strong style="color: #0f766e;">Bước 3: Đánh giá Giá trị tư tưởng & Phong cách nghệ thuật</strong>
-          <p style="font-size: 0.88rem; margin: 4px 0 0 0; color: #475569;">Khái quát: <em>Thông điệp nhân văn, quan niệm thẩm mỹ và đóng góp cách tân độc đáo của tác giả vào nền thơ ca dân tộc.</em></p>
+          <strong style="color: #0f766e;">Bước 3: Giải mã Hệ thống Hình ảnh, Biểu tượng & Biện pháp Tu từ</strong>
+          <p style="font-size: 0.88rem; margin: 4px 0 0 0; color: #475569;">Lý giải: <em>Hình ảnh mang tính tả thực, ước lệ hay tượng trưng - siêu thực? Tác dụng của phép đối, ẩn dụ chuyển đổi cảm giác, điệp từ, phối thanh Bằng - Trắc?</em></p>
         </div>
+        <div style="background: white; padding: 14px; border-radius: 8px; border-left: 4px solid #0d9488;">
+          <strong style="color: #0f766e;">Bước 4: Đánh giá Chiều sâu Tư tưởng & Phong cách Thẩm mỹ</strong>
+          <p style="font-size: 0.88rem; margin: 4px 0 0 0; color: #475569;">Khái quát: <em>Tư tưởng nhân văn, thông điệp cuộc sống mà tác giả gửi gắm, dấu ấn phong cách tác giả (Cổ điển, Lãng mạn, Hiện đại) và đóng góp cho văn học.</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CÔNG THỨC VIẾT ĐOẠN VĂN 200 CHỮ -->
+    <div style="background: #fdf2f8; border: 2px solid #fbcfe8; border-radius: 12px; padding: 20px;">
+      <h3 style="color: #831843; font-size: 1.15rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <span>✍️</span> CÔNG THỨC VIẾT ĐOẠN VĂN NGHỊ LUẬN 200 CHỮ TỪ ĐẶC TRƯNG THỂ LOẠI
+      </h3>
+      <div style="font-size: 0.88rem; color: #334155; line-height: 1.6;">
+        <p style="margin-bottom: 6px;">
+          • <strong>Mở đoạn (1-2 câu):</strong> Dẫn dắt tác giả, tác phẩm và định vị đặc trưng thể loại / phong cách thẩm mỹ nổi bật của đoạn trích.
+        </p>
+        <p style="margin-bottom: 6px;">
+          • <strong>Thân đoạn (4-6 câu):</strong> Phân tích sự kết hợp giữa <em>Hình thức thi pháp</em> (cấu tứ, nhịp, vần, hình ảnh, tu từ) với <em>Nội dung cảm xúc</em> (tâm trạng chủ thể trữ tình, vẻ đẹp hình tượng). Luôn trích dẫn từ ngữ then chốt để làm sáng tỏ.
+        </p>
+        <p style="margin: 0;">
+          • <strong>Kết đoạn (1-2 câu):</strong> Đúc kết giá trị tư tưởng, chiều sâu thẩm mỹ mà thể loại thơ mang lại cho tâm hồn người đọc và khẳng định tài năng của tác giả.
+        </p>
       </div>
     </div>
 
@@ -4611,16 +4969,19 @@ function submitFeedbackForm() {
 }
 
 
-function openGenreRefModal() {
+function openGenreRefModal(targetTabId) {
   const modal = document.getElementById('genreRefModal');
   if (modal) modal.style.display = 'flex';
+  if (targetTabId) {
+    switchGenreTab(targetTabId);
+  }
 }
 function closeGenreRefModal() {
   const modal = document.getElementById('genreRefModal');
   if (modal) modal.style.display = 'none';
 }
 
-function switchGenreTab(tabId) {
+function switchGenreTab(tabId, btnElement) {
   const tabContents = document.querySelectorAll('.genre-tab-content');
   tabContents.forEach(tc => tc.style.display = 'none');
 
@@ -4635,12 +4996,19 @@ function switchGenreTab(tabId) {
     btn.style.boxShadow = 'none';
   });
 
-  const currentBtn = event ? event.currentTarget : null;
-  if (currentBtn) {
-    currentBtn.classList.add('active');
-    currentBtn.style.background = '#ffffff';
-    currentBtn.style.color = '#831843';
-    currentBtn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+  let targetBtn = btnElement || (typeof event !== 'undefined' && event && event.currentTarget && event.currentTarget.classList && event.currentTarget.classList.contains('genre-tab-btn') ? event.currentTarget : null);
+  if (!targetBtn) {
+    tabBtns.forEach(btn => {
+      const oc = btn.getAttribute('onclick') || '';
+      if (oc.includes(tabId)) targetBtn = btn;
+    });
+  }
+
+  if (targetBtn) {
+    targetBtn.classList.add('active');
+    targetBtn.style.background = '#ffffff';
+    targetBtn.style.color = '#831843';
+    targetBtn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
   }
 }
 
