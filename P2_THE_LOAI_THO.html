@@ -1980,6 +1980,31 @@ let isSubmitted = false;
 let isIdentityLocked = false;
 let currentMode = 'practice';
 let activeQuestions = [];
+
+// =========================================================================
+// BỘ GIẢI MÃ BẢO MẬT ĐÁP ÁN & LỜI GIẢI (CHỐNG SOI MÃ NGUỒN F12 / CTRL+U)
+// =========================================================================
+const _SEC_SALT = "AGY_NGUVAN12_SECURE_2026";
+function _decryptSecure(b64) {
+  if (!b64 || typeof b64 !== 'string') return b64;
+  try {
+    const binStr = atob(b64);
+    const bytes = new Uint8Array(binStr.length);
+    for (let i = 0; i < binStr.length; i++) {
+      bytes[i] = binStr.charCodeAt(i) ^ _SEC_SALT.charCodeAt(i % _SEC_SALT.length);
+    }
+    const decoder = new TextDecoder('utf-8');
+    const decodedStr = decoder.decode(bytes);
+    try {
+      return JSON.parse(decodedStr);
+    } catch(e) {
+      return decodedStr;
+    }
+  } catch(err) {
+    return b64;
+  }
+}
+
 let userAnswers = {};
 let flaggedQuestions = new Set();
 let examTimer = null;
@@ -2042,847 +2067,847 @@ let assignedOfficialEssayKey = "CT_1";
 let currentPracticeEssayKey = "OT_1";
 
 const rawQuizData = {
-  title: "CHUYÊN ĐỀ: THỂ LOẠI THƠ",
-  questions_common: [
-  {
-    "id": 1,
-    "level": "Nhận biết",
-    "type": "single_choice",
-    "question": "Theo lí luận văn học, đặc trưng bản chất cốt lõi nhất của thể loại 'Thơ' là gì?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Phương thức biểu hiện trữ tình, phản ánh đời sống qua thế giới cảm xúc chủ quan mãnh liệt, ngôn từ hàm súc, giàu hình ảnh và giàu nhạc tính."
-      },
-      {
-        "key": "B",
-        "text": "Phương thức tự sự tái hiện đời sống khách quan thông qua hệ thống chuỗi sự kiện, cốt truyện và hành động nhân vật."
-      },
-      {
-        "key": "C",
-        "text": "Văn bản nghị luận sử dụng hệ thống luận điểm, lí lẽ và dẫn chứng để thuyết phục tư tưởng người đọc."
-      },
-      {
-        "key": "D",
-        "text": "Kịch bản sân khấu giải quyết các xung đột xã hội gay gắt bằng lời thoại và hành động trực tiếp."
-      }
-    ],
-    "correctAnswer": "A",
-    "explanation": "Thơ là phương thức biểu hiện trữ tình, là tiếng nói trực tiếp của tình cảm, cảm xúc mãnh liệt; ngôn ngữ thơ hàm súc, cô đọng, giàu hình ảnh và nhạc điệu."
-  },
-  {
-    "id": 2,
-    "level": "Nhận biết",
-    "type": "single_choice",
-    "question": "Khái niệm 'Chủ thể trữ tình' (Cái tôi trữ tình) trong tác phẩm thơ được hiểu chính xác nhất là gì?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Chân dung tiểu sử ngoài đời thực của nhà thơ với đầy đủ lí lịch cá nhân."
-      },
-      {
-        "key": "B",
-        "text": "Trung tâm bộc lộ cảm xúc, suy tư, thái độ và lý tưởng thẩm mỹ của nhà thơ trước cuộc đời trong tác phẩm trữ tình."
-      },
-      {
-        "key": "C",
-        "text": "Nhân vật phản diện đối đầu gay gắt với các nhân vật khác trong mạch kể."
-      },
-      {
-        "key": "D",
-        "text": "Người kể chuyện ngôi thứ ba giấu mình hoàn toàn và không bày tỏ cảm xúc."
-      }
-    ],
-    "correctAnswer": "B",
-    "explanation": "Chủ thể trữ tình (cái tôi trữ tình) là chủ thể phát ngôn, là trung tâm bộc lộ cảm xúc, tư tưởng và rung động thẩm mỹ trong bài thơ."
-  },
-  {
-    "id": 3,
-    "level": "Nhận biết",
-    "type": "single_choice",
-    "question": "Thuật ngữ 'Cấu tứ' trong thi pháp thơ biểu đạt điều gì?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Quy tắc đếm số lượng chữ trong từng dòng thơ của một thể thơ truyền thống."
-      },
-      {
-        "key": "B",
-        "text": "Cách thức tổ chức, liên kết hệ thống hình ảnh, mạch cảm xúc và tư tưởng của bài thơ thành một chỉnh thể nghệ thuật hoàn chỉnh."
-      },
-      {
-        "key": "C",
-        "text": "Việc lựa chọn tên gọi nhan đề cho tập thơ xuất bản."
-      },
-      {
-        "key": "D",
-        "text": "Sự phân chia các nhân vật thành hai tuyến chính diện và phản diện."
-      }
-    ],
-    "correctAnswer": "B",
-    "explanation": "Cấu tứ là cách tổ chức, kiến tạo mạch vận động cảm xúc và kết nối các hình ảnh, ý tưởng thơ để tạo nên cấu trúc nghệ thuật toàn vẹn cho thi phẩm."
-  },
-  {
-    "id": 4,
-    "level": "Thông hiểu",
-    "type": "single_choice",
-    "question": "Điểm khác biệt căn bản giữa 'Hình ảnh thơ' thông thường và 'Biểu tượng thơ' là gì?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Hình ảnh thơ phản ánh trực quan cụ thể; còn Biểu tượng thơ là hình ảnh được kết tinh, lặp lại và mở ra các tầng ý nghĩa triết lý đa chiều, sâu sắc."
-      },
-      {
-        "key": "B",
-        "text": "Biểu tượng thơ chỉ xuất hiện trong truyện cổ tích, còn hình ảnh thơ chỉ xuất hiện trong ca dao."
-      },
-      {
-        "key": "C",
-        "text": "Hình ảnh thơ bắt buộc phải có vần điệu, còn biểu tượng thơ không cần ngôn ngữ."
-      },
-      {
-        "key": "D",
-        "text": "Hai khái niệm này hoàn toàn đồng nhất và không có bất kì sự phân biệt nào."
-      }
-    ],
-    "correctAnswer": "A",
-    "explanation": "Hình ảnh thơ mang tính miêu tả cụ thể, gợi cảm; khi hình ảnh được khái quát hóa, tích tụ chiều sâu tư tưởng và gợi nhiều liên tưởng triết lý thì trở thành biểu tượng nghệ thuật."
-  },
-  {
-    "id": 5,
-    "level": "Nhận biết",
-    "type": "single_choice",
-    "question": "Yếu tố nào sau đây đóng vai trò tạo nên 'nhạc cảm nội tại', sức ngân vang và sức truyền cảm đặc biệt của câu thơ?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Cách ngắt nhịp điệu, gieo vần, phối thanh (Bằng - Trắc) và các biện pháp điệp âm, điệp từ."
-      },
-      {
-        "key": "B",
-        "text": "Quy mô số lượng trang sách in của bài thơ."
-      },
-      {
-        "key": "C",
-        "text": "Số lượng nhân vật tham gia vào chuỗi sự kiện cốt truyện."
-      },
-      {
-        "key": "D",
-        "text": "Cách trình bày danh mục tài liệu tham khảo ở cuối bài."
-      }
-    ],
-    "correctAnswer": "A",
-    "explanation": "Nhịp điệu, vần điệu, sự phối hợp đối xứng hoặc chuyển đổi thanh âm Bằng - Trắc và các biện pháp điệp từ, điệp âm tạo nên tính nhạc độc đáo của thơ ca."
-  },
-  {
-    "id": 6,
-    "level": "Thông hiểu",
-    "type": "single_choice",
-    "question": "Thủ pháp 'Tương giao cảm giác' (Synesthesia) trong thi pháp thơ tượng trưng - hiện đại được hiểu là gì?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Sự phân chia rạch ròi từng giác quan riêng biệt khi tiếp nhận sự vật khách quan."
-      },
-      {
-        "key": "B",
-        "text": "Hiện tượng chuyển đổi cảm giác: âm thanh được cảm nhận bằng màu sắc, hình khối hoặc xúc giác và ngược lại."
-      },
-      {
-        "key": "C",
-        "text": "Việc lặp lại một từ ngữ nhiều lần ở đầu mỗi câu thơ."
-      },
-      {
-        "key": "D",
-        "text": "Sự đối lập thuần túy giữa hai nhân vật có tính cách trái ngược nhau."
-      }
-    ],
-    "correctAnswer": "B",
-    "explanation": "Tương giao cảm giác là sự giao thoa, chuyển đổi ấn tượng giữa các giác quan (nghe âm thanh thấy màu sắc, thấy hình khối như 'tiếng ghi ta tròn bọt nước', 'tiếng đàn nâu')."
-  },
-  {
-    "id": 7,
-    "level": "Thông hiểu",
-    "type": "single_choice",
-    "question": "Đặc trưng nổi bật của thi pháp Thơ Cổ điển (Trung đại) thể hiện qua phương diện nào sau đây?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Ngôn ngữ đời thường suồng sã, cấu trúc tự do không niêm luật, đề cao cái tôi cá nhân vị kỉ."
-      },
-      {
-        "key": "B",
-        "text": "Tính quy phạm chặt chẽ, bút pháp ước lệ tượng trưng, đề tài đạo lý, chí khí tráng sĩ và tầm vóc vũ trụ."
-      },
-      {
-        "key": "C",
-        "text": "Khai thác thế giới vô thức, tiềm thức hỗn loạn và ngôn từ đứt gãy phi logic."
-      },
-      {
-        "key": "D",
-        "text": "Thuần túy miêu tả các sự kiện sinh hoạt đời tư gia đình hàng ngày."
-      }
-    ],
-    "correctAnswer": "B",
-    "explanation": "Thơ cổ điển trung đại mang tính quy phạm (niêm luật, đối ngẫu), sử dụng hệ thống thi liệu ước lệ tượng trưng, hướng tới đạo lý và tầm vóc vũ trụ lớn lao."
-  },
-  {
-    "id": 8,
-    "level": "Thông hiểu",
-    "type": "single_choice",
-    "question": "Khuynh hướng Thơ Lãng mạn (Thơ Mới 1932-1945 và thơ thời kỳ kháng chiến) có đặc điểm thi pháp nổi bật nào?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Giải phóng cảm xúc cá nhân khoáng đạt, sử dụng thủ pháp tương phản đối lập gắt gao, kết hợp hài hòa giữa nét mĩ lệ và dữ dội bi tráng."
-      },
-      {
-        "key": "B",
-        "text": "Tuân thủ nghiêm ngặt quy tắc gieo vần độc vận và phép đối ngẫu cung đình."
-      },
-      {
-        "key": "C",
-        "text": "Phủ nhận hoàn toàn mọi cảm xúc và hình ảnh trữ tình trong tác phẩm."
-      },
-      {
-        "key": "D",
-        "text": "Chỉ tập trung châm biếm, hoạt kê các thói hư tật xấu trong xã hội."
-      }
-    ],
-    "correctAnswer": "A",
-    "explanation": "Thơ lãng mạn đề cao cái tôi cảm xúc tự do, khoáng đạt, khai thác triệt để các thủ pháp tương phản, phóng đại và khám phá vẻ đẹp bi tráng, mĩ lệ."
-  },
-  {
-    "id": 9,
-    "level": "Nhận biết",
-    "type": "single_choice",
-    "question": "Tư thế tráng sĩ bi tráng trong hai câu kết bài thơ <strong class=\"work-title\"><em>\"Cảm hoài\"</em></strong> (Đặng Dung): <br><em>\"Kỉ độ thôn hàm phung vũ hận / Đao đầu không bạt vạn tinh đê\"</em> (Mấy độ mài gươm bóng nguyệt tà) thể hiện phẩm chất gì?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Sự nản lòng, buông xuôi và thoái thác hoàn toàn trách nhiệm đối với non sông đất nước."
-      },
-      {
-        "key": "B",
-        "text": "Khí phách hiên ngang, lòng yêu nước nồng nàn và ý chí chiến đấu ngoan cường của người anh hùng dù gặp bước thời thế lỡ dở."
-      },
-      {
-        "key": "C",
-        "text": "Thú vui ẩn dật thanh cao, lánh đời nơi non xanh nước biếc."
-      },
-      {
-        "key": "D",
-        "text": "Nỗi sợ hãi bóng đêm và tuổi già sắp ập đến."
-      }
-    ],
-    "correctAnswer": "B",
-    "explanation": "Hình ảnh người tráng sĩ mài gươm dưới bóng trăng tà là biểu tượng tuyệt mỹ của ý chí kiên định, lòng yêu nước sâu sắc và tinh thần bi tráng trước nghịch cảnh."
-  },
-  {
-    "id": 10,
-    "level": "Thông hiểu",
-    "type": "single_choice",
-    "question": "Trong bài thơ <strong class=\"work-title\"><em>\"Thu hứng\"</em></strong> (Đỗ Phủ), bút pháp 'tả cảnh ngụ tình' được thể hiện tập trung qua mối liên hệ nào?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Cảnh rừng phong tiêu điều, sóng gió Vu hiệp dữ dội phản chiếu nỗi đau xót thời thế và nỗi sầu xứ cô đơn của thi nhân hướng về kinh đô Trường An."
-      },
-      {
-        "key": "B",
-        "text": "Cảnh mùa xuân rộn rã gắn với niềm vui mở hội tưng bừng nơi thôn dã."
-      },
-      {
-        "key": "C",
-        "text": "Cảnh sinh hoạt cung đình xa hoa tráng lệ tương phản với nghèo đói dân gian."
-      },
-      {
-        "key": "D",
-        "text": "Cảnh đoàn thuyền đánh cá trở về trong niềm vui trúng mùa hải sản."
-      }
-    ],
-    "correctAnswer": "A",
-    "explanation": "Cảnh thu tiêu điều, hùng vĩ mà âm u nơi Vu hiệp là phương tiện biểu đạt nỗi sầu xứ, nỗi đau xót khôn nguôi trước cảnh loạn ly và lòng đau đáu hướng về Trường An."
-  },
-  {
-    "id": 11,
-    "level": "Nhận biết",
-    "type": "single_choice",
-    "question": "Bức tranh thiên nhiên miền Tây trong bài thơ <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> (Quang Dũng) được khắc họa qua sự kết hợp của những nét đẹp nào?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Vừa hùng vĩ, hiểm trở, dữ dội khôn cùng; lại vừa thơ mộng, trữ tình, mĩ lệ và ấm áp ân tình bản mường."
-      },
-      {
-        "key": "B",
-        "text": "Thuần túy là sự hoang vu, chết chóc không có bóng dáng sự sống con người."
-      },
-      {
-        "key": "C",
-        "text": "Bình lặng, êm ả như cảnh sắc vùng đồng bằng châu thổ sông Hồng."
-      },
-      {
-        "key": "D",
-        "text": "Khô cằn, bỏng rát của vùng đất sa mạc hoang sơ."
-      }
-    ],
-    "correctAnswer": "A",
-    "explanation": "Thiên nhiên miền Tây trong 'Tây Tiến' vừa hiểm trở, dữ dội ('dốc khúc khuỷu', 'thác gầm thét') vừa thơ mộng, mĩ lệ ('mưa xa khơi', 'hoa đong đưa')."
-  },
-  {
-    "id": 12,
-    "level": "Thông hiểu",
-    "type": "single_choice",
-    "question": "Hai câu thơ: <br><em>\"Mắt trừng gửi mộng qua biên giới / Đêm mơ Hà Nội dáng kiều thơm\"</em> trong bài thơ <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> khắc họa vẻ đẹp nào của người lính?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Sự suy sụp tinh thần và tư tưởng ủy mị xa rời hiện thực chiến đấu."
-      },
-      {
-        "key": "B",
-        "text": "Sự hòa quyện tuyệt đẹp giữa ý chí chiến đấu quả cảm, quyết liệt ('mắt trừng gửi mộng') và tâm hồn hào hoa, lãng mạn, tha thiết yêu thương ('đêm mơ Hà Nội dáng kiều thơm')."
-      },
-      {
-        "key": "C",
-        "text": "Thói hưởng thụ nhàn hạ, xa hoa của những chàng trai thị thành thời bình."
-      },
-      {
-        "key": "D",
-        "text": "Nỗi sợ hãi hiện thực khắc nghiệt nơi rừng sâu nước độc."
-      }
-    ],
-    "correctAnswer": "B",
-    "explanation": "Người lính Tây Tiến mang vẻ đẹp của tráng sĩ thời đại mới: quyết tâm diệt thù nơi biên cương nhưng trái tim vẫn đong đầy vẻ hào hoa, lãng mạn của tuổi trẻ trí thức Hà thành."
-  },
-  {
-    "id": 13,
-    "level": "Vận dụng",
-    "type": "single_choice",
-    "question": "Đọc 4 câu thơ trong bài <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> (Quang Dũng): <br><div class=\"reading-excerpt-box\"><em>\"Rải rác biên cương mồ viễn xứ / Chiến trường đi chẳng tiếc đời xanh / Áo bào thay chiếu anh về đất / Sông Mã gầm lên khúc độc hành.\"</em></div>Nhận định nào phân tích <strong>đúng nhất</strong> về cảm hứng bi tráng và nghệ thuật biểu đạt?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Nhà thơ che giấu hoàn toàn sự mất mát, không dám nhìn thẳng vào hiện thực khốc liệt của chiến tranh."
-      },
-      {
-        "key": "B",
-        "text": "Nhìn thẳng vào cái chết và sự hi sinh nhưng nâng lên tầm vóc sử thi bất tử nhờ từ ngữ Hán Việt cổ kính, cách nói giảm nói tránh ('về đất') và âm vang bi tráng của dòng sông Mã."
-      },
-      {
-        "key": "C",
-        "text": "Đoạn thơ chỉ mang giọng điệu bi thương, tang tóc làm nhụt ý chí của người cầm súng."
-      },
-      {
-        "key": "D",
-        "text": "Đoạn thơ thuần túy miêu tả tập quán an táng cổ xưa của đồng bào vùng cao."
-      }
-    ],
-    "correctAnswer": "B",
-    "explanation": "Quang Dũng không né tránh hiện thực hi sinh ('mồ viễn xứ') nhưng bằng từ ngữ trang trọng ('áo bào', 'biên cương', 'độc hành'), sự hi sinh được bất tử hóa thành khúc ca bi tráng."
-  },
-  {
-    "id": 14,
-    "level": "Thông hiểu",
-    "type": "single_choice",
-    "question": "Trong bài thơ <strong class=\"work-title\"><em>\"Đàn ghi ta của Lor-ca\"</em></strong> (Thanh Thảo), hình ảnh người nghệ sĩ Lor-ca được biểu tượng hóa qua những chi tiết nghệ thuật nào?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Người tráng sĩ mặc áo giáp sắt cưỡi ngựa bay về trời."
-      },
-      {
-        "key": "B",
-        "text": "Người nghệ sĩ tự do, khát khao cách tân đơn độc đi trên đấu trường Tây Ban Nha với 'áo choàng đỏ gắt', 'tiếng đàn bọt nước' và 'vầng trăng váng vất'."
-      },
-      {
-        "key": "C",
-        "text": "Vị vua quyền uy đang ngự trên ngai vàng chỉ huy dàn hợp xướng cung đình."
-      },
-      {
-        "key": "D",
-        "text": "Một đấu sĩ bò tót chuyên nghiệp chỉ khao khát tiền bạc và danh vọng."
-      }
-    ],
-    "correctAnswer": "B",
-    "explanation": "Lor-ca hiện lên là biểu tượng của người nghệ sĩ tiên phong dũng cảm, mang khát vọng tự do và cách tân nghệ thuật giữa môi trường chính trị ngột ngạt của Tây Ban Nha."
-  },
-  {
-    "id": 15,
-    "level": "Thông hiểu",
-    "type": "single_choice",
-    "question": "Trong bài <strong class=\"work-title\"><em>\"Đàn ghi ta của Lor-ca\"</em></strong>, chuỗi hình ảnh biến thể: <br><em>\"tiếng ghi ta nâu\", \"tiếng ghi ta lá xanh\", \"tiếng ghi ta tròn bọt nước vỡ tan\", \"tiếng ghi ta ròng ròng máu chảy\"</em> mang ý nghĩa nghệ thuật gì?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Mô tả một cách máy móc quá trình sản xuất một cây đàn gỗ ngoài thực tế."
-      },
-      {
-        "key": "B",
-        "text": "Sử dụng thủ pháp tương giao cảm giác để hữu hình hóa âm thanh tiếng đàn: từ tình yêu quê hương, khát vọng tuổi trẻ đến sự tan vỡ đau đớn và nỗi đau bi tráng khi người nghệ sĩ bị sát hại."
-      },
-      {
-        "key": "C",
-        "text": "Thể hiện các lỗi kỹ thuật khi người nghệ sĩ chơi đàn ghi-ta."
-      },
-      {
-        "key": "D",
-        "text": "Chỉ đơn thuần là các từ ngữ chỉ màu sắc ngẫu nhiên không có ý đồ nghệ thuật."
-      }
-    ],
-    "correctAnswer": "B",
-    "explanation": "Chuỗi liên tưởng tương giao cảm giác biến âm thanh vô hình thành màu sắc, hình khối, thể hiện sinh động cuộc đời, tình yêu và số phận bi tráng của Lor-ca."
-  },
-  {
-    "id": 16,
-    "level": "Vận dụng",
-    "type": "single_choice",
-    "question": "Hình ảnh <strong class=\"work-title\"><em>\"không ai chôn cất tiếng đàn / tiếng đàn như cỏ mọc hoang\"</em></strong> và chuỗi âm thanh luyến láy <em>\"li-la li-la li-la\"</em> gửi gắm thông điệp sâu xa nào?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Sự lãng quên tuyệt đối của hậu thế đối với tên tuổi của Lor-ca."
-      },
-      {
-        "key": "B",
-        "text": "Sự bất tử của nghệ thuật chân chính và khát vọng tự do: dù thân xác nghệ sĩ bị tiêu diệt, cái đẹp vẫn có sức sống mãnh liệt, tự lan tỏa và bất diệt như cỏ dại và ngàn hoa thơm."
-      },
-      {
-        "key": "C",
-        "text": "Lời phê phán nền nông nghiệp hoang hóa không có người chăm sóc."
-      },
-      {
-        "key": "D",
-        "text": "Khuyên các nghệ sĩ tương lai không nên tiếp tục chơi đàn ghi-ta nữa."
-      }
-    ],
-    "correctAnswer": "B",
-    "explanation": "Tiếng đàn không thể bị chôn vùi, nó có sức sống tự nhiên mãnh liệt như cỏ dại và ngân vang mãi mãi như khúc tưởng niệm bất tận cho tự do và cái đẹp."
-  },
-  {
-    "id": 17,
-    "level": "Vận dụng",
-    "type": "single_choice",
-    "question": "Trong <strong class=\"work-title\"><em>\"Bài thơ số 28\"</em></strong> của R. Tagore, quan niệm triết lý về tình yêu và trái tim con người được khái quát qua hình ảnh nào?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Trái tim người yêu là hòn ngọc trong suốt có thể đo lường dễ dàng bằng thước kẻ."
-      },
-      {
-        "key": "B",
-        "text": "Trái tim con người là một vũ trụ vô biên, bí ẩn khôn cùng; tình yêu đích thực là sự thấu cảm tâm hồn chứ không thể chiếm đoạt hay tường tận trọn vẹn mọi giới hạn."
-      },
-      {
-        "key": "C",
-        "text": "Tình yêu chỉ là những toan tính vật chất vụ lợi nơi phố thị."
-      },
-      {
-        "key": "D",
-        "text": "Trái tim là một đồ vật tĩnh lặng không hề có cảm xúc."
-      }
-    ],
-    "correctAnswer": "B",
-    "explanation": "Tagore gửi gắm triết lý phương Đông sâu sắc: tình yêu vừa là khao khát thấu hiểu, vừa là sự trân trọng cõi tâm linh vô tận, không cùng của con người."
-  },
-  {
-    "id": 18,
-    "level": "Vận dụng",
-    "type": "single_choice",
-    "question": "Khi đối sánh hình tượng người anh hùng tráng sĩ trong <strong class=\"work-title\"><em>\"Cảm hoài\"</em></strong> (Đặng Dung) và người lính trong <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> (Quang Dũng), nhận xét nào sau đây là CHÍNH XÁC NHẤT?",
-    "options": [
-      {
-        "key": "A",
-        "text": "Đặng Dung khắc họa tráng sĩ trung đại với tầm vóc vũ trụ và nỗi u hoài thời thế bi tráng; còn Quang Dũng khắc họa người lính vệ quốc thời đại mới với vẻ đẹp hào hoa lãng mạn kết hợp chất bi tráng sử thi."
-      },
-      {
-        "key": "B",
-        "text": "Cả hai bài thơ đều đi theo khuynh hướng thơ trào phúng hoạt kê châm biếm chế độ thực dân."
-      },
-      {
-        "key": "C",
-        "text": "Người lính trong 'Tây Tiến' là nhân vật ước lệ cổ điển, còn tráng sĩ trong 'Cảm hoài' là nhân vật hiện đại thế kỷ XX."
-      },
-      {
-        "key": "D",
-        "text": "Cả hai tác giả đều sử dụng thể thơ tự do đứt gãy không có vần điệu."
-      }
-    ],
-    "correctAnswer": "A",
-    "explanation": "Đặng Dung mang cảm hứng tráng chí vũ trụ trung đại kết hợp nỗi đau thời thế; Quang Dũng mang cảm hứng lãng mạn cách mạng kết hợp vẻ đẹp hào hoa của tuổi trẻ Thủ đô."
-  },
-  {
-    "id": 19,
-    "level": "Thông hiểu",
-    "type": "true_false",
-    "question": "Xác định tính Đúng / Sai của các nhận định sau về ĐẶC TRƯNG CÁC PHONG CÁCH THƠ:",
-    "subQuestions": [
-      {
-        "id": "a",
-        "text": "Thơ Cổ điển trung đại chuộng thi liệu ước lệ, niêm luật quy phạm nghiêm ngặt và hướng tới tầm vóc vũ trụ lớn lao.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Đây là đặc trưng thi pháp cơ bản của thơ trung đại."
-      },
-      {
-        "id": "b",
-        "text": "Thơ Lãng mạn đề cao cái tôi cá nhân, cảm xúc dồi dào, ưa thủ pháp tương phản đối lập và sự mở rộng liên tưởng phong phú.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Thơ lãng mạn giải phóng cá tính sáng tạo và cảm xúc nội tâm."
-      },
-      {
-        "id": "c",
-        "text": "Thơ Tượng trưng - Siêu thực chỉ miêu tả sự vật theo quan hệ nhân quả một chiều và tuyệt đối cấm dùng tương giao cảm giác.",
-        "correctAnswer": "false",
-        "explanation": "Sai. Thơ tượng trưng - siêu thực đề cao tương giao cảm giác, nhạc tính và giải phóng tiềm thức."
-      },
-      {
-        "id": "d",
-        "text": "Dù thuộc phong cách nào, cấu tứ và mạch cảm xúc luôn là yếu tố quyết định tạo nên sự thống nhất hữu cơ của bài thơ.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Cấu tứ là linh hồn tổ chức hình tượng trong mọi tác phẩm thơ."
-      }
-    ]
-  },
-  {
-    "id": 20,
-    "level": "Thông hiểu",
-    "type": "true_false",
-    "question": "Xác định tính Đúng / Sai về THI PHÁP NGHỆ THUẬT trong bài thơ <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> (Quang Dũng):",
-    "subQuestions": [
-      {
-        "id": "a",
-        "text": "Quang Dũng sử dụng bút pháp lãng mạn kết hợp cảm hứng bi tráng để khắc họa bức tranh thiên nhiên và tượng đài người lính.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Đây là phong cách nghệ thuật đặc trưng của thi phẩm Tây Tiến."
-      },
-      {
-        "id": "b",
-        "text": "Hệ thống từ ngữ Hán Việt cổ kính ('biên cương', 'viễn xứ', 'áo bào', 'độc hành') góp phần trang trọng hóa và bất tử hóa sự hi sinh.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Từ Hán Việt tạo không khí thiêng liêng, bi tráng mang màu sắc sử thi."
-      },
-      {
-        "id": "c",
-        "text": "Bài thơ né tránh hoàn toàn hiện thực gian khổ, bệnh tật sốt rét rừng và sự hi sinh của đồng đội.",
-        "correctAnswer": "false",
-        "explanation": "Sai. Quang Dũng không né tránh gian khổ ('không mọc tóc', 'da xanh màu lá', 'mồ viễn xứ') nhưng nhìn bằng con mắt lãng mạn hào hoa."
-      },
-      {
-        "id": "d",
-        "text": "Sự luân chuyển giữa các câu thơ nhiều thanh trắc gân guốc và câu toàn thanh bằng êm dịu tạo nên nhạc điệu phong phú, độc đáo.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Phối thanh bằng trắc là đỉnh cao nghệ thuật của bài thơ."
-      }
-    ]
-  },
-  {
-    "id": 21,
-    "level": "Thông hiểu",
-    "type": "true_false",
-    "question": "Xác định tính Đúng / Sai về THI PHÁP TƯỢNG TRƯNG - SIÊU THỰC trong <strong class=\"work-title\"><em>\"Đàn ghi ta của Lor-ca\"</em></strong> (Thanh Thảo):",
-    "subQuestions": [
-      {
-        "id": "a",
-        "text": "Tác phẩm sử dụng cấu trúc thơ tự do không dấu chấm câu, nhịp thơ nương theo dòng chảy cảm xúc và liên tưởng đa tầng.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Cấu trúc mở phóng khoáng đặc trưng cho thơ hiện đại sau 1975."
-      },
-      {
-        "id": "b",
-        "text": "Tiếng đàn ghi-ta được nhân cách hóa và chuyển đổi cảm giác thành màu sắc, hình khối, sự sống và nỗi đau ('tiếng ghi ta ròng ròng máu chảy').",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Tương giao cảm giác là thủ pháp tượng trưng nổi bật."
-      },
-      {
-        "id": "c",
-        "text": "Thanh Thảo chỉ đơn thuần thuật lại biên bản vụ án bắt giam Lor-ca của cảnh sát độc tài mà không có hình tượng nghệ thuật nào.",
-        "correctAnswer": "false",
-        "explanation": "Sai. Bài thơ xây dựng thế giới hình ảnh biểu tượng huyền ảo, giàu triết lý."
-      },
-      {
-        "id": "d",
-        "text": "Âm thanh mô phỏng tiếng đàn 'li-la li-la li-la' vừa gợi giai điệu đàn ghi-ta vừa liên tưởng đến hoa tử đinh hương dâng tặng hương hồn thi sĩ.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Sáng tạo ngôn từ đa nghĩa độc đáo của Thanh Thảo."
-      }
-    ]
-  },
-  {
-    "id": 22,
-    "level": "Vận dụng",
-    "type": "true_false",
-    "question": "Đọc 4 câu thơ trong bài <strong class=\"work-title\"><em>\"Cảm hoài\"</em></strong> (Đặng Dung) và xác định tính Đúng / Sai:\n<div class=\"reading-excerpt-box\"><em>\"Thế sự du du nại lão hà / Vô cùng thiên địa nhập hàm ca / Thời lai đồ điếu thành công dị / Vận khứ anh hùng ẩm hận đa.\"</em></div>",
-    "subQuestions": [
-      {
-        "id": "a",
-        "text": "Hai câu đầu thể hiện nỗi xót xa trước bước đi của thời gian và tuổi già trong sự đối sánh với đất trời vô tận.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Mở đầu bằng nỗi u hoài trước thời thế mênh mông."
-      },
-      {
-        "id": "b",
-        "text": "Hai câu thực sử dụng nghệ thuật đối lập ('thời lai' >< 'vận khứ') để đúc kết quy luật hưng phế khốc liệt của thời cuộc.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Phép đối chuẩn mực tạo chiều sâu triết lý thời thế."
-      },
-      {
-        "id": "c",
-        "text": "Cụm từ 'ẩm hận đa' (nuốt hận nhiều) thể hiện sự oán hờn nhân dân và quay lưng phản bội lại đất nước.",
-        "correctAnswer": "false",
-        "explanation": "Sai. Đó là nỗi ngậm ngùi đau đớn vì chí lớn chưa thành khi vận nước lỡ dở."
-      },
-      {
-        "id": "d",
-        "text": "Thể thơ Thất ngôn bát cú Đường luật với niêm luật chặt chẽ làm tăng vẻ trang nghiêm, bi hùng cho lời tự thuật tâm trạng.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Vẻ đẹp cổ điển mẫu mực của thơ trung đại."
-      }
-    ]
-  },
-  {
-    "id": 23,
-    "level": "Vận dụng",
-    "type": "true_false",
-    "question": "Đọc đoạn thơ sau trong <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> (Quang Dũng) và xác định tính Đúng / Sai:\n<div class=\"reading-excerpt-box\"><em>\"Tây Tiến đoàn binh không mọc tóc / Quân xanh màu lá dữ oai hùm / Mắt trừng gửi mộng qua biên giới / Đêm mơ Hà Nội dáng kiều thơm.\"</em></div>",
-    "subQuestions": [
-      {
-        "id": "a",
-        "text": "Cụm từ 'không mọc tóc' và 'quân xanh màu lá' phản ánh chân thực căn bệnh sốt rét rừng quái ác nơi chiến trường Tây Bắc.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Hiện thực khốc liệt về đời sống kháng chiến được tái hiện sinh động."
-      },
-      {
-        "id": "b",
-        "text": "Hình ảnh 'dữ oai hùm' thể hiện tư thế kiêu hùng, áp đảo gian khổ hiểm nguy của người lính.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Khí phách dũng mãnh bù đắp cho vẻ ngoài tiều tụy vì bệnh tật."
-      },
-      {
-        "id": "c",
-        "text": "Hai chữ 'dáng kiều thơm' bị coi là biểu hiện của lối sống phong kiến lạc hậu cần phải bài trừ khỏi tác phẩm.",
-        "correctAnswer": "false",
-        "explanation": "Sai. Đó là nét tâm hồn lãng mạn trong sáng, là động lực tinh thần của thanh niên trí thức kháng chiến."
-      },
-      {
-        "id": "d",
-        "text": "Đoạn thơ kết hợp nhịp nhàng giữa chất hiện thực gân guốc và chất lãng mạn bay bổng của hồn thơ Quang Dũng.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Vẻ đẹp đặc sắc của phong cách Quang Dũng."
-      }
-    ]
-  },
-  {
-    "id": 24,
-    "level": "Vận dụng",
-    "type": "true_false",
-    "question": "Đọc đoạn thơ sau trong <strong class=\"work-title\"><em>\"Đàn ghi ta của Lor-ca\"</em></strong> (Thanh Thảo) và xác định tính Đúng / Sai:\n<div class=\"reading-excerpt-box\"><em>\"Tây Ban Nha / hát nghêu ngao / bỗng kinh hoàng / áo choàng bê bết đỏ / Lor-ca bị dẫn về bãi bắn / chàng đi như người mộng du\"</em></div>",
-    "subQuestions": [
-      {
-        "id": "a",
-        "text": "Không gian đất nước Tây Ban Nha gắn liền với tiếng hát nghêu ngao tự do đối lập với biến cố đẫm máu bất ngờ ('kinh hoàng', 'áo choàng bê bết đỏ').",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Sự tương phản gay gắt giữa nghệ thuật thanh bình và bạo lực phát xít."
-      },
-      {
-        "id": "b",
-        "text": "Hình ảnh 'áo choàng bê bết đỏ' vừa gợi chiếc áo choàng của đấu sĩ bò tót, vừa là ẩn dụ về cái chết bi thương của Lor-ca.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Hình ảnh đa nghĩa biểu tượng sâu sắc."
-      },
-      {
-        "id": "c",
-        "text": "Tư thế 'đi như người mộng du' thể hiện tâm thế hoảng loạn, van xin tha mạng của người nghệ sĩ trước mũi súng kẻ thù.",
-        "correctAnswer": "false",
-        "explanation": "Sai. Đó là tâm thế thanh thản, vượt lên trên cái chết để sống trọn vẹn trong cõi mộng nghệ thuật."
-      },
-      {
-        "id": "d",
-        "text": "Nhịp thơ ngắt ngắn, dồn dập diễn tả bước đi định mệnh và khoảnh khắc lịch sử đau thương của đất nước Tây Ban Nha.",
-        "correctAnswer": "true",
-        "explanation": "Đúng. Nhịp điệu kịch tính tái hiện thảm kịch."
-      }
-    ]
-  }
-],
-  questions_practice_only: [
-  {
-    "id": 25,
-    "level": "Nhận biết",
-    "type": "fill_blank",
-    "question": "Chọn thuật ngữ thích hợp: '[ ...?... ] là cách thức tổ chức, liên kết các hình ảnh, mạch cảm xúc và tư tưởng của bài thơ thành một chỉnh thể nghệ thuật hoàn chỉnh.'",
-    "dropdownOptions": [
-      "-- Nhấp để chọn phương án điền khuyết --",
-      "Cấu tứ thơ",
-      "Nhạc điệu thơ",
-      "Biện pháp tu từ",
-      "Gieo vần chính vận"
-    ],
-    "correctAnswer": "Cấu tứ thơ",
-    "explanation": "Cấu tứ là cách tổ chức và kết nối các yếu tố nghệ thuật thành một chỉnh thể thơ hoàn chỉnh."
-  },
-  {
-    "id": 26,
-    "level": "Nhận biết",
-    "type": "fill_blank",
-    "question": "Chọn thuật ngữ thích hợp: '[ ...?... ] là hiện tượng chuyển đổi cảm xúc giữa các giác quan (nghe âm thanh cảm nhận được màu sắc, hình khối), một thủ pháp đặc trưng của thơ tượng trưng.'",
-    "dropdownOptions": [
-      "-- Nhấp để chọn phương án điền khuyết --",
-      "Tương giao cảm giác",
-      "Tả cảnh ngụ tình",
-      "Nói quá phóng đại",
-      "Chơi chữ điệp âm"
-    ],
-    "correctAnswer": "Tương giao cảm giác",
-    "explanation": "Tương giao cảm giác là sự giao thoa, chuyển dịch ấn tượng giữa các giác quan trong tiếp nhận thẩm mỹ."
-  },
-  {
-    "id": 27,
-    "level": "Nhận biết",
-    "type": "fill_blank",
-    "question": "Chọn thuật ngữ thích hợp: '[ ...?... ] là trung tâm bộc lộ cảm xúc, thái độ, tư tưởng và lý tưởng thẩm mỹ của nhà thơ trước cuộc đời trong tác phẩm trữ tình.'",
-    "dropdownOptions": [
-      "-- Nhấp để chọn phương án điền khuyết --",
-      "Chủ thể trữ tình (Cái tôi trữ tình)",
-      "Người kể chuyện toàn tri",
-      "Nhân vật ước lệ",
-      "Hình tượng phản diện"
-    ],
-    "correctAnswer": "Chủ thể trữ tình (Cái tôi trữ tình)",
-    "explanation": "Chủ thể trữ tình là chủ thể phát ngôn bộc lộ thế giới tâm tư, cảm xúc trong bài thơ."
-  },
-  {
-    "id": 28,
-    "level": "Nhận biết",
-    "type": "fill_blank",
-    "question": "Chọn thuật ngữ thích hợp: '[ ...?... ] là hình ảnh nghệ thuật được lặp lại nhiều lần, tích tụ chiều sâu tư tưởng và mở ra các tầng ý nghĩa triết lý nhân sinh phổ quát.'",
-    "dropdownOptions": [
-      "-- Nhấp để chọn phương án điền khuyết --",
-      "Biểu tượng thơ",
-      "Chi tiết đời thường",
-      "Cốt truyện phi tuyến tính",
-      "Lời nửa trực tiếp"
-    ],
-    "correctAnswer": "Biểu tượng thơ",
-    "explanation": "Biểu tượng thơ là hình ảnh chứa đựng nhiều tầng nghĩa sâu sắc, mang tính khái quát cao."
-  },
-  {
-    "id": 29,
-    "level": "Thông hiểu",
-    "type": "fill_blank",
-    "question": "Chọn cụm từ thích hợp vào nhận định đối sánh: 'Nếu hình tượng tráng sĩ trong <strong class=\"work-title\"><em>\"Cảm hoài\"</em></strong> (Đặng Dung) mang tầm vóc vũ trụ và nỗi u hoài thời thế của thi pháp [ ...?... ]; thì hình tượng người lính trong <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> (Quang Dũng) lại bừng sáng vẻ đẹp hào hoa, lãng mạn và bi tráng thời đại kháng chiến.'",
-    "dropdownOptions": [
-      "-- Nhấp để chọn phương án điền khuyết --",
-      "Cổ điển trung đại",
-      "Tượng trưng siêu thực",
-      "Hiện thực trào phúng",
-      "Đồng thoại thiếu nhi"
-    ],
-    "correctAnswer": "Cổ điển trung đại",
-    "explanation": "Đặng Dung sáng tác theo thi pháp Cổ điển trung đại với bút pháp ước lệ và chí khí tráng sĩ vũ trụ."
-  },
-  {
-    "id": 30,
-    "level": "Vận dụng",
-    "type": "fill_blank",
-    "question": "Chọn thông điệp cốt lõi từ bài thơ <strong class=\"work-title\"><em>\"Đàn ghi ta của Lor-ca\"</em></strong> (Thanh Thảo): 'Dù bạo lực bạo tàn có thể vùi dập thể xác người nghệ sĩ, nhưng [ ...?... ] và khát vọng tự do, sáng tạo nghệ thuật chân chính sẽ mãi mãi bất tử.'",
-    "dropdownOptions": [
-      "-- Nhấp để chọn phương án điền khuyết --",
-      "Tiếng đàn nghệ thuật",
-      "Vũ khí quân sự",
-      "Mối hận thù giai cấp",
-      "Chiếc áo choàng thi đấu"
-    ],
-    "correctAnswer": "Tiếng đàn nghệ thuật",
-    "explanation": "Tiếng đàn là biểu tượng bất tử của cái đẹp, của nghệ thuật chân chính và khát vọng tự do."
-  }
-],
-  questions_exam_only: [
-  {
-    "id": 25,
-    "type": "single_choice",
-    "level": "Vận dụng cao",
-    "question": "Khái niệm 'Sự tương giao đa giác quan' (Correspondences / Synesthesia) trong thơ tượng trưng hiện đại được hiểu là:",
-    "options": [
-      "A. Hiện tượng một bài thơ được dịch sang nhiều ngôn ngữ quốc tế khác nhau.",
-      "B. Sự hòa quyện, chuyển hóa linh hoạt giữa các cảm giác (thị giác, thính giác, khứu giác, xúc giác) để biểu đạt thế giới tinh vi.",
-      "C. Việc bắt buộc người đọc phải vừa đọc thơ vừa nghe nhạc giao hưởng cổ điển.",
-      "D. Việc sử dụng tranh minh họa màu sắc rực rỡ bên cạnh các dòng chữ thơ."
-    ],
-    "correctAnswer": "B",
-    "explanation": "Tương giao giác quan là đặc trưng thi pháp của thơ hiện đại: màu sắc có thể nghe thấy âm thanh, âm thanh mang hình khối và hương vị."
-  },
-  {
-    "id": 26,
-    "type": "single_choice",
-    "level": "Thông hiểu",
-    "question": "Nhịp điệu trong thơ tự do hiện đại được hình thành chủ yếu từ yếu tố nào?",
-    "options": [
-      "A. Sự tuân thủ nghiêm ngặt số chữ trong mỗi câu thơ theo thể thơ Đường luật.",
-      "B. Nhịp điệu bên trong của cảm xúc, dòng chảy tâm tư và sự ngắt nhịp biến hóa theo mạch tâm trạng.",
-      "C. Sự lặp đi lặp lại đơn điệu của các thanh bằng và trắc ở các vị trí chẵn lẻ.",
-      "D. Việc tác giả sử dụng các dấu chấm câu và dấu phẩy theo đúng ngữ pháp văn xuôi."
-    ],
-    "correctAnswer": "B",
-    "explanation": "Thơ tự do giải phóng khỏi khuôn khổ câu chữ cố định để nhịp điệu thơ bắt rễ trực tiếp từ nhịp đập bên trong của cảm xúc và tư tưởng."
-  },
-  {
-    "id": 27,
-    "type": "single_choice",
-    "level": "Vận dụng",
-    "question": "Yếu tố 'Biểu tượng' (Symbol) khác với 'Hình ảnh tả thực' thông thường ở điểm cốt lõi nào?",
-    "options": [
-      "A. Biểu tượng có tính đa nghĩa, gợi mở những tầng ý nghĩa triết lý sâu xa vượt ra ngoài đối tượng cụ thể.",
-      "B. Biểu tượng chỉ được phép mượn từ văn học cổ điển Trung Hoa hoặc thần thoại Hy Lạp.",
-      "C. Biểu tượng luôn mang nghĩa cố định, rõ ràng và không cho phép người đọc suy luận khác.",
-      "D. Biểu tượng chỉ tồn tại trong các câu thơ có vần trắc ở cuối câu."
-    ],
-    "correctAnswer": "A",
-    "explanation": "Biểu tượng mang năng lượng gợi mở vô tận, là chiếc cầu nối giữa cái hữu hình và cái vô hình, kích thích liên tưởng sáng tạo của độc giả."
-  },
-  {
-    "id": 28,
-    "type": "single_choice",
-    "level": "Thông hiểu",
-    "question": "Vai trò của 'Khoảng trắng' (Khoảng lặng nghệ thuật) trong một bài thơ hiện đại là:",
-    "options": [
-      "A. Do lỗi in ấn hoặc lỗi căn lề của nhà xuất bản trong quá trình in sách.",
-      "B. Tạo khoảng lặng nghệ thuật để cảm xúc lắng đọng, kích thích người đọc đồng sáng tạo và chiêm nghiệm.",
-      "C. Giúp người đọc đọc bài thơ nhanh hơn mà không cần suy nghĩ về ý nghĩa câu chữ.",
-      "D. Báo hiệu bài thơ đã hoàn toàn kết thúc và không còn nội dung nào tiếp theo."
-    ],
-    "correctAnswer": "B",
-    "explanation": "Khoảng trắng trong thơ là 'ý tại ngôn ngoại', là nơi ngôn ngữ bất lực nhường chỗ cho sự im lặng đầy sức gợi và chiêm nghiệm sâu lắng."
-  },
-  {
-    "id": 29,
-    "type": "single_choice",
-    "level": "Vận dụng",
-    "question": "Sự khác biệt căn bản giữa 'Cảm xúc trong thơ' và 'Cảm xúc đời thường' là:",
-    "options": [
-      "A. Cảm xúc đời thường sâu sắc hơn cảm xúc trong thơ vì nó diễn ra trong đời thực.",
-      "B. Cảm xúc trong thơ là cảm xúc đã được lắng đọng, thẩm định qua mỹ cảm và khái quát thành giá trị nghệ thuật.",
-      "C. Cảm xúc trong thơ hoàn toàn là sự bịa đặt vô căn cứ, không bắt nguồn từ đời sống.",
-      "D. Cảm xúc trong thơ chỉ dành riêng cho những nhà nghiên cứu lý luận văn học chuyên nghiệp."
-    ],
-    "correctAnswer": "B",
-    "explanation": "Cảm xúc thơ ca là cảm xúc thẩm mỹ: được chưng cất, kết tinh qua trải nghiệm sâu sắc của người nghệ sĩ để trở thành tiếng lòng chung của nhân loại."
-  },
-  {
-    "id": 30,
-    "type": "single_choice",
-    "level": "Vận dụng cao",
-    "question": "Nhận định nào sau đây diễn đạt ĐÚNG NHẤT về sứ mệnh của thơ ca trong đời sống con người?",
-    "options": [
-      "A. Thơ ca là một trò chơi ngôn từ thuần túy không gắn liền với số phận con người.",
-      "B. Thơ ca neo đậu tâm hồn con người vào cái thiện, cái đẹp và là nơi trú ngụ thiêng liêng của nhân phẩm.",
-      "C. Thơ ca có nhiệm vụ thay thế các ngành khoa học tự nhiên trong việc khám phá vũ trụ.",
-      "D. Thơ ca chỉ có giá trị giải trí nhất thời trong những lúc rảnh rỗi."
-    ],
-    "correctAnswer": "B",
-    "explanation": "Thơ ca nuôi dưỡng phần người trong mỗi con người, hướng thiện, cứu rỗi tâm hồn và bất tử hóa những giá trị cao đẹp nhất của đời sống."
-  }
-]
+  "title": "CHUYÊN ĐỀ: THỂ LOẠI THƠ",
+  "questions_common": [
+    {
+      "id": 1,
+      "level": "Nhận biết",
+      "type": "single_choice",
+      "question": "Theo lí luận văn học, đặc trưng bản chất cốt lõi nhất của thể loại 'Thơ' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Phương thức biểu hiện trữ tình, phản ánh đời sống qua thế giới cảm xúc chủ quan mãnh liệt, ngôn từ hàm súc, giàu hình ảnh và giàu nhạc tính."
+        },
+        {
+          "key": "B",
+          "text": "Phương thức tự sự tái hiện đời sống khách quan thông qua hệ thống chuỗi sự kiện, cốt truyện và hành động nhân vật."
+        },
+        {
+          "key": "C",
+          "text": "Văn bản nghị luận sử dụng hệ thống luận điểm, lí lẽ và dẫn chứng để thuyết phục tư tưởng người đọc."
+        },
+        {
+          "key": "D",
+          "text": "Kịch bản sân khấu giải quyết các xung đột xã hội gay gắt bằng lời thoại và hành động trực tiếp."
+        }
+      ],
+      "_a": "YwZ7",
+      "_e": "YxMxme9nOZXhbkFameOD4js1ZSta0YmfImc7Nq/81iNhJljT5NQrYyEgpOSdEEb17Skxc24rlvZhOljT5ewrJHU8huxbEEZEoPzoPG4zPLf78UESPLL+5DRyMZyeXloWIqbj/CNrdTWg9JJffyuG+TZyKJyRXloWLS645MkzbnYvKfKGMXMrJLTp6n9GWPSXYS+a/yNnJpX7LR0SPJDxY5HDpOS/XlUaYSAwnO4ydT6C4l9af7L/4Ds6ZSnxkBJYKabj/i1nkccor4q1Kn1n"
+    },
+    {
+      "id": 2,
+      "level": "Nhận biết",
+      "type": "single_choice",
+      "question": "Khái niệm 'Chủ thể trữ tình' (Cái tôi trữ tình) trong tác phẩm thơ được hiểu chính xác nhất là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chân dung tiểu sử ngoài đời thực của nhà thơ với đầy đủ lí lịch cá nhân."
+        },
+        {
+          "key": "B",
+          "text": "Trung tâm bộc lộ cảm xúc, suy tư, thái độ và lý tưởng thẩm mỹ của nhà thơ trước cuộc đời trong tác phẩm trữ tình."
+        },
+        {
+          "key": "C",
+          "text": "Nhân vật phản diện đối đầu gay gắt với các nhân vật khác trong mạch kể."
+        },
+        {
+          "key": "D",
+          "text": "Người kể chuyện ngôi thứ ba giấu mình hoàn toàn và không bày tỏ cảm xúc."
+        }
+      ],
+      "_a": "YwV7",
+      "_e": "YwQxvvXgdSIpr4qxfyc3ou79ZSvxnFxeYW86nO8udSKC+lgSKyGk+PpyMZyeXlofYSua/24kPbf66RFGN7L+wHUiLZyTRBJYJoTtMWJnOZXhbkVAKj0iYyGR5zISUtON2CR5M6/8zHYir4uRMnM9gO8xaX9G9oIWNYHpvvXYOzFhOPKSfyEwLTJygc7Ti6tYJmctN6/9/DthI9CJ5nMxMTo8In9Q85JfYTMxme9pdw=="
+    },
+    {
+      "id": 3,
+      "level": "Nhận biết",
+      "type": "single_choice",
+      "question": "Thuật ngữ 'Cấu tứ' trong thi pháp thơ biểu đạt điều gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Quy tắc đếm số lượng chữ trong từng dòng thơ của một thể thơ truyền thống."
+        },
+        {
+          "key": "B",
+          "text": "Cách thức tổ chức, liên kết hệ thống hình ảnh, mạch cảm xúc và tư tưởng của bài thơ thành một chỉnh thể nghệ thuật hoàn chỉnh."
+        },
+        {
+          "key": "C",
+          "text": "Việc lựa chọn tên gọi nhan đề cho tập thơ xuất bản."
+        },
+        {
+          "key": "D",
+          "text": "Sự phân chia các nhân vật thành hai tuyến chính diện và phản diện."
+        }
+      ],
+      "_a": "YwV7",
+      "_e": "YwS45esydSKg9ZgSM5DlYzaR5DxaEEbX+tJ5PCam7v8iYhFZNrL//DtyMb6IkV0WLKbj/i0vdSCg9Jxcf5fUou7LKzgSU9OM4ip5J439NnY3jZESNLL//CFyK76JoVsWIoT4PG4vlvovJhHT5fArK3lyhuISRPSGoPzGMSlnIT6H7xH2zrL+wHUmpOWTXxJYgu03fy2m7/M0bkVAnOkmYzs1Lb6JtxJCKTK45eMzdSIujZFcfyWk+ew8ZTxaXxJCKS55Lyam7/8sYBM="
+    },
+    {
+      "id": 4,
+      "level": "Thông hiểu",
+      "type": "single_choice",
+      "question": "Điểm khác biệt căn bản giữa 'Hình ảnh thơ' thông thường và 'Biểu tượng thơ' là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hình ảnh thơ phản ánh trực quan cụ thể; còn Biểu tượng thơ là hình ảnh được kết tinh, lặp lại và mở ra các tầng ý nghĩa triết lý đa chiều, sâu sắc."
+        },
+        {
+          "key": "B",
+          "text": "Biểu tượng thơ chỉ xuất hiện trong truyện cổ tích, còn hình ảnh thơ chỉ xuất hiện trong ca dao."
+        },
+        {
+          "key": "C",
+          "text": "Hình ảnh thơ bắt buộc phải có vần điệu, còn biểu tượng thơ không cần ngôn ngữ."
+        },
+        {
+          "key": "D",
+          "text": "Hai khái niệm này hoàn toàn đồng nhất và không có bất kì sự phân biệt nào."
+        }
+      ],
+      "_a": "YwZ7",
+      "_e": "Yw+a8yAvdbf77V9afycthfRyKD5cVxJCguo3N24qPJXrOxFGvunmYzaz/voSRFrX+sR1fymm7vUoblLT5fAoeHU5LTYSWPGaLy95vvTkOz5hiqD077L+4DZyLjfxkVsWMDKa/jpnPZXyLx0SK5DoID1yMb6JlRJVKS645M8ydSWC7EQSK5X1YyGU9b6Jr1xRYTGa/24gtO3iJxFcNzqk+NQnZTNb85hYYTOf76/8yjgmbkVANrL//CFyKZyPEEZegut5Kzym7slhOlnx/z0tYzc7pOSxRRJCh/e45O0pMnYvKVnT5NRlNz0npOWfRBwU"
+    },
+    {
+      "id": 5,
+      "level": "Nhận biết",
+      "type": "single_choice",
+      "question": "Yếu tố nào sau đây đóng vai trò tạo nên 'nhạc cảm nội tại', sức ngân vang và sức truyền cảm đặc biệt của câu thơ?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cách ngắt nhịp điệu, gieo vần, phối thanh (Bằng - Trắc) và các biện pháp điệp âm, điệp từ."
+        },
+        {
+          "key": "B",
+          "text": "Quy mô số lượng trang sách in của bài thơ."
+        },
+        {
+          "key": "C",
+          "text": "Số lượng nhân vật tham gia vào chuỗi sự kiện cốt truyện."
+        },
+        {
+          "key": "D",
+          "text": "Cách trình bày danh mục tài liệu tham khảo ở cuối bài."
+        }
+      ],
+      "_a": "YwZ7",
+      "_e": "YwkxvvXMJXaF31jT5NQwb3UkpOWVXhLy0C645MkyeXYyr4qDfyMtou7DLH9a0YmVMWedzq/8xD9hNtCJ9j0iYz09pOWFUxJVKTIgvvXEO3aF39CJyjplNz0zKzcS85BbYQW45f8pMnZsbmVAvunqIHUkhv8SU/GXImc7Nq/80jhhPlnx/iNlh8Q7pOS1QBJCoPzyc26DxD+g9bZCf5DnLnUmpOWTXxJYgu03fzqE+Dgpbl9avunkIHWW1L6JqVEWhdaa/iFnNrf66VASKzuD4nUxJHEQ"
+    },
+    {
+      "id": 6,
+      "level": "Thông hiểu",
+      "type": "single_choice",
+      "question": "Thủ pháp 'Tương giao cảm giác' (Synesthesia) trong thi pháp thơ tượng trưng - hiện đại được hiểu là gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sự phân chia rạch ròi từng giác quan riêng biệt khi tiếp nhận sự vật khách quan."
+        },
+        {
+          "key": "B",
+          "text": "Hiện tượng chuyển đổi cảm giác: âm thanh được cảm nhận bằng màu sắc, hình khối hoặc xúc giác và ngược lại."
+        },
+        {
+          "key": "C",
+          "text": "Việc lặp lại một từ ngữ nhiều lần ở đầu mỗi câu thơ."
+        },
+        {
+          "key": "D",
+          "text": "Sự đối lập thuần túy giữa hai nhân vật có tính cách trái ngược nhau."
+        }
+      ],
+      "_a": "YwV7",
+      "_e": "YxOf74jmOzFhKVhTMHMmou/xKH9VWfGXImc1nO5nJrf6/xFVNjIqYyE6Kj4eEFFeND645M0pdZLQr4qnNnOk+fA8ZSv0gNON4ik+fykutO3uLxFRnPImYzI7hv5REENDICl5dyAgPTNhjZNffyctIjs6ZSta0YiTOGc0nO4ydSWg9J5Rc3MxK7To4CYSWPGaLy95NCam7scobl9ameNlZCE7pOWNXlUWJi8wfzomdSIzjYNcfzGk+NgmZTH0gNON2iR+c25gIT+g9I5cOHOB0pbyK39c85BDZm53fQ=="
+    },
+    {
+      "id": 7,
+      "level": "Thông hiểu",
+      "type": "single_choice",
+      "question": "Đặc trưng nổi bật của thi pháp Thơ Cổ điển (Trung đại) thể hiện qua phương diện nào sau đây?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Ngôn ngữ đời thường suồng sã, cấu trúc tự do không niêm luật, đề cao cái tôi cá nhân vị kỉ."
+        },
+        {
+          "key": "B",
+          "text": "Tính quy phạm chặt chẽ, bút pháp ước lệ tượng trưng, đề tài đạo lý, chí khí tráng sĩ và tầm vóc vũ trụ."
+        },
+        {
+          "key": "C",
+          "text": "Khai thác thế giới vô thức, tiềm thức hỗn loạn và ngôn từ đứt gãy phi logic."
+        },
+        {
+          "key": "D",
+          "text": "Thuần túy miêu tả các sự kiện sinh hoạt đời tư gia đình hàng ngày."
+        }
+      ],
+      "_a": "YwV7",
+      "_e": "YxMxme9nNrf62xH2zjqk+NY8ZStARVxRYYPIvvTmPHYsL19VfyeG7js6ZS5HSRJGKabj/iNnfTgojZtffz8wou//MXMS9KPX+tYwfyAgtOzqOxgefyCk+PhyIb6JlVxRYS+45MlnIT6g9aBcOHMxKzxyKTbTi7VDYYHpvvXcNnYtr4q1fyeD87Tp5jFVEEZEh/c3OGJnPZDxr4qpMTRlN7Tp3jYS9KPX++Y2fyKE6HY3jZESK7L/5DhyM5yBUxJAhO55Kzym7vNhItCJxD1lLzQ9a30="
+    },
+    {
+      "id": 8,
+      "level": "Thông hiểu",
+      "type": "single_choice",
+      "question": "Khuynh hướng Thơ Lãng mạn (Thơ Mới 1932-1945 và thơ thời kỳ kháng chiến) có đặc điểm thi pháp nổi bật nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Giải phóng cảm xúc cá nhân khoáng đạt, sử dụng thủ pháp tương phản đối lập gắt gao, kết hợp hài hòa giữa nét mĩ lệ và dữ dội bi tráng."
+        },
+        {
+          "key": "B",
+          "text": "Tuân thủ nghiêm ngặt quy tắc gieo vần độc vận và phép đối ngẫu cung đình."
+        },
+        {
+          "key": "C",
+          "text": "Phủ nhận hoàn toàn mọi cảm xúc và hình ảnh trữ tình trong tác phẩm."
+        },
+        {
+          "key": "D",
+          "text": "Chỉ tập trung châm biếm, hoạt kê các thói hư tật xấu trong xã hội."
+        }
+      ],
+      "_a": "YwZ7",
+      "_e": "YxMxme9nOZXiIFYSMrL/4jtygc7Ti7MWIiY2fy2E9D9hOvKGNnMmou/xKH9K84hVYTO45P9nMTltblpaMJDkLTJygc7TipNCbWcyNy8udSIpjZBRfyc3KrTpwisS9KPX+sR5PI3mNnY1JtCJ+HM1K5bzNX9G9oLw4Ck+fz4vtOziIB0SLzuG8Ds1ZZuj0YiXKGcvnO5nPj6C71wSLzuG4nUkpOWJEPanoP3gL24lPHY1PPKTMTRpYziW7H9e0Ymxb2U="
+    },
+    {
+      "id": 9,
+      "level": "Nhận biết",
+      "type": "single_choice",
+      "question": "Tư thế tráng sĩ bi tráng trong hai câu kết bài thơ <strong class=\"work-title\"><em>\"Cảm hoài\"</em></strong> (Đặng Dung): <br><em>\"Kỉ độ thôn hàm phung vũ hận / Đao đầu không bạt vạn tinh đê\"</em> (Mấy độ mài gươm bóng nguyệt tà) thể hiện phẩm chất gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sự nản lòng, buông xuôi và thoái thác hoàn toàn trách nhiệm đối với non sông đất nước."
+        },
+        {
+          "key": "B",
+          "text": "Khí phách hiên ngang, lòng yêu nước nồng nàn và ý chí chiến đấu ngoan cường của người anh hùng dù gặp bước thời thế lỡ dở."
+        },
+        {
+          "key": "C",
+          "text": "Thú vui ẩn dật thanh cao, lánh đời nơi non xanh nước biếc."
+        },
+        {
+          "key": "D",
+          "text": "Nỗi sợ hãi bóng đêm và tuổi già sắp ập đến."
+        }
+      ],
+      "_a": "YwV7",
+      "_e": "Yw+a8yAvdbf77V9afz0iheWz/sJbEEZEguY3OG40kf9hI/KSNnMiheWU5DISVPSGoPzCNm4lluUvKRFGLZfGLTJyMZySEF714Wc7Nq/81iNhOveCvujmLTJyMSpL0YmxNWc0vvX+dTWg9ZZTf5D4YzY6hvISW1v16yl5m9+m7t0vJh0SM5D3LTJyPJyYRRJYh/e45NUkdSWC7EQSLLL/7DZyM5ySEEZfLy95Kyam7/EvblNbfyc3gPQ8In9GQvSGoPzCPG4pMj6g9bpRN3Mmou/xKzccEg=="
+    },
+    {
+      "id": 10,
+      "level": "Thông hiểu",
+      "type": "single_choice",
+      "question": "Trong bài thơ <strong class=\"work-title\"><em>\"Thu hứng\"</em></strong> (Đỗ Phủ), bút pháp 'tả cảnh ngụ tình' được thể hiện tập trung qua mối liên hệ nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cảnh rừng phong tiêu điều, sóng gió Vu hiệp dữ dội phản chiếu nỗi đau xót thời thế và nỗi sầu xứ cô đơn của thi nhân hướng về kinh đô Trường An."
+        },
+        {
+          "key": "B",
+          "text": "Cảnh mùa xuân rộn rã gắn với niềm vui mở hội tưng bừng nơi thôn dã."
+        },
+        {
+          "key": "C",
+          "text": "Cảnh sinh hoạt cung đình xa hoa tráng lệ tương phản với nghèo đói dân gian."
+        },
+        {
+          "key": "D",
+          "text": "Cảnh đoàn thuyền đánh cá trở về trong niềm vui trúng mùa hải sản."
+        }
+      ],
+      "_a": "YwZ7",
+      "_e": "YwS45e0pPXY1JkQSKzqG6SBygc5b0Ym3NGt5N43+OzFhOPWbfz6G43WR5zISRRJYh+YwfxgydT4or4q1L3MpgPVyNTf0gPSXLyB5Kyem7tEvblNbvujGNnWW1L6IkUYWL6biyCdnJrf76UQSJ7L+6nlyK76Jp1sWhdY4Km4/luU1blpanOcrYzs1MJyGWRJCM4HpvvXcNnYir4uRMTtlLzqz//5cEF5PYTGa/24rluQvKRH2zjIwY5HDhv5HEFrw8abixCAgdSCg9bASCyGD87Tp2DFVEHNYb2U="
+    },
+    {
+      "id": 11,
+      "level": "Nhận biết",
+      "type": "single_choice",
+      "question": "Bức tranh thiên nhiên miền Tây trong bài thơ <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> (Quang Dũng) được khắc họa qua sự kết hợp của những nét đẹp nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Vừa hùng vĩ, hiểm trở, dữ dội khôn cùng; lại vừa thơ mộng, trữ tình, mĩ lệ và ấm áp ân tình bản mường."
+        },
+        {
+          "key": "B",
+          "text": "Thuần túy là sự hoang vu, chết chóc không có bóng dáng sự sống con người."
+        },
+        {
+          "key": "C",
+          "text": "Bình lặng, êm ả như cảnh sắc vùng đồng bằng châu thổ sông Hồng."
+        },
+        {
+          "key": "D",
+          "text": "Khô cằn, bỏng rát của vùng đất sa mạc hoang sơ."
+        }
+      ],
+      "_a": "YwZ7",
+      "_e": "YxMxNo3tO3YvJljx9T1lLjyz/t5cEGb14z55KzwoOzFhaWXx/SplFzyz/+BcFxJAoPzyPm4vPLf6zVwSKyGk+Mp+ZTvTi50WJabixidnfXElr4qjPHMuK5boJn9ZWEfX+vAseGJnciIpjZBRfzSk+fI/ZSta85tCZm55Ka/8/jdhOln0/nMoou7LKzgeEF/y6Gc1vvXAdX5mI/eCPnM9InU5LZmTWRUaYWAxMC9nkccuIFYSm8KD8zR1bHEQ"
+    },
+    {
+      "id": 12,
+      "level": "Thông hiểu",
+      "type": "single_choice",
+      "question": "Hai câu thơ: <br><em>\"Mắt trừng gửi mộng qua biên giới / Đêm mơ Hà Nội dáng kiều thơm\"</em> trong bài thơ <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> khắc họa vẻ đẹp nào của người lính?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sự suy sụp tinh thần và tư tưởng ủy mị xa rời hiện thực chiến đấu."
+        },
+        {
+          "key": "B",
+          "text": "Sự hòa quyện tuyệt đẹp giữa ý chí chiến đấu quả cảm, quyết liệt ('mắt trừng gửi mộng') và tâm hồn hào hoa, lãng mạn, tha thiết yêu thương ('đêm mơ Hà Nội dáng kiều thơm')."
+        },
+        {
+          "key": "C",
+          "text": "Thói hưởng thụ nhàn hạ, xa hoa của những chàng trai thị thành thời bình."
+        },
+        {
+          "key": "D",
+          "text": "Nỗi sợ hãi hiện thực khắc nghiệt nơi rừng sâu nước độc."
+        }
+      ],
+      "_a": "YwV7",
+      "_e": "Ywk+mf6m7ssobl3x8j0tYwGR5yYSZFvX+/g3fyMmOzFhONCI5HOB0rTo/C8SU9ON5iZ5KzyE9DgmbkL29nMxK7Tp2DYS9KPX++YwfyOm7s0odBFDKiqk+eomZSvxkl8WJS645MkzdSIpjYgSMZXkKnUwLJyYXhJVh/ef/iAgdTgpiIFcOHMxMZbzLH9GWV8WN6bj9CBnkccuIFYSm8Kk+fIrZSnTiokWKYT5MG4vOjdtbl3x/D0iYziz//5cEFHX+uA4fzoytO3UJxFGLbL/+HUmN5yfEEZeoPzwPG4PlvZhOlnx/z0tbXc="
+    },
+    {
+      "id": 13,
+      "level": "Vận dụng",
+      "type": "single_choice",
+      "question": "Đọc 4 câu thơ trong bài <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> (Quang Dũng): <br><div class=\"reading-excerpt-box\"><em>\"Rải rác biên cương mồ viễn xứ / Chiến trường đi chẳng tiếc đời xanh / Áo bào thay chiếu anh về đất / Sông Mã gầm lên khúc độc hành.\"</em></div>Nhận định nào phân tích <strong>đúng nhất</strong> về cảm hứng bi tráng và nghệ thuật biểu đạt?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Nhà thơ che giấu hoàn toàn sự mất mát, không dám nhìn thẳng vào hiện thực khốc liệt của chiến tranh."
+        },
+        {
+          "key": "B",
+          "text": "Nhìn thẳng vào cái chết và sự hi sinh nhưng nâng lên tầm vóc sử thi bất tử nhờ từ ngữ Hán Việt cổ kính, cách nói giảm nói tránh ('về đất') và âm vang bi tráng của dòng sông Mã."
+        },
+        {
+          "key": "C",
+          "text": "Đoạn thơ chỉ mang giọng điệu bi thương, tang tóc làm nhụt ý chí của người cầm súng."
+        },
+        {
+          "key": "D",
+          "text": "Đoạn thơ thuần túy miêu tả tập quán an táng cổ xưa của đồng bào vùng cao."
+        }
+      ],
+      "_a": "YwV7",
+      "_e": "YxYsPiAgdRKE519VfzgtgOE8In9c85sWNTWa/iAvdT4or4q1MXMxK7Tp9DwSWFsWMi43N25vcjug9aISKTqk+NA8ZSfTi5sRaGc3N4j3OzFhLNCI7j0iYyGz/vQSXlXX+uh5KzwmOzFhOkPT5N4rJHV6YpyTXxJUguc2eGJncjQojZtcfzCD85PzKzgVHBIRhda45NckdT6C7l9aeHppYyaz/u4SWFsWMi43N26DxJDxr4qRPHMnou/3MX9G0YmbYS+a7C9nIT6C7l9afzgtgO8xZTxTEFBfYTMrnO8pMnhj"
+    },
+    {
+      "id": 14,
+      "level": "Thông hiểu",
+      "type": "single_choice",
+      "question": "Trong bài thơ <strong class=\"work-title\"><em>\"Đàn ghi ta của Lor-ca\"</em></strong> (Thanh Thảo), hình ảnh người nghệ sĩ Lor-ca được biểu tượng hóa qua những chi tiết nghệ thuật nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Người tráng sĩ mặc áo giáp sắt cưỡi ngựa bay về trời."
+        },
+        {
+          "key": "B",
+          "text": "Người nghệ sĩ tự do, khát khao cách tân đơn độc đi trên đấu trường Tây Ban Nha với 'áo choàng đỏ gắt', 'tiếng đàn bọt nước' và 'vầng trăng váng vất'."
+        },
+        {
+          "key": "C",
+          "text": "Vị vua quyền uy đang ngự trên ngai vàng chỉ huy dàn hợp xướng cung đình."
+        },
+        {
+          "key": "D",
+          "text": "Một đấu sĩ bò tót chuyên nghiệp chỉ khao khát tiền bạc và danh vọng."
+        }
+      ],
+      "_a": "YwV7",
+      "_e": "Yws2LWMkNHYpJ9CJ2D1lL5b4K39e85IWIy645M0ydSKH/tCJ/D0iYzaz/vhTEFxRh/e45NMudTgmJtCJ2HM2h/xyMTbxmlwWMS82MSlnMZPoIFYSPLL/4Dh+ZTJTXlUWKi+a/jpnI7f6w19Vfyek+ORyITASRvGWYSSa/i0vdSKC7F8SMTQtou7VZStaRdOM7DN5OCem7vkgblzx6zplNyeU9b6JrVxRYSQxnOMpPXY1PNCJ1HMrJLTp3CsSXlXX++Ytfy2m7vEgbmXx/SplATQ8ZRFaURwU"
+    },
+    {
+      "id": 15,
+      "level": "Thông hiểu",
+      "type": "single_choice",
+      "question": "Trong bài <strong class=\"work-title\"><em>\"Đàn ghi ta của Lor-ca\"</em></strong>, chuỗi hình ảnh biến thể: <br><em>\"tiếng ghi ta nâu\", \"tiếng ghi ta lá xanh\", \"tiếng ghi ta tròn bọt nước vỡ tan\", \"tiếng ghi ta ròng ròng máu chảy\"</em> mang ý nghĩa nghệ thuật gì?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Mô tả một cách máy móc quá trình sản xuất một cây đàn gỗ ngoài thực tế."
+        },
+        {
+          "key": "B",
+          "text": "Sử dụng thủ pháp tương giao cảm giác để hữu hình hóa âm thanh tiếng đàn: từ tình yêu quê hương, khát vọng tuổi trẻ đến sự tan vỡ đau đớn và nỗi đau bi tráng khi người nghệ sĩ bị sát hại."
+        },
+        {
+          "key": "C",
+          "text": "Thể hiện các lỗi kỹ thuật khi người nghệ sĩ chơi đàn ghi-ta."
+        },
+        {
+          "key": "D",
+          "text": "Chỉ đơn thuần là các từ ngữ chỉ màu sắc ngẫu nhiên không có ý đồ nghệ thuật."
+        }
+      ],
+      "_a": "YwV7",
+      "_e": "YwQxKq/8wj9hIljx9T1lN5PipOStXlUWNYHpme8pMnYmJ1BdfzCk+fY/ZThb85NVYSUwvvT4O3aC7FwSKzskLT1yM5yGEFr17SkxfzovlvYvJhFfnPMwYyaz//BRHBJegus3N24sPbf631gefyctou7RZTdb0YmxL2cqNiAvdZLQr4qrMTRlICCz/sZREPanoPzENmJnIZXtIFkSJpDvNnUkhv8SQ9ON0GcpN6/9+DhhLFgSKyGG4js1ZTzTi5VXYQs2LWMkNHhj"
+    },
+    {
+      "id": 16,
+      "level": "Vận dụng",
+      "type": "single_choice",
+      "question": "Hình ảnh <strong class=\"work-title\"><em>\"không ai chôn cất tiếng đàn / tiếng đàn như cỏ mọc hoang\"</em></strong> và chuỗi âm thanh luyến láy <em>\"li-la li-la li-la\"</em> gửi gắm thông điệp sâu xa nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sự lãng quên tuyệt đối của hậu thế đối với tên tuổi của Lor-ca."
+        },
+        {
+          "key": "B",
+          "text": "Sự bất tử của nghệ thuật chân chính và khát vọng tự do: dù thân xác nghệ sĩ bị tiêu diệt, cái đẹp vẫn có sức sống mãnh liệt, tự lan tỏa và bất diệt như cỏ dại và ngàn hoa thơm."
+        },
+        {
+          "key": "C",
+          "text": "Lời phê phán nền nông nghiệp hoang hóa không có người chăm sóc."
+        },
+        {
+          "key": "D",
+          "text": "Khuyên các nghệ sĩ tương lai không nên tiếp tục chơi đàn ghi-ta nữa."
+        }
+      ],
+      "_a": "YwV7",
+      "_e": "YxMwvvT4OzFhiqDx/z1lKD2R8TFVEEZeoPzafyym7t1hLVnx6z1lNZbrLHMSXvGFYSSa7G40tO3oLRFBvujULTJyMb6JgRJYKS6a9SBnOJXiIFkSMzqk+NImZTFa9oIWIqbi0G4jtOzgJxFEnPNlLTKR5zESRlNYJmc0nO0udTuC7VgSMTuD83U5LZyIUxJCh/e45NEpMnYvJ9CJ2D5lIbTo4CsSRNOM7Cl5PCYodSKg9YASOzxlNZbyZTzxkVsWhda45fc3e3Q="
+    },
+    {
+      "id": 17,
+      "level": "Vận dụng",
+      "type": "single_choice",
+      "question": "Trong <strong class=\"work-title\"><em>\"Bài thơ số 28\"</em></strong> của R. Tagore, quan niệm triết lý về tình yêu và trái tim con người được khái quát qua hình ảnh nào?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trái tim người yêu là hòn ngọc trong suốt có thể đo lường dễ dàng bằng thước kẻ."
+        },
+        {
+          "key": "B",
+          "text": "Trái tim con người là một vũ trụ vô biên, bí ẩn khôn cùng; tình yêu đích thực là sự thấu cảm tâm hồn chứ không thể chiếm đoạt hay tường tận trọn vẹn mọi giới hạn."
+        },
+        {
+          "key": "C",
+          "text": "Tình yêu chỉ là những toan tính vật chất vụ lợi nơi phố thị."
+        },
+        {
+          "key": "D",
+          "text": "Trái tim là một đồ vật tĩnh lặng không hề có cảm xúc."
+        }
+      ],
+      "_a": "YwV7",
+      "_e": "YxM4OCE1MHYmr4qfNnMiou/9KH9GQlvX+/gtfyKE6HYxJveCmfIrJHWW1ZyGXlUWMoT7Km40tOzuLQsSK5DpLT1yPJyYRRJAoPzyPm4rlvZhJVlTMHMuK5bzMX9GWNOM5DJ5Nyem7tU0YhFEvujuInU+hv8SQ9ON8GctLY3lO3Y1PNCJ0j0iYzaR8DYSRPGULGc1NiAvdSCC+hFGvunoLXlyLjfxhFxRYSSa5iAgdTWg9ZZTfzAqLXU8IpmC0YmrKGl7"
+    },
+    {
+      "id": 18,
+      "level": "Vận dụng",
+      "type": "single_choice",
+      "question": "Khi đối sánh hình tượng người anh hùng tráng sĩ trong <strong class=\"work-title\"><em>\"Cảm hoài\"</em></strong> (Đặng Dung) và người lính trong <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> (Quang Dũng), nhận xét nào sau đây là CHÍNH XÁC NHẤT?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Đặng Dung khắc họa tráng sĩ trung đại với tầm vóc vũ trụ và nỗi u hoài thời thế bi tráng; còn Quang Dũng khắc họa người lính vệ quốc thời đại mới với vẻ đẹp hào hoa lãng mạn kết hợp chất bi tráng sử thi."
+        },
+        {
+          "key": "B",
+          "text": "Cả hai bài thơ đều đi theo khuynh hướng thơ trào phúng hoạt kê châm biếm chế độ thực dân."
+        },
+        {
+          "key": "C",
+          "text": "Người lính trong 'Tây Tiến' là nhân vật ước lệ cổ điển, còn tráng sĩ trong 'Cảm hoài' là nhân vật hiện đại thế kỷ XX."
+        },
+        {
+          "key": "D",
+          "text": "Cả hai tác giả đều sử dụng thể thơ tự do đứt gãy không có vần điệu."
+        }
+      ],
+      "_a": "YwZ7",
+      "_e": "Y4PJvvTwOzFhCkRcOHMoIjs1ZTzTipFbYS+45OcpMnY1PPKTMTRlID2R6H9E9ZsWNTW45OtnISQ0IFYSm8Kk+fQ7ZTTTio1CYS+45O03dTig9aZbf5fUIiByMTfTi69fYTMxvvT4bnYQO1BcOHMBhvw8In9fUVxRYSS45e0qdT6g9ZhcOHMpgPY8In9f0YiXL2c6nO8kPXYsr4uTMTRlKLTo+isSWNON4jd5Ka/97naF39CI5iNlK5byKn9aX1MWIqbi+C9nISOg9aRbfyc3ou/pZQta0YmRYYPInPppdw=="
+    },
+    {
+      "id": 19,
+      "level": "Thông hiểu",
+      "type": "true_false",
+      "question": "Xác định tính Đúng / Sai của các nhận định sau về ĐẶC TRƯNG CÁC PHONG CÁCH THƠ:",
+      "subQuestions": [
+        {
+          "id": "a",
+          "text": "Thơ Cổ điển trung đại chuộng thi liệu ước lệ, niêm luật quy phạm nghiêm ngặt và hướng tới tầm vóc vũ trụ lớn lao.",
+          "explanation": "Đúng. Đây là đặc trưng thi pháp cơ bản của thơ trung đại.",
+          "_a": "YzMrKitl"
+        },
+        {
+          "id": "b",
+          "text": "Thơ Lãng mạn đề cao cái tôi cá nhân, cảm xúc dồi dào, ưa thủ pháp tương phản đối lập và sự mở rộng liên tưởng phong phú.",
+          "explanation": "Đúng. Thơ lãng mạn giải phóng cá tính sáng tạo và cảm xúc nội tâm.",
+          "_a": "YzMrKitl"
+        },
+        {
+          "id": "c",
+          "text": "Thơ Tượng trưng - Siêu thực chỉ miêu tả sự vật theo quan hệ nhân quả một chiều và tuyệt đối cấm dùng tương giao cảm giác.",
+          "explanation": "Sai. Thơ tượng trưng - siêu thực đề cao tương giao cảm giác, nhạc tính và giải phóng tiềm thức.",
+          "_a": "YyE4Mz0idw=="
+        },
+        {
+          "id": "d",
+          "text": "Dù thuộc phong cách nào, cấu tứ và mạch cảm xúc luôn là yếu tố quyết định tạo nên sự thống nhất hữu cơ của bài thơ.",
+          "explanation": "Đúng. Cấu tứ là linh hồn tổ chức hình tượng trong mọi tác phẩm thơ.",
+          "_a": "YzMrKitl"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "level": "Thông hiểu",
+      "type": "true_false",
+      "question": "Xác định tính Đúng / Sai về THI PHÁP NGHỆ THUẬT trong bài thơ <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> (Quang Dũng):",
+      "subQuestions": [
+        {
+          "id": "a",
+          "text": "Quang Dũng sử dụng bút pháp lãng mạn kết hợp cảm hứng bi tráng để khắc họa bức tranh thiên nhiên và tượng đài người lính.",
+          "explanation": "Đúng. Đây là phong cách nghệ thuật đặc trưng của thi phẩm Tây Tiến.",
+          "_a": "YzMrKitl"
+        },
+        {
+          "id": "b",
+          "text": "Hệ thống từ ngữ Hán Việt cổ kính ('biên cương', 'viễn xứ', 'áo bào', 'độc hành') góp phần trang trọng hóa và bất tử hóa sự hi sinh.",
+          "explanation": "Đúng. Từ Hán Việt tạo không khí thiêng liêng, bi tráng mang màu sắc sử thi.",
+          "_a": "YzMrKitl"
+        },
+        {
+          "id": "c",
+          "text": "Bài thơ né tránh hoàn toàn hiện thực gian khổ, bệnh tật sốt rét rừng và sự hi sinh của đồng đội.",
+          "explanation": "Sai. Quang Dũng không né tránh gian khổ ('không mọc tóc', 'da xanh màu lá', 'mồ viễn xứ') nhưng nhìn bằng con mắt lãng mạn hào hoa.",
+          "_a": "YyE4Mz0idw=="
+        },
+        {
+          "id": "d",
+          "text": "Sự luân chuyển giữa các câu thơ nhiều thanh trắc gân guốc và câu toàn thanh bằng êm dịu tạo nên nhạc điệu phong phú, độc đáo.",
+          "explanation": "Đúng. Phối thanh bằng trắc là đỉnh cao nghệ thuật của bài thơ.",
+          "_a": "YzMrKitl"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "level": "Thông hiểu",
+      "type": "true_false",
+      "question": "Xác định tính Đúng / Sai về THI PHÁP TƯỢNG TRƯNG - SIÊU THỰC trong <strong class=\"work-title\"><em>\"Đàn ghi ta của Lor-ca\"</em></strong> (Thanh Thảo):",
+      "subQuestions": [
+        {
+          "id": "a",
+          "text": "Tác phẩm sử dụng cấu trúc thơ tự do không dấu chấm câu, nhịp thơ nương theo dòng chảy cảm xúc và liên tưởng đa tầng.",
+          "explanation": "Đúng. Cấu trúc mở phóng khoáng đặc trưng cho thơ hiện đại sau 1975.",
+          "_a": "YzMrKitl"
+        },
+        {
+          "id": "b",
+          "text": "Tiếng đàn ghi-ta được nhân cách hóa và chuyển đổi cảm giác thành màu sắc, hình khối, sự sống và nỗi đau ('tiếng ghi ta ròng ròng máu chảy').",
+          "explanation": "Đúng. Tương giao cảm giác là thủ pháp tượng trưng nổi bật.",
+          "_a": "YzMrKitl"
+        },
+        {
+          "id": "c",
+          "text": "Thanh Thảo chỉ đơn thuần thuật lại biên bản vụ án bắt giam Lor-ca của cảnh sát độc tài mà không có hình tượng nghệ thuật nào.",
+          "explanation": "Sai. Bài thơ xây dựng thế giới hình ảnh biểu tượng huyền ảo, giàu triết lý.",
+          "_a": "YyE4Mz0idw=="
+        },
+        {
+          "id": "d",
+          "text": "Âm thanh mô phỏng tiếng đàn 'li-la li-la li-la' vừa gợi giai điệu đàn ghi-ta vừa liên tưởng đến hoa tử đinh hương dâng tặng hương hồn thi sĩ.",
+          "explanation": "Đúng. Sáng tạo ngôn từ đa nghĩa độc đáo của Thanh Thảo.",
+          "_a": "YzMrKitl"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "level": "Vận dụng",
+      "type": "true_false",
+      "question": "Đọc 4 câu thơ trong bài <strong class=\"work-title\"><em>\"Cảm hoài\"</em></strong> (Đặng Dung) và xác định tính Đúng / Sai:\n<div class=\"reading-excerpt-box\"><em>\"Thế sự du du nại lão hà / Vô cùng thiên địa nhập hàm ca / Thời lai đồ điếu thành công dị / Vận khứ anh hùng ẩm hận đa.\"</em></div>",
+      "subQuestions": [
+        {
+          "id": "a",
+          "text": "Hai câu đầu thể hiện nỗi xót xa trước bước đi của thời gian và tuổi già trong sự đối sánh với đất trời vô tận.",
+          "explanation": "Đúng. Mở đầu bằng nỗi u hoài trước thời thế mênh mông.",
+          "_a": "YzMrKitl"
+        },
+        {
+          "id": "b",
+          "text": "Hai câu thực sử dụng nghệ thuật đối lập ('thời lai' >< 'vận khứ') để đúc kết quy luật hưng phế khốc liệt của thời cuộc.",
+          "explanation": "Đúng. Phép đối chuẩn mực tạo chiều sâu triết lý thời thế.",
+          "_a": "YzMrKitl"
+        },
+        {
+          "id": "c",
+          "text": "Cụm từ 'ẩm hận đa' (nuốt hận nhiều) thể hiện sự oán hờn nhân dân và quay lưng phản bội lại đất nước.",
+          "explanation": "Sai. Đó là nỗi ngậm ngùi đau đớn vì chí lớn chưa thành khi vận nước lỡ dở.",
+          "_a": "YyE4Mz0idw=="
+        },
+        {
+          "id": "d",
+          "text": "Thể thơ Thất ngôn bát cú Đường luật với niêm luật chặt chẽ làm tăng vẻ trang nghiêm, bi hùng cho lời tự thuật tâm trạng.",
+          "explanation": "Đúng. Vẻ đẹp cổ điển mẫu mực của thơ trung đại.",
+          "_a": "YzMrKitl"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "level": "Vận dụng",
+      "type": "true_false",
+      "question": "Đọc đoạn thơ sau trong <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> (Quang Dũng) và xác định tính Đúng / Sai:\n<div class=\"reading-excerpt-box\"><em>\"Tây Tiến đoàn binh không mọc tóc / Quân xanh màu lá dữ oai hùm / Mắt trừng gửi mộng qua biên giới / Đêm mơ Hà Nội dáng kiều thơm.\"</em></div>",
+      "subQuestions": [
+        {
+          "id": "a",
+          "text": "Cụm từ 'không mọc tóc' và 'quân xanh màu lá' phản ánh chân thực căn bệnh sốt rét rừng quái ác nơi chiến trường Tây Bắc.",
+          "explanation": "Đúng. Hiện thực khốc liệt về đời sống kháng chiến được tái hiện sinh động.",
+          "_a": "YzMrKitl"
+        },
+        {
+          "id": "b",
+          "text": "Hình ảnh 'dữ oai hùm' thể hiện tư thế kiêu hùng, áp đảo gian khổ hiểm nguy của người lính.",
+          "explanation": "Đúng. Khí phách dũng mãnh bù đắp cho vẻ ngoài tiều tụy vì bệnh tật.",
+          "_a": "YzMrKitl"
+        },
+        {
+          "id": "c",
+          "text": "Hai chữ 'dáng kiều thơm' bị coi là biểu hiện của lối sống phong kiến lạc hậu cần phải bài trừ khỏi tác phẩm.",
+          "explanation": "Sai. Đó là nét tâm hồn lãng mạn trong sáng, là động lực tinh thần của thanh niên trí thức kháng chiến.",
+          "_a": "YyE4Mz0idw=="
+        },
+        {
+          "id": "d",
+          "text": "Đoạn thơ kết hợp nhịp nhàng giữa chất hiện thực gân guốc và chất lãng mạn bay bổng của hồn thơ Quang Dũng.",
+          "explanation": "Đúng. Vẻ đẹp đặc sắc của phong cách Quang Dũng.",
+          "_a": "YzMrKitl"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "level": "Vận dụng",
+      "type": "true_false",
+      "question": "Đọc đoạn thơ sau trong <strong class=\"work-title\"><em>\"Đàn ghi ta của Lor-ca\"</em></strong> (Thanh Thảo) và xác định tính Đúng / Sai:\n<div class=\"reading-excerpt-box\"><em>\"Tây Ban Nha / hát nghêu ngao / bỗng kinh hoàng / áo choàng bê bết đỏ / Lor-ca bị dẫn về bãi bắn / chàng đi như người mộng du\"</em></div>",
+      "subQuestions": [
+        {
+          "id": "a",
+          "text": "Không gian đất nước Tây Ban Nha gắn liền với tiếng hát nghêu ngao tự do đối lập với biến cố đẫm máu bất ngờ ('kinh hoàng', 'áo choàng bê bết đỏ').",
+          "explanation": "Đúng. Sự tương phản gay gắt giữa nghệ thuật thanh bình và bạo lực phát xít.",
+          "_a": "YzMrKitl"
+        },
+        {
+          "id": "b",
+          "text": "Hình ảnh 'áo choàng bê bết đỏ' vừa gợi chiếc áo choàng của đấu sĩ bò tót, vừa là ẩn dụ về cái chết bi thương của Lor-ca.",
+          "explanation": "Đúng. Hình ảnh đa nghĩa biểu tượng sâu sắc.",
+          "_a": "YzMrKitl"
+        },
+        {
+          "id": "c",
+          "text": "Tư thế 'đi như người mộng du' thể hiện tâm thế hoảng loạn, van xin tha mạng của người nghệ sĩ trước mũi súng kẻ thù.",
+          "explanation": "Sai. Đó là tâm thế thanh thản, vượt lên trên cái chết để sống trọn vẹn trong cõi mộng nghệ thuật.",
+          "_a": "YyE4Mz0idw=="
+        },
+        {
+          "id": "d",
+          "text": "Nhịp thơ ngắt ngắn, dồn dập diễn tả bước đi định mệnh và khoảnh khắc lịch sử đau thương của đất nước Tây Ban Nha.",
+          "explanation": "Đúng. Nhịp điệu kịch tính tái hiện thảm kịch.",
+          "_a": "YzMrKitl"
+        }
+      ]
+    }
+  ],
+  "questions_practice_only": [
+    {
+      "id": 25,
+      "level": "Nhận biết",
+      "type": "fill_blank",
+      "question": "Chọn thuật ngữ thích hợp: '[ ...?... ] là cách thức tổ chức, liên kết các hình ảnh, mạch cảm xúc và tư tưởng của bài thơ thành một chỉnh thể nghệ thuật hoàn chỉnh.'",
+      "dropdownOptions": [
+        "-- Nhấp để chọn phương án điền khuyết --",
+        "Cấu tứ thơ",
+        "Nhạc điệu thơ",
+        "Biện pháp tu từ",
+        "Gieo vần chính vận"
+      ],
+      "_a": "YwS45esydSKg9ZgSKzuD4nc=",
+      "_e": "YwS45esydSKg9ZgSM5DlYzaR5DxaEEbX+tJ5PCam7v8ibkfx/3Muou/tMX9c0YmnKGc6nO8kdS+g9I5Hfyek+MRyKzha0YmxYTMxKq/9+CJhOlnx/z0tYziz/sZGEFFeoPzQMSZnIT6g9bISKzuD4nU6KpySXhJVKabi1iAve3Q="
+    },
+    {
+      "id": 26,
+      "level": "Nhận biết",
+      "type": "fill_blank",
+      "question": "Chọn thuật ngữ thích hợp: '[ ...?... ] là hiện tượng chuyển đổi cảm xúc giữa các giác quan (nghe âm thanh cảm nhận được màu sắc, hình khối), một thủ pháp đặc trưng của thơ tượng trưng.'",
+      "dropdownOptions": [
+        "-- Nhấp để chọn phương án điền khuyết --",
+        "Tương giao cảm giác",
+        "Tả cảnh ngụ tình",
+        "Nói quá phóng đại",
+        "Chơi chữ điệp âm"
+      ],
+      "_a": "YxOf74jmOzFhKVhTMHMmou/xKH9VWfGXImU=",
+      "_e": "YxOf74jmOzFhKVhTMHMmou/xKH9VWfGXImc1nO5nJrf6/xFVNjIqYyE6Kj4eEFFeND645M0pdTKg9bpRN3Ok+fA8ZSv0gNON4ik+fykutO3uLxFRnPImYzI7hv5REENDICl5KzwoOzFhOljT5ew1Yzs6pOWfXhJCKabj9iNnOLf69x8Q"
+    },
+    {
+      "id": 27,
+      "level": "Nhận biết",
+      "type": "fill_blank",
+      "question": "Chọn thuật ngữ thích hợp: '[ ...?... ] là trung tâm bộc lộ cảm xúc, thái độ, tư tưởng và lý tưởng thẩm mỹ của nhà thơ trước cuộc đời trong tác phẩm trữ tình.'",
+      "dropdownOptions": [
+        "-- Nhấp để chọn phương án điền khuyết --",
+        "Chủ thể trữ tình (Cái tôi trữ tình)",
+        "Người kể chuyện toàn tri",
+        "Nhân vật ước lệ",
+        "Hình tượng phản diện"
+      ],
+      "_a": "YwQxvvXgdSIpr4qxfyc3ou79ZSvxnFxeYW8anO8udSKC+lgSKyGk+PpyMZyeXlofYw==",
+      "_e": "YwQxvvXgdSIpr4qxfyc3ou79ZSvxnFxeYSua/24kPbf66RFGN7L+wHUiLZyTRBJYJoTtMW4ltO3YLRFevujcYyE6pOWNEFVfoPzCNm4zlvQsbkX0739lILTo5jISSPGMImctLSEpMnYjjZFbfycthfR8Zw=="
+    },
+    {
+      "id": 28,
+      "level": "Nhận biết",
+      "type": "fill_blank",
+      "question": "Chọn thuật ngữ thích hợp: '[ ...?... ] là hình ảnh nghệ thuật được lặp lại nhiều lần, tích tụ chiều sâu tư tưởng và mở ra các tầng ý nghĩa triết lý nhân sinh phổ quát.'",
+      "dropdownOptions": [
+        "-- Nhấp để chọn phương án điền khuyết --",
+        "Biểu tượng thơ",
+        "Chi tiết đời thường",
+        "Cốt truyện phi tuyến tính",
+        "Lời nửa trực tiếp"
+      ],
+      "_a": "YwUwvvXEIHY1iIHT5PArJHUmLZmTEg==",
+      "_e": "YwUwvvXEIHY1iIHT5PArJHUmLZmTEF714WcxnOIpPXag9JJcN3MmK7Tp7D4S9KPX+vY3OG4pPT+g9bBHfyek+fI8In9cV1ry6CZ5LI3lIHYyr4udPH9lLjQ8In9G859YKWcyN43mPHYwO/KTK3MmIjp8Zw=="
+    },
+    {
+      "id": 29,
+      "level": "Thông hiểu",
+      "type": "fill_blank",
+      "question": "Chọn cụm từ thích hợp vào nhận định đối sánh: 'Nếu hình tượng tráng sĩ trong <strong class=\"work-title\"><em>\"Cảm hoài\"</em></strong> (Đặng Dung) mang tầm vóc vũ trụ và nỗi u hoài thời thế của thi pháp [ ...?... ]; thì hình tượng người lính trong <strong class=\"work-title\"><em>\"Tây Tiến\"</em></strong> (Quang Dũng) lại bừng sáng vẻ đẹp hào hoa, lãng mạn và bi tráng thời đại kháng chiến.'",
+      "dropdownOptions": [
+        "-- Nhấp để chọn phương án điền khuyết --",
+        "Cổ điển trung đại",
+        "Tượng trưng siêu thực",
+        "Hiện thực trào phúng",
+        "Đồng thoại thiếu nhi"
+      ],
+      "_a": "YwS45Ntnkccor4qxMXMxMSA8In/2odOM4C57",
+      "_e": "Y4PJvvTwOzFhCkRcOHM2gPQ8In9G85NVYTMxOiFnIT4obkFanPI1Yxaz/soS9KNfoPzaMW4zJyMvKRH2zrL/4jxyM76Jq1sWI4TjK243PZXgPhH077L+2DZyKb6JtxJAgud5PCaE+HYqJvKffyc3gPQ8In9B9JsWN4Lwfzo1tO3kYBM="
+    },
+    {
+      "id": 30,
+      "level": "Vận dụng",
+      "type": "fill_blank",
+      "question": "Chọn thông điệp cốt lõi từ bài thơ <strong class=\"work-title\"><em>\"Đàn ghi ta của Lor-ca\"</em></strong> (Thanh Thảo): 'Dù bạo lực bạo tàn có thể vùi dập thể xác người nghệ sĩ, nhưng [ ...?... ] và khát vọng tự do, sáng tạo nghệ thuật chân chính sẽ mãi mãi bất tử.'",
+      "dropdownOptions": [
+        "-- Nhấp để chọn phương án điền khuyết --",
+        "Tiếng đàn nghệ thuật",
+        "Vũ khí quân sự",
+        "Mối hận thù giai cấp",
+        "Chiếc áo choàng thi đấu"
+      ],
+      "_a": "YxMwvvT4OzFhiqDx/z1lLTI6pOS1EEZeNKbj8jpl",
+      "_e": "YxMwvvT4OzFhiqDx/z1lL5byZT1b0Ym1NGctmf6m7vUvKRFQvungN3UmpOSfEFHX+uA4fy2E9D9hiqDT5eo1b3UxpOSVURJYJi+45MlnIT40r4ufK3MmK5bwK39RWPGbLy95KY3ndT0pjZBGfyWk+Ng8In9G0YmHYSM2cWw="
+    }
+  ],
+  "questions_exam_only": [
+    {
+      "id": 25,
+      "type": "single_choice",
+      "level": "Vận dụng cao",
+      "question": "Khái niệm 'Sự tương giao đa giác quan' (Correspondences / Synesthesia) trong thơ tượng trưng hiện đại được hiểu là:",
+      "options": [
+        "A. Hiện tượng một bài thơ được dịch sang nhiều ngôn ngữ quốc tế khác nhau.",
+        "B. Sự hòa quyện, chuyển hóa linh hoạt giữa các cảm giác (thị giác, thính giác, khứu giác, xúc giác) để biểu đạt thế giới tinh vi.",
+        "C. Việc bắt buộc người đọc phải vừa đọc thơ vừa nghe nhạc giao hưởng cổ điển.",
+        "D. Việc sử dụng tranh minh họa màu sắc rực rỡ bên cạnh các dòng chữ thơ."
+      ],
+      "_a": "YwV7",
+      "_e": "YxOf74jmOzFhKVhTMHMiKpbzJn9DRVNYYSua/26DxLf7+VISKyGD8zs1ZStaWRJGKYT4L24ktO3mLxFGN5XkYz07pOS1XhLy0Kbj/id9dTuC7kQSLLL/7DZyJpyBEEZeoPzafyAgPTNhOlnT5fY8Y5bwKH9GWFNYKWt5nOwqdSIpL19afz4kLTJyLZyeXloWKi+45N8udSCC7hFameOD4js1ZSnTi7kYYw=="
+    },
+    {
+      "id": 26,
+      "type": "single_choice",
+      "level": "Thông hiểu",
+      "question": "Nhịp điệu trong thơ tự do hiện đại được hình thành chủ yếu từ yếu tố nào?",
+      "options": [
+        "A. Sự tuân thủ nghiêm ngặt số chữ trong mỗi câu thơ theo thể thơ Đường luật.",
+        "B. Nhịp điệu bên trong của cảm xúc, dòng chảy tâm tư và sự ngắt nhịp biến hóa theo mạch tâm trạng.",
+        "C. Sự lặp đi lặp lại đơn điệu của các thanh bằng và trắc ở các vị trí chẵn lẻ.",
+        "D. Việc tác giả sử dụng các dấu chấm câu và dấu phẩy theo đúng ngữ pháp văn xuôi."
+      ],
+      "_a": "YwV7",
+      "_e": "YxMxme9nIbf6/xFWMHMiKrTo5jYSQFr18ik+fyUvtO3OJxFZNyaG9ztyLjfTi6cWIoT7Km4kPbf64RFRvujUY5HDpOS5XloWhda45M1nOz6g9bpCf5fUKrTpwioSRFrw4Gc7vvToIXYzr4q3fyc3ou7jJn9GWdOM/jd5K6/8/nYvJtCJ1CNlh8Sz//JCEFD16yl5KzwoOzFhLdCJ+DJlILTo5jISSPGMImcvnO5nIZDxbkX077L+3Ds1a30="
+    },
+    {
+      "id": 27,
+      "type": "single_choice",
+      "level": "Vận dụng",
+      "question": "Yếu tố 'Biểu tượng' (Symbol) khác với 'Hình ảnh tả thực' thông thường ở điểm cốt lõi nào?",
+      "options": [
+        "A. Biểu tượng có tính đa nghĩa, gợi mở những tầng ý nghĩa triết lý sâu xa vượt ra ngoài đối tượng cụ thể.",
+        "B. Biểu tượng chỉ được phép mượn từ văn học cổ điển Trung Hoa hoặc thần thoại Hy Lạp.",
+        "C. Biểu tượng luôn mang nghĩa cố định, rõ ràng và không cho phép người đọc suy luận khác.",
+        "D. Biểu tượng chỉ tồn tại trong các câu thơ có vần trắc ở cuối câu."
+      ],
+      "_a": "YwZ7",
+      "_e": "YwUwvvXEIHY1iIHT5PArJHU/JDFVEFzywik+fyKB5bf67V9VfzSk+PY7ZTLTi60WN4Ttfzqm7/svYhFenPNlID07pOWNUxJVoP3+Km4ptO3QJxFVNrL+7DRyJpyTWRJeoPz2Km4vlvovJhFEnPNlIJbzLH9E84YWKYT1MSZrdT2C41JafyctgPgxLX9eWfGcL2ctmf6m7skvKRFBnPIrJHUmpOWTXxJVoPz+Pm6DxLf611ISODqk+fZ8Zw=="
+    },
+    {
+      "id": 28,
+      "type": "single_choice",
+      "level": "Thông hiểu",
+      "question": "Vai trò của 'Khoảng trắng' (Khoảng lặng nghệ thuật) trong một bài thơ hiện đại là:",
+      "options": [
+        "A. Do lỗi in ấn hoặc lỗi căn lề của nhà xuất bản trong quá trình in sách.",
+        "B. Tạo khoảng lặng nghệ thuật để cảm xúc lắng đọng, kích thích người đọc đồng sáng tạo và chiêm nghiệm.",
+        "C. Giúp người đọc đọc bài thơ nhanh hơn mà không cần suy nghĩ về ý nghĩa câu chữ.",
+        "D. Báo hiệu bài thơ đã hoàn toàn kết thúc và không còn nội dung nào tiếp theo."
+      ],
+      "_a": "YwV7",
+      "_e": "YwwxMK/99jgmbkVAvunqLTJyMS1dXlUWNS+f/m4rlvZhafKPfyek+fQ7ZTFV84ZYYSk+MK/99D9mYhFenPNlLZPzLH9cV/GCL2c3OK/8+nYjr4uXK3Mpou7jJn9cWPSGoPzEMSlnNj6g9aYSPDsqYyaz/u4SWV8WLabj6CAgdZLQr4uVJnM2ou77Jn9V0YmVKGcvnO5nNj4ojZtffz0iKzyz/thfEEH14zJ5M6/9+jgmYBM="
+    },
+    {
+      "id": 29,
+      "type": "single_choice",
+      "level": "Vận dụng",
+      "question": "Sự khác biệt căn bản giữa 'Cảm xúc trong thơ' và 'Cảm xúc đời thường' là:",
+      "options": [
+        "A. Cảm xúc đời thường sâu sắc hơn cảm xúc trong thơ vì nó diễn ra trong đời thực.",
+        "B. Cảm xúc trong thơ là cảm xúc đã được lắng đọng, thẩm định qua mỹ cảm và khái quát thành giá trị nghệ thuật.",
+        "C. Cảm xúc trong thơ hoàn toàn là sự bịa đặt vô căn cứ, không bắt nguồn từ đời sống.",
+        "D. Cảm xúc trong thơ chỉ dành riêng cho những nhà nghiên cứu lý luận văn học chuyên nghiệp."
+      ],
+      "_a": "YwV7",
+      "_e": "YwS45e0qdS6C9FISKzuD4nUxJH9e85IWIqbj/CNnLZX7LRFGN7L/6jhyKL6JiQgWhdaf76/89jVhLVn07z0iYzaz//pGHBJdoP3mK24zPDgpbkBHPnMxMbTo5jYSXlVeKKbi2CNnJpXjOxFBvunqIHUxpOSVURJYJoHpvvXaPHYvKVnT5NRlMJH7ZZuj0Ym1YTMrvvXYdSIpjZFcN3MxKrTo+jFVEF718yk+fy0vIDgmblLT5PQkYzs6hv1cEF5ZoP34NmBl"
+    },
+    {
+      "id": 30,
+      "type": "single_choice",
+      "level": "Vận dụng cao",
+      "question": "Nhận định nào sau đây diễn đạt ĐÚNG NHẤT về sứ mệnh của thơ ca trong đời sống con người?",
+      "options": [
+        "A. Thơ ca là một trò chơi ngôn từ thuần túy không gắn liền với số phận con người.",
+        "B. Thơ ca neo đậu tâm hồn con người vào cái thiện, cái đẹp và là nơi trú ngụ thiêng liêng của nhân phẩm.",
+        "C. Thơ ca có nhiệm vụ thay thế các ngành khoa học tự nhiên trong việc khám phá vũ trụ.",
+        "D. Thơ ca chỉ có giá trị giải trí nhất thời trong những lúc rảnh rỗi."
+      ],
+      "_a": "YwV7",
+      "_e": "YxMxme9nNjdhIETx6zplJ5PipOSTXlUWMS+45ekpdTgmiIHT5M4sYyEgKjFVEF/X+tAwfy0oO3YvKfeCvujYKnlyLZmC0YmtLyB5KyYutO3GIB0SPLL+6iByN76Jp1sWNYT7Mm4vtO3SIBFEnPNlIbTo4CsSRNON7GcxnP0mdTgpr4qdMTRlJDyR5H9GQtONymc6PiFnkceg9IhCfz0tou/3MX9R0YmRIGedzq/8yD9hPdCJzj0ibXc="
+    }
+  ]
 };
 
 
@@ -3061,11 +3086,16 @@ function normalizeQuestion(q) {
   const text = q.text || q.question || '';
   const level = q.level || 'Thông hiểu';
   let type = q.type || 'single_choice';
-  const correctAnswer = q.correctAnswer || q.answer || '';
-  const explanation = q.explanation || q.explain || '';
+  const correctAnswer = (q.correctAnswer !== undefined) ? q.correctAnswer : ((q._a !== undefined) ? _decryptSecure(q._a) : (q.answer || ''));
+  const explanation = (q.explanation !== undefined) ? q.explanation : ((q._e !== undefined) ? _decryptSecure(q._e) : (q.explain || ''));
 
   if (Array.isArray(q.subQuestions) && q.subQuestions.length > 0) {
     type = 'true_false';
+    q.subQuestions.forEach(function(sq) {
+      if (sq.correctAnswer === undefined && sq._a !== undefined) {
+        sq.correctAnswer = _decryptSecure(sq._a);
+      }
+    });
   } else if (Array.isArray(q.dropdownOptions) && q.dropdownOptions.length > 0) {
     type = 'fill_blank';
   }
@@ -3504,7 +3534,7 @@ function applyGateControl() {
   }
 
   const currentStatus = String(remoteConfig.examStatus || remoteConfig.status || 'OPEN').toUpperCase().trim();
-  const isClosed = (currentStatus === 'CLOSED' || currentStatus === 'LOCKED' || currentStatus === 'MAINTENANCE' || currentStatus === 'KHÓA' || currentStatus === 'ĐÓNG');
+  const isClosed = (currentStatus === 'CLOSED' || currentStatus === 'LOCKED' || currentStatus === 'MAINTENANCE' || currentStatus === 'KHOA' || currentStatus === 'DONG' || currentStatus === 'DANG_CAP_NHAT' || currentStatus === 'BAO_TRI');
 
   if (isClosed && currentMode === 'exam') {
     if (lockScreen) lockScreen.style.display = 'block';
@@ -4027,6 +4057,34 @@ function initQuestions(shuffle) {
     activeQuestions.sort(function() { return Math.random() - 0.5; });
   }
 }
+
+
+// =========================================================================
+// CHẾ ĐỘ BẢO MẬT PHÒNG THI & CHỐNG SOI MÃ NGUỒN (ANTI-F12 / ANTI-INSPECT)
+// =========================================================================
+(function initExamSecurity() {
+  document.addEventListener('contextmenu', function(e) {
+    if (currentMode === 'exam' && !isSubmitted && !isTeacherMode) {
+      e.preventDefault();
+      showToast('⚠️ Đang trong ca thi chính thức: Chuột phải tạm thời bị khóa.');
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (currentMode === 'exam' && !isSubmitted && !isTeacherMode) {
+      if (
+        e.keyCode === 123 || 
+        (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
+        (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83))
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        showToast('⚠️ Thao tác xem nguồn trang bị cấm trong ca thi chính thức.');
+        return false;
+      }
+    }
+  });
+})();
 
 function startTimer() {
   clearInterval(examTimer);
