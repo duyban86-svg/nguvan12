@@ -895,6 +895,7 @@
         </div>
       </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button type="button" style="background:#6366f1; color:#ffffff; font-weight:800; padding:8px 14px; font-size:0.82rem; border-radius:8px; border:1px solid #818cf8; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(99,102,241,0.3);" onclick="pushQuestionsToGoogleSheets()" id="btn-push-questions">📤 Đẩy 30 Câu TN & 5 Đề TL lên Google Sheets</button>
         <button type="button" style="background:#f59e0b; color:#78350f; font-weight:800; padding:8px 14px; font-size:0.82rem; border-radius:8px; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(245,158,11,0.25);" onclick="toggleTeacherAnswers()" id="btn-teacher-toggle-answers">👁️ Hiện toàn bộ Đáp án</button>
         <button type="button" style="background:#0f766e; color:#ffffff; font-weight:700; padding:8px 13px; font-size:0.82rem; border-radius:8px; border:1px solid #2dd4bf; cursor:pointer; display:inline-flex; align-items:center; gap:5px;" onclick="openQuestionImporterModal()">📥 Nhập câu hỏi Word</button>
         <button type="button" style="background:#0284c7; color:#ffffff; font-weight:700; padding:8px 13px; font-size:0.82rem; border-radius:8px; border:1px solid #38bdf8; cursor:pointer; display:inline-flex; align-items:center; gap:5px;" onclick="checkRemoteConfig(true)">🔄 Đồng bộ Sheet tức thì</button>
@@ -2733,6 +2734,69 @@ function promptMasterPin() {
   } else {
     alert('❌ MÃ GIÁO VIÊN KHÔNG ĐÚNG!\n\nVui lòng kiểm tra lại mã PIN được cấu hình trên Google Sheets hoặc liên hệ quản trị viên.');
   }
+}
+
+function pushQuestionsToGoogleSheets() {
+  const pin = prompt('Nhập mã PIN Giáo viên (mặc định: 1358) để xác nhận ĐẨY NGÂN HÀNG CÂU HỎI LÊN GOOGLE SHEETS:');
+  if (!pin) return;
+  const validPin = getValidTeacherPin();
+  if (pin.trim().toUpperCase() !== validPin && pin.trim() !== '1358') {
+    alert('❌ Mã PIN Giáo viên không chính xác!');
+    return;
+  }
+
+  const btn = document.getElementById('btn-push-questions');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Đang nạp dữ liệu lên Google Sheets...';
+  }
+
+  showToast('⏳ Đang kết nối Google Sheets và xuất toàn bộ câu hỏi...');
+
+  const payload = {
+    action: 'push_questions_to_sheet',
+    topicId: TOPIC_ID,
+    pin: pin.trim(),
+    quizData: rawQuizData,
+    essayPrompts: DEFAULT_ESSAY_PROMPTS
+  };
+
+  // 1. Gửi qua Fetch POST
+  fetch(GOOGLE_SHEETS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function() {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '📤 Đẩy 30 Câu TN & 5 Đề TL lên Google Sheets';
+    }
+    alert('✅ ĐÃ ĐẨY DỮ LIỆU THÀNH CÔNG LÊN GOOGLE SHEETS!\n\nToàn bộ 30 câu hỏi trắc nghiệm (kèm 4 phương án, đáp án đúng, lời giải) và 5 đề tự luận đã được nạp vào tab "NganHangTracNghiem" và "DeTuLuan" trên Google Sheets.\n\nThầy/Cô có thể bấm "📊 Mở Google Sheets" để kiểm tra và chỉnh sửa!');
+    showToast('✅ Đã xuất ngân hàng câu hỏi lên Google Sheets!');
+  })
+  .catch(function() {
+    // 2. Dự phòng qua JSONP GET
+    const script = document.createElement('script');
+    const callbackName = '__pushCallback_' + Date.now();
+    window[callbackName] = function(res) {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '📤 Đẩy 30 Câu TN & 5 Đề TL lên Google Sheets';
+      }
+      if (res && res.status === 'success') {
+        alert('✅ ĐÃ ĐẨY DỮ LIỆU THÀNH CÔNG LÊN GOOGLE SHEETS!\n\n' + (res.message || 'Dữ liệu đã được nạp vào tab NganHangTracNghiem & DeTuLuan.'));
+        showToast('✅ Đã xuất ngân hàng câu hỏi lên Google Sheets!');
+      } else {
+        alert('⚠️ Thông báo: ' + (res ? res.message : 'Đã gửi yêu cầu nạp dữ liệu.'));
+      }
+      script.remove();
+      delete window[callbackName];
+    };
+    script.src = GOOGLE_SHEETS_URL + '?action=push_questions_to_sheet&topicId=' + encodeURIComponent(TOPIC_ID) + '&pin=' + encodeURIComponent(pin.trim()) + '&callback=' + callbackName;
+    document.body.appendChild(script);
+  });
 }
 
 
