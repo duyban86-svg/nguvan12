@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CHUYÊN ĐỀ RÈN KỸ NĂNG VIẾT NGHỊ LUẬN VĂN HỌC & XÃ HỘI - NGỮ VĂN THPT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #831843;
+      --primary-hover: #500724;
+      --primary-light: #fdf2f8;
+      --secondary: #0f766e;
+      --secondary-light: #f0fdfa;
+      --accent: #b45309;
+      --accent-light: #fffbeb;
+      --indigo: #4338ca;
+      --indigo-light: #eef2ff;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #fdf4f8 0%, #f1f5f9 50%, #f0fdfa 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.65;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    header {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px 32px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #831843, #0f766e, #4338ca, #f59e0b);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .badges-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .badge-primary { background: var(--primary-light); color: var(--primary); border: 1px solid rgba(131, 24, 67, 0.2); }
+    .badge-secondary { background: var(--secondary-light); color: var(--secondary); border: 1px solid rgba(15, 118, 110, 0.2); }
+    .badge-indigo { background: var(--indigo-light); color: var(--indigo); border: 1px solid rgba(67, 56, 202, 0.2); }
+    .badge-gold { background: #fef3c7; color: #b45309; border: 1px solid rgba(180, 83, 9, 0.2); }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    /* NAV TABS */
+    .nav-tabs-wrapper {
+      display: flex;
+      background: var(--card-bg);
+      padding: 6px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      gap: 6px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px 18px;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(131, 24, 67, 0.15);
+    }
+
+    .tab-btn.tab-nlvh.active { color: #831843; border-color: rgba(131, 24, 67, 0.3); background: #fdf2f8; }
+    .tab-btn.tab-nlxh.active { color: #0f766e; border-color: rgba(15, 118, 110, 0.3); background: #f0fdfa; }
+    .tab-btn.tab-ws.active { color: #4338ca; border-color: rgba(67, 56, 202, 0.3); background: #eef2ff; }
+
+    /* CONTENT SECTIONS */
+    .tab-panel {
+      display: none;
+    }
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* CARD STYLES */
+    .content-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+    }
+
+    .card-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1.5px solid var(--border);
+    }
+
+    .card-title-lg {
+      font-size: 1.25rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ACCORDION */
+    .accordion-item {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      background: #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .accordion-header {
+      padding: 16px 20px;
+      background: #f8fafc;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      font-weight: 700;
+      font-size: 0.98rem;
+    }
+
+    .accordion-header:hover {
+      background: #f1f5f9;
+    }
+
+    .accordion-body {
+      padding: 20px;
+      display: none;
+      border-top: 1px solid var(--border);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    .accordion-item.open .accordion-body {
+      display: block;
+    }
+
+    .accordion-item.open .accordion-header {
+      background: #fdf2f8;
+      color: #831843;
+    }
+
+    .accordion-icon {
+      transition: transform 0.2s ease;
+    }
+    .accordion-item.open .accordion-icon {
+      transform: rotate(180deg);
+    }
+
+    /* ESSAY SAMPLE BOX */
+    .sample-box {
+      background: #fffdfa;
+      border: 1.5px solid #fed7aa;
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin: 14px 0;
+      font-family: 'Merriweather', serif;
+      font-size: 0.93rem;
+      line-height: 1.8;
+      color: #27272a;
+      position: relative;
+    }
+
+    .sample-tag {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    /* FORM & WORKSPACE */
+    .textarea-workspace {
+      width: 100%;
+      min-height: 320px;
+      padding: 18px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-family: 'Merriweather', serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      resize: vertical;
+      transition: border-color 0.2s ease;
+    }
+
+    .textarea-workspace:focus {
+      outline: none;
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 4px rgba(67, 56, 202, 0.1);
+    }
+
+    .word-stat-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border-radius: 8px;
+      font-size: 0.88rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: var(--secondary); color: white; }
+    .btn-indigo { background: var(--indigo); color: white; }
+    .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text-main); }
+    .btn-outline:hover { background: #f8fafc; }
+
+    /* RUBRIC TABLE */
+    .rubric-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 0.88rem;
+    }
+
+    .rubric-table th, .rubric-table td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    .rubric-table th {
+      background: #f8fafc;
+      font-weight: 700;
+    }
+
+    /* STEP BOX */
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .step-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      border-top: 3.5px solid var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-top">
+      <div class="badges-group">
+        <span class="badge badge-primary">CHUYÊN ĐỀ VIẾT THPT</span>
+        <span class="badge badge-secondary">CHƯƠNG TRÌNH GDPT 2018</span>
+        <span class="badge badge-indigo">ÔN THI TỐT NGHIỆP TỪ 2025</span>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <a href="index.html" class="btn btn-outline" style="padding: 6px 14px; font-size: 0.78rem; font-weight: 700; color: #0f172a; border-color: #cbd5e1; background: #ffffff;">🏠 Trang Chủ</a>
+        <a href="P2_THE_LOAI_THO.html" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.78rem;">📖 Chuyên đề Thơ</a>
+        <a href="P2_THE_LOAI_TRUYEN.html" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.78rem;">📖 Chuyên đề Truyện</a>
+      </div>
+    </div>
+
+    <h1>CHUYÊN ĐỀ: RÈN KỸ NĂNG VIẾT NGHỊ LUẬN VĂN HỌC & XÃ HỘI</h1>
+    <p class="subtitle">Hệ thống hóa toàn diện phương pháp, công thức viết đoạn 200 chữ & bài văn 600 chữ, bộ đề thực hành, dàn ý và bài văn mẫu chuẩn 8.5+ bám sát ma trận thi Tốt nghiệp THPT.</p>
+  </header>
+
+  <!-- NAV TABS -->
+  <div class="nav-tabs-wrapper">
+    <button class="tab-btn tab-nlvh active" onclick="switchMainTab('tab-nlvh')">
+      <span>🏛️</span> 1. NGHỊ LUẬN VĂN HỌC (NLVH)
+    </button>
+    <button class="tab-btn tab-nlxh" onclick="switchMainTab('tab-nlxh')">
+      <span>🌱</span> 2. NGHỊ LUẬN XÃ HỘI (NLXH)
+    </button>
+    <button class="tab-btn tab-ws" onclick="switchMainTab('tab-ws')">
+      <span>✍️</span> 3. XƯỞNG VIẾT & CHẤM ĐIỂM (WORKSPACE)
+    </button>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- TAB 1: NGHỊ LUẬN VĂN HỌC (NLVH)                                           -->
+  <!-- ========================================================================= -->
+  <div id="tab-nlvh" class="tab-panel active">
+    
+    <!-- BANNER PHƯƠNG PHÁP -->
+    <div style="background: linear-gradient(135deg, #fdf2f8 0%, #fff1f2 100%); border-left: 5px solid #831843; padding: 18px 22px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 6px rgba(131,24,67,0.05);">
+      <h3 style="color: #831843; font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+        <span>🎯</span> NGUYÊN TẮC VÀNG TRONG NGHỊ LUẬN VĂN HỌC (NLVH)
+      </h3>
+      <p style="margin: 0; font-size: 0.92rem; color: #334155;">
+        Viết NLVH trong chương trình mới không đơn thuần là "kể lại cốt truyện" hay "diễn xuôi thơ", mà là quá trình <strong>bóc tách và thẩm bình đặc trưng thể loại</strong> (Cấu tứ, hình tượng, thi luật, ngôn ngữ nghệ thuật) để làm bừng sáng <strong>chiều sâu tư tưởng thẩm mỹ</strong> của tác giả.
+      </p>
+    </div>
+
+    <!-- KIỂU BÀI 1: SO SÁNH 2 TÁC PHẨM (600 CHỮ) -->
+    <div class="content-card" style="border-top: 4px solid #831843;">
+      <div class="card-header-flex">
+        <div>
+          <span class="badge badge-primary" style="margin-bottom: 6px;">Kiểu bài trọng tâm K12</span>
+          <h2 class="card-title-lg" style="color: #831843;">
+            <span>⚖️</span> KIỂU BÀI 1: BÀI VĂN SO SÁNH, ĐÁNH GIÁ HAI TÁC PHẨM / ĐOẠN TRÍCH (600 CHỮ)
+          </h2>
+        </div>
+      </div>
+
+      <!-- CÔNG THỨC 4 BƯỚC -->
+      <h4 style="color: #0f172a; font-weight: 800; font-size: 0.95rem; margin-bottom: 10px;">📋 MA TRẬN 4 LUẬN ĐIỂM TRIỂN KHAI THÂN BÀI CHUẨN ĐIỂM CAO:</h4>
+      <div class="step-grid">
+        <div class="step-card" style="border-top-color: #831843;">
+          <strong style="color: #831843; font-size: 0.88rem;">Luận điểm 1:</strong>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #475569;">Phân tích tác phẩm thứ nhất theo đặc trưng thể loại (Nội dung cảm xúc + Thi pháp nghệ thuật).</p>
+        </div>
+        <div class="step-card" style="border-top-color: #831843;">
+          <strong style="color: #831843; font-size: 0.88rem;">Luận điểm 2:</strong>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #475569;">Phân tích tác phẩm thứ hai theo đặc trưng thể loại (Nội dung cảm xúc + Thi pháp nghệ thuật).</p>
+        </div>
+        <div class="step-card" style="border-top-color: #0f766e;">
+          <strong style="color: #0f766e; font-size: 0.88rem;">Luận điểm 3:</strong>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #475569;"><strong>Chỉ ra Tương đồng & Khác biệt</strong> (về cảm quan thẩm mỹ, tứ thơ, bút pháp thể hiện).</p>
+        </div>
+        <div class="step-card" style="border-top-color: #b45309;">
+          <strong style="color: #b45309; font-size: 0.88rem;">Luận điểm 4:</strong>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #475569;"><strong>Lý giải nguyên nhân</strong> (hoàn cảnh lịch sử thời đại, cá tính sáng tạo của tác giả).</p>
+        </div>
+      </div>
+
+      <!-- ACCORDION ĐỀ MINH HỌA -->
+      <div class="accordion-item open" id="acc-nlvh-1">
+        <div class="accordion-header" onclick="toggleAccordion('acc-nlvh-1')">
+          <span>📝 ĐỀ BÀI MINH HỌA 1: So sánh cảm quan Bi tráng trong "Tây Tiến" (Quang Dũng) và "Cảm hoài" (Đặng Dung)</span>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-body">
+          <p style="margin-bottom: 10px; color: #475569;">
+            <strong>Đề bài:</strong> <em>Cảm quan bi tráng là một nét đặc sắc thẩm mỹ trong thơ ca yêu nước Việt Nam. Anh/chị hãy viết bài văn nghị luận (khoảng 600 chữ) so sánh vẻ đẹp bi tráng của hình tượng người anh hùng tráng sĩ trong bài thơ "Cảm hoài" (Đặng Dung) và hình tượng người lính trong bài thơ "Tây Tiến" (Quang Dũng).</em>
+          </p>
+
+          <div class="sample-box">
+            <span class="sample-tag" style="background: #fce7f3; color: #9d174d;">Bài viết tham khảo 9.0+</span>
+            <p>
+              Văn học là nhân học, nhưng trên hết, thi ca là tấm gương phản chiếu khí phách của dân tộc trong những khúc quanh bi tráng của lịch sử. Cùng thăng hoa trên cảm quan bi tráng về người chiến sĩ vì non sông, song tuyệt tác chữ Hán <em>"Cảm hoài"</em> của danh tướng Đặng Dung (thế kỉ XV) và khúc ca hào tráng <em>"Tây Tiến"</em> của nhà thơ Quang Dũng (1948) lại kiến tạo hai tượng đài nghệ thuật mang dấu ấn sâu sắc của hai thời đại thi ca.
+            </p>
+            <p>
+              Trước hết, ở <em>"Cảm hoài"</em>, chất bi tráng kết tinh trong tư thế người anh hùng trung đại lỡ vận nhưng ý chí kiên định ngút trời. Người tráng sĩ đối diện với bi kịch thời thế nghiệt ngã: <em>"Thế sự du du nại lão hà"</em> và quy luật khắc nghiệt <em>"Vận khứ anh hùng ẩm hận đa"</em>. Cái bi ở đây là nỗi đau đớn tột cùng khi chí lớn cứu nước chưa thành mà tuổi già đã ập đến. Thế nhưng, cái bi không biến thành bi lụy mà vút lên thành tượng đài kiêu dũng qua thi ảnh kì vĩ: <em>"Kỉ độ Long Tuyền đới nguyệt ma"</em>. Hành động bao lần mài thanh gươm báu dưới bóng trăng lung linh đã bất tử hóa hào khí Đông A và tấm lòng trung liệt sáng mãi cùng nhật nguyệt.
+            </p>
+            <p>
+              Đến với <em>"Tây Tiến"</em>, Quang Dũng đã tái hiện vẻ đẹp bi tráng của người lính vệ quốc thời đại Hồ Chí Minh qua lăng kính lãng mạn hào hoa. Nhà thơ không né tránh hiện thực tàn khốc của sốt rét rừng (<em>"không mọc tóc"</em>, <em>"quân xanh màu lá"</em>) và sự hy sinh mất mát nơi viễn xứ (<em>"Rải rác biên cương mồ viễn xứ"</em>). Song, cái bi thương luôn được nâng đỡ bởi lý tưởng dâng hiến thanh thản: <em>"Chiến trường đi chẳng tiếc đời xanh"</em>. Lối nói giảm nói tránh kết hợp lớp từ Hán Việt trang trọng <em>"áo bào thay chiếu anh về đất"</em> cùng tiếng gầm bi hùng của Sông Mã đã thiêng liêng hóa sự hy sinh, tạc dựng tượng đài người chiến sĩ hòa thân vào hồn thiêng sông núi.
+            </p>
+            <p>
+              Đặt hai thi phẩm trong thế đối sánh, ta nhận thấy nét tương đồng ở tư thế hiên ngang, lòng yêu nước nồng nàn và tinh thần không chịu khuất phục trước cái chết. Tuy nhiên, nếu Đặng Dung thể hiện chất bi tráng theo phong cách Cổ điển nghiêm cẩn, mượn không gian vũ trụ ước lệ để bộc lộ chí khí tráng sĩ hành đạo; thì Quang Dũng lại tiếp cận chất bi tráng qua cảm hứng Lãng mạn hiện đại, hòa quyện giữa nét gân guốc kiêu dũng với tâm hồn hào hoa, đa tình của thanh niên trí thức Hà thành. Sự khác biệt này bắt nguồn từ sự vận động của ý thức cá nhân thời đại và bản sắc thẩm mỹ độc đáo của mỗi thi nhân.
+            </p>
+            <p>
+              Khép lại hai trang thơ, dư ba bi tráng vẫn ngân vang bất tận. Dù cách nhau nhiều thế kỉ, <em>"Cảm hoài"</em> và <em>"Tây Tiến"</em> vẫn là hai tượng đài bất tử, nhắc nhở thế hệ hôm nay về bản lĩnh sống và đức hy sinh cao cả vì Tổ quốc thân yêu.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KIỂU BÀI 2: VIẾT ĐOẠN 200 CHỮ PHÂN TÍCH CẤU TỨ & HÌNH TƯỢNG -->
+    <div class="content-card" style="border-top: 4px solid #0f766e;">
+      <div class="card-header-flex">
+        <div>
+          <span class="badge badge-secondary" style="margin-bottom: 6px;">Đặc trưng thể loại nâng cao</span>
+          <h2 class="card-title-lg" style="color: #0f766e;">
+            <span>📝</span> KIỂU BÀI 2: ĐOẠN VĂN (200 CHỮ) PHÂN TÍCH NÉT ĐẶC SẮC CẤU TỨ / HÌNH TƯỢNG THƠ
+          </h2>
+        </div>
+      </div>
+
+      <!-- CÔNG THỨC 3 CHẶNG -->
+      <div style="background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; font-size: 0.88rem; color: #115e59;">
+        <strong>📌 CÔNG THỨC ĐOẠN VĂN 200 CHỮ CHUẨN CẤU TRÚC:</strong><br>
+        • <strong>Mở đoạn (1 câu):</strong> Nêu tên tác giả + Tác phẩm + Xác định trúng phương diện thi pháp (Cấu tứ / Hình ảnh / Yếu tố tượng trưng).<br>
+        • <strong>Thân đoạn (4-5 câu):</strong> Chỉ ra biểu hiện cụ thể (nhịp, vần, tương phản, ẩn dụ, tương giao cảm giác) ➔ Phân tích hiệu quả biểu đạt tâm trạng và chiều sâu thẩm mỹ.<br>
+        • <strong>Kết đoạn (1 câu):</strong> Khẳng định giá trị nghệ thuật và dấu ấn sáng tạo độc đáo của thi nhân.
+      </div>
+
+      <div class="accordion-item" id="acc-nlvh-2">
+        <div class="accordion-header" onclick="toggleAccordion('acc-nlvh-2')">
+          <span>📝 ĐỀ BÀI MINH HỌA 2: Phân tích nét đặc sắc của cấu tứ trong bài thơ "Đàn ghi ta của Lor-ca" (Thanh Thảo)</span>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-body">
+          <div class="sample-box">
+            <span class="sample-tag" style="background: #e0f2fe; color: #0369a1;">Đoạn văn tham khảo (Khoảng 200 chữ)</span>
+            <p>
+              Sức hấp dẫn mê hoặc của thi phẩm <em>"Đàn ghi ta của Lor-ca"</em> (Thanh Thảo) khởi sinh từ một <strong>cấu tứ nghệ thuật độc đáo mang cấu trúc của một bản giao hưởng tưởng niệm</strong>. Nhà thơ không tái hiện cuộc đời Lor-ca theo trật tự thời gian cơ học mà để tứ thơ vận động nương theo các biến thể sống động của biểu tượng <em>"tiếng đàn"</em>. Khởi đầu từ âm thanh trong trẻo, mong manh của <em>"tiếng đàn bọt nước"</em> giữa nền văn hóa Tây Ban Nha, tứ thơ đột ngột chuyển sang nỗi đau tức tưởi qua loạt ẩn dụ chuyển đổi cảm giác siêu thực: <em>"tiếng ghi ta nâu"</em>, <em>"lá xanh"</em> rồi hóa thành <em>"tiếng ghi ta ròng ròng máu chảy"</em> trước phát súng bạo quyền phát xít. Để rồi ở chặng cuối, cấu tứ thăng hoa thành niềm tin bất diệt: <em>"tiếng đàn như cỏ mọc hoang"</em> đưa linh hồn người nghệ sĩ thanh thản bơi vào cõi vĩnh hằng trên chiếc ghi ta màu bạc. Cấu tứ ca khúc phức điệu kết hợp bút pháp tượng trưng - siêu thực không chỉ khắc họa bi kịch của người tiên phong đơn độc mà còn khẳng định chân lý: nghệ thuật chân chính và khát vọng tự do có sức sống vĩnh cửu, không bạo lực nào có thể dập tắt.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- TAB 2: NGHỊ LUẬN XÃ HỘI (NLXH)                                           -->
+  <!-- ========================================================================= -->
+  <div id="tab-nlxh" class="tab-panel">
+    
+    <!-- BANNER NLXH -->
+    <div style="background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 100%); border-left: 5px solid #0f766e; padding: 18px 22px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 6px rgba(15,118,110,0.05);">
+      <h3 style="color: #0f766e; font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+        <span>🌱</span> NGUYÊN TẮC LẬP LUẬN TRONG NGHỊ LUẬN XÃ HỘI (NLXH)
+      </h3>
+      <p style="margin: 0; font-size: 0.92rem; color: #334155;">
+        Viết NLXH đòi hỏi <strong>tư duy logic, góc nhìn biện chứng và vốn sống thực tiễn</strong>. Học sinh cần tránh lối viết sáo rỗng, lý thuyết chung chung mà phải đưa ra được <strong>dẫn chứng thực tế xác thực</strong> cùng <strong>giải pháp hành động cụ thể</strong> cho thế hệ trẻ.
+      </p>
+    </div>
+
+    <!-- 3 KIỂU BÀI NLXH CHUẨN CT 2018 -->
+    <div class="content-card" style="border-top: 4px solid #0f766e;">
+      <div class="card-header-flex">
+        <div>
+          <span class="badge badge-secondary" style="margin-bottom: 6px;">3 Kiểu bài quy chuẩn THPT</span>
+          <h2 class="card-title-lg" style="color: #0f766e;">
+            <span>🌐</span> HỆ THỐNG 3 KIỂU BÀI NGHỊ LUẬN XÃ HỘI TRỌNG TÂM
+          </h2>
+        </div>
+      </div>
+
+      <!-- CÔNG THỨC 5 BƯỚC VÀNG -->
+      <h4 style="color: #0f172a; font-weight: 800; font-size: 0.95rem; margin-bottom: 10px;">📋 CÔNG THỨC "5 BƯỚC VÀNG" TRIỂN KHAI ĐOẠN/BÀI NLXH:</h4>
+      <div class="step-grid">
+        <div class="step-card" style="border-top-color: #0f766e;">
+          <strong style="color: #0f766e; font-size: 0.88rem;">1. Giải thích:</strong>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #475569;">Cắt nghĩa từ khóa, rút ra bản chất của tư tưởng hoặc hiện tượng.</p>
+        </div>
+        <div class="step-card" style="border-top-color: #0f766e;">
+          <strong style="color: #0f766e; font-size: 0.88rem;">2. Bàn luận (Vì sao?):</strong>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #475569;">Phân tích 2-3 lý do vì sao vấn đề quan trọng và có ý nghĩa lớn.</p>
+        </div>
+        <div class="step-card" style="border-top-color: #b45309;">
+          <strong style="color: #b45309; font-size: 0.88rem;">3. Dẫn chứng:</strong>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #475569;">Đưa 1 dẫn chứng thực tế xác đáng, tiêu biểu, truyền cảm hứng.</p>
+        </div>
+        <div class="step-card" style="border-top-color: #dc2626;">
+          <strong style="color: #dc2626; font-size: 0.88rem;">4. Phản đề / Mở rộng:</strong>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #475569;">Phê phán lối sống tiêu cực, nhìn nhận vấn đề đa chiều.</p>
+        </div>
+        <div class="step-card" style="border-top-color: #4338ca;">
+          <strong style="color: #4338ca; font-size: 0.88rem;">5. Bài học hành động:</strong>
+          <p style="font-size: 0.83rem; margin: 4px 0 0 0; color: #475569;">Rút ra nhận thức đúng đắn và việc làm cụ thể cho bản thân.</p>
+        </div>
+      </div>
+
+      <!-- ACCORDION ĐỀ NLXH 1 -->
+      <div class="accordion-item open" id="acc-nlxh-1" style="margin-top: 20px;">
+        <div class="accordion-header" onclick="toggleAccordion('acc-nlxh-1')">
+          <span>🌱 ĐỀ 1: Bàn về Bản lĩnh kiên cường trước nghịch cảnh (Rút ra từ bài thơ "Cảm hoài")</span>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-body">
+          <div class="sample-box">
+            <span class="sample-tag" style="background: #dcfce7; color: #166534;">Đoạn văn NLXH 200 chữ tham khảo</span>
+            <p>
+              Từ hình tượng người tráng sĩ miệt mài mài gươm dưới trăng trong bài thơ <em>"Cảm hoài"</em>, ta thấm thía bài học sâu sắc về <strong>bản lĩnh kiên cường trước nghịch cảnh cuộc sống</strong>. Bản lĩnh không phải là sự liều lĩnh mù quáng, mà là sức mạnh nội tâm vững vàng, ý chí quật khởi giúp con người dám đối diện với gian nan, thất bại mà không hề buông xuôi, gục ngã. Cuộc đời vốn là đại dương đầy sóng gió; nghịch cảnh chính là "lửa thử vàng", là phép thử rèn luyện sự trưởng thành và tôi luyện nhân cách. Người có bản lĩnh luôn xem thử thách là cơ hội để bứt phá giới hạn, giống như hình ảnh loài xương rồng kiêu hãnh đơm hoa giữa sa mạc khô cằn. Thực tế cuộc sống đã chứng minh tấm gương như cô gái trẻ Nguyễn Thảo Vân — dù chịu di chứng bại não bẩm sinh nhưng vẫn kiên cường vươn lên sáng lập Trung tâm Nghị lực sống, tạo việc làm cho hàng ngàn người khuyết tật. Đáng buồn thay, trong xã hội hiện nay vẫn còn một bộ phận người trẻ mang tâm lý "dễ vỡ", nhanh chóng buông xuôi và đổ lỗi cho hoàn cảnh khi gặp chút trở ngại đầu đời. Là thế hệ nắm giữ tương lai đất nước, mỗi chúng ta cần rèn luyện cho mình tinh thần "thép", dám bước ra khỏi vùng an toàn và kiên định theo đuổi lý tưởng đến cùng, bởi <em>"viên kim cương chỉ có thể hình thành dưới áp lực ngàn cân"</em>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCORDION ĐỀ NLXH 2 -->
+      <div class="accordion-item" id="acc-nlxh-2">
+        <div class="accordion-header" onclick="toggleAccordion('acc-nlxh-2')">
+          <span>🌱 ĐỀ 2: Bàn về Tinh thần cống hiến và lý tưởng sống của thế hệ trẻ (Rút ra từ bài thơ "Tây Tiến")</span>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-body">
+          <div class="sample-box">
+            <span class="sample-tag" style="background: #dcfce7; color: #166534;">Đoạn văn NLXH 200 chữ tham khảo</span>
+            <p>
+              Lời thơ hào sảng <em>"Chiến trường đi chẳng tiếc đời xanh"</em> trong thi phẩm <em>"Tây Tiến"</em> mãi là ngọn đuốc soi sáng <strong>lý tưởng sống cống hiến của thế hệ trẻ hôm nay</strong>. Tinh thần cống hiến là việc mỗi cá nhân tự nguyện đem sức lực, trí tuệ và tài năng của mình đóng góp cho sự phát triển chung của cộng đồng, sẵn sàng đặt lợi ích non sông lên trên toan tính vị kỉ cá nhân. Nếu trong chiến tranh, cống hiến là xả thân nơi chiến hào bảo vệ độc lập dân tộc; thì trong thời bình, cống hiến là miệt mài học tập, làm chủ khoa học công nghệ và lan tỏa năng lượng tích cực cho xã hội. Ta bắt gặp tinh thần ấy nơi những trí thức trẻ từ bỏ mức lương triệu đô ở nước ngoài để trở về xây dựng các hệ sinh thái công nghệ Make in Vietnam, hay hình ảnh những y bác sĩ, tình nguyện viên trẻ sẵn sàng khoác ba lô lên đường đến vùng sâu vùng xa giúp đỡ đồng bào khó khăn. Trái ngược với lẽ sống cao đẹp ấy là lối sống thực dụng, ích kỷ, chỉ biết hưởng thụ và đòi hỏi ở xã hội của một bộ phận bạn trẻ. Sống cống hiến không làm ta nghèo đi mà trái lại, giúp cuộc đời mỗi người trở nên rực rỡ và ý nghĩa hơn bao giờ hết, đúng như nhà thơ Tố Hữu từng nhắn nhủ: <em>"Nếu là con chim, chiếc lá / Thì con chim phải hót, chiếc lá phải xanh"</em>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- TAB 3: XƯỞNG VIẾT & CHẤM ĐIỂM (WORKSPACE)                                  -->
+  <!-- ========================================================================= -->
+  <div id="tab-ws" class="tab-panel">
+    
+    <div class="content-card" style="border-top: 4px solid #4338ca;">
+      <div class="card-header-flex">
+        <div>
+          <span class="badge badge-indigo" style="margin-bottom: 6px;">Không gian luyện viết thực chiến</span>
+          <h2 class="card-title-lg" style="color: #4338ca;">
+            <span>✍️</span> XƯỞNG LUYỆN VIẾT NGHỊ LUẬN & ĐO ĐỘ DÀI TỰ ĐỘNG
+          </h2>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-outline" onclick="clearWorkspace()">🗑️ Xóa trắng</button>
+          <button class="btn btn-indigo" onclick="copyWorkspace()">📋 Sao chép bài viết</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 12px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+        <label for="mode-word-target" style="font-size: 0.88rem; font-weight: 700; color: #334155;">Mục tiêu dung lượng:</label>
+        <select id="mode-word-target" onchange="updateWordStats()" style="padding: 6px 12px; border-radius: 6px; border: 1.5px solid var(--border); font-family: inherit; font-weight: 600;">
+          <option value="200">Đoạn văn (Khoảng 200 chữ: 180 - 250 từ)</option>
+          <option value="600">Bài văn hoàn chỉnh (Khoảng 600 chữ: 550 - 750 từ)</option>
+        </select>
+      </div>
+
+      <textarea id="writing-area" class="textarea-workspace" placeholder="Bắt đầu viết bài nghị luận của bạn tại đây... Hãy vận dụng cấu trúc lập luận và thao tác thi pháp đã học." oninput="updateWordStats()"></textarea>
+
+      <!-- WORD STAT BAR -->
+      <div class="word-stat-bar">
+        <div>
+          <span>Số từ đã viết: </span>
+          <strong id="stat-word-count" style="font-size: 1.1rem; color: #4338ca;">0</strong> từ
+          <span id="stat-word-status" style="margin-left: 8px; font-weight: 700;"></span>
+        </div>
+        <div style="color: #64748b; font-size: 0.83rem;">
+          Số ký tự: <span id="stat-char-count">0</span> | Số đoạn văn: <span id="stat-para-count">0</span>
+        </div>
+      </div>
+
+      <!-- RUBRIC BỘ GD ĐT -->
+      <div style="margin-top: 24px; padding-top: 18px; border-top: 1.5px solid var(--border);">
+        <h4 style="color: #334155; font-weight: 800; font-size: 0.95rem; margin-bottom: 10px;">📊 BẢNG TIÊU CHÍ CHẤM ĐIỂM BÀI NGHỊ LUẬN (THEO CHUẨN BỘ GD&ĐT):</h4>
+        <div style="overflow-x: auto;">
+          <table class="rubric-table">
+            <thead>
+              <tr>
+                <th style="width: 20%;">Tiêu chí</th>
+                <th style="width: 55%;">Yêu cầu cần đạt</th>
+                <th style="width: 25%;">Thang điểm</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Đảm bảo cấu trúc</strong></td>
+                <td>Đoạn văn (mở - thân - kết liền mạch) hoặc Bài văn (đủ 3 phần Mở - Thân - Kết).</td>
+                <td style="color: #16a34a; font-weight: 700;">0.25 - 0.5 điểm</td>
+              </tr>
+              <tr>
+                <td><strong>2. Xác định đúng vấn đề</strong></td>
+                <td>Nêu trúng vấn đề nghị luận (thi pháp tác phẩm hoặc tư tưởng/hiện tượng xã hội).</td>
+                <td style="color: #16a34a; font-weight: 700;">0.5 điểm</td>
+              </tr>
+              <tr>
+                <td><strong>3. Triển khai luận điểm</strong></td>
+                <td>Lập luận chặt chẽ, dẫn chứng xác đáng, phân tích thấu đáo đặc trưng thể loại.</td>
+                <td style="color: #16a34a; font-weight: 700;">1.5 - 2.0 điểm</td>
+              </tr>
+              <tr>
+                <td><strong>4. Chính tả, ngữ pháp</strong></td>
+                <td>Đảm bảo chuẩn chính tả, dùng từ chính xác, câu văn liên kết mượt mà.</td>
+                <td style="color: #16a34a; font-weight: 700;">0.25 điểm</td>
+              </tr>
+              <tr>
+                <td><strong>5. Sáng tạo & Cảm xúc</strong></td>
+                <td>Có phát hiện độc đáo, giọng văn giàu cảm xúc, tư duy phản biện sâu sắc.</td>
+                <td style="color: #16a34a; font-weight: 700;">0.5 điểm</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function switchMainTab(tabId) {
+  const panels = document.querySelectorAll('.tab-panel');
+  panels.forEach(p => p.classList.remove('active'));
+
+  const activePanel = document.getElementById(tabId);
+  if (activePanel) activePanel.classList.add('active');
+
+  const btns = document.querySelectorAll('.tab-btn');
+  btns.forEach(b => b.classList.remove('active'));
+
+  if (tabId === 'tab-nlvh') {
+    document.querySelector('.tab-nlvh').classList.add('active');
+  } else if (tabId === 'tab-nlxh') {
+    document.querySelector('.tab-nlxh').classList.add('active');
+  } else if (tabId === 'tab-ws') {
+    document.querySelector('.tab-ws').classList.add('active');
+  }
+}
+
+function toggleAccordion(accId) {
+  const item = document.getElementById(accId);
+  if (item) {
+    item.classList.toggle('open');
+  }
+}
+
+function updateWordStats() {
+  const text = document.getElementById('writing-area').value.trim();
+  const words = text ? text.split(/\s+/).filter(w => w.length > 0) : [];
+  const wordCount = words.length;
+  const charCount = text.length;
+  const paraCount = text ? text.split(/\n+/).filter(p => p.trim().length > 0).length : 0;
+
+  document.getElementById('stat-word-count').innerText = wordCount;
+  document.getElementById('stat-char-count').innerText = charCount;
+  document.getElementById('stat-para-count').innerText = paraCount;
+
+  const targetMode = document.getElementById('mode-word-target').value;
+  const statusEl = document.getElementById('stat-word-status');
+
+  if (targetMode === '200') {
+    if (wordCount < 160) {
+      statusEl.innerHTML = '<span style="color:#d97706;">(Hơi ngắn, nên viết từ 180 - 250 từ)</span>';
+    } else if (wordCount >= 160 && wordCount <= 260) {
+      statusEl.innerHTML = '<span style="color:#16a34a;">(Dung lượng chuẩn hoàn hảo! ✓)</span>';
+    } else {
+      statusEl.innerHTML = '<span style="color:#dc2626;">(Quá dài, nên cô đọng lại dưới 260 từ)</span>';
+    }
+  } else {
+    if (wordCount < 500) {
+      statusEl.innerHTML = '<span style="color:#d97706;">(Hơi ngắn, nên viết từ 550 - 750 từ)</span>';
+    } else if (wordCount >= 500 && wordCount <= 750) {
+      statusEl.innerHTML = '<span style="color:#16a34a;">(Dung lượng chuẩn bài văn 600 chữ! ✓)</span>';
+    } else {
+      statusEl.innerHTML = '<span style="color:#dc2626;">(Quá dài cho bài thi 600 chữ)</span>';
+    }
+  }
+}
+
+function clearWorkspace() {
+  if (confirm('Bạn có chắc muốn xóa toàn bộ nội dung trong xưởng viết?')) {
+    document.getElementById('writing-area').value = '';
+    updateWordStats();
+  }
+}
+
+function copyWorkspace() {
+  const text = document.getElementById('writing-area').value;
+  if (!text) {
+    alert('Chưa có nội dung để sao chép!');
+    return;
+  }
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Đã sao chép toàn bộ bài viết vào bộ nhớ tạm thành công!');
+  });
+}
+
+// Check URL param to open specific tab (e.g. ?tab=nlxh)
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const tabParam = params.get('tab');
+  if (tabParam === 'nlxh') {
+    switchMainTab('tab-nlxh');
+  } else if (tabParam === 'workspace' || tabParam === 'ws') {
+    switchMainTab('tab-ws');
+  } else {
+    switchMainTab('tab-nlvh');
+  }
+});
+</script>
+
+</body>
+</html>
