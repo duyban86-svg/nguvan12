@@ -2812,16 +2812,22 @@ function promptTeacherPinForGate() {
 function normalizeQuestion(q) {
   const text = q.text || q.question || '';
   const level = q.level || 'Thông hiểu';
-  const type = q.type || 'single_choice';
+  let type = q.type || 'single_choice';
   const correctAnswer = q.correctAnswer || q.answer || '';
-  const explanation = q.explanation || q.explain || ('Đáp án đúng: ' + JSON.stringify(correctAnswer));
-  
+  const explanation = q.explanation || q.explain || '';
+
+  if (Array.isArray(q.subQuestions) && q.subQuestions.length > 0) {
+    type = 'true_false';
+  } else if (Array.isArray(q.dropdownOptions) && q.dropdownOptions.length > 0) {
+    type = 'fill_blank';
+  }
+
   let options = [];
   if (Array.isArray(q.options)) {
     options = q.options.map(function(opt) {
       if (typeof opt === 'string') {
         const trimmed = opt.trim();
-        const m = trimmed.match(/^([A-D])[.:s]/);
+        const m = trimmed.match(/^([A-D])[.:\s]/);
         const key = m ? m[1] : trimmed.charAt(0);
         return { key: key, text: trimmed };
       } else if (typeof opt === 'object' && opt !== null) {
@@ -2835,15 +2841,46 @@ function normalizeQuestion(q) {
   }
 
   let subQuestions = [];
-  if (Array.isArray(q.subQuestions)) {
-    subQuestions = q.subQuestions.map(function(sq) {
-      return {
-        id: sq.id || 'a',
-        text: sq.text || '',
-        correctAnswer: String(sq.correctAnswer).toLowerCase() === 'true' ? 'true' : 'false',
-        explanation: sq.explanation || ''
-      };
-    });
+  if (type === 'true_false') {
+    if (Array.isArray(q.subQuestions) && q.subQuestions.length > 0) {
+      subQuestions = q.subQuestions.map(function(sq) {
+        const cAns = String(sq.correctAnswer || '').toLowerCase().trim();
+        const isTrue = (cAns === 'true' || cAns === 'đúng' || cAns === 'dung' || cAns === 't' || cAns === 'đ' || cAns === 'd' || cAns === '1');
+        return {
+          id: sq.id || 'a',
+          text: sq.text || '',
+          correctAnswer: isTrue ? 'true' : 'false',
+          explanation: sq.explanation || ''
+        };
+      });
+    } else if (options.length > 0) {
+      const letters = ['a', 'b', 'c', 'd'];
+      const rawAnsParts = String(correctAnswer).toLowerCase().split(/[\s,\-\/\|]+/);
+      subQuestions = options.map(function(opt, oIdx) {
+        const sId = letters[oIdx] || 'a';
+        const p = rawAnsParts[oIdx] || '';
+        const isTrue = (p === 'true' || p === 'đúng' || p === 'dung' || p === 't' || p === 'đ' || p === 'd' || p === '1');
+        return {
+          id: sId,
+          text: opt.text ? opt.text.replace(/^[a-dA-D][\.\:\)\s]+/, '').trim() : '',
+          correctAnswer: isTrue ? 'true' : 'false',
+          explanation: ''
+        };
+      });
+    }
+  }
+
+  let dropdownOptions = [];
+  if (type === 'fill_blank') {
+    if (Array.isArray(q.dropdownOptions) && q.dropdownOptions.length > 0) {
+      dropdownOptions = q.dropdownOptions;
+    } else if (options.length > 0) {
+      dropdownOptions = ['-- Nhấp để chọn phương án điền khuyết --'].concat(
+        options.map(function(opt) {
+          return opt.text ? opt.text.replace(/^[a-dA-D][\.\:\)\s]+/, '').trim() : '';
+        }).filter(Boolean)
+      );
+    }
   }
 
   return {
@@ -2853,7 +2890,7 @@ function normalizeQuestion(q) {
     text: text,
     options: options,
     subQuestions: subQuestions,
-    dropdownOptions: q.dropdownOptions || [],
+    dropdownOptions: dropdownOptions,
     correctAnswer: correctAnswer,
     explanation: explanation
   };
