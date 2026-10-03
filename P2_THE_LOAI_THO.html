@@ -3015,6 +3015,28 @@ function checkRemoteConfig(showToastNotice) {
         renderEssaySection();
       }
 
+      // Cập nhật động ngân hàng câu hỏi trắc nghiệm từ Sheet nếu có
+      if (config.quizData) {
+        let hasNewQuestions = false;
+        if (Array.isArray(config.quizData.questions_common) && config.quizData.questions_common.length > 0) {
+          rawQuizData.questions_common = config.quizData.questions_common;
+          hasNewQuestions = true;
+        }
+        if (Array.isArray(config.quizData.questions_practice_only) && config.quizData.questions_practice_only.length > 0) {
+          rawQuizData.questions_practice_only = config.quizData.questions_practice_only;
+          hasNewQuestions = true;
+        }
+        if (Array.isArray(config.quizData.questions_exam_only) && config.quizData.questions_exam_only.length > 0) {
+          rawQuizData.questions_exam_only = config.quizData.questions_exam_only;
+          hasNewQuestions = true;
+        }
+        if (hasNewQuestions && !isSubmitted && (!isGatePassed || currentMode === 'practice')) {
+          initQuestions(currentMode === 'exam');
+          renderNavigation();
+          renderQuestions();
+        }
+      }
+
       const statusText = remoteConfig.examStatus || remoteConfig.status || 'OPEN';
       badge.textContent = '🟢 Đã đồng bộ Google Sheets (' + statusText + ')';
       badge.className = 'badge badge-live';
