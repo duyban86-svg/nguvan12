@@ -916,7 +916,7 @@
     </div>
   </div>
 
-    <!-- MÀN HÌNH KHÓA TỪ XA TỪ GOOGLE SHEETS -->
+      <!-- MÀN HÌNH KHÓA TỪ XA TỪ GOOGLE SHEETS -->
   <div class="exam-passcode-gate" id="remote-lock-screen" style="display: none;">
     <div style="font-size: 3.2rem; margin-bottom: 12px;">🔒</div>
     <h2 class="gate-title" style="color: #ef4444;">CA ĐÁNH GIÁ ĐANG TẠM KHÓA</h2>
@@ -924,9 +924,8 @@
       Giáo viên hiện đang tạm khóa ca thi trên Google Sheets. Vui lòng chờ đến khi Thầy/Cô mở đề tại lớp.
     </p>
     <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
-      <button class="btn btn-primary" onclick="checkRemoteConfig(true)">🔄 Kiểm tra lại trạng thái</button>
+      <button class="btn btn-primary" onclick="checkRemoteConfig(true)">🔄 Kiểm tra lại trạng thái (Từ Sheets)</button>
       <button class="btn btn-secondary" onclick="switchMode('practice')">📖 Chuyển sang Ôn tập tự do</button>
-      
     </div>
   </div>
 
@@ -2775,8 +2774,8 @@ function startOfficialExam() {
   }
 
   const currentStatus = String(remoteConfig.examStatus || remoteConfig.status || 'OPEN').toUpperCase().trim();
-  if (currentStatus === 'CLOSED' || currentStatus === 'LOCKED' || currentStatus === 'KHÓA' || currentStatus === 'ĐÓNG') {
-    alert('🔒 CA THI HIỆN ĐANG TẠM KHÓA TRÊN GOOGLE SHEETS!\n\nVui lòng chờ Thầy/Cô mở ca thi tại lớp.');
+  if (currentStatus === 'CLOSED' || currentStatus === 'LOCKED' || currentStatus === 'KHÓA' || currentStatus === 'KHOA' || currentStatus === 'ĐÓNG' || currentStatus === 'DONG' || currentStatus === 'MAINTENANCE' || currentStatus === 'DANG_CAP_NHAT' || currentStatus === 'BAO_TRI') {
+    alert('🔒 CA THI HIỆN ĐANG TẠM KHÓA TRÊN GOOGLE SHEETS!\n\nVui lòng chờ Thầy/Cô mở ca thi trên Google Sheets.');
     applyGateControl();
     return;
   }
@@ -2806,22 +2805,8 @@ function verifyExamPasscode() {
   return startOfficialExam();
 }
 
-function promptTeacherPinForGate() {
-  const pin = prompt('Nhập mã PIN Giáo viên:');
-  if (!pin) return;
-  if (isTeacherPinCorrect(pin)) {
-    enableTeacherMode('gate');
-    const gate = document.getElementById('exam-passcode-gate');
-    if (gate) gate.style.display = 'none';
-    const lockScreen = document.getElementById('remote-lock-screen');
-    if (lockScreen) lockScreen.style.display = 'none';
-    const workspace = document.getElementById('main-exam-workspace');
-    if (workspace) workspace.style.display = 'block';
-    showToast('👑 Đã mở khóa Quyền Giáo viên!');
-  } else {
-    alert('❌ MÃ PIN GIÁO VIÊN KHÔNG CHÍNH XÁC!');
-  }
-}
+// Trạng thái Đóng / Mở ca thi do Google Sheets toàn quyền kiểm soát
+
 
 
 
