@@ -862,7 +862,60 @@
       font-style: italic;
     }
 
-  </style>
+  
+  /* ========================================================================= */
+  /* BẢO MẬT CHỐNG GIAN LẬN AI & TRỢ LÝ ẢO (ANTI-AI & ANTI-SELECTION)         */
+  /* ========================================================================= */
+  .exam-anti-select {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-touch-callout: none !important;
+  }
+  .exam-anti-select .question-card,
+  .exam-anti-select .passage-box,
+  .exam-anti-select .opt-label,
+  .exam-anti-select .opt-text,
+  .exam-anti-select .tf-text,
+  .exam-anti-select .rubric-table {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-touch-callout: none !important;
+  }
+  .essay-textarea, .input-control, input, textarea {
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    user-select: auto !important;
+  }
+  .exam-watermark-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 998;
+    opacity: 0.04;
+    display: none;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: space-around;
+    overflow: hidden;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    color: #000;
+    transform: rotate(-25deg) scale(1.3);
+    user-select: none;
+  }
+  .watermark-item {
+    padding: 35px 50px;
+    font-size: 1.05rem;
+    letter-spacing: 2px;
+    white-space: nowrap;
+  }
+
+</style>
 </head>
 <body>
 
@@ -2198,6 +2251,7 @@ function switchMode(mode) {
   if (isSubmitted && !confirm('Bắt đầu lại bài kiểm tra với chế độ mới?')) return;
   
   currentMode = mode;
+  setTimeout(updateExamWatermark, 100);
   const tabPractice = document.getElementById('tab-practice');
   const tabExam = document.getElementById('tab-exam');
   if (tabPractice) tabPractice.classList.toggle('active', mode === 'practice');
@@ -2284,6 +2338,7 @@ function startOfficialExam() {
   }
 
   isGatePassed = true;
+  updateExamWatermark();
   assignOfficialEssayForStudent();
 
   const gate = document.getElementById('exam-passcode-gate');
@@ -3206,6 +3261,106 @@ function initQuestions(shuffle) {
   });
 })();
 
+
+// =========================================================================
+// HỆ THỐNG GIÁM SÁT THI & CHỐNG GIAN LẬN AI (ANTI-AI & PROCTORING ENGINE)
+// =========================================================================
+let blurTimeout = null;
+
+function handleExamViolation(reason) {
+  if (currentMode !== 'exam' || isSubmitted || isTeacherMode || !isGatePassed) return;
+  tabSwitchViolations++;
+  const vEl = document.getElementById('violation-count');
+  if (vEl) vEl.textContent = tabSwitchViolations + '/3';
+  
+  let msg = '⚠️ CẢNH BÁO: Rời màn hình thi (' + tabSwitchViolations + '/3)';
+  if (reason === 'blur') {
+    msg = '⚠️ CẢNH BÁO: Mất tiêu điểm / Ứng dụng AI hoặc chia đôi màn hình can thiệp (' + tabSwitchViolations + '/3)';
+  } else if (reason === 'copy') {
+    msg = '⚠️ CẢNH BÁO: Thao tác sao chép câu hỏi bị nghiêm cấm (' + tabSwitchViolations + '/3)';
+  }
+  showToast(msg);
+
+  if (tabSwitchViolations >= 3) {
+    alert('🚨 CẢNH BÁO: Thí sinh đã vi phạm quy chế thi quá 3 lần (Rời màn hình / Ứng dụng AI can thiệp)! Hệ thống tự động thu bài.');
+    submitExam(true, 'violation');
+  }
+}
+
+// 1. Phát hiện chuyển Tab / Đổi App
+document.addEventListener('visibilitychange', function() {
+  if (currentMode === 'exam' && !isSubmitted && !isTeacherMode && isGatePassed) {
+    if (document.hidden) {
+      handleExamViolation('visibility');
+    }
+  }
+});
+
+// 2. Phát hiện Circle to Search / Trợ lý AI / Cửa sổ nổi / Split screen
+window.addEventListener('blur', function() {
+  if (currentMode === 'exam' && !isSubmitted && !isTeacherMode && isGatePassed) {
+    clearTimeout(blurTimeout);
+    blurTimeout = setTimeout(function() {
+      handleExamViolation('blur');
+    }, 350);
+  }
+});
+
+window.addEventListener('focus', function() {
+  clearTimeout(blurTimeout);
+});
+
+// 3. Chặn Copy & Kéo thả văn bản
+document.addEventListener('copy', function(e) {
+  if (currentMode === 'exam' && !isSubmitted && !isTeacherMode && isGatePassed) {
+    const activeEl = document.activeElement;
+    if (activeEl && (activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'INPUT')) {
+      return;
+    }
+    e.preventDefault();
+    if (e.clipboardData) {
+      e.clipboardData.setData('text/plain', '⚠️ Đề thi đang được bảo mật.');
+    }
+    handleExamViolation('copy');
+  }
+});
+
+document.addEventListener('dragstart', function(e) {
+  if (currentMode === 'exam' && !isSubmitted && !isTeacherMode && isGatePassed) {
+    e.preventDefault();
+  }
+});
+
+// 4. Cập nhật Watermark mờ danh tính học sinh khi bắt đầu thi
+function updateExamWatermark() {
+  let watermarkContainer = document.getElementById('exam-watermark-overlay');
+  if (!watermarkContainer) {
+    watermarkContainer = document.createElement('div');
+    watermarkContainer.id = 'exam-watermark-overlay';
+    watermarkContainer.className = 'exam-watermark-overlay';
+    document.body.appendChild(watermarkContainer);
+  }
+
+  if (currentMode === 'exam' && !isSubmitted && isGatePassed) {
+    const classEl = document.getElementById('class-select');
+    const studentEl = document.getElementById('student-select');
+    const cVal = classEl ? classEl.value : '';
+    const sVal = studentEl ? studentEl.value : '';
+    const text = (sVal ? (sVal + ' - ' + cVal) : 'HỆ THỐNG THI NGỮ VĂN 12');
+    
+    let items = '';
+    for (let i = 0; i < 28; i++) {
+      items += '<div class="watermark-item">' + text + '</div>';
+    }
+    watermarkContainer.innerHTML = items;
+    watermarkContainer.style.display = 'flex';
+    document.body.classList.add('exam-anti-select');
+  } else {
+    watermarkContainer.style.display = 'none';
+    document.body.classList.remove('exam-anti-select');
+  }
+}
+
 function startTimer() {
   clearInterval(examTimer);
   timeLeft = DEFAULT_DURATION * 60;
@@ -3623,6 +3778,7 @@ function submitExam(isAutoSubmit, reason) {
   }
 
   isSubmitted = true;
+  updateExamWatermark();
   clearInterval(examTimer);
 
   const essayTextarea = document.getElementById('essay-textarea');
