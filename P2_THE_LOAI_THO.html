@@ -959,7 +959,7 @@
     <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
       <button class="btn btn-primary" onclick="checkRemoteConfig(true)">🔄 Kiểm tra lại trạng thái</button>
       <button class="btn btn-secondary" onclick="switchMode('practice')">📖 Chuyển sang Ôn tập tự do</button>
-      <button class="btn btn-secondary" onclick="promptTeacherPinForGate()">👑 Mở khóa Giáo viên</button>
+      
     </div>
   </div>
 
@@ -991,9 +991,7 @@
       <button class="btn btn-primary" id="btn-start-official-exam" onclick="startOfficialExam()" style="padding: 14px 30px; font-size: 1.05rem; font-weight: 800; border-radius: 10px; box-shadow: 0 4px 14px rgba(2,132,199,0.35); cursor: pointer;">
         🚀 XÁC NHẬN & BẮT ĐẦU LÀM BÀI
       </button>
-      <button class="btn btn-secondary" onclick="promptTeacherPinForGate()" style="padding: 14px 20px; font-size: 0.9rem; border-radius: 10px; cursor: pointer;">
-        👑 Giáo viên
-      </button>
+      
     </div>
   </div>
 
@@ -3055,17 +3053,19 @@ function verifyExamPasscode() {
 }
 
 function promptTeacherPinForGate() {
-  const pin = prompt('Nhập mã PIN Giáo viên (mã chọn ở Google Sheets hoặc mặc định: 1358):');
+  const pin = prompt('Nhập mã PIN Giáo viên:');
   if (!pin) return;
   if (isTeacherPinCorrect(pin)) {
     enableTeacherMode('gate');
     const gate = document.getElementById('exam-passcode-gate');
     if (gate) gate.style.display = 'none';
+    const lockScreen = document.getElementById('remote-lock-screen');
+    if (lockScreen) lockScreen.style.display = 'none';
     const workspace = document.getElementById('main-exam-workspace');
     if (workspace) workspace.style.display = 'block';
     showToast('👑 Đã mở khóa Quyền Giáo viên!');
   } else {
-    alert('❌ MÃ PIN GIÁO VIÊN KHÔNG ĐÚNG!\n\nMã PIN đang được cấu hình trên Google Sheets: ' + getValidTeacherPin());
+    alert('❌ MÃ PIN GIÁO VIÊN KHÔNG CHÍNH XÁC!');
   }
 }
 
@@ -3564,19 +3564,19 @@ function applyGateControl() {
 
 
 function promptMasterPin() {
-  const pin = prompt('Nhập PIN Giáo viên (hoặc đăng nhập bằng duyban86@gmail.com):');
+  const pin = prompt('Nhập mã PIN Giáo viên:');
   if (!pin) return;
   const inputPin = pin.trim().toUpperCase();
-  const validPin = getValidTeacherPin();
-  if (inputPin === validPin || inputPin === TEACHER_MASTER_PIN || inputPin === "1358") {
-    enableTeacherMode('Nhập PIN Giáo viên');
+  if (isTeacherPinCorrect(inputPin)) {
+    enableTeacherMode('top_bar');
+    showToast('👑 Đã kích hoạt Chế độ Giáo viên toàn quyền!');
   } else {
-    alert('PIN Giáo viên không đúng!');
+    alert('❌ MÃ PIN GIÁO VIÊN KHÔNG CHÍNH XÁC!');
   }
 }
 
 function pushQuestionsToGoogleSheets() {
-  const pin = prompt('Nhập mã PIN Giáo viên (mặc định: 1358) để xác nhận ĐẨY NGÂN HÀNG CÂU HỎI LÊN GOOGLE SHEETS:');
+  const pin = prompt('Nhập mã PIN Giáo viên:');
   if (!pin) return;
   const validPin = getValidTeacherPin();
   if (pin.trim().toUpperCase() !== validPin && pin.trim() !== '1358') {
