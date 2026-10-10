@@ -4318,7 +4318,7 @@ function updateNavStats() {
       essayNavBtn.style.background = '#059669';
       essayNavBtn.style.borderColor = '#059669';
     } else {
-      essayNavBtn.innerHTML = '✍️ PHẦN II: TỰ LUẬN (3.0Đ)';
+      essayNavBtn.innerHTML = '✍️ PHẦN II: TỰ LUẬN (4.0Đ)';
       essayNavBtn.style.background = '#0f766e';
       essayNavBtn.style.borderColor = '#0f766e';
     }
@@ -4346,7 +4346,7 @@ function renderNavigation() {
   const essayBtn = document.createElement('button');
   essayBtn.className = 'nav-btn';
   essayBtn.id = 'nav-btn-essay';
-  essayBtn.innerHTML = '✍️ PHẦN II: TỰ LUẬN (3.0Đ)';
+  essayBtn.innerHTML = '✍️ PHẦN II: TỰ LUẬN (4.0Đ)';
   essayBtn.style.width = 'auto';
   essayBtn.style.padding = '0 16px';
   essayBtn.style.borderRadius = '10px';
@@ -4658,7 +4658,7 @@ function submitExam(isAutoSubmit, reason) {
   const activeEssay = getActiveEssayData();
 
   if (!isAutoSubmit && currentMode === 'exam' && essayWords === 0) {
-    if (!confirm('Bạn chưa nhập bài làm Tự luận Phần II (3.0 điểm). Bạn có chắc chắn muốn nộp bài không?')) {
+    if (!confirm('Bạn chưa nhập bài làm Tự luận Phần II (4.0 điểm). Bạn có chắc chắn muốn nộp bài không?')) {
       return;
     }
   }
@@ -4748,7 +4748,8 @@ function submitExam(isAutoSubmit, reason) {
     }
   });
 
-  const finalScoreTenScale = ((totalScoreRaw / activeQuestions.length) * 10).toFixed(1);
+  const mcqScore = ((totalScoreRaw / activeQuestions.length) * 6.0).toFixed(2);
+  const finalScoreTenScale = mcqScore;
 
   // ẨN TOÀN BỘ CÂU HỎI VÀ ĐIỀU HƯỚNG THEO YÊU CẦU BẢO MẬT
   const qContainer = document.getElementById('questions-container');
@@ -4785,10 +4786,10 @@ function submitExam(isAutoSubmit, reason) {
     }
   }
 
-  document.getElementById('final-score').textContent = finalScoreTenScale;
+  document.getElementById('final-score').textContent = mcqScore + '/6.0';
   document.getElementById('result-title').textContent = 'KẾT QUẢ: ' + studentName + ' (' + className + ')';
   document.getElementById('result-detail').textContent = 
-    'Trắc nghiệm: ' + finalScoreTenScale + '/10.0 điểm (' + correctCount + '/' + activeQuestions.length + ' câu đúng). Tự luận: ' + essayWords + ' từ (Đã ghi nhận).';
+    'Trắc nghiệm: ' + mcqScore + '/6.0 điểm (' + correctCount + '/' + activeQuestions.length + ' câu đúng). Tự luận: ' + essayWords + ' từ (Thang 4.0đ - Thầy/Cô sẽ chấm).';
   
   document.getElementById('results-card').classList.add('show');
   document.getElementById('results-card').scrollIntoView({ behavior: 'smooth' });
