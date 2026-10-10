@@ -2136,13 +2136,13 @@
   }
 
   const TEACHER_EMAIL = "duyban86@gmail.com";
-  const TEACHER_MASTER_PIN = "1358";
+  const TEACHER_MASTER_PIN = "";
 
   function promptTeacherLogin() {
     const pin = prompt('Nhập Mã Giáo viên (Teacher Master PIN) hoặc Email:');
     if (!pin) return;
     const input = pin.trim().toLowerCase();
-    if (input === '1358' || input === TEACHER_EMAIL.toLowerCase()) {
+    if (input === TEACHER_EMAIL.toLowerCase()) {
       localStorage.setItem('app_logged_user', JSON.stringify({
         email: TEACHER_EMAIL,
         name: TEACHER_EMAIL,

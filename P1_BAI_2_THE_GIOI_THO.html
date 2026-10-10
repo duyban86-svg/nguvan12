@@ -2085,7 +2085,7 @@
 
 const DEFAULT_DURATION = 40;
 const TEACHER_EMAIL = "duyban86@gmail.com";
-const TEACHER_MASTER_PIN = "1358";
+const TEACHER_MASTER_PIN = "";
 let isTeacherMode = false;
 let teacherAnswersVisible = false;
 let isUnlocked = false;
@@ -2132,8 +2132,8 @@ let remoteConfig = {
   examStatus: "OPEN",
   duration: 40,
   announcement: "Chào mừng các em tham gia bài kiểm tra!",
-  teacherPin: "1358",
-  masterPin: "1358"
+  teacherPin: "",
+  masterPin: ""
 };
 
 const DEFAULT_ESSAY_PROMPTS = {
@@ -2817,16 +2817,15 @@ const EXAM_TOPIC = "BÀI 2: NHỮNG THẾ GIỚI THƠ";
 const STORAGE_KEY = "p1_bai2_van12_state";
 
 function getValidTeacherPin() {
-  const pin = remoteConfig.teacherPin || remoteConfig.masterPin || TEACHER_MASTER_PIN || "1358";
-  return String(pin).replace(/\.0+$/, '').replace(/[\s\r\n\t]/g, '').trim().toUpperCase();
+  return String(remoteConfig.teacherPin || remoteConfig.masterPin || "").trim().toUpperCase();
 }
 
 function isTeacherPinCorrect(input) {
   if (!input) return false;
   const cleanInput = String(input).replace(/[\s\r\n\t]/g, '').trim().toUpperCase();
-  const validPin = getValidTeacherPin();
-  const masterPin = String(TEACHER_MASTER_PIN || "1358").trim().toUpperCase();
-  return (cleanInput === validPin || cleanInput === masterPin || cleanInput === "1358");
+  const validPin = String(remoteConfig.teacherPin || remoteConfig.masterPin || "").trim().toUpperCase();
+  if (!validPin) return false;
+  return (cleanInput === validPin);
 }
 
 function getValidPasscode() {
@@ -3195,7 +3194,7 @@ function toggleEssaySample() {
 
 
 function getValidTeacherPin() {
-  return String(remoteConfig.teacherPin || remoteConfig.masterPin || TEACHER_MASTER_PIN || "1358").trim().toUpperCase();
+  return String(remoteConfig.teacherPin || remoteConfig.masterPin || TEACHER_MASTER_PIN ).trim().toUpperCase();
 }
 
 function getValidPasscode() {
@@ -3499,16 +3498,10 @@ function applyGateControl() {
   const passcodeGate = document.getElementById('exam-passcode-gate');
   const workspace = document.getElementById('main-exam-workspace');
 
-  if (isTeacherMode) {
-    if (lockScreen) lockScreen.style.display = 'none';
-    if (passcodeGate) passcodeGate.style.display = 'none';
-    if (workspace) workspace.style.display = 'block';
-    return;
-  }
-
   const currentStatus = String(remoteConfig.examStatus || remoteConfig.status || 'OPEN').toUpperCase().trim();
   const isClosed = (currentStatus === 'CLOSED' || currentStatus === 'LOCKED' || currentStatus === 'MAINTENANCE' || currentStatus === 'KHOA' || currentStatus === 'DONG' || currentStatus === 'DANG_CAP_NHAT' || currentStatus === 'BAO_TRI');
 
+  // NẾU GOOGLE SHEETS ĐANG KHÓA: KHÓA TUYỆT ĐỐI 100%, KHÔNG CÓ BẤT KỲ MÃ NÀO TRÊN WEB MỞ ĐƯỢC
   if (isClosed && currentMode === 'exam') {
     if (lockScreen) lockScreen.style.display = 'block';
     if (passcodeGate) passcodeGate.style.display = 'none';
@@ -3519,18 +3512,20 @@ function applyGateControl() {
       if (ann && ann !== remoteConfig.teacherPin && ann !== remoteConfig.examPasscode && !/^\d{3,6}$/.test(ann)) {
         lockDesc.textContent = ann;
       } else {
-        lockDesc.textContent = 'Giáo viên hiện đang tạm khóa đề thi trên Google Sheets. Vui lòng chờ đến khi Thầy/Cô mở đề tại lớp.';
+        lockDesc.textContent = 'Giáo viên hiện đang tạm khóa ca thi trên Google Sheets. Vui lòng chờ đến khi Thầy/Cô mở đề trên Google Sheets.';
       }
     }
+    return;
+  }
+
+  // NẾU GOOGLE SHEETS ĐANG MỞ:
+  if (lockScreen) lockScreen.style.display = 'none';
+  if (!isGatePassed && currentMode === 'exam') {
+    if (passcodeGate) passcodeGate.style.display = 'block';
+    if (workspace) workspace.style.display = 'none';
   } else {
-    if (lockScreen) lockScreen.style.display = 'none';
-    if (!isGatePassed && currentMode === 'exam') {
-      if (passcodeGate) passcodeGate.style.display = 'block';
-      if (workspace) workspace.style.display = 'none';
-    } else {
-      if (passcodeGate) passcodeGate.style.display = 'none';
-      if (workspace) workspace.style.display = 'block';
-    }
+    if (passcodeGate) passcodeGate.style.display = 'none';
+    if (workspace) workspace.style.display = 'block';
   }
 }
 
@@ -3661,7 +3656,7 @@ function pushQuestionsToGoogleSheets() {
   const pin = prompt('Nhập mã PIN Giáo viên:');
   if (!pin) return;
   const validPin = getValidTeacherPin();
-  if (pin.trim().toUpperCase() !== validPin && pin.trim() !== '1358') {
+  if (!isTeacherPinCorrect(pin)) {
     alert('❌ Mã PIN Giáo viên không chính xác!');
     return;
   }
