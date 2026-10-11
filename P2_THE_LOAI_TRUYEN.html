@@ -915,6 +915,15 @@
     white-space: nowrap;
   }
 
+  /* TOI UU HOA HIEN THI DI DONG */
+  @media (max-width: 640px) {
+    .input-control, select, input, textarea, .essay-textarea {
+      font-size: 16px !important;
+    }
+    .btn, .nav-btn, .option-label, .mode-tab {
+      touch-action: manipulation !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -3926,9 +3935,19 @@ document.addEventListener('visibilitychange', function() {
 window.addEventListener('blur', function() {
   if (currentMode === 'exam' && !isSubmitted && !isTeacherMode && isGatePassed) {
     clearTimeout(blurTimeout);
+    const activeEl = document.activeElement;
+    if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT')) {
+      return;
+    }
+    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.innerWidth <= 768);
+    const delay = isTouch ? 3000 : 800;
     blurTimeout = setTimeout(function() {
-      handleExamViolation('blur');
-    }, 350);
+      if (document.hidden) {
+        handleExamViolation('visibility');
+      } else if (!isTouch && !document.hasFocus()) {
+        handleExamViolation('blur');
+      }
+    }, delay);
   }
 });
 
