@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -1970,13 +1970,23 @@
 
     if (!card || !tag || !actions) return;
 
-    if (status === 'OPEN') {
+        if (status === 'OPEN') {
       card.classList.add('featured');
       tag.className = 'tag tag-ready';
       tag.textContent = 'Đã mở đề';
       actions.innerHTML = `
-        <a href="${info.link}" class="btn btn-primary">🎯 Tự Đánh Giá</a>
-        <button onclick="openPromptModal('${info.modalKey}')" class="btn btn-secondary">${info.modalKey.startsWith('trithuc') ? '📖 Đặc trưng thể loại' : '📖 Tóm tắt nội dung chính'}</button>
+        <a href="${info.link}" class="btn btn-primary">📝 Tự Đánh Giá</a>
+        <button onclick="openPromptModal('${info.modalKey}')" class="btn btn-secondary">${info.modalKey.startsWith('trithuc') ? '💡 Đặc trưng thể loại' : '💡 Tóm tắt nội dung chính'}</button>
+      `;
+    } else if (status === 'TEST') {
+      card.classList.add('featured');
+      tag.className = 'tag tag-ready';
+      tag.style.background = '#e0f2fe';
+      tag.style.color = '#0284c7';
+      tag.textContent = '🧪 Đang kiểm thử';
+      actions.innerHTML = `
+        <a href="${info.link}" class="btn btn-primary" style="background:#0284c7; border-color:#0284c7;">🧪 Vào Kiểm Thử</a>
+        <button onclick="openPromptModal('${info.modalKey}')" class="btn btn-secondary">${info.modalKey.startsWith('trithuc') ? '💡 Đặc trưng thể loại' : '💡 Tóm tắt nội dung chính'}</button>
       `;
     } else {
       // If already open by another alias, keep open

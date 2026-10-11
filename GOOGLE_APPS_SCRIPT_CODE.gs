@@ -1,4 +1,4 @@
-/**
+﻿/**
  * =========================================================================================
  * GOOGLE APPS SCRIPT: HỆ THỐNG QUẢN LÝ THI & ĐỒNG BỘ ĐIỂM NGỮ VĂN 12 (NĂM HỌC 2026-2027)
  * =========================================================================================
@@ -908,11 +908,13 @@ function getExamConfig(topicId) {
           matchedTopicRow = true;
           
           // Cột D (index 3): Trạng thái (OPEN / CLOSED)
-          var rawSt = String(data[r][3] || "").toUpperCase().trim();
-          if (rawSt.indexOf("OPEN") !== -1 || rawSt.indexOf("MỞ") !== -1 || rawSt.indexOf("MO") !== -1 || rawSt.indexOf("BẬT") !== -1) {
-            statusVal = "OPEN";
+          var rawSt = String(data[r][3] || '').toUpperCase().trim();
+          if (rawSt.indexOf('TEST') !== -1 || rawSt.indexOf('THU') !== -1) {
+            statusVal = 'TEST';
+          } else if (rawSt.indexOf('OPEN') !== -1 || rawSt.indexOf('MO') !== -1 || rawSt.indexOf('BAT') !== -1 || rawSt.indexOf('MỞ') !== -1 || rawSt.indexOf('BẬT') !== -1) {
+            statusVal = 'OPEN';
           } else {
-            statusVal = "CLOSED";
+            statusVal = 'CLOSED';
           }
 
           // Cột E (index 4): Mã ca thi
@@ -941,10 +943,12 @@ function getExamConfig(topicId) {
 
           if (k.indexOf("trạng thái") !== -1 || k.indexOf("status") !== -1) {
             var rawSt2 = v.toUpperCase().trim();
-            if (rawSt2.indexOf("OPEN") !== -1 || rawSt2.indexOf("MỞ") !== -1 || rawSt2.indexOf("MO") !== -1 || rawSt2.indexOf("BẬT") !== -1) {
-              statusVal = "OPEN";
+            if (rawSt2.indexOf('TEST') !== -1 || rawSt2.indexOf('THU') !== -1) {
+              statusVal = 'TEST';
+            } else if (rawSt2.indexOf('OPEN') !== -1 || rawSt2.indexOf('MO') !== -1 || rawSt2.indexOf('BAT') !== -1 || rawSt2.indexOf('MỞ') !== -1 || rawSt2.indexOf('BẬT') !== -1) {
+              statusVal = 'OPEN';
             } else {
-              statusVal = "CLOSED";
+              statusVal = 'CLOSED';
             }
           } else if (k.indexOf("thời gian") !== -1 || k.indexOf("duration") !== -1 || k.indexOf("phút") !== -1) {
             durVal = parseInt(v) || durationDefault;
