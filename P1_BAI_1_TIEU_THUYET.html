@@ -3272,6 +3272,10 @@ function handleExamViolation(reason) {
     msg = '⚠️ CẢNH BÁO: Mất tiêu điểm / Ứng dụng AI hoặc chia đôi màn hình can thiệp (' + tabSwitchViolations + '/3)';
   } else if (reason === 'copy') {
     msg = '⚠️ CẢNH BÁO: Thao tác sao chép câu hỏi bị nghiêm cấm (' + tabSwitchViolations + '/3)';
+  } else if (reason === 'screenshot') {
+    msg = '⚠️ CẢNH BÁO: Phát hiện thao tác chụp ảnh màn hình (' + tabSwitchViolations + '/3)';
+  } else if (reason === 'shortcut') {
+    msg = '⚠️ CẢNH BÁO: Thao tác phím tắt bị cấm trong phòng thi (' + tabSwitchViolations + '/3)';
   }
   showToast(msg);
 
@@ -3322,6 +3326,30 @@ document.addEventListener('copy', function(e) {
 document.addEventListener('dragstart', function(e) {
   if (currentMode === 'exam' && !isSubmitted && !isTeacherMode && isGatePassed) {
     e.preventDefault();
+  }
+});
+
+// 5. Phát hiện phím chụp màn hình & phím tắt gian lận
+document.addEventListener('keyup', function(e) {
+  if (currentMode === 'exam' && !isSubmitted && !isTeacherMode && isGatePassed) {
+    if (e.key === 'PrintScreen' || e.keyCode === 44) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try { navigator.clipboard.writeText('⚠️ Đề thi được bảo mật bản quyền bởi Thầy Lê Duy Bàn.'); } catch(err) {}
+      }
+      handleExamViolation('screenshot');
+    }
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  if (currentMode === 'exam' && !isSubmitted && !isTeacherMode && isGatePassed) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's' || e.key === 'u' || e.key === 'P' || e.key === 'S' || e.key === 'U')) {
+      e.preventDefault();
+      handleExamViolation('shortcut');
+    }
+    if (e.key === 'F12') {
+      e.preventDefault();
+    }
   }
 });
 
