@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -2831,7 +2831,8 @@ function startOfficialExam() {
   const isClosed = (currentStatus === 'CLOSED' || currentStatus === 'LOCKED' || currentStatus === 'KHÓA' || currentStatus === 'KHOA' || currentStatus === 'ĐÓNG' || currentStatus === 'DONG' || currentStatus === 'MAINTENANCE' || currentStatus === 'DANG_CAP_NHAT' || currentStatus === 'BAO_TRI');
   const isTestMode = (currentStatus === 'TEST' || currentStatus === 'PREVIEW' || currentStatus === 'THU_NGHIEM');
 
-  if (isClosed) {
+  const isTeacher = (cVal === 'TEST' || (verifiedGoogleStudent && verifiedGoogleStudent.email === 'duyban86@gmail.com') || isTeacherMode);
+  if (isClosed && !isTeacher) {
     alert('🔒 CA THI HIỆN ĐANG TẠM KHÓA TRÊN GOOGLE SHEETS!\n\nVui lòng chờ Thầy/Cô mở ca thi trên Google Sheets.');
     applyGateControl();
     return;
@@ -3339,7 +3340,8 @@ function applyGateControl() {
   const isTestMode = (currentStatus === 'TEST' || currentStatus === 'PREVIEW' || currentStatus === 'THU_NGHIEM');
 
   // NẾU GOOGLE SHEETS ĐANG KHÓA (KHOA / CLOSED): KHÓA 100% TOÀN BỘ
-  if (isClosed && currentMode === 'exam') {
+  const isTeacher = (cVal === 'TEST' || (verifiedGoogleStudent && verifiedGoogleStudent.email === 'duyban86@gmail.com') || isTeacherMode);
+  if (isClosed && currentMode === 'exam' && !isTeacher) {
     if (lockScreen) {
       lockScreen.style.display = 'block';
       const lockTitle = lockScreen.querySelector('.gate-title');
@@ -3675,6 +3677,8 @@ function onClassChange() {
   studentSelect.disabled = false;
   checkStudentIdentity();
   renderEssaySection();
+  updateGateCandidateInfo();
+  applyGateControl();
 }
 
 function onStudentChange() {
