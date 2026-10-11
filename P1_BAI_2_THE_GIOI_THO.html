@@ -3937,17 +3937,26 @@ function initQuestions(shuffle) {
 // =========================================================================
 // HỆ THỐNG GIÁM SÁT THI & CHỐNG GIAN LẬN AI (ANTI-AI & PROCTORING ENGINE)
 // =========================================================================
+let lastViolationTime = 0;
+const VIOLATION_COOLDOWN_MS = 2000;
 let blurTimeout = null;
 
 function handleExamViolation(reason) {
   if (currentMode !== 'exam' || isSubmitted || isTeacherMode || !isGatePassed) return;
+
+  const now = Date.now();
+  if (now - lastViolationTime < VIOLATION_COOLDOWN_MS) {
+    return;
+  }
+  lastViolationTime = now;
+
   tabSwitchViolations++;
   const vEl = document.getElementById('violation-count');
   if (vEl) vEl.textContent = tabSwitchViolations + '/3';
   
-  let msg = '⚠️ CẢNH BÁO: Rời màn hình thi (' + tabSwitchViolations + '/3)';
-  if (reason === 'blur') {
-    msg = '⚠️ CẢNH BÁO: Mất tiêu điểm / Ứng dụng AI hoặc chia đôi màn hình can thiệp (' + tabSwitchViolations + '/3)';
+  let msg = '⚠️ CẢNH BÁO: Vi phạm quy chế thi (' + tabSwitchViolations + '/3)';
+  if (reason === 'blur' || reason === 'visibility') {
+    msg = '⚠️ CẢNH BÁO: Rời màn hình / Mở ứng dụng khác (' + tabSwitchViolations + '/3)';
   } else if (reason === 'copy') {
     msg = '⚠️ CẢNH BÁO: Thao tác sao chép câu hỏi bị nghiêm cấm (' + tabSwitchViolations + '/3)';
   } else if (reason === 'screenshot') {
@@ -3958,7 +3967,7 @@ function handleExamViolation(reason) {
   showToast(msg);
 
   if (tabSwitchViolations >= 3) {
-    alert('🚨 CẢNH BÁO: Thí sinh đã vi phạm quy chế thi quá 3 lần (Rời màn hình / Ứng dụng AI can thiệp)! Hệ thống tự động thu bài.');
+    alert('⚠️ CẢNH BÁO: Thí sinh đã vi phạm quy chế thi đủ 3 lần! Hệ thống tự động thu bài.');
     submitExam(true, 'violation');
   }
 }
@@ -4084,20 +4093,7 @@ function updateTimerDisplay() {
     (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
 }
 
-function setupProctoring() {
-  document.addEventListener('visibilitychange', function() {
-    if (currentMode !== 'exam' || isSubmitted || isTeacherMode) return;
-    if (document.hidden) {
-      tabSwitchViolations++;
-      document.getElementById('violation-count').textContent = tabSwitchViolations + '/3';
-      showToast('CẢNH BÁO: Rời màn hình thi (' + tabSwitchViolations + '/3)');
-      if (tabSwitchViolations >= 3) {
-        alert('CẢNH BÁO: Thí sinh đã rời màn hình quá 3 lần! Hệ thống tự động thu bài.');
-        submitExam(true, 'violation');
-      }
-    }
-  });
-}
+function setupProctoring() { /* Handled globally with anti-cheat debounce */ }
 
 function toggleFlag(qIdx) {
   if (flaggedQuestions.has(qIdx)) flaggedQuestions.delete(qIdx);
