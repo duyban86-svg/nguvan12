@@ -2368,6 +2368,7 @@ function startOfficialExam() {
   }
 
   isGatePassed = true;
+  requestExamFullscreen();
   updateExamWatermark();
   assignOfficialEssayForStudent();
 
@@ -2946,6 +2947,7 @@ function enableTeacherMode(source) {
   isTeacherMode = true;
   isUnlocked = true;
   isGatePassed = true;
+  requestExamFullscreen();
 
   const bar = document.getElementById('teacher-command-bar');
   if (bar) bar.style.display = 'block';
@@ -3294,7 +3296,9 @@ function handleExamViolation(reason) {
   if (vEl) vEl.textContent = tabSwitchViolations + '/3';
   
   let msg = '⚠️ CẢNH BÁO: Vi phạm quy chế thi (' + tabSwitchViolations + '/3)';
-  if (reason === 'blur' || reason === 'visibility') {
+  if (reason === 'fullscreen_exit') {
+    msg = '⚠️ CẢNH BÁO: Đã thoát khỏi chế độ toàn màn hình (' + tabSwitchViolations + '/3)';
+  } else if (reason === 'blur' || reason === 'visibility') {
     msg = '⚠️ CẢNH BÁO: Rời màn hình / Mở ứng dụng khác (' + tabSwitchViolations + '/3)';
   } else if (reason === 'copy') {
     msg = '⚠️ CẢNH BÁO: Thao tác sao chép câu hỏi bị nghiêm cấm (' + tabSwitchViolations + '/3)';
@@ -3826,6 +3830,7 @@ function submitExam(isAutoSubmit, reason) {
   }
 
   isSubmitted = true;
+  exitExamFullscreen();
   updateExamWatermark();
   clearInterval(examTimer);
 
@@ -4414,6 +4419,56 @@ function applyImportedQuestions() {
   closeQuestionImporterModal();
   showToast('🎉 Đã cập nhật ' + activeQuestions.length + ' câu hỏi mới vào bài thi!');
 }
+
+// =========================================================================
+// CHẾ ĐỘ TOÀN MÀN HÌNH (FULLSCREEN KIOSK) & CHẶN POP-UP NGOÀI
+// =========================================================================
+function requestExamFullscreen() {
+  try {
+    const docEl = document.documentElement;
+    if (docEl.requestFullscreen) {
+      docEl.requestFullscreen().catch(function() {});
+    } else if (docEl.webkitRequestFullscreen) {
+      docEl.webkitRequestFullscreen();
+    } else if (docEl.msRequestFullscreen) {
+      docEl.msRequestFullscreen();
+    }
+  } catch (err) {}
+}
+
+function exitExamFullscreen() {
+  try {
+    if (document.exitFullscreen) {
+      document.exitFullscreen().catch(function() {});
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  } catch (err) {}
+}
+
+function onFullscreenChange() {
+  const isFs = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+  const fsModal = document.getElementById('fullscreen-warning-modal');
+  if (currentMode === 'exam' && !isSubmitted && !isTeacherMode && isGatePassed) {
+    if (!isFs) {
+      if (fsModal) fsModal.style.display = 'flex';
+      handleExamViolation('fullscreen_exit');
+    } else {
+      if (fsModal) fsModal.style.display = 'none';
+    }
+  }
+}
+
+document.addEventListener('fullscreenchange', onFullscreenChange);
+document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+document.addEventListener('msfullscreenchange', onFullscreenChange);
+
+try {
+  window.open = function() {
+    handleExamViolation('shortcut');
+    return null;
+  };
+} catch(err) {}
 </script>
 
 
@@ -4445,5 +4500,18 @@ function applyImportedQuestions() {
     </div>
   </div>
 
+<!-- MODAL CANH BAO THOAT TOAN MAN HINH -->
+<div id="fullscreen-warning-modal" class="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.92); backdrop-filter:blur(10px); z-index:999999; justify-content:center; align-items:center; padding:20px;">
+  <div class="modal-content" style="background:#ffffff; border-radius:18px; max-width:520px; width:100%; padding:28px; text-align:center; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5); border:2px solid #ef4444;">
+    <div style="font-size:3rem; margin-bottom:12px;">⚠️</div>
+    <h3 style="font-size:1.3rem; font-weight:800; color:#b91c1c; margin-bottom:10px;">BẠN VỪA THOÁT CHẾ ĐỘ TOÀN MÀN HÌNH!</h3>
+    <p style="font-size:0.92rem; color:#475569; line-height:1.6; margin-bottom:20px;">
+      Quy chế thi yêu cầu thí sinh làm bài trong chế độ toàn màn hình để đảm bảo tính công bằng. Hành vi thoát toàn màn hình đã được ghi nhận vào hệ thống giám sát.
+    </p>
+    <button type="button" class="btn btn-primary" style="background:#0284c7; border:none; padding:12px 28px; font-size:1rem; font-weight:700; border-radius:10px; cursor:pointer;" onclick="requestExamFullscreen(); document.getElementById('fullscreen-warning-modal').style.display='none';">
+      ⛶ QUAY LẠI TOÀN MÀN HÌNH NGAY
+    </button>
+  </div>
+</div>
 </body>
 </html>
