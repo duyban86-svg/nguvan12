@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -373,6 +373,14 @@
       border-radius: 10px;
       padding: 14px;
       border-top: 3.5px solid var(--primary);
+    }
+      @media (max-width: 640px) {
+      .header-top { flex-direction: column; align-items: stretch; gap: 8px; }
+      header { padding: 16px 18px; }
+      .nav-pills { flex-direction: column; gap: 6px; }
+      .pill-btn { width: 100%; text-align: center; font-size: 0.88rem; }
+      .textarea-workspace { font-size: 16px !important; }
+      .btn { touch-action: manipulation !important; }
     }
   </style>
 </head>
