@@ -1027,7 +1027,7 @@
       Giáo viên hiện đang tạm khóa ca thi trên Google Sheets. Vui lòng chờ đến khi Thầy/Cô mở đề tại lớp.
     </p>
     <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
-      <button class="btn btn-primary" onclick="checkRemoteConfig(true)">🔄 Kiểm tra lại trạng thái (Từ Sheets)</button>
+      <button class="btn btn-primary" onclick="forceUnlockAndSync()">🔄 Cập nhật trạng thái mở đề ngay (Từ Sheets)</button>
       <button class="btn btn-secondary" onclick="switchMode('practice')">📖 Chuyển sang Ôn tập tự do</button>
     </div>
   </div>
@@ -3448,8 +3448,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Tự động đồng bộ kiểm tra cấu hình nền từ Google Sheets mỗi 15 giây
   if (!window._configPollingInterval) {
     window._configPollingInterval = setInterval(function() {
-      checkRemoteConfig(false);
-    }, 15000);
+  if (!isSubmitted && !isGatePassed) checkRemoteConfig(false);
+}, 5000);
+setInterval(function() {
+  if (!isSubmitted && isGatePassed) checkRemoteConfig(false);
+}, 20000);
   }
 });
 
@@ -3495,96 +3498,132 @@ function saveProgressToStorage() {
   } catch (e) {}
 }
 
+function applyRemoteConfigData(config, showToastNotice) {
+  const badge = document.getElementById('live-connection-badge');
+  if (!config) return;
+  if (config.status === 'success' || config.teacherPin || config.masterPin || config.examStatus || config.essayPrompts) {
+    remoteConfig = Object.assign({}, remoteConfig, config);
+    
+    // Cap nhat 5 de tu luan tu Sheet
+    if (config.essayPrompts) {
+      ['on_tap', 'chinh_thuc'].forEach(function(modeKey) {
+        if (Array.isArray(config.essayPrompts[modeKey]) && config.essayPrompts[modeKey].length > 0) {
+          currentEssayPrompts[modeKey] = config.essayPrompts[modeKey].map(function(item, idx) {
+            if (item.title && (item.title.indexOf('Nỗi buồn chiến tranh') !== -1 || item.prompt.indexOf('Nỗi buồn chiến tranh') !== -1 || item.prompt.indexOf('Bảo Ninh') !== -1)) {
+              const defItem = (DEFAULT_ESSAY_PROMPTS[modeKey] || [])[idx] || DEFAULT_ESSAY_PROMPTS.on_tap[1];
+              return JSON.parse(JSON.stringify(defItem));
+            }
+            if (!item.sample) {
+              const defaultMatch = (DEFAULT_ESSAY_PROMPTS[modeKey] || []).find(function(d) { return d.id === item.id; });
+              if (defaultMatch && defaultMatch.sample) {
+                item.sample = defaultMatch.sample;
+              }
+            }
+            return item;
+          });
+        }
+      });
+      renderEssaySection();
+    }
+
+    // Cap nhat ngan hang trac nghiem tu Sheet neu co
+    if (config.quizData) {
+      let hasNewQuestions = false;
+      if (Array.isArray(config.quizData.questions_common) && config.quizData.questions_common.length > 0) {
+        rawQuizData.questions_common = config.quizData.questions_common;
+        hasNewQuestions = true;
+      }
+      if (Array.isArray(config.quizData.questions_practice_only) && config.quizData.questions_practice_only.length > 0) {
+        rawQuizData.questions_practice_only = config.quizData.questions_practice_only;
+        hasNewQuestions = true;
+      }
+      if (Array.isArray(config.quizData.questions_exam_only) && config.quizData.questions_exam_only.length > 0) {
+        rawQuizData.questions_exam_only = config.quizData.questions_exam_only;
+        hasNewQuestions = true;
+      }
+      if (hasNewQuestions && !isSubmitted && (!isGatePassed || currentMode === 'practice')) {
+        initQuestions(currentMode === 'exam');
+        renderNavigation();
+        renderQuestions();
+      }
+    }
+
+    const statusText = remoteConfig.examStatus || remoteConfig.status || 'OPEN';
+    if (badge) {
+      badge.textContent = '🟢 Đã đồng bộ Google Sheets (' + statusText + ')';
+      badge.className = 'badge badge-live';
+    }
+    
+    if (!isTeacherMode) {
+      applyGateControl();
+    }
+    
+    if (showToastNotice) showToast('🟢 Đã đồng bộ cấu hình & đề thi mới nhất từ Google Sheets (' + statusText + ')!');
+  }
+}
+
 function checkRemoteConfig(showToastNotice) {
   const badge = document.getElementById('live-connection-badge');
   let isLoaded = false;
+  const targetTopicId = typeof TOPIC_ID !== 'undefined' ? TOPIC_ID : 'P1_BAI_1';
+  const targetExamTopic = typeof EXAM_TOPIC !== 'undefined' ? EXAM_TOPIC : '';
+  const cacheBuster = '&_t=' + Date.now() + '&nocache=' + Math.random();
 
-    window.__onRemoteConfigLoaded = function(config) {
+  window.__onRemoteConfigLoaded = function(config) {
+    if (isLoaded) return;
     isLoaded = true;
-    if (config && (config.status === 'success' || config.teacherPin || config.masterPin || config.examStatus || config.essayPrompts)) {
-      remoteConfig = Object.assign({}, remoteConfig, config);
-      
-      // Cập nhật động 5 đề tự luận từ Sheet (kèm làm sạch dữ liệu & gắn bài văn mẫu)
-      if (config.essayPrompts) {
-        ['on_tap', 'chinh_thuc'].forEach(function(modeKey) {
-          if (Array.isArray(config.essayPrompts[modeKey]) && config.essayPrompts[modeKey].length > 0) {
-            currentEssayPrompts[modeKey] = config.essayPrompts[modeKey].map(function(item, idx) {
-              if (item.title && (item.title.indexOf('Nỗi buồn chiến tranh') !== -1 || item.prompt.indexOf('Nỗi buồn chiến tranh') !== -1 || item.prompt.indexOf('Bảo Ninh') !== -1)) {
-                const defItem = (DEFAULT_ESSAY_PROMPTS[modeKey] || [])[idx] || DEFAULT_ESSAY_PROMPTS.on_tap[1];
-                return JSON.parse(JSON.stringify(defItem));
-              }
-              if (!item.sample) {
-                const defaultMatch = (DEFAULT_ESSAY_PROMPTS[modeKey] || []).find(function(d) { return d.id === item.id; });
-                if (defaultMatch && defaultMatch.sample) {
-                  item.sample = defaultMatch.sample;
-                }
-              }
-              return item;
-            });
-          }
-        });
-        renderEssaySection();
-      }
-
-      // Cập nhật động ngân hàng câu hỏi trắc nghiệm từ Sheet nếu có
-      if (config.quizData) {
-        let hasNewQuestions = false;
-        if (Array.isArray(config.quizData.questions_common) && config.quizData.questions_common.length > 0) {
-          rawQuizData.questions_common = config.quizData.questions_common;
-          hasNewQuestions = true;
-        }
-        if (Array.isArray(config.quizData.questions_practice_only) && config.quizData.questions_practice_only.length > 0) {
-          rawQuizData.questions_practice_only = config.quizData.questions_practice_only;
-          hasNewQuestions = true;
-        }
-        if (Array.isArray(config.quizData.questions_exam_only) && config.quizData.questions_exam_only.length > 0) {
-          rawQuizData.questions_exam_only = config.quizData.questions_exam_only;
-          hasNewQuestions = true;
-        }
-        if (hasNewQuestions && !isSubmitted && (!isGatePassed || currentMode === 'practice')) {
-          initQuestions(currentMode === 'exam');
-          renderNavigation();
-          renderQuestions();
-        }
-      }
-
-      const statusText = remoteConfig.examStatus || remoteConfig.status || 'OPEN';
-      badge.textContent = '🟢 Đã đồng bộ Google Sheets (' + statusText + ')';
-      badge.className = 'badge badge-live';
-      
-      if (!isTeacherMode) {
-        applyGateControl();
-      }
-      
-      if (showToastNotice) showToast('🔄 Đã đồng bộ cấu hình & đề thi mới nhất từ Google Sheets!');
-    }
+    applyRemoteConfigData(config, showToastNotice);
   };
 
-  const timestamp = Date.now();
-  const nocache = Math.random();
-
+  // KENH 1: JSONP (GET qua The Script)
   try {
     const oldScript = document.getElementById('jsonp_config_tag');
     if (oldScript) oldScript.remove();
     const script = document.createElement('script');
     script.id = 'jsonp_config_tag';
-    script.src = GOOGLE_SHEETS_URL + '?action=check&topicId=' + encodeURIComponent(TOPIC_ID) + '&examTopic=' + encodeURIComponent(EXAM_TOPIC) + '&callback=__onRemoteConfigLoaded&_t=' + timestamp + '&nocache=' + nocache;
-    script.onerror = function() { tryFetchFallback(); };
+    script.src = GOOGLE_SHEETS_URL + '?action=getExamConfig&topicId=' + encodeURIComponent(targetTopicId) + '&examTopic=' + encodeURIComponent(targetExamTopic) + '&callback=__onRemoteConfigLoaded' + cacheBuster;
+    script.onerror = function() {
+      triggerFetchFallback();
+    };
     document.body.appendChild(script);
-  } catch(e) { tryFetchFallback(); }
+  } catch(e) {
+    triggerFetchFallback();
+  }
 
-  function tryFetchFallback() {
+  // KENH 2: DU PHONG FETCH API (Tuc thi neu JSONP bi Chrome Android chan)
+  function triggerFetchFallback() {
     if (isLoaded) return;
     try {
-      fetch(GOOGLE_SHEETS_URL + '?action=check&topicId=' + encodeURIComponent(TOPIC_ID) + '&examTopic=' + encodeURIComponent(EXAM_TOPIC) + '&_t=' + Date.now() + '&nocache=' + Math.random())
+      const fetchUrl = GOOGLE_SHEETS_URL + '?action=getExamConfig&topicId=' + encodeURIComponent(targetTopicId) + '&examTopic=' + encodeURIComponent(targetExamTopic) + cacheBuster;
+      fetch(fetchUrl, { method: 'GET', mode: 'cors', cache: 'no-store' })
         .then(function(res) { return res.json(); })
-        .then(function(data) { window.__onRemoteConfigLoaded(data); })
+        .then(function(data) {
+          if (!isLoaded && data) {
+            isLoaded = true;
+            applyRemoteConfigData(data, showToastNotice);
+          }
+        })
         .catch(function() {
-          if (!isLoaded) {
-            badge.textContent = '⚪ Chế độ trực tiếp';
-            applyGateControl();
+          if (!isLoaded && badge && !remoteConfig.examStatus) {
+            badge.textContent = '⚡ Chế độ Trực tiếp';
+            badge.className = 'badge badge-offline';
           }
         });
+    } catch(err) {
+      if (!isLoaded && badge && !remoteConfig.examStatus) {
+        badge.textContent = '⚡ Chế độ Trực tiếp';
+        badge.className = 'badge badge-offline';
+      }
+    }
+  }
+
+  // Kich hoat Fetch du phong sau 2.5 giay neu JSONP chua tra ve
+  setTimeout(function() {
+    if (!isLoaded) {
+      triggerFetchFallback();
+    }
+  }, 2500);
+});
     } catch(err) {
       if (!isLoaded) { badge.textContent = '⚪ Chế độ trực tiếp'; applyGateControl(); }
     }
@@ -5417,6 +5456,15 @@ try {
     return null;
   };
 } catch(err) {}
+
+function forceUnlockAndSync() {
+  showToast('🔄 Đang làm mới kết nối và kéo trạng thái mới nhất từ Sheets...');
+  try {
+    const oldScript = document.getElementById('jsonp_config_tag');
+    if (oldScript) oldScript.remove();
+  } catch(e) {}
+  checkRemoteConfig(true);
+}
 </script>
 
 
